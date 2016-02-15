@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html ng-app="ontdekjouwtalent">
+
+<head>
+	<link rel="stylesheet" href="/app/style/libraries/bootstrap-3.3.1.min.css">
+	<link rel="stylesheet" href="/app/style/plugins/bootstrap-select.min.css">
+	<link rel="stylesheet" href="/app/style/custom_code.css">
+
+    <script src="/app/lib/angular_1.5.0.js"></script>
+	<script type="text/javascript" src="app/js/js.js"></script>
+</head>
+
+<body class="guest">
+
+	<div class="row title-container"></div>
+
+	<div class="row">
+
+	<div class="col-md-3"></div>
+
+	<div class="col-md-6">
+		<div class="well">
+
+		<h4>Login:</h4> 
+			<div class="row" ng-controller='loginController'>
+				<div class="col-md-12">
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-4 h9">
+								<label for="emailAddress">Email address</label>
+							</div>
+							<div class="col-md-8">
+								<input type="text" placeholder="Email address" name="j_username" id="emailAddress" class="form-control" ng-model="loginName">
+							</div>
+						<div>{{$Scope.loginName}}</div>
+						</div>
+					</div>
+																													
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-4 h9">
+								<label for="exampleInputFirstname">Password</label>
+							</div>
+							<div class="col-md-8">
+								<input type="password" placeholder="Password" name="j_password" id="Password" class="form-control" ng-model="loginPassword">
+							</div>													
+						</div>												
+					</div>										
+					
+					<div class="row">	
+						<div class="col-md-4"></div>
+
+						<div class="col-md-8">
+							<button class="btn btn-success btn-block pull-right" type="submit" ng-click="loginSubmit()">Login </button>
+						</div>
+					</div>	
+					
+						<div class="row">	
+							<div class="col-md-6">
+						  
+							  <h5><a href="/index.cfm?module=security&amp;view=forgotpassword" ng-click="forgotPassword()">Forgot password?</a></h5>
+						  </div>
+						  
+						  <div class="col-md-6">	
+						  
+							  <h5>Don't have an account yet?<a href="/index.cfm?module=security&amp;view=register" ng-click="register()">Register!</a></h5>
+
+						</div>	
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-3"></div>
+
+
+	</div>
+
+
+	</body>
+<html>
