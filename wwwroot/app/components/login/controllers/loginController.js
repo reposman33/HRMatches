@@ -16,7 +16,7 @@ angular.module('ontdekjouwtalent')
 				.then(
 					function(successResponse){
 						$scope.error = successResponse.status != 200
-						$scope.loginFeedbackText = $scope.error ? I18nService.getText(successResponse.data.message) : "";
+						$scope.loginFeedbackText = $scope.error ? I18nService.getText(successResponse.data.message) : ""; //geen text vertonen bij status 200 - toon e-profile pagina
 					},
 					function(errorResponse){
 						$scope.error = errorResponse.status != 200 //error is nu boolean, kan in de toekomst uitgebreid worden

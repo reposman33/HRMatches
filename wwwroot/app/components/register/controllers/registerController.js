@@ -1,7 +1,7 @@
 angular.module('ontdekjouwtalent')
 .controller('registerController',
 
-	['$scope','$http','$location','AppConfig',function($scope,$http,$location,AppConfig){
+	['$scope','$http','$location','AppConfig','I18nService',function($scope,$http,$location,AppConfig,I18nService){
 		$scope.emailInvalidClass = AppConfig.APP_REGISTER_EMAILINVALID_FEEDBACK_CLASS;
 		$scope.emailInvalidText = AppConfig.APP_REGISTER_EMAILINVALID_FEEDBACK_TEXT;
 		$scope.loginURL = $location.protocol() + '://' + $location.host() + ($location.port == 80 ? "" : (':' + $location.port())) + '/#/login';
@@ -24,7 +24,7 @@ angular.module('ontdekjouwtalent')
 				// check password en confirm_pasword equality
 			if(!error){
 				$http({
-					method: 'JSONP',
+					method: 'POST',
 					url: AppConfig.APP_API_URL + '/registration',
 					data:{
 					   firstName: $scope.firstname,
@@ -39,12 +39,12 @@ angular.module('ontdekjouwtalent')
 				})
 				.then(
 					function(successResponse){
-						if(successResponse.data.message){
-							$scope.registerFeedbackText = successResponse.data.message; // vervangen - API geeft een code
-						}
+						$scope.error = successResponse.status != 200
+						$scope.registerFeedbackText = I18nService.getText(successResponse.data.message);
 					},
 					function(errorResponse){
-						console.log('errorResponse = ', errorResponse);
+						$scope.error = errorResponse.status != 200
+						$scope.registerFeedbackText = I18nService.getText(errorResponse.data.message);
 					}
 				);
 			}

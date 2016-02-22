@@ -14,13 +14,13 @@
 							</div>
 
 							<div class="col-md-5 text-center login-btn">
-								<a href="{{$scope.loginURL}}" class="btn btn-default"><span class="login-text">Login</span></a>
+								<a href="/#/login" class="btn btn-default"><span class="login-text">Login</span></a>
 							</div>
 						</div>
 					</div>
 
 					<div class="panel-body application-registration">
-						<label class="h9">Name</label>							
+						<label class="h9">Name</label>
 						<div class="row">
 							<div class="col-md-4">
 								<div class="form-group">
@@ -45,8 +45,7 @@
 								<div class="form-group" ng-class="{'has-error': registrationForm.email.$invalid && !registrationForm.email.$pristine}">
 									<input type="email" name="email" class="form-control" placeholder="Email address" ng-model="email">
 								</div>
-								<div>registrationForm.$valid = {{registrationForm.$valid}}</div>
-								 <p ng-show="registrationForm.email.$invalid && !registrationForm.email.$pristine" class="help-block">email error!!!{{registerFeedbackText}}</p>
+								<div class="col-md-8 alert-error" ng-show="registrationForm.$invalid">Ongeldig e-mail adres!</div>
 							</div>
 						</div>
 							
@@ -62,12 +61,11 @@
 							</div>
 						</div>
 						<label class="h11 footnote-text">Met dit wachtwoord kun je inloggen. </label>
-
+						<div class="col-md-8 alert" ng-class="{'alert-error':error}" ng-show="registerFeedbackText.length">{{registerFeedbackText}}</div>
 						<div class="panel-footer text-right">
 							<button type="submit" class="btn btn-success" ng-click="registerSubmit()">Create an account</button>
 						</div>
 					</div>
-					<span class="{{registerFeedbackClass}}">{{registerFeedbackText}}</span>
 				</div>
 			</div>
 		</div>
