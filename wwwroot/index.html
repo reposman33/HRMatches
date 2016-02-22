@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html ng-app="ontdekjouwtalent">
+
+<head>
+	<link rel="stylesheet" href="/assets/style/bootstrap-3.3.1.min.css">
+	<link rel="stylesheet" href="/assets/style/bootstrap-select.min.css">
+	<link rel="stylesheet" href="/assets/style/custom_code.css">
+
+	<script src="/app/lib/angular_1.5.0.js"></script>
+	<script src="/app/lib/angular-route.js"></script>
+
+	<script type="text/javascript" src="app/app.js"></script>
+	<script src="/app/components/login/controllers/loginController.js"></script>
+	<script src="/app/components/register/controllers/registerController.js"></script>
+	<script src="/app/shared/services/I18nTexts.js"></script>
+
+</head>
+
+<body class="guest">
+
+	<div class="row title-container"></div>
+
+	<div class="row">
+
+		<div class="col-md-3"></div>
+
+		<div ng-view class="container"></div>
+	
+		<div class="col-md-3"></div>
+
+
+	</div>
+
+
+	</body>
+<html>
