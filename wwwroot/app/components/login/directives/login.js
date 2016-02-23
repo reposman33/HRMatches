@@ -1,6 +1,6 @@
-angular.module('ontdekjouwtalent')
+angular.module('app.HRMatches')
 
-.directive('login',['$http',function($http){
+.directive('hrmLogin',['$http',function($http){
 	return {
 		restrict: 'A',
 		scope: {},

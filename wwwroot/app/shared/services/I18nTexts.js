@@ -1,4 +1,4 @@
-angular.module('ontdekjouwtalent')
+angular.module('app.HRMatches')
 .factory('I18nService',['$http','AppConfig',function($http,AppConfig){
 	return{
 		_I18nTexts: [],

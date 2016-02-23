@@ -1,4 +1,4 @@
-angular.module('ontdekjouwtalent',[])
+/*angular.module('app.HRMatches',[])
 .factory('config',function(){
 
 	return{
@@ -91,4 +91,4 @@ angular.module('ontdekjouwtalent',[])
 			}
 		}]
 	}
-}])
+}])*/

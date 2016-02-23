@@ -1,4 +1,4 @@
-angular.module('ontdekjouwtalent',['ngRoute'])
+angular.module('app.HRMatches',['ngRoute'])
 .constant('AppConfig',{
 	// login authenticatie url
 	APP_API_URL: 'http://api-development.hrmatches.com',
@@ -33,8 +33,8 @@ angular.module('ontdekjouwtalent',['ngRoute'])
 })
 .config(['$routeProvider', function($routeProvider){
 	$routeProvider
-		.when('/login', {templateUrl:'/app/components/login/views/login.html', controller:'loginController'})
-		.when('/register', {templateUrl:'/app/components/register/views/register.html',controller:'registerController'})
+		.when('/login', {templateUrl:'/app/components/login/views/login.html', controller:'LoginController'})
+		.when('/register', {templateUrl:'/app/components/register/views/register.html',controller:'RegisterController'})
 		.otherwise({redirectTo:'/login'})
 	 }]
 )

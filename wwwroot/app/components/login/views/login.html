@@ -1,56 +1,61 @@
-<form name='loginForm' novalidate>
-<div class="col-md-6">
-	<div class="well">
-	<h4>Login:</h4>
-		<div class="row">
-			<div class="col-md-12">
-				<div class="form-group">
-					<div class="row">
-						<div class="col-md-4 h9">
-							<label for="emailAddress">Email address</label>
+<form name='loginForm' novalidate ng-class="{modal:profiles.length>0}">
+	<div hrm-login-advertorial config="{show:true}"></div>		
+	<div class="col-md-6">
+		<div class="well">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="form-group">
+						<div class="row">
 						</div>
-						<div class="col-md-8 form-group" ng-class="{'has-error': loginForm.j_username.$invalid}">
-							<input type="email" placeholder="Email address" name="j_username" id="emailAddress" class="form-control" ng-model="loginName">
-						</div>
-					<div class="col-md-4"></div>
-					<div class="col-md-8 alert-error" ng-show="loginForm.j_username.$invalid">Ongeldig e-mail adres!</div>
+						<div class="row">
+							<div class="col-md-4 h9">
+								<label for="emailAddress">Email address</label>
+							</div>
+							<div class="col-md-8 form-group" ng-class="{'has-error': loginForm.j_username.$invalid}">
+								<input type="email" placeholder="Email address" name="j_username" id="emailAddress" class="form-control" ng-model="loginName" ng-click="loginFeedbackText=''">
+							</div>
+						<div class="col-md-4"></div>
+						<div class="col-md-8 alert-error" ng-show="loginForm.j_username.$invalid">Ongeldig e-mail adres!</div>
 
-					</div>
-				</div>
-								
-				<div class="form-group">
-					<div class="row">
-						<div class="col-md-4 h9">
-							<label for="exampleInputFirstname">Password</label>
 						</div>
+					</div>
+									
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-4 h9">
+								<label for="exampleInputFirstname">Password</label>
+							</div>
+							<div class="col-md-8">
+								<input type="password" placeholder="Password" name="j_password" id="Password" class="form-control" ng-model="loginPassword" ng-click="loginFeedbackText=''">
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-4"></div>
+
 						<div class="col-md-8">
-							<input type="password" placeholder="Password" name="j_password" id="Password" class="form-control" ng-model="loginPassword">
+							<button class="btn btn-success btn-block pull-right" ng-click="loginSubmit()">Login</button>
 						</div>
+
+						<div class="col-md-4"></div>
+						<div class="col-md-8 alert" ng-class="{'alert-error':error}" ng-show="loginFeedbackText.length">{{loginFeedbackText}}</div>
 					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-4"></div>
-
-					<div class="col-md-8">
-						<button class="btn btn-success btn-block pull-right" ng-click="loginSubmit()">Login</button>
-					</div>
-
-					<div class="col-md-4"></div>
-					<div class="col-md-8 alert" ng-class="{'alert-error':error}" ng-show="loginFeedbackText.length">{{loginFeedbackText}}</div>
-				</div>
 
 					<div class="row">
 						<div class="col-md-6">
-						  <h5><a href="/index.cfm?module=security&amp;view=forgotpassword" ng-click="forgotPassword()">Forgot password?</a></h5>
-					  </div>
-					  <div class="">
-					  <div class="col-md-6">
-						<h5>Don't have an account yet?&nbsp;<a ng-href="#/register">Register!</a></h5>
+							<h5><a href="/index.cfm?module=security&amp;view=forgotpassword" ng-click="forgotPassword()">Forgot password?</a></h5>
+						</div>
+						<div>
+							<div class="col-md-6">
+								<h5>Don't have an account yet?&nbsp;<a ng-href="#/register">Register!</a></h5>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
 </form>
+
+<div ng-include src="'/app/components/login/views/selectProfile.html'"></div>
