@@ -1,0 +1,54 @@
+<div
+	id="profilesModal" 
+	class="modal fade modal-container-invite in"
+	tabindex="-1"
+	role="dialog"
+	aria-labelledby="profilesModal"
+	aria-hidden="true"
+	syle="display: block; padding-right: 17px;"
+	>
+	<div class="row row-centered modal-dialog"> <!-- extra: row row-centered  -->
+		<div class="modal-content alert alert-info"> <!-- xtra: alert alert-info -->
+			<div class="modal-header">
+				<button
+					type="button"
+					class="close"
+					data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4>Er zijn meerdere profielen</h4>
+			</div>
+			
+			<div class="modal-body">
+				<h5>Selecteer een profiel</h5>
+			
+				<div class="scrollable modal-output-field">
+					<ul>
+						<li ng-repeat="profile in profiles" style="list-style-type: none;">
+							&nbsp;&nbsp;&nbsp;
+							<input
+								type="radio"
+								name="profiles"
+								ng-model="$parent.profile"
+								value="{{profile}}"
+							>
+							{{profile.candidateOrigin}} ({{profile.customerName}})
+						</li>
+					</ul>
+				</div>
+			</div>
+		
+			<div class="modal-footer modal-button">
+				<button
+				type="button"
+				class="close"
+				data-dismiss="modal"
+				aria-label="Close"
+				class="btn btn-success"
+				ng-click="setSelectedProfile(profile)">continue to app</button>
+			</div>
+		</div>
+	</div>
+</div>
+	
