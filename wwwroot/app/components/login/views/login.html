@@ -1,5 +1,6 @@
-<form name='loginForm' novalidate ng-class="{modal:profiles.length>0}">
+<form name='loginForm' novalidate>
 	<div hrm-login-advertorial config="{show:true}"></div>		
+
 	<div class="col-md-6">
 		<div class="well">
 			<div class="row">
@@ -12,7 +13,7 @@
 								<label for="emailAddress">Email address</label>
 							</div>
 							<div class="col-md-8 form-group" ng-class="{'has-error': loginForm.j_username.$invalid}">
-								<input type="email" placeholder="Email address" name="j_username" id="emailAddress" class="form-control" ng-model="loginName" ng-click="loginFeedbackText=''">
+								<input type="email" placeholder="Email address" name="j_username" id="emailAddress" class="form-control" ng-model="loginName"">
 							</div>
 						<div class="col-md-4"></div>
 						<div class="col-md-8 alert-error" ng-show="loginForm.j_username.$invalid">Ongeldig e-mail adres!</div>
@@ -26,7 +27,7 @@
 								<label for="exampleInputFirstname">Password</label>
 							</div>
 							<div class="col-md-8">
-								<input type="password" placeholder="Password" name="j_password" id="Password" class="form-control" ng-model="loginPassword" ng-click="loginFeedbackText=''">
+								<input type="password" placeholder="Password" name="j_password" id="Password" class="form-control" ng-model="loginPassword" >
 							</div>
 						</div>
 					</div>

@@ -1,4 +1,4 @@
-angular.module('app.HRMatches',['ngRoute'])
+angular.module('app.HRMatches',['ui.router','angular-storage'])
 .constant('AppConfig',{
 	// login authenticatie url
 	APP_API_URL: 'http://api-development.hrmatches.com',
@@ -31,10 +31,35 @@ angular.module('app.HRMatches',['ngRoute'])
 			console.log('I18nService.init() errorresonse: ', errorResponse);
 		});
 })
-.config(['$routeProvider', function($routeProvider){
-	$routeProvider
-		.when('/login', {templateUrl:'/app/components/login/views/login.html', controller:'LoginController'})
-		.when('/register', {templateUrl:'/app/components/register/views/register.html',controller:'RegisterController'})
-		.otherwise({redirectTo:'/login'})
-	 }]
-)
+.config(['$stateProvider','$urlRouterProvider',function($stateProvider,$urlRouterProvider){
+	$urlRouterProvider
+	.otherwise('/login');
+	
+	$stateProvider
+	.state('login',{
+		url: '/login',
+		templateUrl:'/app/components/login/views/login.html',
+		controller:'LoginController'
+	})
+	.state('register',{
+		url: '/register',
+		templateUrl:'/app/components/register/views/register.html',
+		controller:'RegisterController'
+	})
+	.state('vacaturegids',{
+		url:'/vacaturegids',
+		template:'',
+		controller:'',
+		resolve: {
+			checkAuthenticated: ['$q','SessionService',function($q,SessionService){
+				var currentUser = SessionService.getCurrentUser();
+				if(currentUser){
+					return $q.when(currentUser);
+				}
+				else{
+					return $q.reject({authenticated: false});
+				}
+			}]
+		}
+	})
+}])

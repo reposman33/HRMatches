@@ -2,32 +2,36 @@
 <html ng-app="app.HRMatches">
 
 <head>
-	<link rel="stylesheet" href="/assets/style/Bootstrap/css/bootstrap-3.3.1.min.css">
+	<!-- Bootstrap requires JQuery - load it first -->
+	<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+	<script type="text/javascript" src="/assets/style/Bootstrap/js/bootstrap.min.js"></script>
+ 	<link rel="stylesheet" href="/assets/style/Bootstrap/css/bootstrap-3.3.1.min.css">
 	<link rel="stylesheet" href="/assets/style/Bootstrap/css/bootstrap-select.min.css">
-	<link rel="stylesheet" href="/assets/style/Bootstrap/css/custom_code.css">
+	<link rel="stylesheet" href="/assets/style/custom_code.css">
 
 	<script src="/app/lib/angular_1.5.0.js"></script>
-	<script src="/app/lib/angular-route.js"></script>
-	<script src="/assets/style/Bootstrap/js/bootstrap.min.js"></script>
+	<script src="/app/lib/angular-ui-router.js"></script>
+	<script src="/app/lib/angular-storage.min.js"></script>
 
 	<script type="text/javascript" src="app/app.js"></script>
 	<script type="text/javascript" src="/app/components/login/controllers/LoginController.js"></script>
 	<script type="text/javascript" src="/app/components/register/controllers/RegisterController.js"></script>
-	<script type="text/javascript" src="/app/shared/services/I18nTexts.js"></script>
+	<script type="text/javascript" src="/app/shared/services/I18n.js"></script>
+	<script type="text/javascript" src="/app/shared/services/session.js"></script>
 	<script type="text/javascript" src="/app/components/login/directives/login.js"></script>
 	<script type="text/javascript" src="/app/components/login/directives/loginAdvertorial.js"></script>
 </head>
 
-<body class="guest">
+<body class="modal-open">
 
 	<div class="row title-container"></div>
 
 	<div class="row">
 
-		<div ng-view class="container"></div>	
+		<div ui-view class="container"></div>	
 
 	</div>
 
-
 	</body>
+
 <html>
