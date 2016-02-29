@@ -1,7 +1,7 @@
 angular.module('app.HRMatches')
 .controller('LoginController',
-	['$scope','$http','AppConfig','I18nService','$location','SessionService',
-	 function($scope,$http,AppConfig,I18nService,$location,SessionService){
+	['$scope','$http','AppConfig','I18nService','$location','SessionService','$state',
+	 function($scope,$http,AppConfig,I18nService,$location,SessionService,$state){
 
 		$scope.loginSubmit = function(){
 			var loginName = $scope.loginName || "";
@@ -29,14 +29,14 @@ angular.module('app.HRMatches')
 						if(successResponse.data.token.length == 1){
 							// store user token for this session
 							SessionService.setCurrentUser(successResponse.data.token[0]);
+							$state.go('vacaturegids');
 						}
 						else if(successResponse.data.token.length > 1){
 							// let user choose profile
 							validateTokens(successResponse.data.token);
+							// show window with profile info
+							_profilesWindow('show');
 						}
-
-						// show window with profile info
-						_profilesWindow('show');	
 					},
 					function(errorResponse){
 						$scope.error = errorResponse.status != 200 //error is nu boolean, kan in de toekomst uitgebreid worden
@@ -96,8 +96,10 @@ angular.module('app.HRMatches')
 			}
 		}
 		
-		$scope.setSelectedProfile = function(selectedProfile){
+
+		$scope.navigateTo = function(selectedProfile){
 			SessionService.setCurrentUser(selectedProfile);
+			$state.go('vacaturegids')
 		}
 		
 

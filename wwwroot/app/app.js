@@ -20,21 +20,10 @@ angular.module('app.HRMatches',['ui.router','angular-storage'])
 	APP_REGISTER_PASSWORDSNOMATCH_FEEDBACK_CLASS: "col-md-12 alert alert-warning",
 	APP_REGISTER_EMAILINVALID_FEEDBACK_CLASS: "has-error"
 })
-.run(function(I18nService){
-	//Use this method to register work which should be performed when the injector is done loading all modules.
-	I18nService.init()
-	.then(
-		function(I18nTexts){
-			I18nService.loadData(I18nTexts);
-		},function(errorResponse){
-			// er ging iets mis!!!
-			console.log('I18nService.init() errorresonse: ', errorResponse);
-		});
-})
 .config(['$stateProvider','$urlRouterProvider',function($stateProvider,$urlRouterProvider){
 	$urlRouterProvider
 	.otherwise('/login');
-	
+
 	$stateProvider
 	.state('login',{
 		url: '/login',
@@ -62,4 +51,25 @@ angular.module('app.HRMatches',['ui.router','angular-storage'])
 			}]
 		}
 	})
+	.state('default',{
+		url: '/default',
+		templateUrl:'/app/shared/views/default.html'
+	})
+
 }])
+.run(function(I18nService,$rootScope,$state){
+	//Use this method to register work which should be performed when the injector is done loading all modules.
+	I18nService.init()
+	.then(
+		function(I18nTexts){
+			I18nService.loadData(I18nTexts);
+		},function(errorResponse){
+			// er ging iets mis!!!
+			console.log('I18nService.init() errorresonse: ', errorResponse);
+		});
+	
+		$rootScope.$on('$stateChangeError', function(event) {
+		  $state.go('default');
+		});
+})
+
