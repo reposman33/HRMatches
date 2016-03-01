@@ -3095,3 +3095,9 @@ margin:0px;
 	overflow-y:scroll;
 	height: 250px;
 }
+/*
+modalzie https://angular-ui.github.io/bootstrap/
+*/
+.nav, .pagination, .carousel, .panel-title a {
+	cursor: pointer;
+}

@@ -1,4 +1,4 @@
-angular.module('app.HRMatches',['ui.router','angular-storage'])
+angular.module('app.HRMatches',['ui.router','angular-storage','ui.bootstrap'])
 .constant('AppConfig',{
 	// login authenticatie url
 	APP_API_URL: 'http://api-development.hrmatches.com',
@@ -13,12 +13,15 @@ angular.module('app.HRMatches',['ui.router','angular-storage'])
 	APP_LOGIN_ERROR_FEEDBACK_CLASS: 'col-md-8 alert alert-danger',
 	APP_LOGIN_NOCREDENTIALS_FEEDBACK_CLASS: 'col-md-8 alert alert-warning',
 	// registration
-	APP_REGISTER_INCOMPLETEDATA_FEEDBACK_TEXT: "Alle velden invullen a.u.b.",
-	APP_REGISTER_PASSWORDSNOMATCH_FEEDBACK_TEXT: "De ingevulde wachtwoorden zijn niet gelijk",
-	APP_REGISTER_EMAILINVALID_FEEDBACK_TEXT: "Ongeldig emailadres",
-	APP_REGISTER_INCOMPLETEDATA_FEEDBACK_CLASS: "col-md-12 alert alert-warning",
-	APP_REGISTER_PASSWORDSNOMATCH_FEEDBACK_CLASS: "col-md-12 alert alert-warning",
-	APP_REGISTER_EMAILINVALID_FEEDBACK_CLASS: "has-error"
+	APP_REGISTER_INCOMPLETEDATA_FEEDBACK_TEXT: 'Alle velden invullen a.u.b.',
+	APP_REGISTER_PASSWORDSNOMATCH_FEEDBACK_TEXT: 'De ingevulde wachtwoorden zijn niet gelijk',
+	APP_REGISTER_EMAILINVALID_FEEDBACK_TEXT: 'Ongeldig emailadres',
+	APP_REGISTER_INCOMPLETEDATA_FEEDBACK_CLASS: 'col-md-12 alert alert-warning',
+	APP_REGISTER_PASSWORDSNOMATCH_FEEDBACK_CLASS: 'col-md-12 alert alert-warning',
+	APP_REGISTER_EMAILINVALID_FEEDBACK_CLASS: 'has-error',
+	// overige instellingen
+	APP_NAVIGATION_ENTRYPOINT: 'vacaturegids'
+	
 })
 .config(['$stateProvider','$urlRouterProvider',function($stateProvider,$urlRouterProvider){
 	$urlRouterProvider
@@ -30,6 +33,17 @@ angular.module('app.HRMatches',['ui.router','angular-storage'])
 		templateUrl:'/app/components/login/views/login.html',
 		controller:'LoginController'
 	})
+	.state('login-multipleProfiles',{
+		url: 'login.profiles',
+		onEnter: ['$modal',function($modal){
+			$modal.open({
+				templateUrl: '/app/components/login/views/selectProfile.html',
+				controller: 'LoginController'
+			}).result.finally(function(){
+				$state.go('login');
+			})
+		}]
+	})
 	.state('register',{
 		url: '/register',
 		templateUrl:'/app/components/register/views/register.html',
@@ -37,8 +51,7 @@ angular.module('app.HRMatches',['ui.router','angular-storage'])
 	})
 	.state('vacaturegids',{
 		url:'/vacaturegids',
-		template:'',
-		controller:'',
+		templateUrl:'/app/components/vacaturegids/views/vacaturegids.html',
 		resolve: {
 			checkAuthenticated: ['$q','SessionService',function($q,SessionService){
 				var currentUser = SessionService.getCurrentUser();
@@ -69,7 +82,7 @@ angular.module('app.HRMatches',['ui.router','angular-storage'])
 		});
 	
 		$rootScope.$on('$stateChangeError', function(event) {
-		  $state.go('default');
+		  $state.go('login');
 		});
 })
 
