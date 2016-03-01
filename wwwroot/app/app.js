@@ -28,21 +28,20 @@ angular.module('app.HRMatches',['ui.router','angular-storage','ui.bootstrap'])
 	.otherwise('/login');
 
 	$stateProvider
-	.state('login',{
-		url: '/login',
-		templateUrl:'/app/components/login/views/login.html',
+	.state('logout',{
+		url: '/logout',
+		templateUrl: '/app/components/login/views/logout.html',
 		controller:'LoginController'
 	})
-	.state('login-multipleProfiles',{
-		url: 'login.profiles',
-		onEnter: ['$modal',function($modal){
-			$modal.open({
-				templateUrl: '/app/components/login/views/selectProfile.html',
-				controller: 'LoginController'
-			}).result.finally(function(){
-				$state.go('login');
-			})
-		}]
+	.state('login',{
+		url: '/login',
+		templateUrl: '/app/components/login/views/login.html',
+		controller:'LoginController'
+	})
+	.state('login.userprofiles',{
+		url: '/userprofiles',
+		templateUrl: '/app/components/login/views/userProfiles.html',
+		controller:'LoginController'
 	})
 	.state('register',{
 		url: '/register',
@@ -52,17 +51,7 @@ angular.module('app.HRMatches',['ui.router','angular-storage','ui.bootstrap'])
 	.state('vacaturegids',{
 		url:'/vacaturegids',
 		templateUrl:'/app/components/vacaturegids/views/vacaturegids.html',
-		resolve: {
-			checkAuthenticated: ['$q','SessionService',function($q,SessionService){
-				var currentUser = SessionService.getCurrentUser();
-				if(currentUser){
-					return $q.when(currentUser);
-				}
-				else{
-					return $q.reject({authenticated: false});
-				}
-			}]
-		}
+		authenticate: true
 	})
 	.state('default',{
 		url: '/default',
@@ -70,8 +59,10 @@ angular.module('app.HRMatches',['ui.router','angular-storage','ui.bootstrap'])
 	})
 
 }])
-.run(function(I18nService,$rootScope,$state){
-	//Use this method to register work which should be performed when the injector is done loading all modules.
+.run(function(I18nService,$rootScope,$state,AuthService,SessionService){
+
+	$rootScope.AuthService = AuthService;
+	
 	I18nService.init()
 	.then(
 		function(I18nTexts){
@@ -81,8 +72,31 @@ angular.module('app.HRMatches',['ui.router','angular-storage','ui.bootstrap'])
 			console.log('I18nService.init() errorresonse: ', errorResponse);
 		});
 	
-		$rootScope.$on('$stateChangeError', function(event) {
-		  $state.go('login');
+		
+	$rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, options) {
+console.log('$stateChangeError: ',fromState,' toState= ',toState);
+			$state.go('login');
 		});
+		
+		
+		$rootScope.$on('$stateChangeStart',function(event, toState, toParams, fromState, fromParams, options){
+			// REDIRECT TO LOGIN WHEN NOT LOGGED IN
+			if(toState.url==='/logout'){
+				$rootScope.AuthService.logout();
+			}
+			
+			if(toState.authenticate && !SessionService.getCurrentUser()){
+console.log('AuthService.getCurrentUser() = ',SessionService.getCurrentUser(),', fromState = ',fromState.name,', toState = ',toState.name);
+				$state.transitionTo('login');
+				preventDefault();
+			}
+		});
+		
+		
+		$rootScope.$on('stateChangeSuccess',function(event, toState, toParams, fromState, fromParams, options){
+			$rootScope.isLoggedIn = SessionService.isLoggedIn();
+		});
+
+
 })
 

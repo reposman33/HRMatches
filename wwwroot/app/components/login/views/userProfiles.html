@@ -1,13 +1,5 @@
-<div
-	id="profilesModal" 
-	class="modal fade modal-container-invite in"
-	tabindex="-1"
-	role="dialog"
-	aria-labelledby="profilesModal"
-	aria-hidden="true"
-	>
-	<div class="row row-centered modal-dialog"> <!-- extra: row row-centered  -->
-		<div class="modal-content alert alert-info"> <!-- xtra: alert alert-info -->
+	<div class="row row-centered modal-dialog">
+		<div class="modal-content alert alert-info">
 			<div class="modal-header">
 				<button
 					type="button"
@@ -16,6 +8,7 @@
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
+
 			</div>
 
 			<div class="modal-body">
@@ -47,12 +40,10 @@
 			<div class="modal-footer modal-button">
 				<button
 					type="button"
-					class="btn btn-success"
-					data-dismiss="modal"
+					class="btn btn-default"
 					aria-label="Close"
-					ng-click="finishAuthentication(profile)">OK</button>
+					ng-click="confirmLogin(profile)">OK
+				</button>
 			</div>
 		</div>
 	</div>
-</div>
-	

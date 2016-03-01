@@ -15,4 +15,19 @@ angular.module('app.HRMatches')
 		} 
 		return currentUser;
 	}
+	
+	service.removeCurrentUser = function(){
+		if(!currentUser){
+			currentUser = store.get('currentUser');
+		} 
+		store.remove(currentUser);
+		console.log('U are logged out!!!');
+	}
+	
+	service.isLoggedIn = function(){
+		var currentUser;
+		currentUser = service.getCurrentUser();
+		
+		return (currentUser !== undefined && currentUser !== null);
+	}
 })
