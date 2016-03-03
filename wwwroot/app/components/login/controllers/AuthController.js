@@ -2,7 +2,7 @@
  * LOGIN MODULE
  * date:		february 2016
  * 
- * view:	/app/components/login/views/login.html, contains directive hrmLoginAdvertoriial
+ * view:	/app/components/login/views/login.html
  * 
  * basic use case:
  * 	authentication via loginSubmit(). Response triggers /app/components/login/views/selectProfile.html only if user is logged in and/or has multiple profiles
@@ -10,12 +10,12 @@
  * */
 
 angular.module('app.HRMatches')
-.controller('LoginController',
+.controller('AuthController',
 	['$scope','$http','$location','$modal','$state','AppConfig','AuthService','I18nService','SessionService',
 	 function($scope,$http,$location,$modal,$state,AppConfig,AuthService,I18nService,SessionService){
 
 		//AUTHENTICATE
-		$scope.loginSubmit = function(){
+		$scope.authenticate = function(){
 			var loginName = $scope.loginName || "";
 			var password = $scope.loginPassword || "";
 			$scope.loginFeedbackText = "";
@@ -34,7 +34,10 @@ angular.module('app.HRMatches')
 						$scope.error = successResponse.status != 200
 						$scope.loginFeedbackText = $scope.error ? I18nService.getText(successResponse.data.message) : ""; //geen text vertonen bij status 200 - toon e-profile pagina
 						$scope.tokens = successResponse.data.tokens; //authenticated accounts are identified by these tokens
-						
+
+successResponse.data.status = {}
+successResponse.data.status.loggedInWithProfile = true;
+
 						if(successResponse.data.status && successResponse.data.status.loggedInWithProfile){
 
 							// OTHER USER SESSION ACTIVE
@@ -47,19 +50,18 @@ angular.module('app.HRMatches')
 								
 							}
 
-							$state.go('login.userprofiles',{resolve:validateTokens(successResponse.data.token)});
-							//$('#profilesModal').modal('show');
+							validateTokens(successResponse.data.token)
+							//$state.go('login.userprofiles');
+							$('#profilesModal').modal('show');
 						}
-  
 						else if(successResponse.data.token.length > 1){
 
 							// MULTIPLE PROFILES KNOWN
 							$scope.userHasMultipleProfiles = I18nService.getText('LOGIN_MULTIPLEPROFILES');
-							$state.go('login.userprofiles',{resolve:validateTokens(successResponse.data.token)});
-/*							validateTokens(successResponse.data.token);
+							//$state.go('login.userprofiles');
+							validateTokens(successResponse.data.token);
 							$('#profilesModal').modal('show');
-*/						}
-
+						}
 						else{
 							// NO OTHER SESSION, SINGLE PRPOFILE
 							SessionService.setCurrentUser(successResponse.data);
@@ -96,10 +98,6 @@ angular.module('app.HRMatches')
 			);
 		}
 		
-		$scope.logout = function(){
-			AuthService.logout()
-			.then(SessionService.removeCurrentUser());
-		}
 		
 		// REGISTER
 		$scope.register = function(){
@@ -117,10 +115,9 @@ angular.module('app.HRMatches')
 				}
 			);
 		}
-		
+
 		// RETRIEVE MULTIPLE PROFILES
 		function validateTokens(tokens){
-			result = [];
 			for(token in tokens){
 				$http({
 					method: 'GET',
@@ -129,16 +126,20 @@ angular.module('app.HRMatches')
 				.then(
 					function(successResponse){
 						$scope.profiles.push(successResponse.data);
+					},
+					function(errorResponse){
+						console.log('error in /validate_token! ',errorResponse);
 					}
 				)
 			}
 		}
-		
+
 
 		$scope.confirmLogin = function(selectedProfile){
 			if(selectedProfile){
 				SessionService.setCurrentUser(selectedProfile);
 			}
+			$('#profilesModal').modal('hide');
 			$state.go(AppConfig.APP_NAVIGATION_ENTRYPOINT);
 		}
 		
@@ -147,5 +148,6 @@ angular.module('app.HRMatches')
 			$state.go(toState);
 		}
 		
+
 	}
 ]);

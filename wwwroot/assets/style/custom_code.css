@@ -3101,3 +3101,15 @@ modalzie https://angular-ui.github.io/bootstrap/
 .nav, .pagination, .carousel, .panel-title a {
 	cursor: pointer;
 }
+
+ul{
+	cursor:default;
+}
+
+.logo-white{
+	background: rgba(0, 0, 0, 0) url("/assets/img/logo_black.png") no-repeat scroll center center / contain ;
+	height: 40px;
+	margin: 5px 190px 5px 0;
+	padding-top: 5px;
+	width: 100%;
+}

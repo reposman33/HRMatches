@@ -2,23 +2,6 @@ angular.module('app.HRMatches',['ui.router','angular-storage','ui.bootstrap'])
 .constant('AppConfig',{
 	// login authenticatie url
 	APP_API_URL: 'http://api-development.hrmatches.com',
-	// feedback tekst voor login
-	APP_LOGIN_SUCCESS_FEEDBACK_TEXT: 'U bent succesvol ingelogd!',
-	APP_LOGIN_NOTAUTH_FEEDBACK_TEXT: 'Authenticatie error:',
-	APP_LOGIN_ERROR_FEEDBACK_TEXT: 'LOGIN ERROR:',
-	APP_LOGIN_NOCREDENTIALS_FEEDBACK_TEXT: 'Email adres en wachtwoord invullen a.u.b.',
-	// feedback classes voor login
-	APP_LOGIN_SUCCESS_FEEDBACK_CLASS: 'col-md-8 alert alert-success',
-	APP_LOGIN_NOTAUTH_FEEDBACK_CLASS: 'col-md-8 alert alert-danger',
-	APP_LOGIN_ERROR_FEEDBACK_CLASS: 'col-md-8 alert alert-danger',
-	APP_LOGIN_NOCREDENTIALS_FEEDBACK_CLASS: 'col-md-8 alert alert-warning',
-	// registration
-	APP_REGISTER_INCOMPLETEDATA_FEEDBACK_TEXT: 'Alle velden invullen a.u.b.',
-	APP_REGISTER_PASSWORDSNOMATCH_FEEDBACK_TEXT: 'De ingevulde wachtwoorden zijn niet gelijk',
-	APP_REGISTER_EMAILINVALID_FEEDBACK_TEXT: 'Ongeldig emailadres',
-	APP_REGISTER_INCOMPLETEDATA_FEEDBACK_CLASS: 'col-md-12 alert alert-warning',
-	APP_REGISTER_PASSWORDSNOMATCH_FEEDBACK_CLASS: 'col-md-12 alert alert-warning',
-	APP_REGISTER_EMAILINVALID_FEEDBACK_CLASS: 'has-error',
 	// overige instellingen
 	APP_NAVIGATION_ENTRYPOINT: 'vacaturegids'
 	
@@ -31,31 +14,52 @@ angular.module('app.HRMatches',['ui.router','angular-storage','ui.bootstrap'])
 	.state('logout',{
 		url: '/logout',
 		templateUrl: '/app/components/login/views/logout.html',
-		controller:'LoginController'
+		controller:'AuthController',
+		authenticate: true
 	})
 	.state('login',{
 		url: '/login',
-		templateUrl: '/app/components/login/views/login.html',
-		controller:'LoginController'
+		views: {
+			'body@':{
+				templateUrl: '/app/components/login/views/login.html',
+				controller:'AuthController',
+				authenticate: false
+			}
+		},
 	})
-	.state('login.userprofiles',{
+/*	.state('login.userprofiles',{
 		url: '/userprofiles',
-		templateUrl: '/app/components/login/views/userProfiles.html',
-		controller:'LoginController'
+		onEnter: ['$modal',function($modal){
+			$modal.open({
+				templateUrl: '/app/components/login/views/userProfiles.html'
+			})
+		}]
 	})
-	.state('register',{
+*/	.state('register',{
 		url: '/register',
 		templateUrl:'/app/components/register/views/register.html',
-		controller:'RegisterController'
+		controller:'RegisterController',
+		authenticate: false
 	})
 	.state('vacaturegids',{
 		url:'/vacaturegids',
-		templateUrl:'/app/components/vacaturegids/views/vacaturegids.html',
-		authenticate: true
+		views: {
+			'body@':{
+				templateUrl:'/app/components/vacaturegids/views/vacaturegids.html',
+				authenticate: true
+			},
+			'header@':{
+				templateUrl:'/app/shared/components/navigation/views/navigation.html',
+				authenticate: true,
+				controller: 'NavigationController'
+			}
+			
+		},
 	})
 	.state('default',{
 		url: '/default',
-		templateUrl:'/app/shared/views/default.html'
+		templateUrl:'/app/shared/views/default.html',
+		authenticate: false
 	})
 
 }])
@@ -79,23 +83,19 @@ console.log('$stateChangeError: ',fromState,' toState= ',toState);
 		});
 		
 		
-		$rootScope.$on('$stateChangeStart',function(event, toState, toParams, fromState, fromParams, options){
-			// REDIRECT TO LOGIN WHEN NOT LOGGED IN
-			if(toState.url==='/logout'){
-				$rootScope.AuthService.logout();
-			}
-			
-			if(toState.authenticate && !SessionService.getCurrentUser()){
-console.log('AuthService.getCurrentUser() = ',SessionService.getCurrentUser(),', fromState = ',fromState.name,', toState = ',toState.name);
-				$state.transitionTo('login');
-				preventDefault();
-			}
-		});
+	$rootScope.$on('$stateChangeStart',function(event, toState, toParams, fromState, fromParams, options){
+		// REDIRECT TO LOGIN WHEN NOT LOGGED IN
+		if(toState.name!=='login' && !SessionService.isLoggedIn()){
+console.log('AuthService.getCurrentUser() = ',SessionService.isLoggedIn(),', fromState = ',fromState.name,', toState = ',toState.name);
+			$state.go('login');
+			event.preventDefault();
+		}
+	});
+
 		
-		
-		$rootScope.$on('stateChangeSuccess',function(event, toState, toParams, fromState, fromParams, options){
-			$rootScope.isLoggedIn = SessionService.isLoggedIn();
-		});
+	$rootScope.$on('$stateChangeSuccess',function(event, toState, toParams, fromState, fromParams, options){
+		$rootScope.isLoggedIn = SessionService.isLoggedIn();
+	});
 
 
 })

@@ -3,41 +3,51 @@
 
 <head>
 	<!-- Bootstrap requires JQuery - load it first -->
-	<script type="text/javascript" src="/node_modules/jquery/dist/jquery.min.js"></script>
+
+	<!-- BOOTSTRAP -->
+ 	<script type="text/javascript" src="/node_modules/jquery/dist/jquery.min.js"></script>
 	<script type="text/javascript" src="/assets/style/Bootstrap/js/bootstrap.min.js"></script>
  	<link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
-	<link rel="stylesheet" href="/node_modules/bootstrap-select/dist/css/bootstrap-select.min.css">
+ 	<link rel="stylesheet" href="/node_modules/bootstrap-select/dist/css/bootstrap-select.min.css">
+	<!-- CUSTOM CSS -->
 	<link rel="stylesheet" href="/assets/style/custom_code.css">
-
+	<!-- ANGULAR LIBS -->
 	<script type="text/javascript" src="/node_modules/angular/angular.min.js"></script>
 	<script type="text/javascript" src="/node_modules/angular-ui-router/angular-ui-router.min.js"></script>
 	<script type="text/javascript" src="/node_modules/angular-storage/angular-storage.min.js"></script>
-	<script type="text/javascript" src="/node_modules/angular-animate/angular-animate.min.js"></script>
-	<script type="text/javascript" src="/node_modules/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-
+ 	<script type="text/javascript" src="/node_modules/angular-animate/angular-animate.min.js"></script>
+ 	<script type="text/javascript" src="/node_modules/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 	<script type="text/javascript" src="app/app.js"></script>
-	<script type="text/javascript" src="/app/components/login/controllers/LoginController.js"></script>
+	<!-- REGISTRATION -->
 	<script type="text/javascript" src="/app/components/register/controllers/RegisterController.js"></script>
+	<!-- LOGIN -->
+	<script type="text/javascript" src="/app/components/login/controllers/AuthController.js"></script>
+	<script type="text/javascript" src="/app/components/login/directives/login.js"></script>
+	<script type="text/javascript" src="/app/components/login/directives/loginAdvertorial.js"></script>
+	<!-- SHARED RESOURCES -->
+	<script type="text/javascript" src="/app/shared/components/navigation/controllers/NavigationController.js"></script>
 	<script type="text/javascript" src="/app/shared/services/I18n.js"></script>
 	<script type="text/javascript" src="/app/shared/services/Auth.js"></script>
 	<script type="text/javascript" src="/app/shared/services/Session.js"></script>
-	<script type="text/javascript" src="/app/components/login/directives/login.js"></script>
-	<script type="text/javascript" src="/app/components/login/directives/loginAdvertorial.js"></script>
+	
 </head>
 
 <body class="modal-open">
 
 	<div class="row title-container"></div>
 
-<div class="col-md-8" ng-show="isLoggedIn">
-	<h5><a ui-sref="logout" >Logout</a></h5>
-</div>
 
-	<div class="row">
-		<div ui-view class="container"></div>	
-
+	<div class="header">
+		<div ui-view="header"></div>
 	</div>
 
+	<div class="row">
+		<div ui-view="body"></div>
+	</div>
+
+	<div class="footer">
+		<div ui-view="footer"></div>
+	</div>
 	</body>
 
 <html>

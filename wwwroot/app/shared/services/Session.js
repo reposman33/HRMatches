@@ -5,9 +5,10 @@ angular.module('app.HRMatches')
 	
 	service.setCurrentUser = function(userProfile){
 		currentUser = userProfile;
-		store.set(currentUser);
+		store.set('currentUser',currentUser);
 		return currentUser;
 	}
+	
 	
 	service.getCurrentUser = function(){
 		if(!currentUser){
@@ -16,6 +17,7 @@ angular.module('app.HRMatches')
 		return currentUser;
 	}
 	
+
 	service.removeCurrentUser = function(){
 		if(!currentUser){
 			currentUser = store.get('currentUser');
@@ -24,10 +26,11 @@ angular.module('app.HRMatches')
 		console.log('U are logged out!!!');
 	}
 	
+
 	service.isLoggedIn = function(){
 		var currentUser;
-		currentUser = service.getCurrentUser();
-		
+		currentUser = store.get('currentUser');
+
 		return (currentUser !== undefined && currentUser !== null);
 	}
 })
