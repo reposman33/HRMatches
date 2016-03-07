@@ -2,21 +2,23 @@
 <html ng-app="app.HRMatches">
 
 <head>
-	<!-- Bootstrap requires JQuery - load it first -->
-
 	<!-- BOOTSTRAP -->
+ 	<link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+<!--
+	<link rel="stylesheet" href="/node_modules/bootstrap-select/dist/css/bootstrap-select.min.css">
  	<script type="text/javascript" src="/node_modules/jquery/dist/jquery.min.js"></script>
 	<script type="text/javascript" src="/assets/style/Bootstrap/js/bootstrap.min.js"></script>
- 	<link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
- 	<link rel="stylesheet" href="/node_modules/bootstrap-select/dist/css/bootstrap-select.min.css">
+ -->
+
 	<!-- CUSTOM CSS -->
 	<link rel="stylesheet" href="/assets/style/custom_code.css">
+
 	<!-- ANGULAR LIBS -->
-	<script type="text/javascript" src="/node_modules/angular/angular.min.js"></script>
+	<script type="text/javascript" src="/node_modules/angular/angular.js"></script>
 	<script type="text/javascript" src="/node_modules/angular-ui-router/angular-ui-router.min.js"></script>
 	<script type="text/javascript" src="/node_modules/angular-storage/angular-storage.min.js"></script>
- 	<script type="text/javascript" src="/node_modules/angular-animate/angular-animate.min.js"></script>
  	<script type="text/javascript" src="/node_modules/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+
 	<script type="text/javascript" src="app/app.js"></script>
 	<!-- REGISTRATION -->
 	<script type="text/javascript" src="/app/components/register/controllers/RegisterController.js"></script>
@@ -36,6 +38,7 @@
 
 	<div class="row title-container"></div>
 
+<h2>isLoggedIn = {{isLoggedIn}}</h2>
 
 	<div class="header">
 		<div ui-view="header"></div>

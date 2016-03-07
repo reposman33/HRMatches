@@ -10,14 +10,5 @@
 
 angular.module('app.HRMatches')
 .controller('NavigationController',['$scope','AuthService','SessionService',function($scope,AuthService,SessionService){
-	$scope.logout = function(){
-		AuthService.logout()
-		.then(
-			function(successResponse){
-				SessionService.removeCurrentUser();
-			}
-		);
-	}
-
 }]
 )

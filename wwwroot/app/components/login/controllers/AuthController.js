@@ -11,13 +11,15 @@
 
 angular.module('app.HRMatches')
 .controller('AuthController',
-	['$scope','$http','$location','$modal','$state','AppConfig','AuthService','I18nService','SessionService',
-	 function($scope,$http,$location,$modal,$state,AppConfig,AuthService,I18nService,SessionService){
+	['$scope','$http','$location','$modal','$state','AppConfig','AuthService','I18nService','SessionService','$stateParams',
+	 function($scope,$http,$location,$modal,$state,AppConfig,AuthService,I18nService,SessionService,$stateParams){
 
 		//AUTHENTICATE
 		$scope.authenticate = function(){
+
 			var loginName = $scope.loginName || "";
 			var password = $scope.loginPassword || "";
+
 			$scope.loginFeedbackText = "";
 			$scope.profiles = [];
 			
@@ -28,13 +30,14 @@ angular.module('app.HRMatches')
 					candidateOrigin: $location.host(),
 					deviceId:''
 				})				
-				// AUTHENTICATE SUCCESS
 				.then(
 					function(successResponse){
+						// AUTHENTICATE SUCCESS
 						$scope.error = successResponse.status != 200
 						$scope.loginFeedbackText = $scope.error ? I18nService.getText(successResponse.data.message) : ""; //geen text vertonen bij status 200 - toon e-profile pagina
 						$scope.tokens = successResponse.data.tokens; //authenticated accounts are identified by these tokens
 
+// SIMULATE OTHER USER SESSION ACTIVE
 successResponse.data.status = {}
 successResponse.data.status.loggedInWithProfile = true;
 
@@ -42,34 +45,18 @@ successResponse.data.status.loggedInWithProfile = true;
 
 							// OTHER USER SESSION ACTIVE
 							$scope.loggedInWithProfileText = I18nService.getText('LOGIN_LOGGEDINWITHPROFILE');
-
-							if(successResponse.data.token.length > 1){
-
-								// MULTIPLE PROFILES KNOWN
-								$scope.userHasMultipleProfiles = I18nService.getText('LOGIN_MULTIPLEPROFILES');
-								
-							}
-
-							validateTokens(successResponse.data.token)
-							//$state.go('login.userprofiles');
-							$('#profilesModal').modal('show');
 						}
-						else if(successResponse.data.token.length > 1){
-
-							// MULTIPLE PROFILES KNOWN
+						if(successResponse.data.token.length > 1){
+							// MULTIPLE PROFILES
 							$scope.userHasMultipleProfiles = I18nService.getText('LOGIN_MULTIPLEPROFILES');
-							//$state.go('login.userprofiles');
-							validateTokens(successResponse.data.token);
-							$('#profilesModal').modal('show');
-						}
-						else{
-							// NO OTHER SESSION, SINGLE PRPOFILE
-							SessionService.setCurrentUser(successResponse.data);
-							$state.go(AppConfig.APP_NAVIGATION_ENTRYPOINT);
+							AuthService.validateTokens(successResponse.data.token)
+							.then(function(result){
+								$state.go('login.userprofiles',{profiles: result});
+							});
 						}
 					},
-					// AUTHENTICATE ERROR
 					function(errorResponse){
+						// AUTHENTICATE ERROR
 						$scope.error = errorResponse.status != 200 //error is nu boolean, kan in de toekomst uitgebreid worden
 						$scope.loginFeedbackText = I18nService.getText(errorResponse.data.message);
 					}
@@ -116,38 +103,17 @@ successResponse.data.status.loggedInWithProfile = true;
 			);
 		}
 
-		// RETRIEVE MULTIPLE PROFILES
-		function validateTokens(tokens){
-			for(token in tokens){
-				$http({
-					method: 'GET',
-					url: AppConfig.APP_API_URL + '/validate_token/' + tokens[token]
-				})
-				.then(
-					function(successResponse){
-						$scope.profiles.push(successResponse.data);
-					},
-					function(errorResponse){
-						console.log('error in /validate_token! ',errorResponse);
-					}
-				)
-			}
-		}
-
 
 		$scope.confirmLogin = function(selectedProfile){
 			if(selectedProfile){
 				SessionService.setCurrentUser(selectedProfile);
 			}
-			$('#profilesModal').modal('hide');
 			$state.go(AppConfig.APP_NAVIGATION_ENTRYPOINT);
 		}
-		
-		
-		$scope.stateGo = function(toState){
-			$state.go(toState);
-		}
-		
 
+
+		$scope.logout = function (newState){
+			AuthService.logout(newState);
+		}
 	}
 ]);

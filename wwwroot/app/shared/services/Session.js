@@ -22,7 +22,7 @@ angular.module('app.HRMatches')
 		if(!currentUser){
 			currentUser = store.get('currentUser');
 		} 
-		store.remove(currentUser);
+		store.remove('currentUser');
 		console.log('U are logged out!!!');
 	}
 	
