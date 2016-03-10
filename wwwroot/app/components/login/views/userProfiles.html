@@ -1,4 +1,4 @@
-<div class="col-md-6 center-block modal" id="profilesModal">
+<div class="modal col-md-6 center-block" id="profilesModal">
 	<div class="modal-content alert alert-info">
 		<div class="modal-header">
 			<button
@@ -6,12 +6,12 @@
 				class="close"
 				data-dismiss="modal"
 				aria-label="Close"
+				ng-click="$state.go('login')"
 			><span aria-hidden="true">&times;</span>
 			</button>
 		</div>
-	
+
 		<div class="modal-body panel panel-default" style="overflow-y:auto;max-height:350px;">
-	
 			<div ng-show="loggedInWithProfileText.length">
 				<h5>{{loggedInWithProfileText}}</h5>
 			</div>
@@ -26,7 +26,7 @@
 							<input
 								type="radio"
 								name="profiles"
-								ng-model="$parent.userToken"
+								ng-model="$parent.selectedToken"
 								value="{{profile.token}}"
 							>
 							{{profile.candidateOrigin}} {{profile.customerName}}
@@ -42,7 +42,7 @@
 				class="btn btn-default"
 				data-dismiss="modal"
 				aria-label="Close"
-				ng-click="confirmLogin(userToken)">OK
+				ng-click="confirmLogin(selectedToken)">OK
 			</button>
 		</div>
 	</div>

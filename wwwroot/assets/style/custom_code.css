@@ -3093,7 +3093,6 @@ margin:0px;
 .scrollable{
 	overflow:hidden;
 	overflow-y:scroll;
-	height: 250px;
 }
 /*
 modalzie https://angular-ui.github.io/bootstrap/

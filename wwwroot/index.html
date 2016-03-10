@@ -15,8 +15,9 @@
 
 	<!-- ANGULAR LIBS -->
 	<script type="text/javascript" src="/node_modules/angular/angular.js"></script>
-	<script type="text/javascript" src="/node_modules/angular-ui-router/angular-ui-router.min.js"></script>
-	<script type="text/javascript" src="/node_modules/angular-storage/angular-storage.min.js"></script>
+	<script type="text/javascript" src="/node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
+	<script type="text/javascript" src="/node_modules/angular-storage/dist/angular-storage.min.js"></script>
+<!--  	<script type="text/javascript" src="/node_modules/angular-bootstrap/ui-bootstrap.min.js"></script> -->
  	<script type="text/javascript" src="/node_modules/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 
 	<script type="text/javascript" src="app/app.js"></script>
@@ -31,14 +32,12 @@
 	<script type="text/javascript" src="/app/shared/services/I18n.js"></script>
 	<script type="text/javascript" src="/app/shared/services/Auth.js"></script>
 	<script type="text/javascript" src="/app/shared/services/Session.js"></script>
-	
+	<script type="text/javascript" src="/app/shared/services/API.js"></script>
 </head>
 
 <body class="modal-open">
 
 	<div class="row title-container"></div>
-
-<h2>isLoggedIn = {{isLoggedIn}}</h2>
 
 	<div class="header">
 		<div ui-view="header"></div>

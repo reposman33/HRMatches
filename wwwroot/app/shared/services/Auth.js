@@ -1,56 +1,43 @@
 angular.module('app.HRMatches')
-.service('AuthService',function($http,$q,$state,AppConfig,SessionService){
-	
-	var service = this;
+.service('AuthService',function($state,APIService,SessionService){
 
-	service.authenticate = function(data){
-		var data = data ? data : SessionService.getCurrentUser();
-		return $http({
-			method: 'POST',
-			url: AppConfig.APP_API_URL + '/authenticate',
-			data: data
-		});
+	this.authenticate = function(data){
+		return APIService.authenticate(data);
 	}
 	
-	service.logout = function(newState){
-		var data = SessionService.getCurrentUser();
-		$http({
-			method: 'GET',
-			url: AppConfig.APP_API_URL + '/logout/' + data
-		})
+	this.logout = function(tokens){
+		if(!tokens){
+			var currentUser = SessionService.getCurrentUser();
+			var tokens = [currentUser.token];
+		}
+		SessionService.removeCurrentUser();
+		return APIService.logout(tokens);
+	}
+
+	this.validateTokens = function(tokens){
+		var result = {profiles:[],selectedToken:undefined};
+
+		return APIService.validateTokens(tokens)		
 		.then(
 			function(successResponse){
-				SessionService.removeCurrentUser();
-				if(newState){
-					$state.go(newState);
-				}
-			},
-			function(errorResponse){
-				console.log('error @ '+ AppConfig.APP_API_URL + '/logout:\n' + errorResponse);
+				//ALL $http calls are resolved
+				angular.forEach(successResponse,function(successRespons,i,successResponse){
+					this.profiles.push(successRespons.data);
+				},result);
+				return result;
 			}
-		);
-	}
-	
-	service.validateTokens = function(tokens){
-		var result = [];
-		var deferred = $q.defer();
-		
-		// RETRIEVE MULTIPLE PROFILES
-		return $q.all(tokens.map(function(token){
-			return $http({
-				method: 'GET',
-				url: AppConfig.APP_API_URL + '/validate_token/' + token
-			})
-		}))
-		.then( //result of ALL $http calls
-			function(successResponse){
-				successResponse.forEach(function(val,i){
-					result.push(val.data);
+		)
+		.then(
+			function(result){
+				angular.forEach(result.profiles,function(profile,i,profiles){
+					if(profile.loggedIn){
+						result.selectedToken = profile.token;
+					}
 				});
 				return result;
 			},
 			function(errorResponse){
-				console.log('error in /validate_token! ',errorResponse);
+				console.log('validateTokens error: ',validateTokens);
 			}
 		);
 	}

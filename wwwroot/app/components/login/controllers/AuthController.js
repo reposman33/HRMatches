@@ -1,22 +1,12 @@
-/*
- * LOGIN MODULE
- * date:		february 2016
- * 
- * view:	/app/components/login/views/login.html
- * 
- * basic use case:
- * 	authentication via loginSubmit(). Response triggers /app/components/login/views/selectProfile.html only if user is logged in and/or has multiple profiles
- * 
- * */
-
 angular.module('app.HRMatches')
 .controller('AuthController',
-	['$scope','$http','$location','$modal','$state','AppConfig','AuthService','I18nService','SessionService','$stateParams',
-	 function($scope,$http,$location,$modal,$state,AppConfig,AuthService,I18nService,SessionService,$stateParams){
+	['$scope','$http','$location','$modal','$rootScope','$state','AppConfig','AuthService','I18nService','SessionService',
+	 function($scope,$http,$location,$modal,$rootScope,$state,AppConfig,AuthService,I18nService,SessionService){
+
+		var userProfilesModal;
 
 		//AUTHENTICATE
 		$scope.authenticate = function(){
-
 			var loginName = $scope.loginName || "";
 			var password = $scope.loginPassword || "";
 
@@ -29,31 +19,32 @@ angular.module('app.HRMatches')
 					password:$scope.loginPassword,
 					candidateOrigin: $location.host(),
 					deviceId:''
-				})				
+				})
 				.then(
 					function(successResponse){
 						// AUTHENTICATE SUCCESS
 						$scope.error = successResponse.status != 200
-						$scope.loginFeedbackText = $scope.error ? I18nService.getText(successResponse.data.message) : ""; //geen text vertonen bij status 200 - toon e-profile pagina
+						$scope.loginFeedbackText = $scope.error ? I18nService.getText(successResponse.data.message) : "";
 						$scope.tokens = successResponse.data.tokens; //authenticated accounts are identified by these tokens
-
-// SIMULATE OTHER USER SESSION ACTIVE
-successResponse.data.status = {}
-successResponse.data.status.loggedInWithProfile = true;
 
 						if(successResponse.data.status && successResponse.data.status.loggedInWithProfile){
 
 							// OTHER USER SESSION ACTIVE
 							$scope.loggedInWithProfileText = I18nService.getText('LOGIN_LOGGEDINWITHPROFILE');
+
 						}
 						if(successResponse.data.token.length > 1){
+
 							// MULTIPLE PROFILES
 							$scope.userHasMultipleProfiles = I18nService.getText('LOGIN_MULTIPLEPROFILES');
 							AuthService.validateTokens(successResponse.data.token)
 							.then(function(result){
-								$state.go('login.userprofiles',{profiles: result});
-							});
+								$scope.profiles = result.profiles;
+								$scope.selectedToken = result.selectedToken;
+								$state.go('login.userProfiles');
+							})
 						}
+
 					},
 					function(errorResponse){
 						// AUTHENTICATE ERROR
@@ -64,8 +55,7 @@ successResponse.data.status.loggedInWithProfile = true;
 			}
 			else{
 				// NO PASSWORD / USERNAME PROVIDED
-				$scope.loginFeedbackClass = AppConfig.APP_LOGIN_NOCREDENTIALS_FEEDBACK_CLASS;
-				$scope.loginFeedbackText = AppConfig.APP_LOGIN_NOCREDENTIALS_FEEDBACK_TEXT;
+				$scope.loginFeedbackText = I18nService.getText('LOGIN_NOCREDENTIALS');
 			}
 		}
 
@@ -104,16 +94,41 @@ successResponse.data.status.loggedInWithProfile = true;
 		}
 
 
-		$scope.confirmLogin = function(selectedProfile){
-			if(selectedProfile){
-				SessionService.setCurrentUser(selectedProfile);
+		$scope.confirmLogin = function(selectedToken){
+			var logoutTokens = [];
+
+			if(!selectedToken){
+				$state.go('login');
 			}
+			
+			//STORE SELECTED PROFILE
+			SessionService.setCurrentUser(selectedToken);
+
+// remove this if working
+$rootScope.selectedToken = selectedToken;
+
+			var tokens = SessionService.get('tokens');
+			angular.forEach(tokens,function(token){
+				if(token!=selectedToken){
+					logoutTokens.push(token);
+				}
+			});
+			// log other tokens out
+			if(logoutTokens.length){
+				AuthService.logout(logoutTokens)
+			}
+
 			$state.go(AppConfig.APP_NAVIGATION_ENTRYPOINT);
 		}
 
 
-		$scope.logout = function (newState){
-			AuthService.logout(newState);
+		$scope.logout = function (){
+			AuthService.logout();
+			$state.go('login');
+		}
+		
+		$scope.closeUserProfilesModal = function(){
+			userProfilesModal.close();
 		}
 	}
 ]);

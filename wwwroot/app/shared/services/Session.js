@@ -3,34 +3,46 @@ angular.module('app.HRMatches')
 	var service = this,
 		currentUser = null;
 	
-	service.setCurrentUser = function(userProfile){
-		currentUser = userProfile;
+	// USER MANAGEMENT
+	service.setCurrentUser = function(selectedToken){
+		store.set('currentUser',{'token':selectedToken,'loginTime':new Date().getTime()});
+	}
+
+	service.resetLoginTimeOut = function(){
+		var currentUser = service.getCurrentUser();
+		currentUser.loginTime = new Date().getTime();
 		store.set('currentUser',currentUser);
-		return currentUser;
 	}
-	
-	
+
 	service.getCurrentUser = function(){
-		if(!currentUser){
-			currentUser = store.get('currentUser');
-		} 
-		return currentUser;
+		return currentUser = store.get('currentUser');
 	}
-	
+
+	service.getCurrentUserToken = function(){
+		currentUser = store.get('currentUser');
+		return currentUser.token;
+	}
 
 	service.removeCurrentUser = function(){
-		if(!currentUser){
-			currentUser = store.get('currentUser');
-		} 
 		store.remove('currentUser');
-		console.log('U are logged out!!!');
 	}
 	
-
 	service.isLoggedIn = function(){
 		var currentUser;
 		currentUser = store.get('currentUser');
 
 		return (currentUser !== undefined && currentUser !== null);
 	}
+	
+
+	// STORE MISC SESSION DATA
+	service.get = function(key){
+		var result = store.get(key);
+		return result;
+	}
+	
+	service.set = function(key,value){
+		store.set(key,value);
+	}
+	
 })
