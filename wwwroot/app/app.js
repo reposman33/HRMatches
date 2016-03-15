@@ -1,9 +1,11 @@
-angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router'])
+angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ngMessages'])
 .constant('AppConfig',{
 	APP_API_URL: 'http://api-development.hrmatches.com',
+	APP_HOSTNAME: location.hostname,
 	APP_NAVIGATION_ENTRYPOINT: 'vacaturegids',
 	APP_NAVIGATION_CURRENTDOMAIN: document.location.protocol + '://' + document.location.hostname,
-	APP_SECURITY_LOGINTIMEOUT: 10*1000 // millisecs	
+	APP_SECURITY_SESSIONTIMEOUT: 20*60*1000,
+	APP_PUBLICSTATES: "login,login.userProfiles,login.modal.forgotPassword,login.resetPassword"
 })
 .run(function($rootScope,$state,AppConfig,AuthService,I18nService,SessionService){
 
@@ -16,7 +18,6 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router'])
 		function(I18nTexts){
 			I18nService.loadData(I18nTexts);
 		},function(errorResponse){
-			// er ging iets mis!!!
 			console.log('I18nService.init() errorresonse: ', errorResponse);
 		});
 
@@ -29,21 +30,25 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router'])
 	$rootScope.$on('$stateChangeStart',function(event, toState, toParams, fromState, fromParams, options){
 		var currentUser = SessionService.getCurrentUser();
 
-		// NO USER LOGGED IN, REDIRECT TO LOGIN
-		if(!currentUser && toState.name !== 'login'  && toState.name !== 'login.userProfiles'){
-			$state.go('login');
-			event.preventDefault();
+		if(!currentUser){
+			if(AppConfig.APP_PUBLICSTATES.indexOf(toState.name) == -1){
+				// NO USER LOGGED IN, REDIRECT TO LOGIN
+				$state.go('login');
+				event.preventDefault();
+			}
 		}
-		// USER LOGGED IN,CHECK SESSION TIMEOUT
-		else if(currentUser && new Date().getTime() - currentUser.loginTime > AppConfig.APP_SECURITY_LOGINTIMEOUT){
-			// LOGOUT WHEN SESSION EXPIRED
-			AuthService.logout();
-			$state.go('login');
-			event.preventDefault();
-		}
-		else if(currentUser){
-			// RESET TIMER
-			SessionService.resetLoginTimeOut();
+		else{
+			// USER LOGGED IN,CHECK SESSION TIMEOUT
+			if(new Date().getTime() - currentUser.loginTime > AppConfig.APP_SECURITY_SESSIONTIMEOUT){
+				// LOGOUT WHEN SESSION EXPIRED
+				AuthService.logout();
+				$state.go('login');
+				event.preventDefault();
+			}
+			else{
+				// RESET TIMER
+				SessionService.resetLoginTimeOut();
+			}
 		}
 	});
 
@@ -52,53 +57,77 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router'])
 	});
 
 })
-
+// STATES DEFINITIONS
 .config(['$stateProvider','$urlRouterProvider',function($stateProvider,$urlRouterProvider){
 	$urlRouterProvider
 	.otherwise('/login');
 
 	$stateProvider
-	.state('home',{
-		url: '/'
+	.state('message',{
+		url: '/message',
+		templateUrl: '/app/shared/views/message.html'
+	})
+	.state('modal-backdrop',{
+		views: {
+			'modal':{
+				templateUrl: '/app/shared/views/modal-backdrop.html',
+			}
+		},
 	})
 	.state('login',{
 		url: '/login',
 		views: {
 			'body':{
 				templateUrl: '/app/components/login/views/login.html',
-				controller:'AuthController',
-				authenticate: false
+				controller:'AuthController'
 			}
 		},
 	})
 	.state('login.userProfiles',{
 		url: '/userProfiles'
-		,authenticate: false
 		,views:{
 			'userProfiles':{
 				templateUrl: '/app/components/login/views/userProfiles.html'
 				,controller: 'AuthController'
-/*				,onEnter: function(){
-					// DON'T DISPLAY EMPTY USERPROFILES WINDOW
-					if(SessionService.get('userProfiles').length){
-						$modal.open({
-							templateUrl: '/app/components/login/views/userProfiles.html',
-							animation:true
-						})
-					}
-				}
-*/			}
+			}
 		}
 	})
-	.state('register',{
+	.state('login.2StepAuthentication',{
+		url:'2StepAuthentication',
+		templateUrl:'/app/components/login/views/2stepAuthentication.html'
+	})
+	.state('login.register',{
 		url: '/register',
 		templateUrl:'/app/components/register/views/register.html',
-		controller:'RegisterController',
-		authenticate: false
+		controller:'RegisterController'
 	})
+	.state('login.forgotPassword',{
+		url: '/forgotPassword',
+		views: {
+			'forgotPassword':{
+				templateUrl: '/app/components/login/views/forgotPassword.html',
+				controller:'AuthController'
+			}
+		}
+	})
+	.state('login.resetPassword',{
+		url: '/resetPassword/{validateToken}',
+		views:{
+			'resetPassword': {
+				templateUrl: '/app/components/login/views/resetPassword.html',
+				onEnter: function(){
+					AuthService.validatePasswordResetToken($stateParams.validatetoken)
+					.then(function(validateResponse){
+						if(!validateResponse.data.VALIDATE_OK){
+							$state.go('message',{message:validateResponse.data.message})
+						}
+					})
+				}
+			}
+		}
+	}
 	.state('vacaturegids',{
 		url: '/vacaturegids',
-		authenticate: true,
 		views: {
 			'body@':{
 				templateUrl: '/app/components/vacaturegids/views/vacaturegids.html'
@@ -111,9 +140,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router'])
 	})
 	.state('default',{
 		url: '/default',
-		templateUrl:'/app/shared/views/default.html',
-		authenticate: false
+		templateUrl:'/app/shared/views/default.html'
 	})
-
 }])
 

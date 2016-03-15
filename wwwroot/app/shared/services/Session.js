@@ -33,7 +33,6 @@ angular.module('app.HRMatches')
 
 		return (currentUser !== undefined && currentUser !== null);
 	}
-	
 
 	// STORE MISC SESSION DATA
 	service.get = function(key){

@@ -4,7 +4,7 @@ angular.module('app.HRMatches')
 	this.authenticate = function(data){
 		return APIService.authenticate(data);
 	}
-	
+
 	this.logout = function(tokens){
 		if(!tokens){
 			var currentUser = SessionService.getCurrentUser();
@@ -41,4 +41,30 @@ angular.module('app.HRMatches')
 			}
 		);
 	}
+
+	// chaining promises http://solutionoptimist.com/2013/12/27/javascript-promise-chains-2/
+	//data = {hostName:...,emailAddress:...}
+	this.requestPasswordReset = function(data){
+		return APIService.requestPasswordReset(data)
+		.then(function(data){
+			return data;
+		});
+	}
+
+	//data = {passwordResetToken:...}
+	this.validatePasswordResetToken = function(data){
+		return API.validatePasswordResetToken(data)
+		.then(function(data){ //data:{validate_OK:...}
+			return data;
+		})
+	}
+
+	this.updatePassword = function(data){
+		 //data = {password:...,passwordResetToken:...,email:...}
+		return API.updatePassword(data)
+		.then(function(data){
+			return data; // {update_OK:...}}
+		})
+	}
+
 })

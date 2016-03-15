@@ -1,0 +1,5 @@
+ontdekjouwtalent remake todo list
+
+forgot password window maken;
+2 step authentication window maken;
+alle ui teksten in code vervangen door I18nService() calls naar keys en overzicht genereren van de gebruikte keys;

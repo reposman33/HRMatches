@@ -12,7 +12,7 @@ angular.module('app.HRMatches')
 
 			$scope.loginFeedbackText = "";
 			$scope.profiles = [];
-			
+
 			if(loginName.length && password.length){
 				AuthService.authenticate({
 					username: $scope.loginName,
@@ -60,22 +60,22 @@ angular.module('app.HRMatches')
 		}
 
 		// FORGOT PASSWORD
-		$scope.forgotPassword = function(){
-			$http({
-				method: 'POST',
-				url: AppConfig.APP_API_URL + '/resetpassword',
-				data: {loginName: $scope.loginName}
-			}).then(
-				function(successResponse){
-					console.log(successResponse)
-				 },
-				function(errorResponse){
-					 console.log(errorResponse)
-				}
-			);
+		$scope.forgotPassword = function(emailAddress){
+			AuthService.requestPasswordReset({hostName:AppConfig.APP_HOSTNAME,emailAddress:emailAddress})
+			.then(function(successResponse){
+				$scope.message = I18nService.getText('successResponse.data.message');
+			});
 		}
-		
-		
+
+
+		$scope.updatePassword = function(data){
+			 //data = {password:...,passwordResetToken:...,email:...}
+			return AuthService.updatePassword(data)
+			.then(function(data){
+				return data; // {update_OK:...}}
+			})
+		}
+
 		// REGISTER
 		$scope.register = function(){
 			$http({
@@ -94,18 +94,15 @@ angular.module('app.HRMatches')
 		}
 
 
+		// LOGIN NA PROFIEL SELECTIE
 		$scope.confirmLogin = function(selectedToken){
 			var logoutTokens = [];
 
 			if(!selectedToken){
 				$state.go('login');
 			}
-			
-			//STORE SELECTED PROFILE
-			SessionService.setCurrentUser(selectedToken);
 
-// remove this if working
-$rootScope.selectedToken = selectedToken;
+			SessionService.setCurrentUser(selectedToken);
 
 			var tokens = SessionService.get('tokens');
 			angular.forEach(tokens,function(token){
@@ -126,9 +123,17 @@ $rootScope.selectedToken = selectedToken;
 			AuthService.logout();
 			$state.go('login');
 		}
-		
+
+
 		$scope.closeUserProfilesModal = function(){
 			userProfilesModal.close();
 		}
-	}
+
+
+		// 2STEP AUTHENTICATION
+		$scope.twoStepAuthenticationSubmit = function(code){
+
+		}
+}
+
 ]);

@@ -20,19 +20,19 @@ angular.module('app.HRMatches')
 		},
 
 		loadData: function(I18nResponse){
-			_I18nTexts = I18nResponse;
+			this._I18nTexts = I18nResponse;
 		},
 
 		getText: function(id){
 			var result = id;
 
-			angular.forEach(_I18nTexts,function(obj,index,array){
+			angular.forEach(this._I18nTexts,function(obj,index,array){
 				if(obj.id == id){
 					result = obj.DisplayName;
 					return;
 				}
 			});
-			return result != "" ? result : id;
+			return result != "" ? result : "id";
 		}
 	}
 }])
