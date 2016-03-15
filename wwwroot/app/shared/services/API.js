@@ -1,5 +1,5 @@
 angular.module('app.HRMatches')
-.service('APIService',function($http,$q,$state,AppConfig){
+.service('APIService',function($http,$timeout,$q,$state,$q,AppConfig){
 
 	this.authenticate = function(data){
 		return $http({
@@ -42,14 +42,25 @@ angular.module('app.HRMatches')
 		})
 	}
 
-	this.validatePasswordResetToken = function(data){
+	this.validatePasswordResetToken = function(passwordToken){
 		return $http({
 			method: 'GET',
 			url: AppConfig.APP_API_URL + '/validatePasswordResetToken',
 			data: {
-				passwordToken: data.passwordToken
+				passwordToken: passwordToken 
 			}
 		})
+	}
+
+	this.validatePasswordResetTokenMock = function(validate){
+		var deferred = $q.defer();
+		
+		$timeout(function(){
+			deferred.resolve({data:{validate_ok:validate.validate_ok,message:validate.message}}),
+			3000
+		});
+
+		return deferred.promise;
 	}
 
 	this.updatePassword = function(data){
@@ -58,8 +69,7 @@ angular.module('app.HRMatches')
 			url: AppConfig.APP_API_URL + '/updatePassword',
 			data: {
 				password: data.password,
-				passwordToken: data.passwordToken,
-				emailaddress: data.emailAddress
+				passwordToken: data.passwordToken
 			}
 		})
 	}

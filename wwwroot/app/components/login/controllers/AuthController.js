@@ -63,16 +63,15 @@ angular.module('app.HRMatches')
 		$scope.forgotPassword = function(emailAddress){
 			AuthService.requestPasswordReset({hostName:AppConfig.APP_HOSTNAME,emailAddress:emailAddress})
 			.then(function(successResponse){
-				$scope.message = I18nService.getText('successResponse.data.message');
+				$scope.message = I18nService.getText(successResponse.data.message);
 			});
 		}
 
 
-		$scope.updatePassword = function(data){
-			 //data = {password:...,passwordResetToken:...,email:...}
-			return AuthService.updatePassword(data)
+		$scope.updatePassword = function(newPassword,validateToken){
+			return AuthService.updatePassword({password:newPassword,passwordToken:SessionService.get('validateToken')})
 			.then(function(data){
-				return data; // {update_OK:...}}
+				$state.go('message',{message:data.message});
 			})
 		}
 
@@ -121,7 +120,7 @@ angular.module('app.HRMatches')
 
 		$scope.logout = function (){
 			AuthService.logout();
-			$state.go('login');
+			$state.go('login',{reload:true});
 		}
 
 

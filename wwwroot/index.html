@@ -32,6 +32,7 @@
 	<script type="text/javascript" src="/app/shared/components/navigation/controllers/NavigationController.js"></script>
 	<script type="text/javascript" src="/app/shared/services/I18n.js"></script>
 	<script type="text/javascript" src="/app/shared/services/Auth.js"></script>
+	<script type="text/javascript" src="/app/shared/services/Utils.js"></script>
 	<script type="text/javascript" src="/app/shared/services/Session.js"></script>
 	<script type="text/javascript" src="/app/shared/services/API.js"></script>
 </head>
@@ -42,6 +43,7 @@
 
 	<div class="header">
 		<div ui-view="header"></div>
+		<div class="pull-right">{{UtilsService.debug('Loggedin: '+AuthService.isLoggedIn())}}</div>
 	</div>
 
 	<div class="row">

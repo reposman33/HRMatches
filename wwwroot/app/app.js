@@ -2,17 +2,20 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ng
 .constant('AppConfig',{
 	APP_API_URL: 'http://api-development.hrmatches.com',
 	APP_HOSTNAME: location.hostname,
+	APP_ISLOCAL: "127.0.0.1".indexOf(location.hostname) != -1,
 	APP_NAVIGATION_ENTRYPOINT: 'vacaturegids',
 	APP_NAVIGATION_CURRENTDOMAIN: document.location.protocol + '://' + document.location.hostname,
 	APP_SECURITY_SESSIONTIMEOUT: 20*60*1000,
-	APP_PUBLICSTATES: "login,login.userProfiles,login.modal.forgotPassword,login.resetPassword"
+	APP_PUBLICSTATES: "login,login.userProfiles,login.modal.forgotPassword,login.forgotPassword,login.resetPassword,message"
 })
-.run(function($rootScope,$state,AppConfig,AuthService,I18nService,SessionService){
+.run(function($rootScope,$state,AppConfig,AuthService,I18nService,SessionService,UtilsService){
 
 	// perform any site-wide initialisation here
 	$rootScope.$state = $state;
 	$rootScope.I18nService = I18nService;
-	
+	$rootScope.AuthService = AuthService;
+	$rootScope.UtilsService = UtilsService;
+
 	I18nService.init()
 	.then(
 		function(I18nTexts){
@@ -23,6 +26,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ng
 
 
 	$rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, options) {
+		console.error('ERROR $stateChangeError:', arguments);
 		$state.go('login');
 	});
 
@@ -54,18 +58,40 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ng
 
 
 	$rootScope.$on('$stateChangeSuccess',function(event, toState, toParams, fromState, fromParams, options){
+		console.log('SUCCESS $stateChangeSuccess:', arguments);
 	});
 
 })
+
 // STATES DEFINITIONS
+
 .config(['$stateProvider','$urlRouterProvider',function($stateProvider,$urlRouterProvider){
 	$urlRouterProvider
 	.otherwise('/login');
 
 	$stateProvider
+	.state('home',{
+		views:{
+			'header': {
+				templateUrl: '/app/shared/components/navigation/views/navigation.html',
+				controller: 'AuthController'
+			}
+		},
+		abstract: true
+	})
 	.state('message',{
-		url: '/message',
-		templateUrl: '/app/shared/views/message.html'
+		url: '/message/',
+		params:{
+			message: null
+		},
+		views:{
+			'body': {
+				controller: function($scope,$stateParams,I18nService){
+					$scope.message = I18nService.getText($stateParams.message);
+				},
+				templateUrl: '/app/shared/views/message.html'
+			}
+		}
 	})
 	.state('modal-backdrop',{
 		views: {
@@ -77,6 +103,14 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ng
 	.state('login',{
 		url: '/login',
 		views: {
+			'header':{
+				templateProvider: function($templateFactory,AuthService){
+					if(AuthService.isLoggedIn()){
+						return $templateFactory.fromUrl('/app/shared/components/navigation/views/navigation.html')
+					}
+				},
+				controller: 'AuthController'
+			},
 			'body':{
 				templateUrl: '/app/components/login/views/login.html',
 				controller:'AuthController'
@@ -112,29 +146,34 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ng
 	})
 	.state('login.resetPassword',{
 		url: '/resetPassword/{validateToken}',
-		views:{
-			'resetPassword': {
-				templateUrl: '/app/components/login/views/resetPassword.html',
-				onEnter: function(){
-					AuthService.validatePasswordResetToken($stateParams.validatetoken)
-					.then(function(validateResponse){
-						if(!validateResponse.data.VALIDATE_OK){
-							$state.go('message',{message:validateResponse.data.message})
-						}
-					})
-				}
+		resolve: {
+			validateResponse: function($stateParams,AuthService,SessionService){
+				return AuthService.validatePasswordResetToken($stateParams.validateToken)
+				.then(function(validateResponse){
+					SessionService.set('validateToken',$stateParams.validateToken);
+					return validateResponse.data; //{validate_ok:true/false,message:I18nKey}
+				})
+			}
+		},
+		onEnter: function($stateParams,$state,validateResponse){
+			if(validateResponse.validate_ok){
+				// do nothing, go to resetPassword
+			}
+			else{
+				$state.go('message',{message:validateResponse.message});
+			}
+		},
+		views: {
+			'forgotPassword': {
+				templateUrl: '/app/components/login/views/resetPassword.html'
 			}
 		}
-	}
+	})
 	.state('vacaturegids',{
 		url: '/vacaturegids',
 		views: {
 			'body@':{
 				templateUrl: '/app/components/vacaturegids/views/vacaturegids.html'
-			},
-			'header@':{
-				templateUrl: '/app/shared/components/navigation/views/navigation.html',
-				controller: 'AuthController'
 			}
 		}
 	})

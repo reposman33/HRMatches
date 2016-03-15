@@ -47,24 +47,29 @@ angular.module('app.HRMatches')
 	this.requestPasswordReset = function(data){
 		return APIService.requestPasswordReset(data)
 		.then(function(data){
-			return data;
+			return data;//{validate_ok:true/false,message:I18nKey}
 		});
 	}
 
 	//data = {passwordResetToken:...}
 	this.validatePasswordResetToken = function(data){
-		return API.validatePasswordResetToken(data)
-		.then(function(data){ //data:{validate_OK:...}
+		return APIService.validatePasswordResetTokenMock({validate_ok:true,message:'Yes!! de token is geldig!!'})
+/*		return APIService.validatePasswordResetToken(data)
+		.then(function(data){ //data:{validate_OK:...,message:...}
 			return data;
 		})
-	}
+*/	}
 
 	this.updatePassword = function(data){
-		 //data = {password:...,passwordResetToken:...,email:...}
-		return API.updatePassword(data)
+		 //data = {password:...,passwordResetToken:...}
+		return APIService.updatePassword(data)
 		.then(function(data){
 			return data; // {update_OK:...}}
 		})
+	}
+	
+	this.isLoggedIn = function(){
+		return SessionService.isLoggedIn();
 	}
 
 })
