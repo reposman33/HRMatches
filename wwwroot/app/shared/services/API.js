@@ -34,9 +34,9 @@ angular.module('app.HRMatches')
 	this.requestPasswordReset = function(data){
 		return $http({
 			method: 'POST',
-			url: AppConfig.APP_API_URL + '/requestPasswordReset',
+			url: AppConfig.APP_API_URL + '/forgotPassword',
 			data: {
-				hostname: data.hostname,
+				hostname: data.hostName,
 				emailaddress: data.emailAddress
 			}
 		})
@@ -44,7 +44,7 @@ angular.module('app.HRMatches')
 
 	this.validatePasswordResetToken = function(passwordToken){
 		return $http({
-			method: 'GET',
+			method: 'POST',
 			url: AppConfig.APP_API_URL + '/validatePasswordResetToken',
 			data: {
 				passwordToken: passwordToken 
@@ -69,7 +69,7 @@ angular.module('app.HRMatches')
 			url: AppConfig.APP_API_URL + '/updatePassword',
 			data: {
 				password: data.password,
-				passwordToken: data.passwordToken
+				secretKey: data.secretKey
 			}
 		})
 	}

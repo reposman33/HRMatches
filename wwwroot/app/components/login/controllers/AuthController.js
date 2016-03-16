@@ -3,8 +3,6 @@ angular.module('app.HRMatches')
 	['$scope','$http','$location','$modal','$rootScope','$state','AppConfig','AuthService','I18nService','SessionService',
 	 function($scope,$http,$location,$modal,$rootScope,$state,AppConfig,AuthService,I18nService,SessionService){
 
-		var userProfilesModal;
-
 		//AUTHENTICATE
 		$scope.authenticate = function(){
 			var loginName = $scope.loginName || "";
@@ -59,6 +57,7 @@ angular.module('app.HRMatches')
 			}
 		}
 
+
 		// FORGOT PASSWORD
 		$scope.forgotPassword = function(emailAddress){
 			AuthService.requestPasswordReset({hostName:AppConfig.APP_HOSTNAME,emailAddress:emailAddress})
@@ -68,13 +67,14 @@ angular.module('app.HRMatches')
 		}
 
 
-		$scope.updatePassword = function(newPassword,validateToken){
-			return AuthService.updatePassword({password:newPassword,passwordToken:SessionService.get('validateToken')})
+		$scope.updatePassword = function(newPassword){
+			return AuthService.updatePassword({password:newPassword,secretKey:SessionService.get('secretKey')})
 			.then(function(data){
 				$state.go('message',{message:data.message});
-			})
+			});
 		}
-
+			
+			
 		// REGISTER
 		$scope.register = function(){
 			$http({
@@ -121,11 +121,6 @@ angular.module('app.HRMatches')
 		$scope.logout = function (){
 			AuthService.logout();
 			$state.go('login',{reload:true});
-		}
-
-
-		$scope.closeUserProfilesModal = function(){
-			userProfilesModal.close();
 		}
 
 

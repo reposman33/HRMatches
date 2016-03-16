@@ -7,7 +7,10 @@ angular.module('app.HRMatches')
 			return $http({
 				method:'POST',
 				url: AppConfig.APP_API_URL + '/translation',
-				data:{language: 'en_US'}
+				data:{
+					language: 'en_US',
+					languageKey: ''
+					}
 			})
 			.then(
 				function(successResponse){
@@ -19,6 +22,7 @@ angular.module('app.HRMatches')
 			);
 		},
 
+		
 		loadData: function(I18nResponse){
 			this._I18nTexts = I18nResponse;
 		},

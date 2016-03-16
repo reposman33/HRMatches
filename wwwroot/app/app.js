@@ -21,7 +21,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ng
 		function(I18nTexts){
 			I18nService.loadData(I18nTexts);
 		},function(errorResponse){
-			console.log('I18nService.init() errorresonse: ', errorResponse);
+			console.log('I18nService.init() errorresponse: ', errorResponse);
 		});
 
 
@@ -58,12 +58,15 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ng
 
 
 	$rootScope.$on('$stateChangeSuccess',function(event, toState, toParams, fromState, fromParams, options){
-		console.log('SUCCESS $stateChangeSuccess:', arguments);
 	});
 
 })
 
-// STATES DEFINITIONS
+/*
+ * 
+ * === START STATES DEFINITIONS ===
+ * 
+ */
 
 .config(['$stateProvider','$urlRouterProvider',function($stateProvider,$urlRouterProvider){
 	$urlRouterProvider
@@ -96,33 +99,31 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ng
 	.state('modal-backdrop',{
 		views: {
 			'modal':{
-				templateUrl: '/app/shared/views/modal-backdrop.html',
+				templateUrl: '/app/shared/views/modal-backdrop.html'
 			}
 		},
 	})
-	.state('login',{
-		url: '/login',
-		views: {
-			'header':{
-				templateProvider: function($templateFactory,AuthService){
-					if(AuthService.isLoggedIn()){
-						return $templateFactory.fromUrl('/app/shared/components/navigation/views/navigation.html')
-					}
-				},
-				controller: 'AuthController'
-			},
-			'body':{
-				templateUrl: '/app/components/login/views/login.html',
-				controller:'AuthController'
-			}
-		},
-	})
+    .state('login',{
+        url: '/login',
+        views: {
+            'header':{
+                templateProvider: function($templateFactory,AuthService){
+                    if(AuthService.isLoggedIn()){
+                        return $templateFactory.fromUrl('/app/shared/components/navigation/views/navigation.html')
+                    }
+                },
+            },
+            'body':{
+                templateUrl: '/app/components/login/views/login.html'
+                ,controller: 'AuthController'
+            }
+        },
+    })
 	.state('login.userProfiles',{
 		url: '/userProfiles'
 		,views:{
 			'userProfiles':{
 				templateUrl: '/app/components/login/views/userProfiles.html'
-				,controller: 'AuthController'
 			}
 		}
 	})
@@ -132,54 +133,58 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ng
 	})
 	.state('login.register',{
 		url: '/register',
-		templateUrl:'/app/components/register/views/register.html',
-		controller:'RegisterController'
+		templateUrl:'/app/components/register/views/register.html'
 	})
 	.state('login.forgotPassword',{
 		url: '/forgotPassword',
 		views: {
 			'forgotPassword':{
-				templateUrl: '/app/components/login/views/forgotPassword.html',
-				controller:'AuthController'
+				templateUrl: '/app/components/login/views/forgotPassword.html'
 			}
 		}
 	})
 	.state('login.resetPassword',{
-		url: '/resetPassword/{validateToken}',
-		resolve: {
+		url: '/resetPassword/{secretKey}'
+		,resolve: {
 			validateResponse: function($stateParams,AuthService,SessionService){
-				return AuthService.validatePasswordResetToken($stateParams.validateToken)
-				.then(function(validateResponse){
-					SessionService.set('validateToken',$stateParams.validateToken);
-					return validateResponse.data; //{validate_ok:true/false,message:I18nKey}
-				})
+								return AuthService.validatePasswordResetToken($stateParams.secretKey)
+								.then(function(validateResponse){
+									SessionService.set('secretKey',$stateParams.secretKey);
+									return validateResponse.data; //{validate_ok:true/false}
+								})
 			}
-		},
-		onEnter: function($stateParams,$state,validateResponse){
+		}
+		,onEnter: function($stateParams,$state,validateResponse){
 			if(validateResponse.validate_ok){
 				// do nothing, go to resetPassword
 			}
 			else{
 				$state.go('message',{message:validateResponse.message});
 			}
-		},
-		views: {
+		}
+		,views: {
 			'forgotPassword': {
 				templateUrl: '/app/components/login/views/resetPassword.html'
+				,controller: 'AuthController'
 			}
 		}
 	})
 	.state('vacaturegids',{
-		url: '/vacaturegids',
-		views: {
+		url: '/vacaturegids'
+		,views: {
 			'body@':{
 				templateUrl: '/app/components/vacaturegids/views/vacaturegids.html'
 			}
 		}
 	})
 	.state('default',{
-		url: '/default',
-		templateUrl:'/app/shared/views/default.html'
+		url: '/default'
+		,templateUrl:'/app/shared/views/default.html'
 	})
-}])
+	/*
+	 * 
+	 * === END STATES DEFINITIONS ===
+	 * 
+	 */
 
+}])

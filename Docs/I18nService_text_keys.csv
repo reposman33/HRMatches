@@ -1,0 +1,27 @@
+key,,omschrijving
+,,
+LOGIN_LOGGEDINWITHPROFILE,,Gebruiker is al ingelogd met profiel en authenticeert nu opnieuw
+LOGIN_MULTIPLEPROFILES,,Gebruiker is geauthenticeerd en moet een proifiel kiezen uit meerdere profielen om mee in te loggen
+LOGIN_NOCREDENTIALS,,Gebruiker klikt op de login submit knop maar heeft (niet alle) credentials ingevuld
+LOGIN_EMAILADDRESS_INPUTFIELDLABEL,,Login scherm: label bij het e-mail input veld
+LOGIN_PASSWORDFIELDLABEL,,Login scherm: label bij het password input veld
+LOGIN_EMAILADDRESS_INVALID,,Login scherm: ingevulde e-mail adres is ongeldig
+LOGIN_PASSWORDFIELDPLACEHOLDER,,Login scherm: placeholder tekst in password input veld
+LOGIN_PASSWORDFIELDLOGINBUTTON,,Login scherm: submit button tekst
+LOGIN_FORGOTPASSWORDHEADER,,
+LOGIN_FORGOTPASSWORDINPUTFIELDPLACEHOLDER,,
+LOGIN_FORGOTPASSWORDINPUTFIELDLABEL,,
+LOGIN_FORGOTPASSWORDGOLOGINLINK,,
+LOGIN_FORGOTPASSWORDBUTTON,,Login scherm: tekst voor forgot password button
+LOGIN_REGISTERBUTTON,,Login scherm: tekst voor Registreer button
+LOGIN_REGISTERBUTTONLINK,,Login scherm: tekst voor Registreer button <a>tekst</a>
+,,
+LOGIN_RESETPASSWORDHEADER,,
+LOGIN_RESETPASSWORDINPUTFIELDLABELCONFIRM,,
+,,Two-step authentication: tekst bij inputveld voor code
+LOGIN_RESETPASSWORDHEADER,,Two-step authentication: tekst bij submit button
+2STEPAUTH_INPUTFIELDLABEL,,Two-step authentication: placeholder tekst bij input veld
+2STEPAUTH_SUBMITBUTTON,,Two-step authentication:  header tekst voor window
+2STEPAUTH_INPUTFIELDPLACEHOLDER,,Navigatie balk: tekst voor  optie 'Logout'
+2STEPAUTH_HEADER,,
+NAVBAR_LOGOUT,,
