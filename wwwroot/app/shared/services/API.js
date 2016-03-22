@@ -31,10 +31,10 @@ angular.module('app.HRMatches')
 	}
 
 	// FORGOTPASSWORD
-	this.requestPasswordReset = function(data){
+	this.forgotPassword = function(data){
 		return $http({
 			method: 'POST',
-			url: AppConfig.APP_API_URL + '/forgotPassword',
+			url: AppConfig.APP_API_URL + '/forgotpassword',
 			data: {
 				hostname: data.hostName,
 				emailaddress: data.emailAddress
@@ -42,34 +42,33 @@ angular.module('app.HRMatches')
 		})
 	}
 
-	this.validatePasswordResetToken = function(passwordToken){
+	this.validateSecretKey = function(secretKey){
 		return $http({
-			method: 'POST',
-			url: AppConfig.APP_API_URL + '/validatePasswordResetToken',
-			data: {
-				passwordToken: passwordToken 
+			method: 'POST'
+			,url: AppConfig.APP_API_URL + '/validate_secretkey'
+			,data:{
+				secretkey: secretKey
 			}
 		})
 	}
 
-	this.validatePasswordResetTokenMock = function(validate){
+	this.validateSecretKeyMock = function(secretKey){
 		var deferred = $q.defer();
-		
 		$timeout(function(){
-			deferred.resolve({data:{validate_ok:validate.validate_ok,message:validate.message}}),
+			deferred.resolve({data:{validate_ok:secretKey.validate_ok,message:secretKey.message}}),
 			3000
 		});
 
 		return deferred.promise;
 	}
 
-	this.updatePassword = function(data){
+	this.resetPassword = function(data){
 		return $http({
-			method: 'GET',
-			url: AppConfig.APP_API_URL + '/updatePassword',
+			method: 'POST',
+			url: AppConfig.APP_API_URL + '/resetpassword',
 			data: {
-				password: data.password,
 				secretKey: data.secretKey
+				,password: data.password
 			}
 		})
 	}

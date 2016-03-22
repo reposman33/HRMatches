@@ -36,7 +36,7 @@ angular.module('app.HRMatches')
 					return;
 				}
 			});
-			return result != "" ? result : "id";
+			return result != "" ? result : id;
 		}
 	}
 }])

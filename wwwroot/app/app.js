@@ -1,12 +1,12 @@
 angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ngMessages'])
 .constant('AppConfig',{
 	APP_API_URL: 'http://api-development.hrmatches.com',
-	APP_HOSTNAME: location.hostname,
+	APP_HOSTNAME: '127.0.0.1', //location.hostname,
 	APP_ISLOCAL: "127.0.0.1".indexOf(location.hostname) != -1,
 	APP_NAVIGATION_ENTRYPOINT: 'vacaturegids',
 	APP_NAVIGATION_CURRENTDOMAIN: document.location.protocol + '://' + document.location.hostname,
 	APP_SECURITY_SESSIONTIMEOUT: 20*60*1000,
-	APP_PUBLICSTATES: "login,login.userProfiles,login.modal.forgotPassword,login.forgotPassword,login.resetPassword,message"
+	APP_PUBLICSTATES: "login,login.userProfiles,login.modal.forgotPassword,login.forgotPassword,login.resetPassword,message",
 })
 .run(function($rootScope,$state,AppConfig,AuthService,I18nService,SessionService,UtilsService){
 
@@ -24,13 +24,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ng
 			console.log('I18nService.init() errorresponse: ', errorResponse);
 		});
 
-
-	$rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, options) {
-		console.error('ERROR $stateChangeError:', arguments);
-		$state.go('login');
-	});
-
-
+	
 	$rootScope.$on('$stateChangeStart',function(event, toState, toParams, fromState, fromParams, options){
 		var currentUser = SessionService.getCurrentUser();
 
@@ -41,7 +35,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ng
 				event.preventDefault();
 			}
 		}
-		else{
+		else if(AppConfig.APP_PUBLICSTATES.indexOf(toState.name) == -1){
 			// USER LOGGED IN,CHECK SESSION TIMEOUT
 			if(new Date().getTime() - currentUser.loginTime > AppConfig.APP_SECURITY_SESSIONTIMEOUT){
 				// LOGOUT WHEN SESSION EXPIRED
@@ -50,9 +44,14 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ng
 				event.preventDefault();
 			}
 			else{
+				
 				// RESET TIMER
 				SessionService.resetLoginTimeOut();
 			}
+		}
+		else{
+			$state.go(fromState.name);
+			event.preventDefault();
 		}
 	});
 
@@ -144,14 +143,19 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ng
 		}
 	})
 	.state('login.resetPassword',{
-		url: '/resetPassword/{secretKey}'
+		url: '/resetPassword/:key'
 		,resolve: {
-			validateResponse: function($stateParams,AuthService,SessionService){
-								return AuthService.validatePasswordResetToken($stateParams.secretKey)
-								.then(function(validateResponse){
-									SessionService.set('secretKey',$stateParams.secretKey);
-									return validateResponse.data; //{validate_ok:true/false}
-								})
+			validateResponse:
+				function($stateParams,AuthService,SessionService){
+					return AuthService.validateSecretKey($stateParams.key)
+					.then(function(successResponse){
+						SessionService.set('secretKey',$stateParams.key);
+						return {validate_ok:successResponse.data.message}
+					}
+					,function(errorResponse){
+						SessionService.set('secretKey',$stateParams.key);
+						return {validate_ok:errorResponse.data.message}
+					})
 			}
 		}
 		,onEnter: function($stateParams,$state,validateResponse){
@@ -159,7 +163,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ng
 				// do nothing, go to resetPassword
 			}
 			else{
-				$state.go('message',{message:validateResponse.message});
+				$state.go('message',{message:validateResponse.validate_ok});
 			}
 		}
 		,views: {
@@ -174,6 +178,10 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ng
 		,views: {
 			'body@':{
 				templateUrl: '/app/components/vacaturegids/views/vacaturegids.html'
+			}
+			,'header': {
+				templateUrl: '/app/shared/components/navigation/views/navigation.html',
+				controller: 'AuthController'
 			}
 		}
 	})

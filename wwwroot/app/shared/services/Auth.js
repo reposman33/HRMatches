@@ -44,25 +44,25 @@ angular.module('app.HRMatches')
 
 	// chaining promises http://solutionoptimist.com/2013/12/27/javascript-promise-chains-2/
 	//data = {hostName:...,emailAddress:...}
-	this.requestPasswordReset = function(data){
-		return APIService.requestPasswordReset(data)
+	this.forgotPassword = function(data){
+		return APIService.forgotPassword(data)
 		.then(function(data){
 			return data;//{validate_ok:true/false,message:I18nKey}
 		});
 	}
 
 	//data = {passwordResetToken:...}
-	this.validatePasswordResetToken = function(data){
-		return APIService.validatePasswordResetTokenMock({validate_ok:true,message:'Yes!! de token is geldig!!'})
-/*		return APIService.validatePasswordResetToken(data)
+	this.validateSecretKey = function(key){
+		return APIService.validateSecretKeyMock({validate_ok:true,message:'Yes!! de token is geldig!!'})
+/*		return APIService.validateSecretKey(encodeURIComponent(key))
 		.then(function(data){ //data:{validate_OK:...,message:...}
 			return data;
 		})
 */	}
 
-	this.updatePassword = function(data){
+	this.resetPassword = function(data){
 		 //data = {password:...,passwordResetToken:...}
-		return APIService.updatePassword(data)
+		return APIService.resetPassword(data)
 		.then(function(data){
 			return data; // {update_OK:...}}
 		})

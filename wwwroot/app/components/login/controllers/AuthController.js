@@ -60,18 +60,38 @@ angular.module('app.HRMatches')
 
 		// FORGOT PASSWORD
 		$scope.forgotPassword = function(emailAddress){
-			AuthService.requestPasswordReset({hostName:AppConfig.APP_HOSTNAME,emailAddress:emailAddress})
-			.then(function(successResponse){
-				$scope.message = I18nService.getText(successResponse.data.message);
-			});
+			AuthService.forgotPassword({
+				hostName:AppConfig.APP_HOSTNAME,
+				emailAddress:emailAddress
+			})
+			.then(
+				function(successResponse){
+					$scope.message = successResponse.data.message;
+					//$state.go('message',{message:successResponse.data.message});
+				}
+				,function(errorResponse){
+					$scope.message = errorResponse.data.message;
+					//$state.go('message',{message:errorResponse.data.message});
+				}
+			);
 		}
 
 
-		$scope.updatePassword = function(newPassword){
-			return AuthService.updatePassword({password:newPassword,secretKey:SessionService.get('secretKey')})
-			.then(function(data){
-				$state.go('message',{message:data.message});
-			});
+		$scope.resetPassword = function(newPassword){
+			return AuthService.resetPassword(
+					{
+						password:newPassword
+						,secretKey:SessionService.get('secretKey')
+					}
+			)
+			.then(
+				function(successResponse){
+					$state.go('message',{message:successResponse.data.message});
+				}
+				,function(errorResponse){
+					$state.go('message',{message:errorResponse.data.message});
+				}
+			);
 		}
 			
 			
