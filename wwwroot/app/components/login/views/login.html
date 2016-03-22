@@ -38,7 +38,7 @@
 							<button class="btn btn-success btn-block pull-right" ng-click="authenticate()">{{I18nService.getText('LOGIN_PASSWORDFIELDLOGINBUTTON')}}</button>
 						</div>
 
-						<div class="col-md-4"></div>
+						<div class="col-md-4"></div>	
 						<div class="col-md-8 alert" ng-class="{'alert-error':error}" ng-show="loginFeedbackText.length">{{loginFeedbackText}}</div>
 					</div>
 
@@ -48,7 +48,8 @@
 						</div>
 						<div>
 							<div class="col-md-6">
-								<h5>{{I18nService.getText('LOGIN_REGISTERBUTTON')}}&nbsp;<a ng-href="#/register">{{I18nService.getText('LOGIN_REGISTERBUTTONLINK')}}</a></h5>
+								<h5>{{I18nService.getText('LOGIN_REGISTERBUTTON')}}&nbsp;
+								<a ui-sref="register" ui-sref-opts="{reload: true}">{{I18nService.getText('LOGIN_REGISTERBUTTONLINK')}}</a></h5>
 							</div>
 						</div>
 					</div>
@@ -57,6 +58,7 @@
 		</div>
 	</div>
 </form>
+
 
 <div ui-view="userProfiles"></div>
 <div ui-view="forgotPassword"></div>

@@ -6,7 +6,8 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ng
 	APP_NAVIGATION_ENTRYPOINT: 'vacaturegids',
 	APP_NAVIGATION_CURRENTDOMAIN: document.location.protocol + '://' + document.location.hostname,
 	APP_SECURITY_SESSIONTIMEOUT: 20*60*1000,
-	APP_PUBLICSTATES: "login,login.userProfiles,login.modal.forgotPassword,login.forgotPassword,login.resetPassword,message",
+	// these states are accessible when not logged in
+	APP_PUBLICSTATES: "login,login.userProfiles,login.modal.forgotPassword,login.forgotPassword,login.resetPassword,message,register",
 })
 .run(function($rootScope,$state,AppConfig,AuthService,I18nService,SessionService,UtilsService){
 
@@ -127,12 +128,17 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ng
 		}
 	})
 	.state('login.2StepAuthentication',{
-		url:'2StepAuthentication',
-		templateUrl:'/app/components/login/views/2stepAuthentication.html'
+		url:'2StepAuthentication'
+		,templateUrl:'/app/components/login/views/2stepAuthentication.html'
 	})
-	.state('login.register',{
-		url: '/register',
-		templateUrl:'/app/components/register/views/register.html'
+	.state('register',{
+		url: '/register'
+		,views: {
+			'body@': {
+				templateUrl:'/app/components/register/views/register.html'
+				,controller: 'RegisterController'
+			}
+		}
 	})
 	.state('login.forgotPassword',{
 		url: '/forgotPassword',

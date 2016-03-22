@@ -1,7 +1,7 @@
 angular.module('app.HRMatches')
 .controller('AuthController',
-	['$scope','$http','$location','$modal','$rootScope','$state','AppConfig','AuthService','I18nService','SessionService',
-	 function($scope,$http,$location,$modal,$rootScope,$state,AppConfig,AuthService,I18nService,SessionService){
+	['$scope','$location','$modal','$rootScope','$state','AppConfig','AuthService','I18nService','SessionService',
+	 function($scope,$location,$modal,$rootScope,$state,AppConfig,AuthService,I18nService,SessionService){
 
 		//AUTHENTICATE
 		$scope.authenticate = function(){
@@ -79,10 +79,10 @@ angular.module('app.HRMatches')
 
 		$scope.resetPassword = function(newPassword){
 			return AuthService.resetPassword(
-					{
-						password:newPassword
-						,secretKey:SessionService.get('secretKey')
-					}
+				{
+					password:newPassword
+					,secretKey:SessionService.get('secretKey')
+				}
 			)
 			.then(
 				function(successResponse){
@@ -94,22 +94,18 @@ angular.module('app.HRMatches')
 			);
 		}
 			
-			
+
 		// REGISTER
 		$scope.register = function(){
-			$http({
-				method: 'POST',
-				url: '',
-				data: 'loginName=' + $scope.loginName + '&loginPassword=' + $scope.loginPassword
-			}).
-			then(
+			AuthService.register()
+			.then(
 				function(successResponse){
-					console.log(successResponse)
+					// do something when registration succeeded
 				},
 				function(errorResponse){
-					console.log(errorResponse);
+					// do something when registration failed
 				}
-			);
+			)
 		}
 
 

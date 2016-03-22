@@ -72,5 +72,14 @@ angular.module('app.HRMatches')
 			}
 		})
 	}
+	
+	this.register = function(data){
+		return $http({
+				method: 'POST',
+			url: '',
+			data: ''//'loginName=' + $scope.loginName + '&loginPassword=' + $scope.loginPassword
+		})
+
+	}
 
 })

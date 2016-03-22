@@ -53,12 +53,12 @@ angular.module('app.HRMatches')
 
 	//data = {passwordResetToken:...}
 	this.validateSecretKey = function(key){
-		return APIService.validateSecretKeyMock({validate_ok:true,message:'Yes!! de token is geldig!!'})
-/*		return APIService.validateSecretKey(encodeURIComponent(key))
+		//return APIService.validateSecretKeyMock({validate_ok:true,message:'Yes!! de token is geldig!!'})
+		return APIService.validateSecretKey(encodeURIComponent(key))
 		.then(function(data){ //data:{validate_OK:...,message:...}
 			return data;
 		})
-*/	}
+	}
 
 	this.resetPassword = function(data){
 		 //data = {password:...,passwordResetToken:...}
@@ -71,5 +71,11 @@ angular.module('app.HRMatches')
 	this.isLoggedIn = function(){
 		return SessionService.isLoggedIn();
 	}
-
+	
+	this.register = function(data){
+		return APIService.register(data)
+		.then(function(data){
+			return data;
+		})
+	}
 })
