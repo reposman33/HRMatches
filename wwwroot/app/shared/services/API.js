@@ -79,7 +79,30 @@ angular.module('app.HRMatches')
 			url: '',
 			data: ''//'loginName=' + $scope.loginName + '&loginPassword=' + $scope.loginPassword
 		})
-
 	}
-
+	
+	this.loadTranslation = function(data){
+		return $http({
+			method:'POST'
+			,url: AppConfig.APP_API_URL + '/translation'
+			,data:{
+				language: data.language
+				,languageKey: data.languageKey
+			}
+		})	
+	}
+	
+	this.loadLanguages = function(){
+		return $http({
+			method: 'GET'
+			,url: AppConfig.APP_API_URL + '/language'
+		})		
+	}
+	
+	this.loadTranslationCategories = function(){
+		return $http({
+			method: 'GET'
+			,url: AppConfig.APP_API_URL + '/translationCategory'
+		})
+	}
 })

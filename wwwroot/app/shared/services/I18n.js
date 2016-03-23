@@ -1,27 +1,16 @@
 angular.module('app.HRMatches')
-.factory('I18nService',['$http','AppConfig',function($http,AppConfig){
+.factory('I18nService',['APIService','AppConfig',function(APIService,AppConfig){
 	return{
 		_I18nTexts: [],
 		
-		init: function(){
-			return $http({
-				method:'POST',
-				url: AppConfig.APP_API_URL + '/translation',
-				data:{
-					language: 'en_US',
-					languageKey: ''
-					}
-			})
+		loadTranslation: function(data){
+			return APIService.loadTranslation(data)
 			.then(
 				function(successResponse){
 					return successResponse.data;
-				},
-				function(errorResponse){
-					console.log(errorResponse);
 				}
 			);
 		},
-
 		
 		loadData: function(I18nResponse){
 			this._I18nTexts = I18nResponse;
@@ -37,6 +26,40 @@ angular.module('app.HRMatches')
 				}
 			});
 			return result != "" ? result : id;
+		},
+		
+		loadLanguages: function(){
+			return APIService.loadLanguages()
+			.then(
+				function(successResponse){
+					return successResponse.data
+				}
+			)
+		},
+		
+		loadTranslationCategories: function(){
+			return APIService.loadTranslationCategories()
+			.then(
+				function(successResponse){
+					return successResponse.data
+				}
+			)
+		},
+		
+		getData: function(){
+			if(this._I18nTexts.length.length==0){
+				this.loadTranslation(
+					{
+						language: AppConfig.APP_TRANSLATIONS_DEFAULTISOLANGUAGE
+						,languageKey: AppConfig.APP_TRANSLATIONS_DEFAULTLANGUAGEKEY
+					}
+				)
+				then(
+					function(successResponse){
+						this._I18nTexts = successResponse;
+				})
+			}
+			return this._I18nTexts;
 		}
 	}
 }])

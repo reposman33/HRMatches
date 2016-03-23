@@ -1,4 +1,4 @@
-angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ngMessages'])
+angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ngMessages','smart-table'])
 .constant('AppConfig',{
 	APP_API_URL: 'http://api-development.hrmatches.com',
 	APP_HOSTNAME: '127.0.0.1', //location.hostname,
@@ -8,6 +8,8 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ng
 	APP_SECURITY_SESSIONTIMEOUT: 20*60*1000,
 	// these states are accessible when not logged in
 	APP_PUBLICSTATES: "login,login.userProfiles,login.modal.forgotPassword,login.forgotPassword,login.resetPassword,message,register",
+	APP_TRANSLATIONS_DEFAULTISOLANGUAGE: 'nl_NL',
+	APP_TRANSLATIONS_DEFAULTLANGUAGEKEY: ''
 })
 .run(function($rootScope,$state,AppConfig,AuthService,I18nService,SessionService,UtilsService){
 
@@ -17,7 +19,8 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ng
 	$rootScope.AuthService = AuthService;
 	$rootScope.UtilsService = UtilsService;
 
-	I18nService.init()
+	//retrieve all languages
+	I18nService.loadTranslation({language:AppConfig.APP_TRANSLATIONS_DEFAULTISOLANGUAGE,languageKey:AppConfig.APP_TRANSLATIONS_DEFAULTLANGUAGEKEY})
 	.then(
 		function(I18nTexts){
 			I18nService.loadData(I18nTexts);
@@ -32,6 +35,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ng
 		if(!currentUser){
 			if(AppConfig.APP_PUBLICSTATES.indexOf(toState.name) == -1){
 				// NO USER LOGGED IN, REDIRECT TO LOGIN
+				console.warn('User not logged in, redirecting');
 				$state.go('login');
 				event.preventDefault();
 			}
@@ -41,6 +45,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ng
 			if(new Date().getTime() - currentUser.loginTime > AppConfig.APP_SECURITY_SESSIONTIMEOUT){
 				// LOGOUT WHEN SESSION EXPIRED
 				AuthService.logout();
+				console.warn('Usersession timed out, redirecting');
 				$state.go('login');
 				event.preventDefault();
 			}
@@ -61,12 +66,6 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ng
 	});
 
 })
-
-/*
- * 
- * === START STATES DEFINITIONS ===
- * 
- */
 
 .config(['$stateProvider','$urlRouterProvider',function($stateProvider,$urlRouterProvider){
 	$urlRouterProvider
@@ -103,6 +102,9 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ng
 			}
 		},
 	})
+	/*
+	 * ========= LOGIN =========
+	 */
     .state('login',{
         url: '/login',
         views: {
@@ -124,19 +126,6 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ng
 		,views:{
 			'userProfiles':{
 				templateUrl: '/app/components/login/views/userProfiles.html'
-			}
-		}
-	})
-	.state('login.2StepAuthentication',{
-		url:'2StepAuthentication'
-		,templateUrl:'/app/components/login/views/2stepAuthentication.html'
-	})
-	.state('register',{
-		url: '/register'
-		,views: {
-			'body@': {
-				templateUrl:'/app/components/register/views/register.html'
-				,controller: 'RegisterController'
 			}
 		}
 	})
@@ -179,6 +168,28 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ng
 			}
 		}
 	})
+	/*
+	 * ========= LOGIN - 2STEPAUTHENTICATION =========
+	 */
+	.state('login.2StepAuthentication',{
+		url:'2StepAuthentication'
+		,templateUrl:'/app/components/login/views/2stepAuthentication.html'
+	})
+	/*
+	 * ========= REGISTER ========= 
+	 */
+	.state('register',{
+		url: '/register'
+		,views: {
+			'body@': {
+				templateUrl:'/app/components/register/views/register.html'
+				,controller: 'RegisterController'
+			}
+		}
+	})
+	/*
+	 * ========= VACATUREGIDS ========= 
+	 */
 	.state('vacaturegids',{
 		url: '/vacaturegids'
 		,views: {
@@ -186,8 +197,45 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ng
 				templateUrl: '/app/components/vacaturegids/views/vacaturegids.html'
 			}
 			,'header': {
-				templateUrl: '/app/shared/components/navigation/views/navigation.html',
-				controller: 'AuthController'
+				templateUrl: '/app/shared/components/navigation/views/navigation.html'
+				,controller: 'AuthController'
+			}
+		}
+	})
+	/*
+	 * ========= PAAS: LANGUAGE ========= 
+	 */
+	.state('language',{
+		url: '/language'
+		,resolve: {
+			languages: ['I18nService',function(I18nService){
+				return I18nService.loadLanguages()
+				.then(
+					function(successResponse){
+						return successResponse;
+					}
+					,function(errorResponse){
+						console.warn('ERROR executing loadLanguages(): ',errorResponse);
+					}
+				);
+			}]
+			,translationCategories: function(){return [];}
+/*			,translationCategories: ['I18nService',function(I18nService){
+				return I18nService.loadTranslationCategories()
+				.then(
+					function(successResponse){
+						return successResponse;
+					}
+					,function(errorResponse){
+						console.warn('ERROR executing loadCategories():',errorResponse);
+					}
+				)
+			}]
+*/		}
+		,views:{
+			'body': {
+				templateUrl: '/app/components/PaaS/language/views/keysList.html'
+				,controller: 'LanguageController'
 			}
 		}
 	})
@@ -195,10 +243,4 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ng
 		url: '/default'
 		,templateUrl:'/app/shared/views/default.html'
 	})
-	/*
-	 * 
-	 * === END STATES DEFINITIONS ===
-	 * 
-	 */
-
 }])
