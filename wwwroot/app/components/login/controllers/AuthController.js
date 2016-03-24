@@ -1,7 +1,7 @@
 angular.module('app.HRMatches')
 .controller('AuthController',
-	['$scope','$location','$modal','$rootScope','$state','AppConfig','AuthService','I18nService','SessionService',
-	 function($scope,$location,$modal,$rootScope,$state,AppConfig,AuthService,I18nService,SessionService){
+	['$scope','$location','$rootScope','$state','AppConfig','AuthService','I18nService','SessionService',
+	 function($scope,$location,$rootScope,$state,AppConfig,AuthService,I18nService,SessionService){
 
 		//AUTHENTICATE
 		$scope.authenticate = function(){

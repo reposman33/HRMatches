@@ -1,15 +1,17 @@
-angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ngMessages','smart-table'])
+angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ngMessages'])
 .constant('AppConfig',{
-	APP_API_URL: 'http://api-development.hrmatches.com',
-	APP_HOSTNAME: '127.0.0.1', //location.hostname,
-	APP_ISLOCAL: "127.0.0.1".indexOf(location.hostname) != -1,
-	APP_NAVIGATION_ENTRYPOINT: 'vacaturegids',
-	APP_NAVIGATION_CURRENTDOMAIN: document.location.protocol + '://' + document.location.hostname,
-	APP_SECURITY_SESSIONTIMEOUT: 20*60*1000,
+	APP_API_URL: 'http://api-development.hrmatches.com'
+	,APP_HOSTNAME: '127.0.0.1' //location.hostname
+	,APP_ISLOCAL: "127.0.0.1".indexOf(location.hostname) != -1
+	,APP_NAVIGATION_ENTRYPOINT: 'vacaturegids'
+	,APP_NAVIGATION_CURRENTDOMAIN: document.location.protocol + '://' + document.location.hostname
+	,APP_SECURITY_SESSIONTIMEOUT: 20*60*1000
 	// these states are accessible when not logged in
-	APP_PUBLICSTATES: "login,login.userProfiles,login.modal.forgotPassword,login.forgotPassword,login.resetPassword,message,register",
-	APP_TRANSLATIONS_DEFAULTISOLANGUAGE: 'nl_NL',
-	APP_TRANSLATIONS_DEFAULTLANGUAGEKEY: ''
+	,APP_PUBLICSTATES: "login,login.userProfiles,login.modal.forgotPassword,login.forgotPassword,login.resetPassword,message,register"
+	,APP_TRANSLATIONS_DEFAULTISOLANGUAGE: 'nl_NL'
+	,APP_TRANSLATIONS_DEFAULTTRANSLATIONKEY: ''
+	,APP_PAGINATION_ITEMSPERPAGE: 25
+	,APP_PAGINATION_NROFPAGEBUTTONS: 7
 })
 .run(function($rootScope,$state,AppConfig,AuthService,I18nService,SessionService,UtilsService){
 
@@ -20,7 +22,10 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ng
 	$rootScope.UtilsService = UtilsService;
 
 	//retrieve all languages
-	I18nService.loadTranslation({language:AppConfig.APP_TRANSLATIONS_DEFAULTISOLANGUAGE,languageKey:AppConfig.APP_TRANSLATIONS_DEFAULTLANGUAGEKEY})
+	I18nService.loadTranslations({
+		language:AppConfig.APP_TRANSLATIONS_DEFAULTISOLANGUAGE,
+		languageKey:AppConfig.APP_TRANSLATIONS_DEFAULTTRANSLATIONKEY
+	})
 	.then(
 		function(I18nTexts){
 			I18nService.loadData(I18nTexts);
@@ -65,9 +70,13 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ng
 	$rootScope.$on('$stateChangeSuccess',function(event, toState, toParams, fromState, fromParams, options){
 	});
 
+	$rootScope.$on('$stateChangeError',function(event, toState, toParams, fromState, fromParams, error){
+		console.error('ERROR $stateChangeError: ',error);
+	});
+
 })
 
-.config(['$stateProvider','$urlRouterProvider',function($stateProvider,$urlRouterProvider){
+.config(['$stateProvider','$urlRouterProvider','AppConfig',function($stateProvider,$urlRouterProvider,AppConfig){
 	$urlRouterProvider
 	.otherwise('/login');
 
@@ -205,8 +214,8 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ng
 	/*
 	 * ========= PAAS: LANGUAGE ========= 
 	 */
-	.state('language',{
-		url: '/language'
+	.state('translations',{
+		url: '/translations'
 		,resolve: {
 			languages: ['I18nService',function(I18nService){
 				return I18nService.loadLanguages()
@@ -219,8 +228,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ng
 					}
 				);
 			}]
-			,translationCategories: function(){return [];}
-/*			,translationCategories: ['I18nService',function(I18nService){
+			,translationCategories: ['I18nService',function(I18nService){
 				return I18nService.loadTranslationCategories()
 				.then(
 					function(successResponse){
@@ -231,11 +239,52 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ng
 					}
 				)
 			}]
-*/		}
+			,translations: ['I18nService','translationCategories',function(I18nService,translationCategories){
+				return I18nService.loadTranslations({
+					language:AppConfig.APP_TRANSLATIONS_DEFAULTISOLANGUAGE
+					,languageKey:''
+				})
+				.then(
+					function(successResponse){
+						return successResponse;
+					}
+					,function(errorResponse){
+						console.warn('ERROR executing loadLanguages(): ',errorResponse);
+					}
+				);
+			}]
+		}
 		,views:{
 			'body': {
-				templateUrl: '/app/components/PaaS/language/views/keysList.html'
-				,controller: 'LanguageController'
+				templateUrl: '/app/components/PaaS/translations/views/keysList.html'
+				,controller: 'TranslationController'
+			}
+		}
+	})
+	.state('translations.editTranslation',{
+		url: '/editTranslation'
+		,params: {
+			id:null
+		}
+		,resolve:{
+			translation: ['I18nService',function(I18nService){
+				return I18nService.loadTranslations({
+					language:AppConfig.APP_TRANSLATIONS_DEFAULTISOLANGUAGE
+					,languageKey:id
+				})
+				.then(
+					function(successResponse){
+						return successResponse;
+					}
+					,function(errorResponse){
+						console.warn('ERROR executing loadLanguages(): ',errorResponse);
+					}
+				);
+			}]
+		}
+		,views:{
+			'editTranslation@translations':{
+				templateUrl: '/app/components/PaaS/translations/views/keyDetail.html'
 			}
 		}
 	})

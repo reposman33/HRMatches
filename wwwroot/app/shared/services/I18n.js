@@ -3,8 +3,8 @@ angular.module('app.HRMatches')
 	return{
 		_I18nTexts: [],
 		
-		loadTranslation: function(data){
-			return APIService.loadTranslation(data)
+		loadTranslations: function(data){
+			return APIService.loadTranslations(data)
 			.then(
 				function(successResponse){
 					return successResponse.data;
@@ -27,6 +27,7 @@ angular.module('app.HRMatches')
 			});
 			return result != "" ? result : id;
 		},
+		
 		
 		loadLanguages: function(){
 			return APIService.loadLanguages()

@@ -81,7 +81,7 @@ angular.module('app.HRMatches')
 		})
 	}
 	
-	this.loadTranslation = function(data){
+	this.loadTranslations = function(data){
 		return $http({
 			method:'POST'
 			,url: AppConfig.APP_API_URL + '/translation'
