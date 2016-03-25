@@ -42,7 +42,7 @@ angular.module('app.HRMatches')
 			return APIService.loadTranslationCategories()
 			.then(
 				function(successResponse){
-					return successResponse.data
+					return successResponse.data;
 				}
 			)
 		},
@@ -61,6 +61,15 @@ angular.module('app.HRMatches')
 				})
 			}
 			return this._I18nTexts;
+		},
+		
+		updateTranslationKey : function(data){
+			return APIService.updateTranslationKey(data)
+			.then(
+				function(successResponse){
+					return successResponse.data;
+				}
+			)
 		}
 	}
 }])

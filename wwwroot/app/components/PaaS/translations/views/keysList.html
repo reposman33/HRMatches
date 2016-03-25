@@ -6,21 +6,7 @@
 		</div>
 		
 		<div class="panel-body">
-			<div class="col-md-3">
-
-				<div style="margin:10px 10px;">
-					<select name='languages.language',ng-model='translationLanguage'>
-						<option ng-repeat="language in languages" value="{{language.id}}">{{languages[$index][languages[$index]['name']+'_DisplayName']}}</option>
-					</select>
-				</div>
-
-				<div style="margin:10px 10px;">
-					<select name='languages.translationCategory',ng-model='translation.translationCategory'>
-						<option ng-repeat="translationCategory in translationCategories" value="{{translationCategory.systemName}}">{{translationCategory.systemName}}</option>
-					</select>
-				</div>
-
-			</div>
+			<div class="col-md-3"></div>
 
 			<div class="col-md-8">
 
@@ -29,7 +15,6 @@
 						<tr>
 							<th st-sort="key">key</th>
 							<th st-sort="DisplayValue">DisplayValue</th>
-							<th >&nbsp;</th>
 						</tr>
 					</thead>
 					<tfoot>
@@ -49,8 +34,13 @@
 					<tbody>
 						<tr ng-repeat="translation in translations | pagination : currentPage : itemsPerPage">
 							<td>{{translation.id}}</td>
-							<td title="{{translation.DisplayName}}">{{translation.DisplayName.length > 12 ? translation.DisplayName.substring(0,12) + '...' : translation.DisplayName}}</td>
-							<td><span class="glyphicon glyphicon-edit" ui-sref="translations.editTranslation({id:translation.id})">&nbsp;</span></td>
+							<td>
+							<input type="text"
+								value="{{translation.DisplayName}}"
+								editable-text="translation.DisplayName"
+								onbeforesave="updateTranslationKey($data)"
+								class="form-control">
+							</td>
 						</tr>
 					</tbody>
 				</table>

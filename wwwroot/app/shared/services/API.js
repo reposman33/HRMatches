@@ -105,4 +105,15 @@ angular.module('app.HRMatches')
 			,url: AppConfig.APP_API_URL + '/translationCategory'
 		})
 	}
+	
+	this.updateTranslationKey = function(data){
+		return $http({
+			method: 'POST'
+			,url: AppConfig.APP_API_URL + '/updateTranslation'
+			,data:{
+				displayName:data.displayName
+				,id: data.id
+			}
+		})
+	}
 })

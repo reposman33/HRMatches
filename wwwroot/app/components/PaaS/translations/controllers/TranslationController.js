@@ -11,4 +11,15 @@ angular.module('app.HRMatches')
 		$scope.mrOfPagesButtons = AppConfig.APP_PAGINATION_NROFPAGEBUTTONS;
 		$scope.currentPage = 1;
 		
+		$scope.updateTranslationKey = function(data){
+			I18nService.updateTranslationKey(data)
+			.then(
+				function(successResponse){
+					return successResponse;
+				},
+				function(errorResponse){
+					console.error('ERROR in updateTranslationKey(): ',errorResponse);
+				}
+			);
+		}
 }])

@@ -18,7 +18,6 @@
   },
   "devDependencies": {
     "angular-animate": "^1.5.2",
-    "angular-messages": "^1.5.0",
-    "angular-smart-table": "^2.1.8"
-  }
+    "angular-messages": "^1.5.0"
+]  }
 }

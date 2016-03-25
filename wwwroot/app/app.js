@@ -1,4 +1,4 @@
-angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ngMessages'])
+angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xeditable'])
 .constant('AppConfig',{
 	APP_API_URL: 'http://api-development.hrmatches.com'
 	,APP_HOSTNAME: '127.0.0.1' //location.hostname
