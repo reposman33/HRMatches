@@ -1,18 +1,14 @@
 angular.module('app.HRMatches')
 .controller('TranslationController',
-	['$scope','AppConfig','I18nService','translationCategories','languages','translations','SessionService',
-	 function($scope,AppConfig,I18nService,translationCategories,languages,translations,SessionService){
+	['$scope','AppConfig','TranslationService','SessionService',
+	 function($scope,AppConfig,TranslationService,SessionService){
 
-		$scope.languages = languages;
-		$scope.translationCategories = translationCategories;
-		$scope.translations = translations;
-
-		$scope.itemsPerPage = AppConfig.APP_PAGINATION_ITEMSPERPAGE;
-		$scope.mrOfPagesButtons = AppConfig.APP_PAGINATION_NROFPAGEBUTTONS;
+		$scope.translations = TranslationService.getData();
+		$scope.viewConfig = AppConfig.VIEWS.translations;
 		$scope.currentPage = 1;
 		
 		$scope.updateTranslationKey = function(data){
-			I18nService.updateTranslationKey(data)
+			TranslationService.updateTranslationKey(data)
 			.then(
 				function(successResponse){
 					return successResponse;

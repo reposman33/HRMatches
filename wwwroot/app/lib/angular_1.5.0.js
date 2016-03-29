@@ -2173,7 +2173,7 @@ function setupModuleLoader(window) {
            * **Note:** Filter names must be valid angular {@link expression} identifiers, such as `uppercase` or `orderBy`.
            * Names with special characters, such as hyphens and dots, are not allowed. If you wish to namespace
            * your filters, then you can use capitalization (`myappSubsectionFilterx`) or underscores
-           * (`myapp_subsection_filterx`).
+           * (`myAPPCONSTANTS_subsection_filterx`).
            * </div>
            */
           filter: invokeLaterAndSetModuleName('$filterProvider', 'register'),
@@ -19005,7 +19005,7 @@ function $$CookieReaderProvider() {
  * **Note:** Filter names must be valid angular {@link expression} identifiers, such as `uppercase` or `orderBy`.
  * Names with special characters, such as hyphens and dots, are not allowed. If you wish to namespace
  * your filters, then you can use capitalization (`myappSubsectionFilterx`) or underscores
- * (`myapp_subsection_filterx`).
+ * (`myAPPCONSTANTS_subsection_filterx`).
  * </div>
  *
  * ```js
@@ -19094,7 +19094,7 @@ function $FilterProvider($provide) {
    *    **Note:** Filter names must be valid angular {@link expression} identifiers, such as `uppercase` or `orderBy`.
    *    Names with special characters, such as hyphens and dots, are not allowed. If you wish to namespace
    *    your filters, then you can use capitalization (`myappSubsectionFilterx`) or underscores
-   *    (`myapp_subsection_filterx`).
+   *    (`myAPPCONSTANTS_subsection_filterx`).
    *    </div>
     * @param {Function} factory If the first argument was a string, a factory function for the filter to be registered.
    * @returns {Object} Registered filter instance, or if a map of filters was provided then a map

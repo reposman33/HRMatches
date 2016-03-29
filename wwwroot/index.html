@@ -31,7 +31,7 @@
 	<!-- SHARED RESOURCES -->
 	<script type="text/javascript" src="/app/shared/components/navigation/controllers/NavigationController.js"></script>
 	<script type="text/javascript" src="/app/shared/filters/Filters.js"></script>
-	<script type="text/javascript" src="/app/shared/services/I18n.js"></script>
+	<script type="text/javascript" src="/app/shared/services/TranslationService.js"></script>
 	<script type="text/javascript" src="/app/shared/services/Utils.js"></script>
 	<script type="text/javascript" src="/app/shared/services/Session.js"></script>
 	<script type="text/javascript" src="/app/shared/services/API.js"></script>
@@ -42,8 +42,8 @@
 	<div class="row title-container"></div>
 
 	<div class="header">
-		<div ui-view="header"></div>
-		<div class="pull-right">{{UtilsService.debug('Loggedin: '+AuthService.isLoggedIn())}}</div>
+		<ng-include src="'/app/shared/components/navigation/views/navigation.html'" ng-if="SessionService.isLoggedIn()"></div>
+		<div class="pull-right">{{SessionService.isLoggedIn() ? 'Ingelogd' : 'Niet ingelogd'}}</div>
 	</div>
 
 	<div class="row">

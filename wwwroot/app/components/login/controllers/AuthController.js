@@ -1,7 +1,7 @@
 angular.module('app.HRMatches')
 .controller('AuthController',
-	['$scope','$location','$rootScope','$state','AppConfig','AuthService','I18nService','SessionService',
-	 function($scope,$location,$rootScope,$state,AppConfig,AuthService,I18nService,SessionService){
+	['$scope','$location','$rootScope','$state','AppConfig','AuthService','TranslationService','SessionService',
+	 function($scope,$location,$rootScope,$state,AppConfig,AuthService,TranslationService,SessionService){
 
 		//AUTHENTICATE
 		$scope.authenticate = function(){
@@ -22,19 +22,19 @@ angular.module('app.HRMatches')
 					function(successResponse){
 						// AUTHENTICATE SUCCESS
 						$scope.error = successResponse.status != 200
-						$scope.loginFeedbackText = $scope.error ? I18nService.getText(successResponse.data.message) : "";
+						$scope.loginFeedbackText = $scope.error ? TranslationService.getText(successResponse.data.message) : "";
 						$scope.tokens = successResponse.data.tokens; //authenticated accounts are identified by these tokens
 
 						if(successResponse.data.status && successResponse.data.status.loggedInWithProfile){
 
 							// OTHER USER SESSION ACTIVE
-							$scope.loggedInWithProfileText = I18nService.getText('LOGIN_LOGGEDINWITHPROFILE');
+							$scope.loggedInWithProfileText = TranslationService.getText('LOGIN_LOGGEDINWITHPROFILE');
 
 						}
 						if(successResponse.data.token.length > 1){
 
 							// MULTIPLE PROFILES
-							$scope.userHasMultipleProfiles = I18nService.getText('LOGIN_MULTIPLEPROFILES');
+							$scope.userHasMultipleProfiles = TranslationService.getText('LOGIN_MULTIPLEPROFILES');
 							AuthService.validateTokens(successResponse.data.token)
 							.then(function(result){
 								$scope.profiles = result.profiles;
@@ -47,13 +47,13 @@ angular.module('app.HRMatches')
 					function(errorResponse){
 						// AUTHENTICATE ERROR
 						$scope.error = errorResponse.status != 200 //error is nu boolean, kan in de toekomst uitgebreid worden
-						$scope.loginFeedbackText = I18nService.getText(errorResponse.data.message);
+						$scope.loginFeedbackText = TranslationService.getText(errorResponse.data.message);
 					}
 				)
 			}
 			else{
 				// NO PASSWORD / USERNAME PROVIDED
-				$scope.loginFeedbackText = I18nService.getText('LOGIN_NOCREDENTIALS');
+				$scope.loginFeedbackText = TranslationService.getText('LOGIN_NOCREDENTIALS');
 			}
 		}
 
@@ -61,7 +61,7 @@ angular.module('app.HRMatches')
 		// FORGOT PASSWORD
 		$scope.forgotPassword = function(emailAddress){
 			AuthService.forgotPassword({
-				hostName:AppConfig.APP_HOSTNAME,
+				hostName:AppConfig.APPCONSTANTS_HOSTNAME,
 				emailAddress:emailAddress
 			})
 			.then(
@@ -130,7 +130,7 @@ angular.module('app.HRMatches')
 				AuthService.logout(logoutTokens)
 			}
 
-			$state.go(AppConfig.APP_NAVIGATION_ENTRYPOINT);
+			$state.go(AppConfig.APPCONSTANTS_NAVIGATION_ENTRYPOINT);
 		}
 
 

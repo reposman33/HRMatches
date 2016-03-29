@@ -1,53 +1,75 @@
 angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xeditable'])
 .constant('AppConfig',{
-	APP_API_URL: 'http://api-development.hrmatches.com'
-	,APP_HOSTNAME: '127.0.0.1' //location.hostname
-	,APP_ISLOCAL: "127.0.0.1".indexOf(location.hostname) != -1
-	,APP_NAVIGATION_ENTRYPOINT: 'vacaturegids'
-	,APP_NAVIGATION_CURRENTDOMAIN: document.location.protocol + '://' + document.location.hostname
-	,APP_SECURITY_SESSIONTIMEOUT: 20*60*1000
+	APPCONSTANTS_API_URL: 'http://api-development.hrmatches.com'
+	,APPCONSTANTS_HOSTNAME: '127.0.0.1' //location.hostname
+	,APPCONSTANTS_ISLOCAL: "127.0.0.1".indexOf(location.hostname) != -1
+	,APPCONSTANTS_NAVIGATION_ENTRYPOINT: 'translations'
+	,APPCONSTANTS_NAVIGATION_CURRENTDOMAIN: document.location.protocol + '://' + document.location.hostname
+	,APPCONSTANTS_SECURITY_SESSIONTIMEOUT: 20*60*1000
 	// these states are accessible when not logged in
-	,APP_PUBLICSTATES: "login,login.userProfiles,login.modal.forgotPassword,login.forgotPassword,login.resetPassword,message,register"
-	,APP_TRANSLATIONS_DEFAULTISOLANGUAGE: 'nl_NL'
-	,APP_TRANSLATIONS_DEFAULTTRANSLATIONKEY: ''
-	,APP_PAGINATION_ITEMSPERPAGE: 25
-	,APP_PAGINATION_NROFPAGEBUTTONS: 7
+	,APPCONSTANTS_PUBLICSTATES: "login,login.userProfiles,login.modal.forgotPassword,login.forgotPassword,login.resetPassword,register"
+
+	,VIEWS: {
+		translations:{
+			listView:{
+				columns:[{
+					visible:true
+					,header_visible:true
+					,header_text:'Key'
+					,cell_editable: true
+				},{
+					visible:true
+					,header_visible:true
+					,header_text:'Display value'
+					,cell_editable: false
+				}]
+				,pagination: {
+					enable:true
+					,maxSize: 10
+					,itemsPerPage:15
+				}
+			}
+		}
+	}
+	,API_ENDPOINTS: {
+		'translations': {
+			api_url: 'http://api-development.hrmatches.com' + '/translation'
+			,api_method: 'POST'
+			,api_params: [{
+				key: 'language'
+				,value: 'nl_NL'
+			},{
+				key:'languageKey'
+				,value: ''
+			}]
+		}
+	}
 })
-.run(function($rootScope,$state,AppConfig,AuthService,I18nService,SessionService,UtilsService){
+.run(function($rootScope,$state,AppConfig,AuthService,TranslationService,SessionService,UtilsService){
 
 	// perform any site-wide initialisation here
 	$rootScope.$state = $state;
-	$rootScope.I18nService = I18nService;
-	$rootScope.AuthService = AuthService;
+	$rootScope.TranslationService = TranslationService;
+	$rootScope.SessionService = SessionService;
 	$rootScope.UtilsService = UtilsService;
 
 	//retrieve all languages
-	I18nService.loadTranslations({
-		language:AppConfig.APP_TRANSLATIONS_DEFAULTISOLANGUAGE,
-		languageKey:AppConfig.APP_TRANSLATIONS_DEFAULTTRANSLATIONKEY
-	})
-	.then(
-		function(I18nTexts){
-			I18nService.loadData(I18nTexts);
-		},function(errorResponse){
-			console.log('I18nService.init() errorresponse: ', errorResponse);
-		});
-
+	TranslationService.load(AppConfig.API_ENDPOINTS.translations);
 	
 	$rootScope.$on('$stateChangeStart',function(event, toState, toParams, fromState, fromParams, options){
 		var currentUser = SessionService.getCurrentUser();
 
 		if(!currentUser){
-			if(AppConfig.APP_PUBLICSTATES.indexOf(toState.name) == -1){
+			if(AppConfig.APPCONSTANTS_PUBLICSTATES.indexOf(toState.name) == -1){
 				// NO USER LOGGED IN, REDIRECT TO LOGIN
 				console.warn('User not logged in, redirecting');
 				$state.go('login');
 				event.preventDefault();
 			}
 		}
-		else if(AppConfig.APP_PUBLICSTATES.indexOf(toState.name) == -1){
+		else if(AppConfig.APPCONSTANTS_PUBLICSTATES.indexOf(toState.name) == -1){
 			// USER LOGGED IN,CHECK SESSION TIMEOUT
-			if(new Date().getTime() - currentUser.loginTime > AppConfig.APP_SECURITY_SESSIONTIMEOUT){
+			if(new Date().getTime() - currentUser.loginTime > AppConfig.APPCONSTANTS_SECURITY_SESSIONTIMEOUT){
 				// LOGOUT WHEN SESSION EXPIRED
 				AuthService.logout();
 				console.warn('Usersession timed out, redirecting');
@@ -61,7 +83,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 			}
 		}
 		else{
-			$state.go(fromState.name);
+			$state.go(toState.name);
 			event.preventDefault();
 		}
 	});
@@ -97,8 +119,8 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 		},
 		views:{
 			'body': {
-				controller: function($scope,$stateParams,I18nService){
-					$scope.message = I18nService.getText($stateParams.message);
+				controller: function($scope,$stateParams,TranslationService){
+					$scope.message = TranslationService.getText($stateParams.message);
 				},
 				templateUrl: '/app/shared/views/message.html'
 			}
@@ -177,6 +199,18 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 			}
 		}
 	})
+	.state('logout',{
+		url:'/logout'
+		,onEnter: function(AuthService){
+			AuthService.logout();
+		}
+		,views:{
+			'body':{
+				templateUrl:'/app/components/login/views/logout.html'
+				,controller: 'AuthController'
+			}
+		}
+	})
 	/*
 	 * ========= LOGIN - 2STEPAUTHENTICATION =========
 	 */
@@ -212,79 +246,14 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 		}
 	})
 	/*
-	 * ========= PAAS: LANGUAGE ========= 
+	 * ========= PAAS: TRANSLATIONS ========= 
 	 */
 	.state('translations',{
 		url: '/translations'
-		,resolve: {
-			languages: ['I18nService',function(I18nService){
-				return I18nService.loadLanguages()
-				.then(
-					function(successResponse){
-						return successResponse;
-					}
-					,function(errorResponse){
-						console.warn('ERROR executing loadLanguages(): ',errorResponse);
-					}
-				);
-			}]
-			,translationCategories: ['I18nService',function(I18nService){
-				return I18nService.loadTranslationCategories()
-				.then(
-					function(successResponse){
-						return successResponse;
-					}
-					,function(errorResponse){
-						console.warn('ERROR executing loadCategories():',errorResponse);
-					}
-				)
-			}]
-			,translations: ['I18nService','translationCategories',function(I18nService,translationCategories){
-				return I18nService.loadTranslations({
-					language:AppConfig.APP_TRANSLATIONS_DEFAULTISOLANGUAGE
-					,languageKey:''
-				})
-				.then(
-					function(successResponse){
-						return successResponse;
-					}
-					,function(errorResponse){
-						console.warn('ERROR executing loadLanguages(): ',errorResponse);
-					}
-				);
-			}]
-		}
 		,views:{
 			'body': {
 				templateUrl: '/app/components/PaaS/translations/views/keysList.html'
 				,controller: 'TranslationController'
-			}
-		}
-	})
-	.state('translations.editTranslation',{
-		url: '/editTranslation'
-		,params: {
-			id:null
-		}
-		,resolve:{
-			translation: ['I18nService',function(I18nService){
-				return I18nService.loadTranslations({
-					language:AppConfig.APP_TRANSLATIONS_DEFAULTISOLANGUAGE
-					,languageKey:id
-				})
-				.then(
-					function(successResponse){
-						return successResponse;
-					}
-					,function(errorResponse){
-						console.warn('ERROR executing loadLanguages(): ',errorResponse);
-					}
-				);
-			}]
-		}
-		,views:{
-			'editTranslation@translations':{
-				templateUrl: '/app/components/PaaS/translations/views/keyDetail.html'
 			}
 		}
 	})

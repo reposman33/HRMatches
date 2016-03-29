@@ -1,45 +1,45 @@
 <div class="col-md-8 col-md-offset-2">
 	<div class="panel panel-info">
-
 		<div class="panel-heading">
 			<h3>List translations</h3>
 		</div>
-		
 		<div class="panel-body">
 			<div class="col-md-3"></div>
 
 			<div class="col-md-8">
-
 				<table class="table table-striped">
 					<thead>
 						<tr>
-							<th st-sort="key">key</th>
-							<th st-sort="DisplayValue">DisplayValue</th>
+							<th ng-show="viewConfig.listView.columns[0].header_visible">{{viewConfig.listView.columns[0].header_text}}</th>
+							<th ng-show="viewConfig.listView.columns[1].header_visible">{{viewConfig.listView.columns[1].header_text}}</th>
 						</tr>
 					</thead>
 					<tfoot>
-						<tr colspan="3">
+						<tr colspan="3" ng-if="viewConfig.listView.pagination.enable">
 							<td colspan="3">
-	 							<uib-pagination
-									total-items="translations.length"
-									ng-model="currentPage"
-									max-size="mrOfPagesButtons"
-									items-per-page="itemsPerPage"
-									class="pagination-sm"
-									boundary-links="true"
-									rotate="false"></uib-pagination>
+								<uib-pagination
+		 							ng-model="currentPage"
+		 							total-items="translations.length"
+		 							max-size="viewConfig.listView.pagination.maxSize"
+		 							items-per-page="viewConfig.listView.pagination.itemsPerPage"></uib-pagination>
 							</td>
 						</tr>
 					</tfoot>
 					<tbody>
-						<tr ng-repeat="translation in translations | pagination : currentPage : itemsPerPage">
-							<td>{{translation.id}}</td>
+ 						<tr ng-repeat="translation in translations | pagination : currentPage : viewConfig.listView.pagination.itemsPerPage+1">
 							<td>
-							<input type="text"
-								value="{{translation.DisplayName}}"
-								editable-text="translation.DisplayName"
-								onbeforesave="updateTranslationKey($data)"
-								class="form-control">
+								<input type="text"
+									value="{{translation.id}}"
+									editable-text="{{viewConfig.listView.columns[0].cell_editable ? translation.id : ''}}"
+									onbeforesave="updateTranslationKey($data)"
+									class="form-control">
+							</td>
+							<td>
+								<input type="text"
+									value="{{translation.DisplayName}}"
+									editable-text="{{viewConfig.listView.columns[1].cell_editable ? translation.DisplayName : ''}}"
+									onbeforesave="updateTranslationKey($data)"
+									class="form-control">
 							</td>
 						</tr>
 					</tbody>
@@ -48,6 +48,5 @@
 		</div>
 	</div>
 </div>
-
-
+  
 <ui-view="editTranslation">

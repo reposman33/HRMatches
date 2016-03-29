@@ -10,23 +10,23 @@
 						</div>
 						<div class="row">
 							<div class="col-md-4 h9">
-								<label for="emailAddress">{{I18nService.getText('LOGIN_EMAILADDRESS_INPUTFIELDLABEL')}}</label>
+								<label for="emailAddress">{{TranslationService.getText('LOGIN_EMAIL')}}</label>
 							</div>
 							<div class="col-md-8 form-group" ng-class="{'has-error': loginForm.j_username.$invalid}">
 								<input type="email" placeholder="Email address" name="j_username" id="emailAddress" class="form-control" ng-model="loginName">
 							</div>
 						<div class="col-md-4"></div>
-						<div class="col-md-8 alert-error" ng-show="loginForm.j_username.$invalid">{{I18nService.getText('LOGIN_EMAILADDRESS_INVALID')}}</div>
+						<div class="col-md-8 alert-error" ng-show="loginForm.j_username.$invalid">{{TranslationService.getText('LOGIN_EMAILADDRESS_INVALID')}}</div>
 						</div>
 					</div>
 
 					<div class="form-group">
 						<div class="row">
 							<div class="col-md-4 h9">
-								<label for="exampleInputFirstname">{{I18nService.getText('LOGIN_PASSWORDFIELDLABEL')}}</label>
+								<label for="exampleInputFirstname">{{TranslationService.getText('LOGIN_PASSWORD')}}</label>
 							</div>
 							<div class="col-md-8">
-								<input type="password" placeholder="{{I18nService.getText('LOGIN_PASSWORDFIELDPLACEHOLDER')}}" name="j_password" id="Password" class="form-control" ng-model="loginPassword" >
+								<input type="password" placeholder="{{TranslationService.getText('LOGIN_PASSWORD')}}" name="j_password" id="Password" class="form-control" ng-model="loginPassword" >
 							</div>
 						</div>
 					</div>
@@ -35,7 +35,7 @@
 						<div class="col-md-4"></div>
 
 						<div class="col-md-8">
-							<button class="btn btn-success btn-block pull-right" ng-click="authenticate()">{{I18nService.getText('LOGIN_PASSWORDFIELDLOGINBUTTON')}}</button>
+							<button class="btn btn-success btn-block pull-right" ng-click="authenticate()">{{TranslationService.getText('LOGIN_SUBMIT')}}</button>
 						</div>
 
 						<div class="col-md-4"></div>	
@@ -44,12 +44,11 @@
 
 					<div class="row">
 						<div class="col-md-6">
-							<h5><a ui-sref="login.forgotPassword">{{I18nService.getText('LOGIN_FORGOTPASSWORDBUTTON')}}</a></h5>
+							<h5><a ui-sref="login.forgotPassword">{{TranslationService.getText('LOGIN_FORGOT_PASSWORD')}}</a></h5>
 						</div>
 						<div>
 							<div class="col-md-6">
-								<h5>{{I18nService.getText('LOGIN_REGISTERBUTTON')}}&nbsp;
-								<a ui-sref="register" ui-sref-opts="{reload: true}">{{I18nService.getText('LOGIN_REGISTERBUTTONLINK')}}</a></h5>
+								<a ui-sref="register" ui-sref-opts="{reload: true}">{{TranslationService.getText('LOGIN_REGISTER')}}</a></h5>
 							</div>
 						</div>
 					</div>

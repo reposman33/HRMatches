@@ -4,7 +4,7 @@ angular.module('app.HRMatches')
 	this.authenticate = function(data){
 		return $http({
 			method: 'POST',
-			url: AppConfig.APP_API_URL + '/authenticate',
+			url: AppConfig.APPCONSTANTS_API_URL + '/authenticate',
 			data: data
 		})
 	}
@@ -12,7 +12,7 @@ angular.module('app.HRMatches')
 	this.logout = function(tokens){
 		return $http({
 			method: 'POST',
-			url: AppConfig.APP_API_URL + '/logout/',
+			url: AppConfig.APPCONSTANTS_API_URL + '/logout/',
 			data: {
 				'tokens':tokens
 			}
@@ -23,7 +23,7 @@ angular.module('app.HRMatches')
 		var promises = tokens.map(function(token,i,tokens){
 			return $http({
 				method: 'GET',
-				url: AppConfig.APP_API_URL + '/validate_token/' + token
+				url: AppConfig.APPCONSTANTS_API_URL + '/validate_token/' + token
 			});
 		})
 
@@ -34,7 +34,7 @@ angular.module('app.HRMatches')
 	this.forgotPassword = function(data){
 		return $http({
 			method: 'POST',
-			url: AppConfig.APP_API_URL + '/forgotpassword',
+			url: AppConfig.APPCONSTANTS_API_URL + '/forgotpassword',
 			data: {
 				hostname: data.hostName,
 				emailaddress: data.emailAddress
@@ -45,27 +45,18 @@ angular.module('app.HRMatches')
 	this.validateSecretKey = function(secretKey){
 		return $http({
 			method: 'POST'
-			,url: AppConfig.APP_API_URL + '/validate_secretkey'
+			,url: AppConfig.APPCONSTANTS_API_URL + '/validate_secretkey'
 			,data:{
 				secretkey: secretKey
 			}
 		})
 	}
 
-	this.validateSecretKeyMock = function(secretKey){
-		var deferred = $q.defer();
-		$timeout(function(){
-			deferred.resolve({data:{validate_ok:secretKey.validate_ok,message:secretKey.message}}),
-			3000
-		});
-
-		return deferred.promise;
-	}
 
 	this.resetPassword = function(data){
 		return $http({
 			method: 'POST',
-			url: AppConfig.APP_API_URL + '/resetpassword',
+			url: AppConfig.APPCONSTANTS_API_URL + '/resetpassword',
 			data: {
 				secretKey: data.secretKey
 				,password: data.password
@@ -81,39 +72,30 @@ angular.module('app.HRMatches')
 		})
 	}
 	
-	this.loadTranslations = function(data){
+	this.load = function(data){
 		return $http({
-			method:'POST'
-			,url: AppConfig.APP_API_URL + '/translation'
-			,data:{
-				language: data.language
-				,languageKey: data.languageKey
-			}
+			method:data.api_method
+			,url: data.api_url
+			,data:_loadParams(data.api_params)
 		})	
 	}
-	
-	this.loadLanguages = function(){
-		return $http({
-			method: 'GET'
-			,url: AppConfig.APP_API_URL + '/language'
-		})		
-	}
-	
-	this.loadTranslationCategories = function(){
-		return $http({
-			method: 'GET'
-			,url: AppConfig.APP_API_URL + '/translationCategory'
-		})
-	}
-	
+			
 	this.updateTranslationKey = function(data){
 		return $http({
 			method: 'POST'
-			,url: AppConfig.APP_API_URL + '/updateTranslation'
+			,url: AppConfig.APPCONSTANTS_API_URL + '/updateTranslation'
 			,data:{
 				displayName:data.displayName
 				,id: data.id
 			}
 		})
+	}
+	
+	_loadParams = function(params){
+		var result={};
+		for(var i=0;i<params.length;i++){
+			result[params[i].key] = params[i].value;
+		}
+		return result;
 	}
 })
