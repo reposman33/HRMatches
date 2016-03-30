@@ -12,16 +12,19 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 	,VIEWS: {
 		translations:{
 			listView:{
-				columns:[{
-					visible:true
+				row_editable: true
+				,columns:[{
+					columnName: 'id'
+					,visible:true
 					,header_visible:true
 					,header_text:'Key'
-					,cell_editable: true
-				},{
-					visible:true
-					,header_visible:true
-					,header_text:'Display value'
 					,cell_editable: false
+				},{
+					columnName: 'DisplayName'
+  					,visible:true
+					,header_visible:true
+					,header_text:'Vertaling'
+					,cell_editable: true
 				}]
 				,pagination: {
 					enable:true
@@ -46,7 +49,6 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 	}
 })
 .run(function($rootScope,$state,AppConfig,AuthService,TranslationService,SessionService,UtilsService){
-
 	// perform any site-wide initialisation here
 	$rootScope.$state = $state;
 	$rootScope.TranslationService = TranslationService;

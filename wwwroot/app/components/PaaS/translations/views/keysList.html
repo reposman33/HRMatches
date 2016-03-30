@@ -4,19 +4,19 @@
 			<h3>List translations</h3>
 		</div>
 		<div class="panel-body">
-			<div class="col-md-3"></div>
 
 			<div class="col-md-8">
 				<table class="table table-striped">
 					<thead>
 						<tr>
-							<th ng-show="viewConfig.listView.columns[0].header_visible">{{viewConfig.listView.columns[0].header_text}}</th>
-							<th ng-show="viewConfig.listView.columns[1].header_visible">{{viewConfig.listView.columns[1].header_text}}</th>
+							<th ng-show="viewConfig.listView.columns[0].header_visible && viewConfig.listView.columns[0].visible">{{viewConfig.listView.columns[0].header_text}}</th>
+							<th ng-show="viewConfig.listView.columns[1].header_visible && viewConfig.listView.columns[1].visible">{{viewConfig.listView.columns[1].header_text}}</th>
+							<th ng-show="viewConfig.listView.row_editable">Edit</th>
 						</tr>
 					</thead>
 					<tfoot>
-						<tr colspan="3" ng-if="viewConfig.listView.pagination.enable">
-							<td colspan="3">
+						<tr colspan="{{viewConfig.listView.columns.length + (viewConfig.listView.row_editable ? 1 : 0)}}" ng-if="viewConfig.listView.pagination.enable">
+							<td colspan="{{viewConfig.listView.columns.length + (viewConfig.listView.row_editable ? 1 : 0)}}">
 								<uib-pagination
 		 							ng-model="currentPage"
 		 							total-items="translations.length"
@@ -27,21 +27,42 @@
 					</tfoot>
 					<tbody>
  						<tr ng-repeat="translation in translations | pagination : currentPage : viewConfig.listView.pagination.itemsPerPage+1">
-							<td>
-								<input type="text"
-									value="{{translation.id}}"
-									editable-text="{{viewConfig.listView.columns[0].cell_editable ? translation.id : ''}}"
+							<td ng-if="column.visible" ng-repeat="column in viewConfig.listView.columns">
+								<span
+									editable-text="translation[column.columnName]"
 									onbeforesave="updateTranslationKey($data)"
-									class="form-control">
+									e-name="{{column.columnName}}"
+									e-form="rowform"
+									isDisabled="!column.cell_editable"
+									class="form-control">{{translation[column.columnName]}}</span>
 							</td>
-							<td>
-								<input type="text"
-									value="{{translation.DisplayName}}"
-									editable-text="{{viewConfig.listView.columns[1].cell_editable ? translation.DisplayName : ''}}"
-									onbeforesave="updateTranslationKey($data)"
-									class="form-control">
-							</td>
-						</tr>
+						    <td ng-show="viewConfig.listView.row_editable">
+							    <form editable-form
+							        name="rowform"
+							        onbeforesave="updateTranslationKey($data)"
+							        ng-show="viewConfig.listView.row_editable">
+									<button type="button"
+									        class="btn btn-primary"
+									        ng-click="rowform.$show()">
+										edit
+									</button>
+							    </form>
+							    <div class="buttons" ng-show="rowform.$visible">
+								    <button type="button"
+								            class="btn btn-primary"
+								            ng-click="updateTranslationKey($data)"
+								            ng-disabled="rowform.$waiting">
+									    save
+								    </button>
+								    <button type="button"
+								            class="btn btn-default"
+								            ng-click="rowform.$cancel()"
+								            ng-disabled="rowform.$waiting">
+									    cancel
+								    </button>
+							    </div>
+						    </td>
+					    </tr>
 					</tbody>
 				</table>
 			</div>
