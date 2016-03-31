@@ -29,12 +29,16 @@
  						<tr ng-repeat="translation in translations | pagination : currentPage : viewConfig.listView.pagination.itemsPerPage+1">
 							<td ng-if="column.visible" ng-repeat="column in viewConfig.listView.columns">
 								<span
+									ng-if="column.cell_editable"
 									editable-text="translation[column.columnName]"
 									onbeforesave="updateTranslationKey($data)"
 									e-name="{{column.columnName}}"
 									e-form="rowform"
 									isDisabled="!column.cell_editable"
 									class="form-control">{{translation[column.columnName]}}</span>
+
+								<span
+									ng-if="!column.cell_editable">{{translation[column.columnName]}}</span>
 							</td>
 						    <td ng-show="viewConfig.listView.row_editable">
 							    <form editable-form
