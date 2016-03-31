@@ -5,31 +5,353 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 	,APPCONSTANTS_ISLOCAL: "127.0.0.1".indexOf(location.hostname) != -1
 	,APPCONSTANTS_NAVIGATION_ENTRYPOINT: 'translations'
 	,APPCONSTANTS_NAVIGATION_CURRENTDOMAIN: document.location.protocol + '://' + document.location.hostname
+	,APPCONSTANTS_FILELOCATIONS_VIEWS_NAVIGATIONBAR: "/app/components/navigation/views/navigation.html"
+	,APPCONSTANTS_FILELOCATIONS_VIEWS_TABLEVIEW: "/app/shared/views/tableView.html"
 	,APPCONSTANTS_SECURITY_SESSIONTIMEOUT: 20*60*1000
+
 	// these states are accessible when not logged in
 	,APPCONSTANTS_PUBLICSTATES: "login,login.userProfiles,login.modal.forgotPassword,login.forgotPassword,login.resetPassword,register"
 
 	,VIEWS: {
 		translations:{
-			listView:{
+			data:[{
+				id:1
+				,DisplayName:'Translation1'
+				,description: 'Beschrijving 1'
+				,author: 'Marc Bakker'
+				,date: '2016-03-31'
+			},{
+				id:2
+				,DisplayName:'Translation2'
+				,description: 'Beschrijving 2'
+				,author: 'Marc Bakker'
+				,date: '2016-04-01'
+			},{
+				id:3
+				,DisplayName:'Translation3'
+				,description: 'Beschrijving 3'
+				,author: 'Marc Bakker'
+				,date: '2016-04-02'
+			},{
+				id:4
+				,DisplayName:'Translation4'
+				,description: 'Beschrijving 4'
+				,author: 'Marc Bakker'
+				,date: '2016-04-03'
+			},{
+				id:5
+				,DisplayName:'Translation5'
+				,description: 'Beschrijving 5'
+				,author: 'Marc Bakker'
+				,date: '2016-04-03'
+			},{
+				id:1
+				,DisplayName:'Translation1'
+				,description: 'Beschrijving 1'
+				,author: 'Marc Bakker'
+				,date: '2016-03-31'
+			},{
+				id:2
+				,DisplayName:'Translation2'
+				,description: 'Beschrijving 2'
+				,author: 'Marc Bakker'
+				,date: '2016-04-01'
+			},{
+				id:3
+				,DisplayName:'Translation3'
+				,description: 'Beschrijving 3'
+				,author: 'Marc Bakker'
+				,date: '2016-04-02'
+			},{
+				id:4
+				,DisplayName:'Translation4'
+				,description: 'Beschrijving 4'
+				,author: 'Marc Bakker'
+				,date: '2016-04-03'
+			},{
+				id:5
+				,DisplayName:'Translation5'
+				,description: 'Beschrijving 5'
+				,author: 'Marc Bakker'
+				,date: '2016-04-03'
+			},{
+				id:1
+				,DisplayName:'Translation1'
+				,description: 'Beschrijving 1'
+				,author: 'Marc Bakker'
+				,date: '2016-03-31'
+			},{
+				id:2
+				,DisplayName:'Translation2'
+				,description: 'Beschrijving 2'
+				,author: 'Marc Bakker'
+				,date: '2016-04-01'
+			},{
+				id:3
+				,DisplayName:'Translation3'
+				,description: 'Beschrijving 3'
+				,author: 'Marc Bakker'
+				,date: '2016-04-02'
+			},{
+				id:4
+				,DisplayName:'Translation4'
+				,description: 'Beschrijving 4'
+				,author: 'Marc Bakker'
+				,date: '2016-04-03'
+			},{
+				id:5
+				,DisplayName:'Translation5'
+				,description: 'Beschrijving 5'
+				,author: 'Marc Bakker'
+				,date: '2016-04-03'
+			},{
+				id:1
+				,DisplayName:'Translation1'
+				,description: 'Beschrijving 1'
+				,author: 'Marc Bakker'
+				,date: '2016-03-31'
+			},{
+				id:2
+				,DisplayName:'Translation2'
+				,description: 'Beschrijving 2'
+				,author: 'Marc Bakker'
+				,date: '2016-04-01'
+			},{
+				id:3
+				,DisplayName:'Translation3'
+				,description: 'Beschrijving 3'
+				,author: 'Marc Bakker'
+				,date: '2016-04-02'
+			},{
+				id:4
+				,DisplayName:'Translation4'
+				,description: 'Beschrijving 4'
+				,author: 'Marc Bakker'
+				,date: '2016-04-03'
+			},{
+				id:5
+				,DisplayName:'Translation5'
+				,description: 'Beschrijving 5'
+				,author: 'Marc Bakker'
+				,date: '2016-04-03'
+			},{
+				id:1
+				,DisplayName:'Translation1'
+				,description: 'Beschrijving 1'
+				,author: 'Marc Bakker'
+				,date: '2016-03-31'
+			},{
+				id:2
+				,DisplayName:'Translation2'
+				,description: 'Beschrijving 2'
+				,author: 'Marc Bakker'
+				,date: '2016-04-01'
+			},{
+				id:3
+				,DisplayName:'Translation3'
+				,description: 'Beschrijving 3'
+				,author: 'Marc Bakker'
+				,date: '2016-04-02'
+			},{
+				id:4
+				,DisplayName:'Translation4'
+				,description: 'Beschrijving 4'
+				,author: 'Marc Bakker'
+				,date: '2016-04-03'
+			},{
+				id:5
+				,DisplayName:'Translation5'
+				,description: 'Beschrijving 5'
+				,author: 'Marc Bakker'
+				,date: '2016-04-03'
+			},{
+				id:1
+				,DisplayName:'Translation1'
+				,description: 'Beschrijving 1'
+				,author: 'Marc Bakker'
+				,date: '2016-03-31'
+			},{
+				id:2
+				,DisplayName:'Translation2'
+				,description: 'Beschrijving 2'
+				,author: 'Marc Bakker'
+				,date: '2016-04-01'
+			},{
+				id:3
+				,DisplayName:'Translation3'
+				,description: 'Beschrijving 3'
+				,author: 'Marc Bakker'
+				,date: '2016-04-02'
+			},{
+				id:4
+				,DisplayName:'Translation4'
+				,description: 'Beschrijving 4'
+				,author: 'Marc Bakker'
+				,date: '2016-04-03'
+			},{
+				id:5
+				,DisplayName:'Translation5'
+				,description: 'Beschrijving 5'
+				,author: 'Marc Bakker'
+				,date: '2016-04-03'
+			},{
+				id:1
+				,DisplayName:'Translation1'
+				,description: 'Beschrijving 1'
+				,author: 'Marc Bakker'
+				,date: '2016-03-31'
+			},{
+				id:2
+				,DisplayName:'Translation2'
+				,description: 'Beschrijving 2'
+				,author: 'Marc Bakker'
+				,date: '2016-04-01'
+			},{
+				id:3
+				,DisplayName:'Translation3'
+				,description: 'Beschrijving 3'
+				,author: 'Marc Bakker'
+				,date: '2016-04-02'
+			},{
+				id:4
+				,DisplayName:'Translation4'
+				,description: 'Beschrijving 4'
+				,author: 'Marc Bakker'
+				,date: '2016-04-03'
+			},{
+				id:5
+				,DisplayName:'Translation5'
+				,description: 'Beschrijving 5'
+				,author: 'Marc Bakker'
+				,date: '2016-04-03'
+			},{
+				id:1
+				,DisplayName:'Translation1'
+				,description: 'Beschrijving 1'
+				,author: 'Marc Bakker'
+				,date: '2016-03-31'
+			},{
+				id:2
+				,DisplayName:'Translation2'
+				,description: 'Beschrijving 2'
+				,author: 'Marc Bakker'
+				,date: '2016-04-01'
+			},{
+				id:3
+				,DisplayName:'Translation3'
+				,description: 'Beschrijving 3'
+				,author: 'Marc Bakker'
+				,date: '2016-04-02'
+			},{
+				id:4
+				,DisplayName:'Translation4'
+				,description: 'Beschrijving 4'
+				,author: 'Marc Bakker'
+				,date: '2016-04-03'
+			},{
+				id:5
+				,DisplayName:'Translation5'
+				,description: 'Beschrijving 5'
+				,author: 'Marc Bakker'
+				,date: '2016-04-03'
+			},{
+				id:1
+				,DisplayName:'Translation1'
+				,description: 'Beschrijving 1'
+				,author: 'Marc Bakker'
+				,date: '2016-03-31'
+			},{
+				id:2
+				,DisplayName:'Translation2'
+				,description: 'Beschrijving 2'
+				,author: 'Marc Bakker'
+				,date: '2016-04-01'
+			},{
+				id:3
+				,DisplayName:'Translation3'
+				,description: 'Beschrijving 3'
+				,author: 'Marc Bakker'
+				,date: '2016-04-02'
+			},{
+				id:4
+				,DisplayName:'Translation4'
+				,description: 'Beschrijving 4'
+				,author: 'Marc Bakker'
+				,date: '2016-04-03'
+			},{
+				id:5
+				,DisplayName:'Translation5'
+				,description: 'Beschrijving 5'
+				,author: 'Marc Bakker'
+				,date: '2016-04-03'
+			},{
+				id:1
+				,DisplayName:'Translation1'
+				,description: 'Beschrijving 1'
+				,author: 'Marc Bakker'
+				,date: '2016-03-31'
+			},{
+				id:2
+				,DisplayName:'Translation2'
+				,description: 'Beschrijving 2'
+				,author: 'Marc Bakker'
+				,date: '2016-04-01'
+			},{
+				id:3
+				,DisplayName:'Translation3'
+				,description: 'Beschrijving 3'
+				,author: 'Marc Bakker'
+				,date: '2016-04-02'
+			},{
+				id:4
+				,DisplayName:'Translation4'
+				,description: 'Beschrijving 4'
+				,author: 'Marc Bakker'
+				,date: '2016-04-03'
+			},{
+				id:5
+				,DisplayName:'Translation5'
+				,description: 'Beschrijving 5'
+				,author: 'Marc Bakker'
+				,date: '2016-04-03'
+			}]
+			,viewConfig:{
 				row_editable: true
 				,columns:[{
 					columnName: 'id'
 					,visible:true
 					,header_visible:true
-					,header_text:'Key'
+					,header_text:'id'
 					,cell_editable: false
 				},{
 					columnName: 'DisplayName'
-  					,visible:true
+					,visible:true
 					,header_visible:true
 					,header_text:'Vertaling'
+					,cell_editable: false
+				},{
+					columnName: 'description'
+					,visible:true
+					,header_visible:true
+					,header_text:'Opmerkingen'
 					,cell_editable: true
-				}]
+				},{
+					columnName: 'author'
+					,visible:true
+					,header_visible:true
+					,header_text:'Auteur'
+					,cell_editable: false
+				},{
+					columnName: 'date'
+  					,visible:true
+					,header_visible:true
+					,header_text:'Datum'
+					,cell_editable: true
+				},]
 				,pagination: {
 					enable:true
 					,maxSize: 10
-					,itemsPerPage:15
+					,itemsPerPage:9
 				}
 			}
 		}
@@ -46,14 +368,19 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 				,value: ''
 			}]
 		}
+		,'joblist': {
+			api_url: 'http://api-development.hrmatches.com' + '/joblist'
+			,api_method: 'GET'
+			,api_params: []
+		}
 	}
 })
-.run(function($rootScope,$state,AppConfig,AuthService,TranslationService,SessionService,UtilsService){
+.run(function($rootScope,$state,AppConfig,AuthService,TranslationService,SessionService){
 	// perform any site-wide initialisation here
+	$rootScope.AppConfig = AppConfig;
 	$rootScope.$state = $state;
 	$rootScope.TranslationService = TranslationService;
 	$rootScope.SessionService = SessionService;
-	$rootScope.UtilsService = UtilsService;
 
 	//retrieve all languages
 	TranslationService.load(AppConfig.API_ENDPOINTS.translations);
@@ -84,10 +411,6 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 				SessionService.resetLoginTimeOut();
 			}
 		}
-		else{
-			$state.go(toState.name);
-			event.preventDefault();
-		}
 	});
 
 
@@ -108,7 +431,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 	.state('home',{
 		views:{
 			'header': {
-				templateUrl: '/app/shared/components/navigation/views/navigation.html',
+				templateUrl: AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS_NAVIGATIONBAR,
 				controller: 'AuthController'
 			}
 		},
@@ -144,7 +467,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
             'header':{
                 templateProvider: function($templateFactory,AuthService){
                     if(AuthService.isLoggedIn()){
-                        return $templateFactory.fromUrl('/app/shared/components/navigation/views/navigation.html')
+                        return $templateFactory.fromUrl(AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS_NAVIGATIONBAR)
                     }
                 },
             },
@@ -213,9 +536,6 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 			}
 		}
 	})
-	/*
-	 * ========= LOGIN - 2STEPAUTHENTICATION =========
-	 */
 	.state('login.2StepAuthentication',{
 		url:'2StepAuthentication'
 		,templateUrl:'/app/components/login/views/2stepAuthentication.html'
@@ -242,20 +562,44 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 				templateUrl: '/app/components/vacaturegids/views/vacaturegids.html'
 			}
 			,'header': {
-				templateUrl: '/app/shared/components/navigation/views/navigation.html'
+				templateUrl: AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS_NAVIGATIONBAR
 				,controller: 'AuthController'
 			}
 		}
 	})
 	/*
-	 * ========= PAAS: TRANSLATIONS ========= 
+	 * ========= TRANSLATIONS =========
 	 */
 	.state('translations',{
 		url: '/translations'
+		,resolve: {
+			data: ['TranslationService',function(TranslationService){
+				// TEST met dummydata om generieke listview te testen
+				return AppConfig.VIEWS.translations.data;
+				//return TranslationService.load(AppConfig.API_ENDPOINTS.translations);
+			}]
+		}
 		,views:{
 			'body': {
-				templateUrl: '/app/components/PaaS/translations/views/keysList.html'
+				templateUrl: '/app/components/translations/views/translations.html'
 				,controller: 'TranslationController'
+			}
+		}
+	})
+	/*
+	* JOBLIST
+	*/
+	.state('joblist',{
+		url: '/joblist'
+		,resolve: {
+			APIResponse: ['JoblistService',function(JoblistService){
+				return JoblistService.load(AppConfig.API_ENDPOINTS.joblist);
+			}]
+		}
+		,views:{
+			'body': {
+				templateUrl: '/app/components/joblist/views/jobs.html'
+				,controller: 'JoblistController'
 			}
 		}
 	})

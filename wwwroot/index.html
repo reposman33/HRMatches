@@ -14,7 +14,6 @@
 	<script type="text/javascript" src="/node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
 	<script type="text/javascript" src="/node_modules/angular-storage/dist/angular-storage.min.js"></script>
  	<script type="text/javascript" src="/node_modules/ui-bootstrap-tpls-1.2.5.min.js"></script>
-<!--  	<script type="text/javascript" src="/node_modules/angular-messages/angular-messages.min.js"></script> -->
  	<script type="text/javascript" src="/node_modules/angular-animate/angular-animate.min.js"></script>
  	<script type="text/javascript" src="/node_modules/angular-xeditable-0.1.11/js/xeditable.min.js"></script>
 
@@ -26,23 +25,26 @@
 	<script type="text/javascript" src="/app/components/login/directives/loginAdvertorial.js"></script>
 	<script type="text/javascript" src="/app/components/login/directives/compareTo.js"></script>
 	<script type="text/javascript" src="/app/components/login/services/Auth.js"></script>
-	<!-- LANGUAGE -->
-	<script type="text/javascript" src="/app/components/PaaS/translations/controllers/TranslationController.js"></script>
+	<!-- TRANSLATIONS -->
+	<script type="text/javascript" src="/app/components/translations/controllers/TranslationController.js"></script>
+	<script type="text/javascript" src="/app/components/translations/services/TranslationService.js"></script>
+	<!--NAVIGATION -->
+	<script type="text/javascript" src="/app/components/navigation/controllers/NavigationController.js"></script>
+	<!-- JOBLIST -->
+	<script type="text/javascript" src="/app/components/joblist/controllers/JoblistController.js"></script>
+	<script type="text/javascript" src="/app/components/joblist/services/JoblistService.js"></script>
 	<!-- SHARED RESOURCES -->
-	<script type="text/javascript" src="/app/shared/components/navigation/controllers/NavigationController.js"></script>
 	<script type="text/javascript" src="/app/shared/filters/Filters.js"></script>
-	<script type="text/javascript" src="/app/shared/services/TranslationService.js"></script>
-	<script type="text/javascript" src="/app/shared/services/Utils.js"></script>
-	<script type="text/javascript" src="/app/shared/services/Session.js"></script>
-	<script type="text/javascript" src="/app/shared/services/API.js"></script>
+	<script type="text/javascript" src="/app/shared/services/UtilsService.js"></script>
+	<script type="text/javascript" src="/app/shared/services/SessionService.js"></script>
+	<script type="text/javascript" src="/app/shared/services/APIService.js"></script>
 </head>
 
 <body class="modal-open" ng-app="app.HRMatches" ng-cloak>
 
 	<div class="row title-container"></div>
-
 	<div class="header">
-		<ng-include src="'/app/shared/components/navigation/views/navigation.html'" ng-if="SessionService.isLoggedIn()"></div>
+		<ng-include src="AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS_NAVIGATIONBAR" ng-if="SessionService.isLoggedIn()"></div>
 		<div class="pull-right">{{SessionService.isLoggedIn() ? 'Ingelogd' : 'Niet ingelogd'}}</div>
 	</div>
 

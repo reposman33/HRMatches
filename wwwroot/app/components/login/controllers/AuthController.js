@@ -53,7 +53,7 @@ angular.module('app.HRMatches')
 			}
 			else{
 				// NO PASSWORD / USERNAME PROVIDED
-				$scope.loginFeedbackText = TranslationService.getText('LOGIN_NOCREDENTIALS');
+				$scope.loginFeedbackText = TranslationService.getText('LOGIN_ERROR');
 			}
 		}
 

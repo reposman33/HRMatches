@@ -1,0 +1,60 @@
+<table class="table table-striped">
+	<thead>
+	<tr>
+		<th
+			ng-repeat="column in viewConfig.columns"
+			ng-show="column.header_visible && column.visible">{{column.header_text}}</th>
+		<th ng-show="viewConfig.row_editable">Edit</th>
+	</tr>
+	</thead>
+	<tfoot>
+	<tr
+		colspan="{{viewConfig.columns.length + (viewConfig.row_editable ? 1 : 0)}}"
+		ng-if="viewConfig.pagination.enable">
+		<td colspan="{{viewConfig.columns.length + (viewConfig.row_editable ? 1 : 0)}}">
+			<uib-pagination
+				class="pagination-sm"
+				ng-model="currentPage"
+				total-items="50"
+				max-size="viewConfig.pagination.maxSize"
+				ng-change="paginate(currentPage)"
+				items-per-page="viewConfig.pagination.itemsPerPage"></uib-pagination>
+		</td>
+	</tr>
+	</tfoot>
+	<tbody>
+		<tr ng-repeat="columnData in currentDataPage">
+			<td ng-repeat="column in viewConfig.columns"
+			    ng-if="column.visible">
+					<span
+						ng-if="column.cell_editable"
+						editable-text="columnData[column.columnName.toLowerCase()]"
+						onbeforesave="update($data)"
+						e-name="{{column.columnName}}"
+						e-form="rowform"
+						class="form-control">{{columnData[column.columnName]}}</span>
+					<span
+						ng-if="!column.cell_editable">{{columnData[column.columnName]}}</span>
+			</td>
+			<td ng-show="viewConfig.row_editable">
+				<form editable-form
+			      name="rowform"
+			      onbeforesave="update($data)">
+				<button type="button"
+			        class="btn btn-primary"
+			        ng-click="rowform.$show()">edit</button>
+				</form>
+				<div class="buttons" ng-show="rowform.$visible">
+					<button type="button"
+				        class="btn btn-primary"
+				        ng-click="update($data)"
+				        ng-disabled="rowform.$waiting">save</button>
+					<button type="button"
+				        class="btn btn-default"
+				        ng-click="rowform.$cancel()"
+				        ng-disabled="rowform.$waiting">cancel</button>
+				</div>
+			</td>
+		</tr>
+	</tbody>
+</table>
