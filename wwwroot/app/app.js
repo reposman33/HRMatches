@@ -12,350 +12,6 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 	// these states are accessible when not logged in
 	,APPCONSTANTS_PUBLICSTATES: "login,login.userProfiles,login.modal.forgotPassword,login.forgotPassword,login.resetPassword,register"
 
-	,VIEWS: {
-		translations:{
-			data:[{
-				id:1
-				,DisplayName:'Translation1'
-				,description: 'Beschrijving 1'
-				,author: 'Marc Bakker'
-				,date: '2016-03-31'
-			},{
-				id:2
-				,DisplayName:'Translation2'
-				,description: 'Beschrijving 2'
-				,author: 'Marc Bakker'
-				,date: '2016-04-01'
-			},{
-				id:3
-				,DisplayName:'Translation3'
-				,description: 'Beschrijving 3'
-				,author: 'Marc Bakker'
-				,date: '2016-04-02'
-			},{
-				id:4
-				,DisplayName:'Translation4'
-				,description: 'Beschrijving 4'
-				,author: 'Marc Bakker'
-				,date: '2016-04-03'
-			},{
-				id:5
-				,DisplayName:'Translation5'
-				,description: 'Beschrijving 5'
-				,author: 'Marc Bakker'
-				,date: '2016-04-03'
-			},{
-				id:1
-				,DisplayName:'Translation1'
-				,description: 'Beschrijving 1'
-				,author: 'Marc Bakker'
-				,date: '2016-03-31'
-			},{
-				id:2
-				,DisplayName:'Translation2'
-				,description: 'Beschrijving 2'
-				,author: 'Marc Bakker'
-				,date: '2016-04-01'
-			},{
-				id:3
-				,DisplayName:'Translation3'
-				,description: 'Beschrijving 3'
-				,author: 'Marc Bakker'
-				,date: '2016-04-02'
-			},{
-				id:4
-				,DisplayName:'Translation4'
-				,description: 'Beschrijving 4'
-				,author: 'Marc Bakker'
-				,date: '2016-04-03'
-			},{
-				id:5
-				,DisplayName:'Translation5'
-				,description: 'Beschrijving 5'
-				,author: 'Marc Bakker'
-				,date: '2016-04-03'
-			},{
-				id:1
-				,DisplayName:'Translation1'
-				,description: 'Beschrijving 1'
-				,author: 'Marc Bakker'
-				,date: '2016-03-31'
-			},{
-				id:2
-				,DisplayName:'Translation2'
-				,description: 'Beschrijving 2'
-				,author: 'Marc Bakker'
-				,date: '2016-04-01'
-			},{
-				id:3
-				,DisplayName:'Translation3'
-				,description: 'Beschrijving 3'
-				,author: 'Marc Bakker'
-				,date: '2016-04-02'
-			},{
-				id:4
-				,DisplayName:'Translation4'
-				,description: 'Beschrijving 4'
-				,author: 'Marc Bakker'
-				,date: '2016-04-03'
-			},{
-				id:5
-				,DisplayName:'Translation5'
-				,description: 'Beschrijving 5'
-				,author: 'Marc Bakker'
-				,date: '2016-04-03'
-			},{
-				id:1
-				,DisplayName:'Translation1'
-				,description: 'Beschrijving 1'
-				,author: 'Marc Bakker'
-				,date: '2016-03-31'
-			},{
-				id:2
-				,DisplayName:'Translation2'
-				,description: 'Beschrijving 2'
-				,author: 'Marc Bakker'
-				,date: '2016-04-01'
-			},{
-				id:3
-				,DisplayName:'Translation3'
-				,description: 'Beschrijving 3'
-				,author: 'Marc Bakker'
-				,date: '2016-04-02'
-			},{
-				id:4
-				,DisplayName:'Translation4'
-				,description: 'Beschrijving 4'
-				,author: 'Marc Bakker'
-				,date: '2016-04-03'
-			},{
-				id:5
-				,DisplayName:'Translation5'
-				,description: 'Beschrijving 5'
-				,author: 'Marc Bakker'
-				,date: '2016-04-03'
-			},{
-				id:1
-				,DisplayName:'Translation1'
-				,description: 'Beschrijving 1'
-				,author: 'Marc Bakker'
-				,date: '2016-03-31'
-			},{
-				id:2
-				,DisplayName:'Translation2'
-				,description: 'Beschrijving 2'
-				,author: 'Marc Bakker'
-				,date: '2016-04-01'
-			},{
-				id:3
-				,DisplayName:'Translation3'
-				,description: 'Beschrijving 3'
-				,author: 'Marc Bakker'
-				,date: '2016-04-02'
-			},{
-				id:4
-				,DisplayName:'Translation4'
-				,description: 'Beschrijving 4'
-				,author: 'Marc Bakker'
-				,date: '2016-04-03'
-			},{
-				id:5
-				,DisplayName:'Translation5'
-				,description: 'Beschrijving 5'
-				,author: 'Marc Bakker'
-				,date: '2016-04-03'
-			},{
-				id:1
-				,DisplayName:'Translation1'
-				,description: 'Beschrijving 1'
-				,author: 'Marc Bakker'
-				,date: '2016-03-31'
-			},{
-				id:2
-				,DisplayName:'Translation2'
-				,description: 'Beschrijving 2'
-				,author: 'Marc Bakker'
-				,date: '2016-04-01'
-			},{
-				id:3
-				,DisplayName:'Translation3'
-				,description: 'Beschrijving 3'
-				,author: 'Marc Bakker'
-				,date: '2016-04-02'
-			},{
-				id:4
-				,DisplayName:'Translation4'
-				,description: 'Beschrijving 4'
-				,author: 'Marc Bakker'
-				,date: '2016-04-03'
-			},{
-				id:5
-				,DisplayName:'Translation5'
-				,description: 'Beschrijving 5'
-				,author: 'Marc Bakker'
-				,date: '2016-04-03'
-			},{
-				id:1
-				,DisplayName:'Translation1'
-				,description: 'Beschrijving 1'
-				,author: 'Marc Bakker'
-				,date: '2016-03-31'
-			},{
-				id:2
-				,DisplayName:'Translation2'
-				,description: 'Beschrijving 2'
-				,author: 'Marc Bakker'
-				,date: '2016-04-01'
-			},{
-				id:3
-				,DisplayName:'Translation3'
-				,description: 'Beschrijving 3'
-				,author: 'Marc Bakker'
-				,date: '2016-04-02'
-			},{
-				id:4
-				,DisplayName:'Translation4'
-				,description: 'Beschrijving 4'
-				,author: 'Marc Bakker'
-				,date: '2016-04-03'
-			},{
-				id:5
-				,DisplayName:'Translation5'
-				,description: 'Beschrijving 5'
-				,author: 'Marc Bakker'
-				,date: '2016-04-03'
-			},{
-				id:1
-				,DisplayName:'Translation1'
-				,description: 'Beschrijving 1'
-				,author: 'Marc Bakker'
-				,date: '2016-03-31'
-			},{
-				id:2
-				,DisplayName:'Translation2'
-				,description: 'Beschrijving 2'
-				,author: 'Marc Bakker'
-				,date: '2016-04-01'
-			},{
-				id:3
-				,DisplayName:'Translation3'
-				,description: 'Beschrijving 3'
-				,author: 'Marc Bakker'
-				,date: '2016-04-02'
-			},{
-				id:4
-				,DisplayName:'Translation4'
-				,description: 'Beschrijving 4'
-				,author: 'Marc Bakker'
-				,date: '2016-04-03'
-			},{
-				id:5
-				,DisplayName:'Translation5'
-				,description: 'Beschrijving 5'
-				,author: 'Marc Bakker'
-				,date: '2016-04-03'
-			},{
-				id:1
-				,DisplayName:'Translation1'
-				,description: 'Beschrijving 1'
-				,author: 'Marc Bakker'
-				,date: '2016-03-31'
-			},{
-				id:2
-				,DisplayName:'Translation2'
-				,description: 'Beschrijving 2'
-				,author: 'Marc Bakker'
-				,date: '2016-04-01'
-			},{
-				id:3
-				,DisplayName:'Translation3'
-				,description: 'Beschrijving 3'
-				,author: 'Marc Bakker'
-				,date: '2016-04-02'
-			},{
-				id:4
-				,DisplayName:'Translation4'
-				,description: 'Beschrijving 4'
-				,author: 'Marc Bakker'
-				,date: '2016-04-03'
-			},{
-				id:5
-				,DisplayName:'Translation5'
-				,description: 'Beschrijving 5'
-				,author: 'Marc Bakker'
-				,date: '2016-04-03'
-			},{
-				id:1
-				,DisplayName:'Translation1'
-				,description: 'Beschrijving 1'
-				,author: 'Marc Bakker'
-				,date: '2016-03-31'
-			},{
-				id:2
-				,DisplayName:'Translation2'
-				,description: 'Beschrijving 2'
-				,author: 'Marc Bakker'
-				,date: '2016-04-01'
-			},{
-				id:3
-				,DisplayName:'Translation3'
-				,description: 'Beschrijving 3'
-				,author: 'Marc Bakker'
-				,date: '2016-04-02'
-			},{
-				id:4
-				,DisplayName:'Translation4'
-				,description: 'Beschrijving 4'
-				,author: 'Marc Bakker'
-				,date: '2016-04-03'
-			},{
-				id:5
-				,DisplayName:'Translation5'
-				,description: 'Beschrijving 5'
-				,author: 'Marc Bakker'
-				,date: '2016-04-03'
-			}]
-			,viewConfig:{
-				row_editable: true
-				,columns:[{
-					columnName: 'id'
-					,visible:true
-					,header_visible:true
-					,header_text:'id'
-					,cell_editable: false
-				},{
-					columnName: 'DisplayName'
-					,visible:true
-					,header_visible:true
-					,header_text:'Vertaling'
-					,cell_editable: false
-				},{
-					columnName: 'description'
-					,visible:true
-					,header_visible:true
-					,header_text:'Opmerkingen'
-					,cell_editable: true
-				},{
-					columnName: 'author'
-					,visible:true
-					,header_visible:true
-					,header_text:'Auteur'
-					,cell_editable: false
-				},{
-					columnName: 'date'
-  					,visible:true
-					,header_visible:true
-					,header_text:'Datum'
-					,cell_editable: true
-				},]
-				,pagination: {
-					enable:true
-					,maxSize: 10
-					,itemsPerPage:9
-				}
-			}
-		}
-	}
 	,API_ENDPOINTS: {
 		'translations': {
 			api_url: 'http://api-development.hrmatches.com' + '/translation'
@@ -402,11 +58,15 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 				// LOGOUT WHEN SESSION EXPIRED
 				AuthService.logout();
 				console.warn('Usersession timed out, redirecting');
-				$state.go('login');
 				event.preventDefault();
+				$state.go('login');
 			}
 			else{
-				
+				if(fromState.name == 'translations'){
+					toParams.fromStateName = fromState.name;
+					$state.go('message',{message:'U bent niet geauthoriseerd voor deze actie!'});
+					event.preventDefault();
+				}
 				// RESET TIMER
 				SessionService.resetLoginTimeOut();
 			}
@@ -418,12 +78,29 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 	});
 
 	$rootScope.$on('$stateChangeError',function(event, toState, toParams, fromState, fromParams, error){
+		switch(error.status){
+			case 500:{ // eerver error
+				SessionService.log(error);
+				break;
+			}
+			case 401:{ //niet authenticated
+				SessionService.log(error);
+				$state.go('login');
+				break;
+			}
+			case 403:{ // niet geauthoriseerd
+				SessionService.log(error);
+				$state.go('message',{message:'U bent niet geauthoriseerd voor deze actie!'});
+				break;
+			}
+		}
+		event.preventDefault();
 		console.error('ERROR $stateChangeError: ',error);
 	});
 
 })
 
-.config(['$stateProvider','$urlRouterProvider','AppConfig',function($stateProvider,$urlRouterProvider,AppConfig){
+.config(['$stateProvider','$urlRouterProvider','AppConfig',function($stateProvider,$urlRouterProvider,AppConfig,$state){
 	$urlRouterProvider
 	.otherwise('/login');
 
@@ -441,11 +118,13 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 		url: '/message/',
 		params:{
 			message: null
+			,fromStateName: ''
 		},
 		views:{
 			'body': {
 				controller: function($scope,$stateParams,TranslationService){
 					$scope.message = TranslationService.getText($stateParams.message);
+					$scope.fromStateName = $stateParams.fromStateName;
 				},
 				templateUrl: '/app/shared/views/message.html'
 			}
@@ -574,10 +253,12 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 		url: '/translations'
 		,resolve: {
 			data: ['TranslationService',function(TranslationService){
-				// TEST met dummydata om generieke listview te testen
-				return AppConfig.VIEWS.translations.data;
-				//return TranslationService.load(AppConfig.API_ENDPOINTS.translations);
+				_data = TranslationService.load(AppConfig.API_ENDPOINTS.translations);
+				return _data.data;
 			}]
+			,viewConfig: function(){
+				return _data.configuration; //_data above is not local so we can reference it here...
+			}
 		}
 		,views:{
 			'body': {
@@ -587,7 +268,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 		}
 	})
 	/*
-	* JOBLIST
+	* ========= JOBLIST =========
 	*/
 	.state('joblist',{
 		url: '/joblist'

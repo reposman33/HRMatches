@@ -1,7 +1,10 @@
 angular.module('app.HRMatches')
 .factory('TranslationService',['APIService','AppConfig',function(APIService,AppConfig){
 	return{
+		_translationsData: {},
 		_data: [],
+		_viewConfig: {},
+		__isLoaded: false,
 
 		/*
 		 * ========== PUBLIC METHODS ==========
@@ -18,15 +21,15 @@ angular.module('app.HRMatches')
 			.then(
 				function(successResponse){
 					self.loadResponse(successResponse);
-					return successResponse;
-				},function(errorResponse){
-					console.log('TranslationService.init() errorresponse: ', errorResponse);
+					self._isLoaded(true);
 				});
 		},
 
 
 		loadResponse: function(successResponse){
-			this._data = successResponse;
+			this._translationsData = successResponse;
+			this._data = successResponse.data;
+			this._viewConfig = successResponse.configuration;
 		},
 
 
@@ -44,7 +47,7 @@ angular.module('app.HRMatches')
 
 
 		getData: function(){
-			return this._data;
+			return this._translationsData;
 		},
 
 
@@ -71,8 +74,13 @@ angular.module('app.HRMatches')
 		},
 
 
-		_isLoaded: function(){
-			return this._data.length > 0;
+		_isLoaded: function(status){
+			if(status){
+				this.__isLoaded = status;
+			}
+			else{
+				return this.__isLoaded;
+			}
 		}
 	}
 }])

@@ -15,13 +15,11 @@ angular.module('app.HRMatches')
 				}
 
 				return this._load(data)
-					.then(
-						function(successResponse){
-							self.loadResponse(successResponse);
-							return successResponse;
-						},function(errorResponse){
-							console.log('TranslationService.init() errorresponse: ', errorResponse);
-						});
+				.then(
+					function(successResponse){
+						self.loadResponse(successResponse);
+						return successResponse;
+					});
 			},
 
 

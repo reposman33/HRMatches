@@ -1,5 +1,5 @@
 angular.module('app.HRMatches')
-.service('SessionService',function(store){
+.service('SessionService',['APIService','store',function(APIService,store){
 	var service = this,
 		currentUser = null;
 	
@@ -19,8 +19,9 @@ angular.module('app.HRMatches')
 	}
 
 	service.getCurrentUserToken = function(){
-		currentUser = store.get('currentUser');
-		return currentUser.token;
+		var currentUser = store.get('currentUser');
+		var token = (currentUser && currentUser.token) || '';
+		return token;
 	}
 
 	service.removeCurrentUser = function(){
@@ -43,5 +44,28 @@ angular.module('app.HRMatches')
 	service.set = function(key,value){
 		store.set(key,value);
 	}
-	
-})
+
+	service.log = function(message){
+		// add messages to a log
+		if(!store.get('log')){
+			store.set('log',{})
+		}
+		var log = store.get('log');
+		log[new Date().toLocaleString()] = message;
+		store.set('log',log);
+
+		//log client variables
+		var data = {
+			token: this.getCurrentUserToken(),
+			hostname: location.hostname, //hostname van website
+			href: location.href, // url (=incl protocol,port,hostname,querystring)
+			appVersion: navigator.appVersion,//browser versie
+			language: navigator.language, //browser taal
+			platform: navigator.platform, //voor welk plaform is de browser
+			userAgent: navigator.userAgent, //user agent
+			screenSize: screen.width + '*' + screen.height, //breedte*hoogte van scherm
+			colorDepth: screen.colorDepth //kleuren in bits/pixels
+		}
+		APIService.trackData(data)
+	}
+}])

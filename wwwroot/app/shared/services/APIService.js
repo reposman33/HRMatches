@@ -1,5 +1,5 @@
 angular.module('app.HRMatches')
-.service('APIService',function($http,$timeout,$q,$state,$q,AppConfig){
+.service('APIService',['$http','$timeout','$q','$state','$q','AppConfig','SessionService',function($http,$timeout,$q,$state,$q,AppConfig,SessionService){
 
 	this.authenticate = function(data){
 		return $http({
@@ -73,9 +73,10 @@ angular.module('app.HRMatches')
 	}
 	
 	this.load = function(data){
+		var token = SessionService.getCurrentUserToken();
 		return $http({
 			method:data.api_method
-			,url: data.api_url
+			,url: data.api_url + (token != '' ? ('/' + token) : '')
 			,data:_loadParams(data.api_params)
 		})	
 	}
@@ -91,6 +92,18 @@ angular.module('app.HRMatches')
 		})
 	}
 	
+
+	this.trackData = function(data){
+		return $http({
+			method: 'POST'
+			,url: AppConfig.APPCONSTANTS_API_URL + '/trackdata'
+			,data:{
+				clientVariables: data
+			}
+		})
+	}
+
+
 	_loadParams = function(params){
 		var result={};
 		for(var i=0;i<params.length;i++){
@@ -98,4 +111,4 @@ angular.module('app.HRMatches')
 		}
 		return result;
 	}
-})
+}])

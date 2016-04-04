@@ -1,13 +1,15 @@
 angular.module('app.HRMatches')
 .controller('TranslationController',
-	['$scope','AppConfig','TranslationService','data','SessionService',
-	 function($scope,AppConfig,TranslationService,data,SessionService){
+	['$scope','AppConfig','data','SessionService','TranslationService','viewConfig',
+	 function($scope,AppConfig,data,SessionService,TranslationService,viewConfig){
 
-		$scope.viewConfig = AppConfig.VIEWS.translations.viewConfig;
+		$scope.viewConfig = viewConfig;
+		var data = data
+
 		$scope.currentPage = 1;
 
 		$scope.paginate = function(newPage){
-			$scope.currentDataPage = data.slice(((newPage-1)*AppConfig.VIEWS.translations.viewConfig.pagination.itemsPerPage), ((newPage)*AppConfig.VIEWS.translations.viewConfig.pagination.itemsPerPage))
+			$scope.currentDataPage = data.slice(((newPage-1)*$scope.viewConfig.pagination.itemsPerPage), ((newPage)*$scope.viewConfig.pagination.itemsPerPage))
 		}
 
 		 $scope.paginate($scope.currentPage);

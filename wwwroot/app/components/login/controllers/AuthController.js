@@ -130,6 +130,8 @@ angular.module('app.HRMatches')
 				AuthService.logout(logoutTokens)
 			}
 
+			// logging
+			
 			$state.go(AppConfig.APPCONSTANTS_NAVIGATION_ENTRYPOINT);
 		}
 
