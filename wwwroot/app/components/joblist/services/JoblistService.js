@@ -14,7 +14,7 @@ angular.module('app.HRMatches')
 					return this.getData();
 				}
 
-				return this._load(data)
+				return APIService.request(data)
 				.then(
 					function(successResponse){
 						self.loadResponse(successResponse);
@@ -60,7 +60,7 @@ angular.module('app.HRMatches')
 			 */
 
 			_load: function(data){
-				return APIService.load(data)
+				return APIService.request(data)
 					.then(
 						function(successResponse){
 							return successResponse.data;

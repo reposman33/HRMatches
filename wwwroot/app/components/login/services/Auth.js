@@ -20,7 +20,6 @@ angular.module('app.HRMatches')
 		return APIService.validateTokens(tokens)		
 		.then(
 			function(successResponse){
-				//ALL $http calls are resolved
 				angular.forEach(successResponse,function(successRespons,i,successResponse){
 					this.profiles.push(successRespons.data);
 				},result);

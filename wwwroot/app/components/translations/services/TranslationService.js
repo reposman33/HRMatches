@@ -4,7 +4,7 @@ angular.module('app.HRMatches')
 		_translationsData: {},
 		_data: [],
 		_viewConfig: {},
-		__isLoaded: false,
+		_isLoaded: false,
 
 		/*
 		 * ========== PUBLIC METHODS ==========
@@ -13,16 +13,17 @@ angular.module('app.HRMatches')
 		load: function(data){
 			var self = this;
 
-			if(this._isLoaded()){
+			if(this._isLoaded){
 				return this.getData();
 			}
 
-			return this._load(data)
+			return APIService.request(data)
 			.then(
 				function(successResponse){
 					self.loadResponse(successResponse);
-					self._isLoaded(true);
-				});
+					self._isLoaded = true;
+				}
+			);
 		},
 
 
@@ -59,28 +60,5 @@ angular.module('app.HRMatches')
 					}
 				)
 		},
-
-		/*
-		* ========== PRIVATE METHODS ==========
-		*/
-
-		_load: function(data){
-			return APIService.load(data)
-			.then(
-				function(successResponse){
-					return successResponse.data;
-				}
-			);
-		},
-
-
-		_isLoaded: function(status){
-			if(status){
-				this.__isLoaded = status;
-			}
-			else{
-				return this.__isLoaded;
-			}
-		}
 	}
 }])

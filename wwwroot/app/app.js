@@ -14,20 +14,56 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 
 	,API_ENDPOINTS: {
 		'translations': {
-			api_url: 'http://api-development.hrmatches.com' + '/translation'
-			,api_method: 'POST'
-			,api_params: [{
-				key: 'language'
+			endpoint: '/translation'
+			,method: 'POST'
+			,parameters: [{
+				name: 'language'
 				,value: 'nl_NL'
 			},{
-				key:'languageKey'
+				name:'languageKey'
 				,value: ''
 			}]
 		}
 		,'joblist': {
-			api_url: 'http://api-development.hrmatches.com' + '/joblist'
-			,api_method: 'GET'
-			,api_params: []
+			endpoint: '/joblist'
+			,method: 'GET'
+			,parameters: []
+		}
+		,'trackdata': {
+			endpoint: 'trackdata'
+			,method: 'POST'
+			, parameters: [{
+				name: 'clientvariables'
+				,value: {
+					'token': '' // value injected later
+					,'state': '' // value injected later
+					,'protocol': location.protocol
+					,'hostname': location.hostname //hostname van website
+					,'href': location.href // url (=incl protocol,port,hostname,querystring)
+					,'appVersion': navigator.appVersion //browser versie
+					,'language': navigator.language //browser taal
+					,'platform': navigator.platform //voor welk plaform is de browser
+					,'userAgent': navigator.userAgent //user agent
+					,'screenSize': screen.width + '*' + screen.height //breedte*hoogte van scherm
+					,'colorDepth': screen.colorDepth //kleuren in bits/pixels
+				}
+			}]
+		},'registration': {
+			endpoint: 'registration'
+			,method: 'POST'
+			,parameters: [{
+				name: 'data'
+				,value: {
+					firstName: '' // value injected later
+					,infix: '' // value injected later
+					,username: '' // value injected later
+					,password: '' // value injected later
+					,candidateOrigin: '' // value injected later
+					,emailaddress: '' // value injected later
+					,lastName: '' // value injected later
+					,personId: '' // value injected later
+				}
+			}]
 		}
 	}
 })
@@ -100,7 +136,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 
 })
 
-.config(['$stateProvider','$urlRouterProvider','AppConfig',function($stateProvider,$urlRouterProvider,AppConfig,$state){
+.config(['$stateProvider','$urlRouterProvider','AppConfig',function($stateProvider,$urlRouterProvider,AppConfig){
 	$urlRouterProvider
 	.otherwise('/login');
 
@@ -155,6 +191,9 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
                 ,controller: 'AuthController'
             }
         },
+		onEnter: function(APIService){
+		    APIService.trackData('login');
+	    }
     })
 	.state('login.userProfiles',{
 		url: '/userProfiles'
@@ -163,6 +202,9 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 				templateUrl: '/app/components/login/views/userProfiles.html'
 			}
 		}
+		,onEnter: function(APIService){
+			APIService.trackData('login.userProfiles');
+		}
 	})
 	.state('login.forgotPassword',{
 		url: '/forgotPassword',
@@ -170,6 +212,9 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 			'forgotPassword':{
 				templateUrl: '/app/components/login/views/forgotPassword.html'
 			}
+		}
+		,onEnter: function(APIService){
+			APIService.trackData('login.forgotPassword');
 		}
 	})
 	.state('login.resetPassword',{
@@ -188,12 +233,13 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 					})
 			}
 		}
-		,onEnter: function($stateParams,$state,validateResponse){
+		,onEnter: function(APIService){
+			APIService.trackData('login.resetPassword');
 			if(validateResponse.validate_ok){
 				// do nothing, go to resetPassword
 			}
 			else{
-				$state.go('message',{message:validateResponse.validate_ok});
+				$stateProvider.go('message',{message:validateResponse.validate_ok});
 			}
 		}
 		,views: {
@@ -214,6 +260,9 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 				,controller: 'AuthController'
 			}
 		}
+		,onEnter: function(APIService){
+			APIService.trackData('logout');
+		}
 	})
 	.state('login.2StepAuthentication',{
 		url:'2StepAuthentication'
@@ -230,6 +279,9 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 				,controller: 'RegisterController'
 			}
 		}
+		,onEnter: function(APIService){
+			APIService.trackData('register');
+		}
 	})
 	/*
 	 * ========= VACATUREGIDS ========= 
@@ -244,6 +296,9 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 				templateUrl: AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS_NAVIGATIONBAR
 				,controller: 'AuthController'
 			}
+		}
+		,onEnter: function(APIService){
+			APIService.trackData('vacaturegids');
 		}
 	})
 	/*
@@ -282,6 +337,9 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 				templateUrl: '/app/components/joblist/views/jobs.html'
 				,controller: 'JoblistController'
 			}
+		}
+		,onEnter: function(APIService){
+			APIService.trackData('joblist');
 		}
 	})
 	.state('default',{

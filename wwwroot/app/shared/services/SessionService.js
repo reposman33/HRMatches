@@ -1,5 +1,5 @@
 angular.module('app.HRMatches')
-.service('SessionService',['APIService','store',function(APIService,store){
+.service('SessionService',['store',function(store){
 	var service = this,
 		currentUser = null;
 	
@@ -53,19 +53,6 @@ angular.module('app.HRMatches')
 		var log = store.get('log');
 		log[new Date().toLocaleString()] = message;
 		store.set('log',log);
-
-		//log client variables
-		var data = {
-			token: this.getCurrentUserToken(),
-			hostname: location.hostname, //hostname van website
-			href: location.href, // url (=incl protocol,port,hostname,querystring)
-			appVersion: navigator.appVersion,//browser versie
-			language: navigator.language, //browser taal
-			platform: navigator.platform, //voor welk plaform is de browser
-			userAgent: navigator.userAgent, //user agent
-			screenSize: screen.width + '*' + screen.height, //breedte*hoogte van scherm
-			colorDepth: screen.colorDepth //kleuren in bits/pixels
-		}
-		APIService.trackData(data)
 	}
+
 }])

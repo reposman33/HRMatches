@@ -1,9 +1,14 @@
 Maandag 2016-04-04
 
 1: bij Api response <> 200 wat doen?
+response loggen, 401 (not authenticated): redirect login, 402: redirect url = instelling in configuratie
 alles loggen; bij 403 (not authorized) naar pagina redirecten die in clientConfig gespecificeerd is;
 2: SessionTimeout is nu ook client side geimplementeerd. Dit verwijderen en alleen server-side sessiontimeout gebruiken...
-3:: public states (login,register,userProfiles etc) ontoegankelijk maken wanneer ingelogd
+check
+3: public states (login,register,userProfiles etc) ontoegankelijk maken wanneer ingelogd
+...
 4: Configuratie: elke onderdeel van de client moeten configureerbaar zijn en hoe moet de Api dat aangeven?
+...specificeren hoe config van Taffy Api wordt teruggegeven
 5:: /translation om translations op te halen en het vertonen van de listview om translation te editen zijn 2 verschillende dingen!
+check
 6:: API endpoints opvragen aan Api als onderdeel van clientConfig
