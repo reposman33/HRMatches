@@ -13,14 +13,14 @@ angular.module('app.HRMatches')
 		load: function(data){
 			var self = this;
 
-			if(this._isLoaded){
+			if(self._isLoaded){
 				return this.getData();
 			}
 
 			return APIService.request(data)
 			.then(
 				function(successResponse){
-					self.loadResponse(successResponse);
+					self.loadResponse(successResponse.data);
 					self._isLoaded = true;
 				}
 			);

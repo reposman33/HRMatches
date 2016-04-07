@@ -1,4 +1,4 @@
-<div class="navbar navbar-default navbar-fixed-top">
+<div class="navbar navbar-default navbar-fixed-top" ng-controller="NavigationController">
 	<div class="container-fluid brand_color_1">
 		<div class="navbar-header">
 			<div class="logo_white" href="#"></div>
@@ -10,12 +10,12 @@
 					<a ui-sref="joblist">Jobs</a>
 				</li>
 				<li>
-					<a ui-sref="translations">Translations</a>
+					<a ui-sref="translation">translation</a>
 				</li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li>
-					<a ui-sref="logout" >{{TranslationService.getText('LOGIN_LOGOUT')}}</a>
+					<a on-click="logout()">{{TranslationService.getText('LOGIN_LOGOUT')}}</a>
 				</li>
 			</ul>
 		</div>

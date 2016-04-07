@@ -1,21 +1,26 @@
 angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xeditable'])
 .constant('AppConfig',{
-	APPCONSTANTS_API_URL: 'http://api-development.hrmatches.com'
-	,APPCONSTANTS_HOSTNAME: '127.0.0.1' //location.hostname
+	// APPLICATION SPECIFIC CONSTANT VALUES
+	APPCONSTANTS_HOSTNAME: location.hostname
 	,APPCONSTANTS_ISLOCAL: "127.0.0.1".indexOf(location.hostname) != -1
-	,APPCONSTANTS_NAVIGATION_ENTRYPOINT: 'translations'
 	,APPCONSTANTS_NAVIGATION_CURRENTDOMAIN: document.location.protocol + '://' + document.location.hostname
 	,APPCONSTANTS_FILELOCATIONS_VIEWS_NAVIGATIONBAR: "/app/components/navigation/views/navigation.html"
 	,APPCONSTANTS_FILELOCATIONS_VIEWS_TABLEVIEW: "/app/shared/views/tableView.html"
-	,APPCONSTANTS_SECURITY_SESSIONTIMEOUT: 20*60*1000
+	/* ,APPCONSTANTS_SECURITY_SESSIONTIMEOUT: 20*60*1000 // deprecated: wordt alleen server side gebruikt */
 
-	// these states are accessible when not logged in
-	,APPCONSTANTS_PUBLICSTATES: "login,login.userProfiles,login.modal.forgotPassword,login.forgotPassword,login.resetPassword,register"
-
+	// BACK END CONFIGURABLE CONSTANTS
+	,APPCONSTANTS_API_URL: 'http://api-development.hrmatches.com'
+	,APPCONSTANTS_NAVIGATION_ENTRYPOINT: 'editTranslation'
+	,APPCONSTANTS_PUBLICSTATES: "login,login.forgotPassword,login.userProfiles,login.resetPassword,register" // exclusively public states
+	,APPCONSTANTS_NAVIGATION_REDIRECT: {
+		NOTAUTHENTICATED:'login'
+		,NOTAUTHORIZED:''
+	}
 	,API_ENDPOINTS: {
-		'translations': {
-			endpoint: '/translation'
+		'translation': {
+			endpoint: 'translation'
 			,method: 'POST'
+			,addToken: false
 			,parameters: [{
 				name: 'language'
 				,value: 'nl_NL'
@@ -25,7 +30,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 			}]
 		}
 		,'joblist': {
-			endpoint: '/joblist'
+			endpoint: 'joblist'
 			,method: 'GET'
 			,parameters: []
 		}
@@ -74,38 +79,28 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 	$rootScope.TranslationService = TranslationService;
 	$rootScope.SessionService = SessionService;
 
-	//retrieve all languages
-	TranslationService.load(AppConfig.API_ENDPOINTS.translations);
-	
+	// RETRIEVE TRANSLATION
+	if(SessionService.getCurrentUserToken() === ''){
+		// if not loggedin do request, else retrieve cached data in TranslationService
+		TranslationService.load(AppConfig.API_ENDPOINTS.translation);
+	}
+
 	$rootScope.$on('$stateChangeStart',function(event, toState, toParams, fromState, fromParams, options){
+		$rootScope.toState = toState; // store current state name for logging
 		var currentUser = SessionService.getCurrentUser();
 
-		if(!currentUser){
+		if(!currentUser){ // USER NOT LOGGED IN
 			if(AppConfig.APPCONSTANTS_PUBLICSTATES.indexOf(toState.name) == -1){
-				// NO USER LOGGED IN, REDIRECT TO LOGIN
+				// REQUESTING PROTECTED STATE
 				console.warn('User not logged in, redirecting');
-				$state.go('login');
+				//REDIRECT TO LOGIN
+				$state.go(AppConfig.APPCONSTANTS_NAVIGATION_REDIRECT.NOTAUTHENTICATED);
 				event.preventDefault();
 			}
 		}
-		else if(AppConfig.APPCONSTANTS_PUBLICSTATES.indexOf(toState.name) == -1){
-			// USER LOGGED IN,CHECK SESSION TIMEOUT
-			if(new Date().getTime() - currentUser.loginTime > AppConfig.APPCONSTANTS_SECURITY_SESSIONTIMEOUT){
-				// LOGOUT WHEN SESSION EXPIRED
-				AuthService.logout();
-				console.warn('Usersession timed out, redirecting');
-				event.preventDefault();
-				$state.go('login');
-			}
-			else{
-				if(fromState.name == 'translations'){
-					toParams.fromStateName = fromState.name;
-					$state.go('message',{message:'U bent niet geauthoriseerd voor deze actie!'});
-					event.preventDefault();
-				}
-				// RESET TIMER
-				SessionService.resetLoginTimeOut();
-			}
+		else if(AppConfig.APPCONSTANTS_PUBLICSTATES.indexOf(toState.name) > -1){
+			//USER LOGGED IN, ACCESSING PUBLIC STATE (e.g. 'login', 'register')
+			event.preventDefault();
 		}
 	});
 
@@ -121,7 +116,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 			}
 			case 401:{ //niet authenticated
 				SessionService.log(error);
-				$state.go('login');
+				$state.go(APPCONSTANTS_NAVIGATION_REDIRECT.NOTAUTHENTICATED);
 				break;
 			}
 			case 403:{ // niet geauthoriseerd
@@ -174,7 +169,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 		},
 	})
 	/*
-	 * ========= LOGIN =========
+	 * ========== LOGIN ==========
 	 */
     .state('login',{
         url: '/login',
@@ -191,10 +186,13 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
                 ,controller: 'AuthController'
             }
         },
-		onEnter: function(APIService){
-		    APIService.trackData('login');
+		onEnter: function($rootScope,APIService){
+		    APIService.trackData($rootScope.toState.name);
 	    }
     })
+	/*
+	 *    ========== USERPROFILES ==========
+	 */
 	.state('login.userProfiles',{
 		url: '/userProfiles'
 		,views:{
@@ -202,10 +200,13 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 				templateUrl: '/app/components/login/views/userProfiles.html'
 			}
 		}
-		,onEnter: function(APIService){
-			APIService.trackData('login.userProfiles');
+		,onEnter: function($rootScope,APIService){
+			APIService.trackData($rootScope.toState.name);
 		}
 	})
+	/*
+	 * ========= FORGOTPASSWORD =========
+	 */
 	.state('login.forgotPassword',{
 		url: '/forgotPassword',
 		views: {
@@ -213,10 +214,13 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 				templateUrl: '/app/components/login/views/forgotPassword.html'
 			}
 		}
-		,onEnter: function(APIService){
-			APIService.trackData('login.forgotPassword');
+		,onEnter: function($rootScope,APIService){
+			APIService.trackData($rootScope.toState.name);
 		}
 	})
+	/*
+	 * ========= RESETPASSWORD =========
+	 */
 	.state('login.resetPassword',{
 		url: '/resetPassword/:key'
 		,resolve: {
@@ -233,8 +237,8 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 					})
 			}
 		}
-		,onEnter: function(APIService){
-			APIService.trackData('login.resetPassword');
+		,onEnter: function($rootScope,APIService){
+			APIService.trackData($rootScope.toState.name);
 			if(validateResponse.validate_ok){
 				// do nothing, go to resetPassword
 			}
@@ -249,19 +253,19 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 			}
 		}
 	})
+	/*
+	 * ========= LOGOUT =========
+	 */
 	.state('logout',{
 		url:'/logout'
-		,onEnter: function(AuthService){
-			AuthService.logout();
-		}
 		,views:{
 			'body':{
 				templateUrl:'/app/components/login/views/logout.html'
 				,controller: 'AuthController'
 			}
 		}
-		,onEnter: function(APIService){
-			APIService.trackData('logout');
+		,onEnter: function($rootScope,APIService){
+			APIService.trackData($rootScope.toState.name);
 		}
 	})
 	.state('login.2StepAuthentication',{
@@ -271,16 +275,16 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 	/*
 	 * ========= REGISTER ========= 
 	 */
-	.state('register',{
+	.state('login.register',{
 		url: '/register'
 		,views: {
-			'body@': {
+			'register': {
 				templateUrl:'/app/components/register/views/register.html'
 				,controller: 'RegisterController'
 			}
 		}
-		,onEnter: function(APIService){
-			APIService.trackData('register');
+		,onEnter: function($rootScope,APIService){
+			APIService.trackData($rootScope.toState.name);
 		}
 	})
 	/*
@@ -297,18 +301,18 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 				,controller: 'AuthController'
 			}
 		}
-		,onEnter: function(APIService){
-			APIService.trackData('vacaturegids');
+		,onEnter: function($rootScope,APIService){
+			APIService.trackData($rootScope.toState.name);
 		}
 	})
 	/*
-	 * ========= TRANSLATIONS =========
+	 * ========= TRANSLATION =========
 	 */
-	.state('translations',{
-		url: '/translations'
+	.state('editTranslation',{
+		url: '/editTranslation'
 		,resolve: {
 			data: ['TranslationService',function(TranslationService){
-				_data = TranslationService.load(AppConfig.API_ENDPOINTS.translations);
+				_data = TranslationService.load(AppConfig.API_ENDPOINTS.translation);
 				return _data.data;
 			}]
 			,viewConfig: function(){
@@ -317,9 +321,12 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 		}
 		,views:{
 			'body': {
-				templateUrl: '/app/components/translations/views/translations.html'
+				templateUrl: '/app/components/translation/views/editTranslation.html'
 				,controller: 'TranslationController'
 			}
+		}
+		,onEnter: function($rootScope,APIService){
+			APIService.trackData($rootScope.toState.name);
 		}
 	})
 	/*
@@ -338,12 +345,8 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 				,controller: 'JoblistController'
 			}
 		}
-		,onEnter: function(APIService){
-			APIService.trackData('joblist');
+		,onEnter: function($rootScope,APIService){
+			APIService.trackData($rootScope.toState.name);
 		}
-	})
-	.state('default',{
-		url: '/default'
-		,templateUrl:'/app/shared/views/default.html'
 	})
 }])

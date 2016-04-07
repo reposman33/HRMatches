@@ -9,6 +9,16 @@
  * */
 
 angular.module('app.HRMatches')
-.controller('NavigationController',['$scope','AuthService','SessionService',function($scope,AuthService,SessionService){
-}]
-)
+.controller('NavigationController',['$scope','$state','AuthService',function($scope,$state,AuthService){
+
+	$scope.logout = function(){
+		AuthService.logout()
+			.then(
+				null,
+				function(errorResponse){
+				console.log('error @ AuthService.logout(): ',errorResponse);
+			});
+		$state.go('logout');
+	}
+
+}])

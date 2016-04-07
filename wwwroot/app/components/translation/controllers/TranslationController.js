@@ -4,7 +4,6 @@ angular.module('app.HRMatches')
 	 function($scope,AppConfig,data,SessionService,TranslationService,viewConfig){
 
 		$scope.viewConfig = viewConfig;
-		var data = data
 
 		$scope.currentPage = 1;
 

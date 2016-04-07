@@ -15,7 +15,7 @@
 			<uib-pagination
 				class="pagination-sm"
 				ng-model="currentPage"
-				total-items="50"
+				total-items="viewConfig.pagination.totalItems"
 				max-size="viewConfig.pagination.maxSize"
 				ng-change="paginate(currentPage)"
 				items-per-page="viewConfig.pagination.itemsPerPage"></uib-pagination>

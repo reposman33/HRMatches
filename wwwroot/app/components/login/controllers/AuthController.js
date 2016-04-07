@@ -129,14 +129,14 @@ angular.module('app.HRMatches')
 			if(logoutTokens.length){
 				AuthService.logout(logoutTokens)
 			}
-			
+
 			$state.go(AppConfig.APPCONSTANTS_NAVIGATION_ENTRYPOINT);
 		}
 
 
 		$scope.logout = function (){
 			AuthService.logout();
-			$state.go('login',{reload:true});
+			$state.go('logout',{reload:true});
 		}
 
 		// 2STEP AUTHENTICATION

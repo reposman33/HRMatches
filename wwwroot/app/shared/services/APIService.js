@@ -2,6 +2,17 @@ angular.module('app.HRMatches')
 .service('APIService',['$http','$timeout','$q','$state','AppConfig','SessionService',
 	function($http,$timeout,$q,$state,AppConfig,SessionService){
 
+	this.request = function(data){
+		var token = data.addToken ? SessionService.getCurrentUserToken() : '';
+
+		return $http({
+			method:data.method
+			,url: AppConfig.APPCONSTANTS_API_URL + '/' + data.endpoint + (token != '' ? ('/' + token) : '')
+			,data:_loadParams(data.parameters)
+		})
+	}
+
+
 	this.authenticate = function(data){
 		return $http({
 			method: 'POST',
@@ -13,7 +24,7 @@ angular.module('app.HRMatches')
 	this.logout = function(tokens){
 		return $http({
 			method: 'POST',
-			url: AppConfig.APPCONSTANTS_API_URL + '/logout/',
+			url: AppConfig.APPCONSTANTS_API_URL + '/logout',
 			data: {
 				'tokens':tokens
 			}
@@ -73,15 +84,7 @@ angular.module('app.HRMatches')
 		})
 	}
 	
-	this.request = function(data){
-		var token = SessionService.getCurrentUserToken();
-		return $http({
-			method:data.method
-			,url: AppConfig.APPCONSTANTS_API_URL + '/' + data.endpoint + (token != '' ? ('/' + token) : '')
-			,data:_loadParams(data.parameters)
-		})
-	}
-			
+
 	this.updateTranslationKey = function(data){
 		return $http({
 			method: 'POST'
@@ -100,12 +103,12 @@ angular.module('app.HRMatches')
 			,state: currentState
 		}
 		for(var param in params){
-			if(params.hasOwnProperty[param]){
-				AppConfig.API_ENDPOINTS.trackdata.parameters[0].value[param] = params.param;
+			if(params.hasOwnProperty(param)){
+				AppConfig.API_ENDPOINTS.trackdata.parameters[0].value[param] = params[param];
 			}
 		}
 		this.request(AppConfig.API_ENDPOINTS.trackdata)
-		.then('clientvariab;les logged via ', AppConfig.API_ENDPOINTS.trackdata.endpoint);
+		.then(console.log('clientvariables logged: ', AppConfig.API_ENDPOINTS.trackdata.parameters[0]));
 	}
 
 
