@@ -1,10 +1,10 @@
 <table class="table table-striped">
 	<thead>
 	<tr>
-		<th
+		<th class="col-md-3"
 			ng-repeat="column in viewConfig.columns"
 			ng-show="column.header_visible && column.visible">{{column.header_text}}</th>
-		<th ng-show="viewConfig.row_editable">Edit</th>
+		<th  class="col-md-2" ng-show="viewConfig.row_editable">Edit</th>
 	</tr>
 	</thead>
 	<tfoot>
@@ -15,7 +15,7 @@
 			<uib-pagination
 				class="pagination-sm"
 				ng-model="currentPage"
-				total-items="viewConfig.pagination.totalItems"
+				total-items="totalItems"
 				max-size="viewConfig.pagination.maxSize"
 				ng-change="paginate(currentPage)"
 				items-per-page="viewConfig.pagination.itemsPerPage"></uib-pagination>

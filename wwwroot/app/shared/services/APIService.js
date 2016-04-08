@@ -96,7 +96,17 @@ angular.module('app.HRMatches')
 		})
 	}
 
-	this.trackData = function(currentState){
+		/*
+		* @toStateName: name of state where to transition to
+		* @currentState: name of state where onEnter is currently executed
+		* @description: onEnter() of child states (eg 'parent.child') ia called twice: once for state parent ('parent')
+		* ]and once for 'parent.child' even if only defined in the child's onEnter() callBack
+		* */
+	this.trackData = function(toStateName,currentState){
+		if(toStateName != currentState){
+			// DON'T LOG PARENT STATE IF CHILD STATE NEEDS LOGGING
+			return;
+		}
 		// assign values to clientvariables
 		var params = {
 			token:SessionService.getCurrentUserToken()
@@ -108,7 +118,7 @@ angular.module('app.HRMatches')
 			}
 		}
 		this.request(AppConfig.API_ENDPOINTS.trackdata)
-		.then(console.log('clientvariables logged: ', AppConfig.API_ENDPOINTS.trackdata.parameters[0]));
+		.then(console.log('clientvariables logged for state \'',currentState,'\' : ', AppConfig.API_ENDPOINTS.trackdata.parameters[0]));
 	}
 
 

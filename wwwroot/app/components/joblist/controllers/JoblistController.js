@@ -1,15 +1,15 @@
 angular.module('app.HRMatches')
 .controller('JoblistController',
-	['$scope','AppConfig','JoblistService','APIResponse','SessionService',
-	 function($scope,AppConfig,JoblistService,APIResponse,SessionService){
+	['$scope','AppConfig','JoblistService','data','SessionService',
+	 function($scope,AppConfig,JoblistService,data,SessionService){
 
-		$scope.data = APIResponse.data;
-		$scope.viewConfig = APIResponse.configuration;
-
+		var _data = data.data;
+		$scope.viewConfig = data.configuration;
+		$scope.totalItems = _data.length;
 		$scope.currentPage = 1;
 
 		$scope.paginate = function(newPage){
-			$scope.currentDataPage = $scope.data.slice(((newPage-1) * $scope.viewConfig.pagination.itemsPerPage), ((newPage) * $scope.viewConfig.pagination.itemsPerPage))
+			$scope.currentDataPage = _data.slice(((newPage-1) * $scope.viewConfig.pagination.itemsPerPage), ((newPage) * $scope.viewConfig.pagination.itemsPerPage))
 		}
 
 		$scope.paginate($scope.currentPage);

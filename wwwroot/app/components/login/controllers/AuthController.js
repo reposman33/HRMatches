@@ -93,21 +93,6 @@ angular.module('app.HRMatches')
 				}
 			);
 		}
-			
-
-		// REGISTER
-		$scope.register = function(){
-			AuthService.register()
-			.then(
-				function(successResponse){
-					// do something when registration succeeded
-				},
-				function(errorResponse){
-					// do something when registration failed
-				}
-			)
-		}
-
 
 		// LOGIN NA PROFIEL SELECTIE
 		$scope.confirmLogin = function(selectedToken){

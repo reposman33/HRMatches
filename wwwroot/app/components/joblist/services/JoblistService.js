@@ -1,6 +1,8 @@
 angular.module('app.HRMatches')
 	.factory('JoblistService',['APIService','AppConfig',function(APIService,AppConfig){
 		return{
+			_viewConfig: {},
+			_isLoaded: false,
 			_data: [],
 
 			/*
@@ -10,21 +12,22 @@ angular.module('app.HRMatches')
 			load: function(data){
 				var self = this;
 
-				if(this._isLoaded()){
+				if(self._isLoaded){
 					return this.getData();
 				}
 
 				return APIService.request(data)
 				.then(
 					function(successResponse){
-						self.loadResponse(successResponse);
-						return successResponse;
+						self.loadResponse(successResponse.data);
+						return successResponse.data;
 					});
 			},
 
 
 			loadResponse: function(successResponse){
-				this._data = successResponse;
+				this._data = successResponse.data;
+				this._viewConfig = successResponse.configuration;
 			},
 
 
@@ -53,24 +56,6 @@ angular.module('app.HRMatches')
 							return successResponse.data;
 						}
 					)
-			},
-
-			/*
-			 * ========== PRIVATE METHODS ==========
-			 */
-
-			_load: function(data){
-				return APIService.request(data)
-					.then(
-						function(successResponse){
-							return successResponse.data;
-						}
-					);
-			},
-
-
-			_isLoaded: function(){
-				return this._data.length > 0;
 			}
 		}
 	}]

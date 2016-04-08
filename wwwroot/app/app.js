@@ -9,12 +9,16 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 	/* ,APPCONSTANTS_SECURITY_SESSIONTIMEOUT: 20*60*1000 // deprecated: wordt alleen server side gebruikt */
 
 	// BACK END CONFIGURABLE CONSTANTS
+	,APPCONSTANTS_PAGINATION_MAXSIZE: 25
 	,APPCONSTANTS_API_URL: 'http://api-development.hrmatches.com'
+	,APPCONSTANTS_PUBLICSTATES: "login,login.forgotPassword,login.userProfiles,login.resetPassword,login.register" // exclusively public states
 	,APPCONSTANTS_NAVIGATION_ENTRYPOINT: 'editTranslation'
-	,APPCONSTANTS_PUBLICSTATES: "login,login.forgotPassword,login.userProfiles,login.resetPassword,register" // exclusively public states
 	,APPCONSTANTS_NAVIGATION_REDIRECT: {
 		NOTAUTHENTICATED:'login'
 		,NOTAUTHORIZED:''
+	}
+	,APPCONSTANTS_TEXTS: {
+		INVALIDTOKEN: 'Invalid token'
 	}
 	,API_ENDPOINTS: {
 		'translation': {
@@ -32,11 +36,13 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 		,'joblist': {
 			endpoint: 'joblist'
 			,method: 'GET'
+			,addToken: true
 			,parameters: []
 		}
 		,'trackdata': {
 			endpoint: 'trackdata'
 			,method: 'POST'
+			,addToken: false
 			, parameters: [{
 				name: 'clientvariables'
 				,value: {
@@ -56,6 +62,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 		},'registration': {
 			endpoint: 'registration'
 			,method: 'POST'
+			,addToken: false
 			,parameters: [{
 				name: 'data'
 				,value: {
@@ -187,7 +194,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
             }
         },
 		onEnter: function($rootScope,APIService){
-		    APIService.trackData($rootScope.toState.name);
+			APIService.trackData($rootScope.toState.name,this.name);
 	    }
     })
 	/*
@@ -201,7 +208,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 			}
 		}
 		,onEnter: function($rootScope,APIService){
-			APIService.trackData($rootScope.toState.name);
+			APIService.trackData($rootScope.toState.name,this.name);
 		}
 	})
 	/*
@@ -215,7 +222,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 			}
 		}
 		,onEnter: function($rootScope,APIService){
-			APIService.trackData($rootScope.toState.name);
+			APIService.trackData($rootScope.toState.name,this.name);
 		}
 	})
 	/*
@@ -225,25 +232,14 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 		url: '/resetPassword/:key'
 		,resolve: {
 			validateResponse:
-				function($stateParams,AuthService,SessionService){
-					return AuthService.validateSecretKey($stateParams.key)
-					.then(function(successResponse){
-						SessionService.set('secretKey',$stateParams.key);
-						return {validate_ok:successResponse.data.message}
-					}
-					,function(errorResponse){
-						SessionService.set('secretKey',$stateParams.key);
-						return {validate_ok:errorResponse.data.message}
-					})
+				function($stateParams,AuthService){
+					return AuthService.validateSecretKey($stateParams.key);
 			}
 		}
 		,onEnter: function($rootScope,APIService){
-			APIService.trackData($rootScope.toState.name);
-			if(validateResponse.validate_ok){
-				// do nothing, go to resetPassword
-			}
-			else{
-				$stateProvider.go('message',{message:validateResponse.validate_ok});
+			APIService.trackData($rootScope.toState.name,this.name);
+			if(validateResponse.validate_ok == false){
+				$stateProvider.go('message',{message: (!validateResponse.message ? 'Token invalid' : validateResponse.message)});
 			}
 		}
 		,views: {
@@ -265,7 +261,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 			}
 		}
 		,onEnter: function($rootScope,APIService){
-			APIService.trackData($rootScope.toState.name);
+			APIService.trackData($rootScope.toState.name,this.name);
 		}
 	})
 	.state('login.2StepAuthentication',{
@@ -284,7 +280,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 			}
 		}
 		,onEnter: function($rootScope,APIService){
-			APIService.trackData($rootScope.toState.name);
+			APIService.trackData($rootScope.toState.name,this.name);
 		}
 	})
 	/*
@@ -302,7 +298,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 			}
 		}
 		,onEnter: function($rootScope,APIService){
-			APIService.trackData($rootScope.toState.name);
+			APIService.trackData($rootScope.toState.name,this.name);
 		}
 	})
 	/*
@@ -312,12 +308,8 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 		url: '/editTranslation'
 		,resolve: {
 			data: ['TranslationService',function(TranslationService){
-				_data = TranslationService.load(AppConfig.API_ENDPOINTS.translation);
-				return _data.data;
+				return TranslationService.load(AppConfig.API_ENDPOINTS.translation);
 			}]
-			,viewConfig: function(){
-				return _data.configuration; //_data above is not local so we can reference it here...
-			}
 		}
 		,views:{
 			'body': {
@@ -326,7 +318,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 			}
 		}
 		,onEnter: function($rootScope,APIService){
-			APIService.trackData($rootScope.toState.name);
+			APIService.trackData($rootScope.toState.name,this.name);
 		}
 	})
 	/*
@@ -335,7 +327,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 	.state('joblist',{
 		url: '/joblist'
 		,resolve: {
-			APIResponse: ['JoblistService',function(JoblistService){
+			data: ['JoblistService',function(JoblistService){
 				return JoblistService.load(AppConfig.API_ENDPOINTS.joblist);
 			}]
 		}
@@ -346,7 +338,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 			}
 		}
 		,onEnter: function($rootScope,APIService){
-			APIService.trackData($rootScope.toState.name);
+			APIService.trackData($rootScope.toState.name,this.name);
 		}
 	})
 }])

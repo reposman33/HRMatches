@@ -22,6 +22,7 @@ angular.module('app.HRMatches')
 				function(successResponse){
 					self.loadResponse(successResponse.data);
 					self._isLoaded = true;
+					return successResponse.data;
 				}
 			);
 		},

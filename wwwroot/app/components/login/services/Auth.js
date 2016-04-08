@@ -52,11 +52,19 @@ angular.module('app.HRMatches')
 
 	//data = {passwordResetToken:...}
 	this.validateSecretKey = function(key){
-		//return APIService.validateSecretKeyMock({validate_ok:true,message:'Yes!! de token is geldig!!'})
 		return APIService.validateSecretKey(encodeURIComponent(key))
-		.then(function(data){ //data:{validate_OK:...,message:...}
-			return data;
-		})
+		.then(
+			function(successResponse){
+				SessionService.set('secretKey',$stateParams.key);
+				return {validate_ok:successResponse.tokenIsValid}
+			}
+			,function(errorResponse){
+				SessionService.set('secretKey',$stateParams.key);
+				return {
+					validate_ok:false
+					,message: (errorResponse.ERROR ? errorResponse.ERROR : '')
+				}
+			})
 	}
 
 	this.resetPassword = function(data){
