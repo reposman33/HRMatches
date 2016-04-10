@@ -33,6 +33,10 @@
 	<!-- JOBLIST -->
 	<script type="text/javascript" src="/app/components/joblist/controllers/JoblistController.js"></script>
 	<script type="text/javascript" src="/app/components/joblist/services/JoblistService.js"></script>
+	<!--SETTINGS-->
+	<script type="text/javascript" src="/app/components/settings/gebruikersbeheer/rechtenEnRollen/RechtenEnRollenController.js"></script>
+	<script type="text/javascript" src="/app/components/settings/gebruikersbeheer/rechtenEnRollen/rechtenEnRollenService.js"></script>
+
 	<!-- SHARED RESOURCES -->
 	<script type="text/javascript" src="/app/shared/filters/Filters.js"></script>
 	<script type="text/javascript" src="/app/shared/services/UtilsService.js"></script>
@@ -45,17 +49,20 @@
 
 	<div class="row title-container"></div>
 	<div class="header">
-		<ng-include src="AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS_NAVIGATIONBAR" ng-if="SessionService.isLoggedIn()"></div>
+		<ng-include src="AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS.NAVIGATIONBAR" ng-if="SessionService.isLoggedIn()"></div>
 		<div class="pull-right">{{SessionService.isLoggedIn() ? 'Ingelogd' : 'Niet ingelogd'}}</div>
 	</div>
 
-	<div class="row">
-		<div ui-view="body"></div>
+	<div class="container margin_bottom_20">
+		<div class="row">
+			<div ui-view="body"></div>
+		</div>
 	</div>
 
 	<div class="footer">
 		<div ui-view="footer"></div>
 	</div>
-	</body>
 
-<html>
+</body>
+
+</html>

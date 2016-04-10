@@ -32,12 +32,12 @@ angular.module('app.HRMatches')
 	}
 
 	this.validateTokens = function(tokens){
-		var promises = tokens.map(function(token,i,tokens){
+		var promises = tokens.map(function(token){
 			return $http({
 				method: 'GET',
 				url: AppConfig.APPCONSTANTS_API_URL + '/validate_token/' + token
 			});
-		})
+		});
 
 		return $q.all(promises);
 	}
@@ -102,15 +102,11 @@ angular.module('app.HRMatches')
 		* @description: onEnter() of child states (eg 'parent.child') ia called twice: once for state parent ('parent')
 		* ]and once for 'parent.child' even if only defined in the child's onEnter() callBack
 		* */
-	this.trackData = function(toStateName,currentState){
-		if(toStateName != currentState){
-			// DON'T LOG PARENT STATE IF CHILD STATE NEEDS LOGGING
-			return;
-		}
+	this.trackData = function(toStateName){
 		// assign values to clientvariables
 		var params = {
 			token:SessionService.getCurrentUserToken()
-			,state: currentState
+			,state: toStateName
 		}
 		for(var param in params){
 			if(params.hasOwnProperty(param)){
@@ -118,7 +114,7 @@ angular.module('app.HRMatches')
 			}
 		}
 		this.request(AppConfig.API_ENDPOINTS.trackdata)
-		.then(console.log('clientvariables logged for state \'',currentState,'\' : ', AppConfig.API_ENDPOINTS.trackdata.parameters[0]));
+		.then(console.log('clientvariables logged for state \'',toStateName,'\' : ', AppConfig.API_ENDPOINTS.trackdata.parameters[0]));
 	}
 
 
@@ -129,4 +125,4 @@ angular.module('app.HRMatches')
 		}
 		return result;
 	}
-}])
+}]);

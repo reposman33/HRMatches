@@ -13,12 +13,14 @@
 		ng-if="viewConfig.pagination.enable">
 		<td colspan="{{viewConfig.columns.length + (viewConfig.row_editable ? 1 : 0)}}">
 			<uib-pagination
-				class="pagination-sm"
-				ng-model="currentPage"
-				total-items="totalItems"
-				max-size="viewConfig.pagination.maxSize"
-				ng-change="paginate(currentPage)"
-				items-per-page="viewConfig.pagination.itemsPerPage"></uib-pagination>
+					total-items="totalItems"
+					max-size="viewConfig.pagination.maxSize"
+					boundary-link-numbers="true"
+					rotate="false"
+					items-per-page="viewConfig.pagination.itemsPerPage"
+					class="pagination-sm"
+					ng-model="currentPage"
+					ng-change="paginate(currentPage)"></uib-pagination>
 		</td>
 	</tr>
 	</tfoot>

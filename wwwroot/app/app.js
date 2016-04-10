@@ -4,8 +4,16 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 	APPCONSTANTS_HOSTNAME: location.hostname
 	,APPCONSTANTS_ISLOCAL: "127.0.0.1".indexOf(location.hostname) != -1
 	,APPCONSTANTS_NAVIGATION_CURRENTDOMAIN: document.location.protocol + '://' + document.location.hostname
-	,APPCONSTANTS_FILELOCATIONS_VIEWS_NAVIGATIONBAR: "/app/components/navigation/views/navigation.html"
-	,APPCONSTANTS_FILELOCATIONS_VIEWS_TABLEVIEW: "/app/shared/views/tableView.html"
+	,APPCONSTANTS_FILELOCATIONS_VIEWS: {
+		NAVIGATIONBAR: '/app/components/navigation/views/navigation.html'
+		,TABLEVIEW: '/app/shared/views/tableView.html'
+		,SETTINGS: {
+			CONTAINER: '/app/components/settings/views/container.html'
+			,USERMANAGEMENT: {
+				USERSANDROLES: '/app/components/settings/gebruikersbeheer/rechtenEnRollen/views/rechtenEnRollen.html'
+			}
+		}
+	}
 	/* ,APPCONSTANTS_SECURITY_SESSIONTIMEOUT: 20*60*1000 // deprecated: wordt alleen server side gebruikt */
 
 	// BACK END CONFIGURABLE CONSTANTS
@@ -77,9 +85,15 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 				}
 			}]
 		}
+		,'rechtenenrollen': {
+			endpoint: 'rechtenenrollen'
+			,method: 'GET'
+			,addToken: 'true'
+			,parameters: []
+		}
 	}
-})
-.run(function($rootScope,$state,AppConfig,AuthService,TranslationService,SessionService){
+}) //END constant
+.run(function($rootScope,$state,APIService,AppConfig,AuthService,TranslationService,SessionService){
 	// perform any site-wide initialisation here
 	$rootScope.AppConfig = AppConfig;
 	$rootScope.$state = $state;
@@ -87,13 +101,14 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 	$rootScope.SessionService = SessionService;
 
 	// RETRIEVE TRANSLATION
-	if(SessionService.getCurrentUserToken() === ''){
-		// if not loggedin do request, else retrieve cached data in TranslationService
-		TranslationService.load(AppConfig.API_ENDPOINTS.translation);
-	}
+	TranslationService.load(AppConfig.API_ENDPOINTS.translation)
+	.then(
+		function(successResponse){
+			console.log('TranslationService.loaded: ',successResponse);
+		}
+	);
 
 	$rootScope.$on('$stateChangeStart',function(event, toState, toParams, fromState, fromParams, options){
-		$rootScope.toState = toState; // store current state name for logging
 		var currentUser = SessionService.getCurrentUser();
 
 		if(!currentUser){ // USER NOT LOGGED IN
@@ -113,6 +128,8 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 
 
 	$rootScope.$on('$stateChangeSuccess',function(event, toState, toParams, fromState, fromParams, options){
+		APIService.trackData(toState.name);
+
 	});
 
 	$rootScope.$on('$stateChangeError',function(event, toState, toParams, fromState, fromParams, error){
@@ -136,8 +153,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 		console.error('ERROR $stateChangeError: ',error);
 	});
 
-})
-
+}) // END run
 .config(['$stateProvider','$urlRouterProvider','AppConfig',function($stateProvider,$urlRouterProvider,AppConfig){
 	$urlRouterProvider
 	.otherwise('/login');
@@ -149,8 +165,8 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 				templateUrl: AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS_NAVIGATIONBAR,
 				controller: 'AuthController'
 			}
-		},
-		abstract: true
+		}
+		,abstract: true
 	})
 	.state('message',{
 		url: '/message/',
@@ -173,7 +189,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 			'modal':{
 				templateUrl: '/app/shared/views/modal-backdrop.html'
 			}
-		},
+		}
 	})
 	/*
 	 * ========== LOGIN ==========
@@ -186,16 +202,13 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
                     if(AuthService.isLoggedIn()){
                         return $templateFactory.fromUrl(AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS_NAVIGATIONBAR)
                     }
-                },
+                }
             },
             'body':{
                 templateUrl: '/app/components/login/views/login.html'
                 ,controller: 'AuthController'
             }
-        },
-		onEnter: function($rootScope,APIService){
-			APIService.trackData($rootScope.toState.name,this.name);
-	    }
+        }
     })
 	/*
 	 *    ========== USERPROFILES ==========
@@ -207,9 +220,6 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 				templateUrl: '/app/components/login/views/userProfiles.html'
 			}
 		}
-		,onEnter: function($rootScope,APIService){
-			APIService.trackData($rootScope.toState.name,this.name);
-		}
 	})
 	/*
 	 * ========= FORGOTPASSWORD =========
@@ -220,9 +230,6 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 			'forgotPassword':{
 				templateUrl: '/app/components/login/views/forgotPassword.html'
 			}
-		}
-		,onEnter: function($rootScope,APIService){
-			APIService.trackData($rootScope.toState.name,this.name);
 		}
 	})
 	/*
@@ -237,7 +244,6 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 			}
 		}
 		,onEnter: function($rootScope,APIService){
-			APIService.trackData($rootScope.toState.name,this.name);
 			if(validateResponse.validate_ok == false){
 				$stateProvider.go('message',{message: (!validateResponse.message ? 'Token invalid' : validateResponse.message)});
 			}
@@ -260,9 +266,6 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 				,controller: 'AuthController'
 			}
 		}
-		,onEnter: function($rootScope,APIService){
-			APIService.trackData($rootScope.toState.name,this.name);
-		}
 	})
 	.state('login.2StepAuthentication',{
 		url:'2StepAuthentication'
@@ -279,9 +282,6 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 				,controller: 'RegisterController'
 			}
 		}
-		,onEnter: function($rootScope,APIService){
-			APIService.trackData($rootScope.toState.name,this.name);
-		}
 	})
 	/*
 	 * ========= VACATUREGIDS ========= 
@@ -296,9 +296,6 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 				templateUrl: AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS_NAVIGATIONBAR
 				,controller: 'AuthController'
 			}
-		}
-		,onEnter: function($rootScope,APIService){
-			APIService.trackData($rootScope.toState.name,this.name);
 		}
 	})
 	/*
@@ -317,9 +314,6 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 				,controller: 'TranslationController'
 			}
 		}
-		,onEnter: function($rootScope,APIService){
-			APIService.trackData($rootScope.toState.name,this.name);
-		}
 	})
 	/*
 	* ========= JOBLIST =========
@@ -337,8 +331,19 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 				,controller: 'JoblistController'
 			}
 		}
-		,onEnter: function($rootScope,APIService){
-			APIService.trackData($rootScope.toState.name,this.name);
+	})
+	/*
+	 * ========= SETTINGS =========
+	 */
+	.state('settings',{
+		url: '/settings'
+		,resolve: {
+		}
+		,views:{
+			'body@': {
+				templateUrl: AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS.SETTINGS.CONTAINER
+				,controller: 'RechtenEnRollenController'
+			}
 		}
 	})
 }])
