@@ -116,7 +116,18 @@ angular.module('app.HRMatches')
 		this.request(AppConfig.API_ENDPOINTS.trackdata)
 		.then(console.log('clientvariables logged for state \'',toStateName,'\' : ', AppConfig.API_ENDPOINTS.trackdata.parameters[0]));
 	}
-
+	
+	this.requestLocalJSON = function(data){
+		return $http({
+			method: 'GET'
+			,url: AppConfig.APPCONSTANTS_PROTOCOL + '//' + AppConfig.APPCONSTANTS_HOSTNAME + data.url
+		})
+		.then(
+			function(successResponse){
+				return successResponse.data;
+			}
+		)
+	}
 
 	_loadParams = function(params){
 		var result={};

@@ -1,22 +1,24 @@
 angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xeditable'])
 .constant('AppConfig',{
-	// APPLICATION SPECIFIC CONSTANT VALUES
+	// APPLICATION DEFINED VALUES
 	APPCONSTANTS_HOSTNAME: location.hostname
 	,APPCONSTANTS_ISLOCAL: "127.0.0.1".indexOf(location.hostname) != -1
 	,APPCONSTANTS_NAVIGATION_CURRENTDOMAIN: document.location.protocol + '://' + document.location.hostname
+	,APPCONSTANTS_PROTOCOL: location.protocol
 	,APPCONSTANTS_FILELOCATIONS_VIEWS: {
 		NAVIGATIONBAR: '/app/components/navigation/views/navigation.html'
 		,TABLEVIEW: '/app/shared/views/tableView.html'
 		,SETTINGS: {
 			CONTAINER: '/app/components/settings/views/container.html'
 			,USERMANAGEMENT: {
-				USERSANDROLES: '/app/components/settings/gebruikersbeheer/rechtenEnRollen/views/rechtenEnRollen.html'
+				USERSANDROLES: '/app/components/settings/userManagement/rechtenEnRollen/views/rechtenEnRollen.html'
+				,TEAMS: '/app/components/settings/userManagement/teams/views/teams.html'
 			}
 		}
 	}
 	/* ,APPCONSTANTS_SECURITY_SESSIONTIMEOUT: 20*60*1000 // deprecated: wordt alleen server side gebruikt */
 
-	// BACK END CONFIGURABLE CONSTANTS
+	// BACK END DEFINED CONSTANTS
 	,APPCONSTANTS_PAGINATION_MAXSIZE: 25
 	,APPCONSTANTS_API_URL: 'http://api-development.hrmatches.com'
 	,APPCONSTANTS_PUBLICSTATES: "login,login.forgotPassword,login.userProfiles,login.resetPassword,login.register" // exclusively public states
@@ -24,6 +26,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 	,APPCONSTANTS_NAVIGATION_REDIRECT: {
 		NOTAUTHENTICATED:'login'
 		,NOTAUTHORIZED:''
+		,SETTINGS: '/settings/userManagement'
 	}
 	,APPCONSTANTS_TEXTS: {
 		INVALIDTOKEN: 'Invalid token'
@@ -104,7 +107,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 	TranslationService.load(AppConfig.API_ENDPOINTS.translation)
 	.then(
 		function(successResponse){
-			console.log('TranslationService.loaded: ',successResponse);
+			console.log('Translation loaded');
 		}
 	);
 
@@ -150,200 +153,227 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 			}
 		}
 		event.preventDefault();
-		console.error('ERROR $stateChangeError: ',error);
+		console.error('ERROR $stateChangeError! fromState:',fromState,' toState:',toState,' error:',error);
 	});
 
 }) // END run
-.config(['$stateProvider','$urlRouterProvider','AppConfig',function($stateProvider,$urlRouterProvider,AppConfig){
+.config(['$stateProvider','$urlRouterProvider','AppConfig',function($stateProvider,$urlRouterProvider,AppConfig) {
 	$urlRouterProvider
-	.otherwise('/login');
+		.otherwise('/login')
+		.when('/settings',AppConfig.APPCONSTANTS_NAVIGATION_REDIRECT.SETTINGS)
 
 	$stateProvider
-	.state('home',{
-		views:{
-			'header': {
-				templateUrl: AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS_NAVIGATIONBAR,
-				controller: 'AuthController'
+		.state('home', {
+			views: {
+				'header': {
+					templateUrl: AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS_NAVIGATIONBAR,
+					controller: 'AuthController'
+				}
 			}
-		}
-		,abstract: true
-	})
-	.state('message',{
-		url: '/message/',
-		params:{
-			message: null
-			,fromStateName: ''
-		},
-		views:{
-			'body': {
-				controller: function($scope,$stateParams,TranslationService){
-					$scope.message = TranslationService.getText($stateParams.message);
-					$scope.fromStateName = $stateParams.fromStateName;
+			, abstract: true
+		})
+		.state('message', {
+			url: '/message/',
+			params: {
+				message: null
+				, fromStateName: ''
+			},
+			views: {
+				'body': {
+					controller: function ($scope, $stateParams, TranslationService) {
+						$scope.message = TranslationService.getText($stateParams.message);
+						$scope.fromStateName = $stateParams.fromStateName;
+					},
+					templateUrl: '/app/shared/views/message.html'
+				}
+			}
+		})
+		.state('modal-backdrop', {
+			views: {
+				'modal': {
+					templateUrl: '/app/shared/views/modal-backdrop.html'
+				}
+			}
+		})
+		/*
+		 * ========== LOGIN ==========
+		 */
+		.state('login', {
+			url: '/login',
+			views: {
+				'header': {
+					templateProvider: function ($templateFactory, AuthService) {
+						if (AuthService.isLoggedIn()) {
+							return $templateFactory.fromUrl(AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS_NAVIGATIONBAR)
+						}
+					}
 				},
-				templateUrl: '/app/shared/views/message.html'
+				'body': {
+					templateUrl: '/app/components/login/views/login.html'
+					, controller: 'AuthController'
+				}
 			}
-		}
-	})
-	.state('modal-backdrop',{
-		views: {
-			'modal':{
-				templateUrl: '/app/shared/views/modal-backdrop.html'
+		})
+		/*
+		 *    ========== USERPROFILES ==========
+		 */
+		.state('login.userProfiles', {
+			url: '/userProfiles'
+			, views: {
+				'userProfiles': {
+					templateUrl: '/app/components/login/views/userProfiles.html'
+				}
 			}
-		}
-	})
-	/*
-	 * ========== LOGIN ==========
-	 */
-    .state('login',{
-        url: '/login',
-        views: {
-            'header':{
-                templateProvider: function($templateFactory,AuthService){
-                    if(AuthService.isLoggedIn()){
-                        return $templateFactory.fromUrl(AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS_NAVIGATIONBAR)
-                    }
-                }
-            },
-            'body':{
-                templateUrl: '/app/components/login/views/login.html'
-                ,controller: 'AuthController'
-            }
-        }
-    })
-	/*
-	 *    ========== USERPROFILES ==========
-	 */
-	.state('login.userProfiles',{
-		url: '/userProfiles'
-		,views:{
-			'userProfiles':{
-				templateUrl: '/app/components/login/views/userProfiles.html'
+		})
+		/*
+		 * ========= FORGOTPASSWORD =========
+		 */
+		.state('login.forgotPassword', {
+			url: '/forgotPassword',
+			views: {
+				'forgotPassword': {
+					templateUrl: '/app/components/login/views/forgotPassword.html'
+				}
 			}
-		}
-	})
-	/*
-	 * ========= FORGOTPASSWORD =========
-	 */
-	.state('login.forgotPassword',{
-		url: '/forgotPassword',
-		views: {
-			'forgotPassword':{
-				templateUrl: '/app/components/login/views/forgotPassword.html'
-			}
-		}
-	})
-	/*
-	 * ========= RESETPASSWORD =========
-	 */
-	.state('login.resetPassword',{
-		url: '/resetPassword/:key'
-		,resolve: {
-			validateResponse:
-				function($stateParams,AuthService){
+		})
+		/*
+		 * ========= RESETPASSWORD =========
+		 */
+		.state('login.resetPassword', {
+			url: '/resetPassword/:key'
+			, resolve: {
+				validateResponse: function ($stateParams, AuthService) {
 					return AuthService.validateSecretKey($stateParams.key);
+				}
 			}
-		}
-		,onEnter: function($rootScope,APIService){
-			if(validateResponse.validate_ok == false){
-				$stateProvider.go('message',{message: (!validateResponse.message ? 'Token invalid' : validateResponse.message)});
+			, onEnter: function ($rootScope, APIService) {
+				if (validateResponse.validate_ok == false) {
+					$stateProvider.go('message', {message: (!validateResponse.message ? 'Token invalid' : validateResponse.message)});
+				}
 			}
-		}
-		,views: {
-			'forgotPassword': {
-				templateUrl: '/app/components/login/views/resetPassword.html'
-				,controller: 'AuthController'
+			, views: {
+				'forgotPassword': {
+					templateUrl: '/app/components/login/views/resetPassword.html'
+					, controller: 'AuthController'
+				}
 			}
-		}
-	})
-	/*
-	 * ========= LOGOUT =========
-	 */
-	.state('logout',{
-		url:'/logout'
-		,views:{
-			'body':{
-				templateUrl:'/app/components/login/views/logout.html'
-				,controller: 'AuthController'
+		})
+		/*
+		 * ========= LOGOUT =========
+		 */
+		.state('logout', {
+			url: '/logout'
+			, views: {
+				'body': {
+					templateUrl: '/app/components/login/views/logout.html'
+					, controller: 'AuthController'
+				}
 			}
-		}
-	})
-	.state('login.2StepAuthentication',{
-		url:'2StepAuthentication'
-		,templateUrl:'/app/components/login/views/2stepAuthentication.html'
-	})
-	/*
-	 * ========= REGISTER ========= 
-	 */
-	.state('login.register',{
-		url: '/register'
-		,views: {
-			'register': {
-				templateUrl:'/app/components/register/views/register.html'
-				,controller: 'RegisterController'
+		})
+		.state('login.2StepAuthentication', {
+			url: '2StepAuthentication'
+			, templateUrl: '/app/components/login/views/2stepAuthentication.html'
+		})
+		/*
+		 * ========= REGISTER =========
+		 */
+		.state('login.register', {
+			url: '/register'
+			, views: {
+				'register': {
+					templateUrl: '/app/components/register/views/register.html'
+					, controller: 'RegisterController'
+				}
 			}
-		}
-	})
-	/*
-	 * ========= VACATUREGIDS ========= 
-	 */
-	.state('vacaturegids',{
-		url: '/vacaturegids'
-		,views: {
-			'body@':{
-				templateUrl: '/app/components/vacaturegids/views/vacaturegids.html'
+		})
+		/*
+		 * ========= VACATUREGIDS =========
+		 */
+		.state('vacaturegids', {
+			url: '/vacaturegids'
+			, views: {
+				'body@': {
+					templateUrl: '/app/components/vacaturegids/views/vacaturegids.html'
+				}
+				, 'header': {
+					templateUrl: AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS_NAVIGATIONBAR
+					, controller: 'AuthController'
+				}
 			}
-			,'header': {
-				templateUrl: AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS_NAVIGATIONBAR
-				,controller: 'AuthController'
+		})
+		/*
+		 * ========= TRANSLATION =========
+		 */
+		.state('editTranslation', {
+			url: '/editTranslation'
+			, resolve: {
+				data: ['TranslationService', function (TranslationService) {
+					return TranslationService.load(AppConfig.API_ENDPOINTS.translation);
+				}]
 			}
-		}
-	})
-	/*
-	 * ========= TRANSLATION =========
-	 */
-	.state('editTranslation',{
-		url: '/editTranslation'
-		,resolve: {
-			data: ['TranslationService',function(TranslationService){
-				return TranslationService.load(AppConfig.API_ENDPOINTS.translation);
-			}]
-		}
-		,views:{
-			'body': {
-				templateUrl: '/app/components/translation/views/editTranslation.html'
-				,controller: 'TranslationController'
+			, views: {
+				'body': {
+					templateUrl: '/app/components/translation/views/editTranslation.html'
+					, controller: 'TranslationController'
+				}
 			}
-		}
-	})
-	/*
-	* ========= JOBLIST =========
-	*/
-	.state('joblist',{
-		url: '/joblist'
-		,resolve: {
-			data: ['JoblistService',function(JoblistService){
-				return JoblistService.load(AppConfig.API_ENDPOINTS.joblist);
-			}]
-		}
-		,views:{
-			'body': {
-				templateUrl: '/app/components/joblist/views/jobs.html'
-				,controller: 'JoblistController'
+		})
+		/*
+		 * ========= JOBLIST =========
+		 */
+		.state('joblist', {
+			url: '/joblist'
+			, resolve: {
+				data: ['JoblistService', function (JoblistService) {
+					return JoblistService.load(AppConfig.API_ENDPOINTS.joblist);
+				}]
 			}
-		}
-	})
-	/*
-	 * ========= SETTINGS =========
-	 */
-	.state('settings',{
-		url: '/settings'
-		,resolve: {
-		}
-		,views:{
-			'body@': {
-				templateUrl: AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS.SETTINGS.CONTAINER
-				,controller: 'RechtenEnRollenController'
+			, views: {
+				'body': {
+					templateUrl: '/app/components/joblist/views/jobs.html'
+					, controller: 'JoblistController'
+				}
 			}
-		}
-	})
+		})
+		/*
+		 * ========= SETTINGS =========
+		 */
+		// USE THIS STATE AS AN ABSTRACT STATE.
+		.state('settings', {
+			url: '/settings'
+		})
+		.state('settings.userManagement', {
+			url: '/userManagement'
+			,resolve: {
+				data: ['UserManagementService', function (UserManagementService) {
+					return UserManagementService.requestLocalJSON({
+						method: 'GET'
+						, url: '/app/components/settings/userManagement/rechtenEnRollen/dummyData.json'
+					})
+				}]
+			}
+			,views: {
+				'body@': {
+					templateUrl: AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS.SETTINGS.CONTAINER
+					,controller: 'UserManagementController'
+				}
+			}
+		})
+		.state('settings.teams', {
+			url: '/teams'
+			,resolve: {
+				data: ['UserManagementService', function(UserManagementService) {
+					return UserManagementService.requestLocalJSON({
+						method: 'GET'
+						, url: '/app/components/settings/userManagement/teams/dummyData.json'
+					})
+				}]
+			}
+			,views: {
+				'body@': {
+					templateUrl: AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS.SETTINGS.CONTAINER
+					,controller: 'UserManagementController'
+				}
+			}
+		})
 }])

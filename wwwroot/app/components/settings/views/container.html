@@ -48,13 +48,22 @@
 		<input name="action" value="" type="hidden">
 		<input name="tabpanel" value="" type="hidden">
 		<div role="tabpanel">
-
+			tabData = {{tabData}}
 			<!-- Nav tabs -->
 			<ul class="nav nav-tabs h10" role="tablist" id="settings-tab-nav">
 				<li role="presentation" class=""><a aria-expanded="false" href="#usersettings" aria-controls="usersettings" role="tab" data-toggle="tab"> <!--Gebruikers --></a></li>
 				<li role="presentation"><a href="#pendingsettings" aria-controls="pendingsettings" role="tab" data-toggle="tab"> <!--Uitgenodigd--> </a></li>
-				<li class="active" role="presentation"><a aria-expanded="true" href="#rightsrolessettings" aria-controls="rightsrolessettings" role="tab" data-toggle="tab">{{viewConfig.title}}</a></li>
-				<li role="presentation"><a href="#teamsettings" aria-controls="teamsettings" role="tab" data-toggle="tab"> <!--Teams--> </a></li>
+				<li class="active" role="presentation">
+					<a  aria-expanded="true"
+						ui-sref="settings.userManagement"
+						aria-controls="rightsrolessettings"
+						role="tab"
+						data-toggle="tab">{{viewConfig.title}}</a></li>
+				<li role="presentation">
+					<a  ui-sref="settings.teams"
+					    aria-controls="teamsettings"
+					    role="tab"
+					    data-toggle="tab"> Teams </a></li>
 				<li role="presentation"><a href="#jobdomainsettings" aria-controls="jobdomainsettings" role="tab" data-toggle="tab"> <!--Vacature pool --></a></li>
 			</ul>
 
@@ -69,11 +78,10 @@
 				</div>
 
 				<!-- rights and roles settings -->
-				<div ng-include="AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS.SETTINGS.USERMANAGEMENT.USERSANDROLES"></div>
+				<div id="#/settings/userManagement" ng-include="AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS.SETTINGS.USERMANAGEMENT.USERSANDROLES"></div>
 
 				<!-- teams settings -->
-				<div role="tabpanel" class="tab-pane  margin_top_2" id="teamsettings">
-				</div> <!-- end team -->
+				<div id="#/settings/teams" ng-include="AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS.SETTINGS.USERMANAGEMENT.TEAMS"></div>
 
 				<!-- jobdomain settings -->
 				<div role="tabpanel" class="tab-pane  margin_top_2" id="jobdomainsettings">
