@@ -1,0 +1,30 @@
+{
+	"configuration": {
+		"title": "Teams",
+		"buttons": {
+			"newTeam": {
+				"allow": true
+			},
+		  "editTeam": {
+			  "allow": true
+		  },
+		  "deleteTeam": {
+			  "allow": true
+		  }
+		}
+	}
+	,"data": {
+  		"demo": {
+			"title": "Demo"
+		}
+		,"HR":{
+			"title": "Demo"
+  		}
+		,"ICT":{
+			"title": "Demo"
+  		}
+		,"logistics":{
+			"title": "Demo"
+  		}
+	}
+}

@@ -5,6 +5,7 @@ angular.module('app.HRMatches')
 		// DUMMY DATA HERE
 		$scope.data = data.data; // dit is dummy data
         $scope.viewConfig = data.configuration;
+		$scope.AppConfig = AppConfig;
 		UserManagementService.loadSettingsData({
 			method: 'GET'
 			,url: '/app/components/settings/dummyData.json'

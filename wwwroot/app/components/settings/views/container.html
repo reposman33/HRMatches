@@ -3,91 +3,21 @@
 	<div class="well settings-menu">
 		<div class="row">
 			<div class="col-md-12 h4">
-				<i class="fa fa-cogs"></i> Instellingen
+				<i class="fa fa-cogs"></i>Instellingen
 			</div>
 		</div>
-
-
 
 		<div class="list-group h10">
-			<a href="#" class="list-group-item "><i class="fa fa-user fa-fw"></i><!--Mijn account--></a>
-			<a href="#" class="list-group-item"><i class="fa fa-building-o fa-fw "></i><!--Bedrijfsinfo--></a>
-			<a href="#" class="list-group-item active"><i class="fa fa-users fa-fw"></i>Gebruikersbeheer</a>
-			<a href="#" class="list-group-item"><i class="fa fa-tags  fa-fw "></i><!--Tag beheer--></a>
-			<a href="#" class="list-group-item"><i class="fa fa-files-o fa-fw "></i><!--Templates--></a>
-			<a href="#" class="list-group-item"><i class="fa fa-th fa-fw "></i><!--Afdeling--></a>
-
-
-			<a href="#" class="list-group-item"><i class="fa fa-tasks  fa-fw"></i>Matching systeem</a>
-
-
+			<a href="#" class="list-group-item "><i class="fa fa-user fa-fw"></i>{{settingsData.settings.setting.myAccount.title}}</a>
+			<a href="#" class="list-group-item"><i class="fa fa-building-o fa-fw "></i>{{settingsData.settings.setting.companyInfo.title}}</a>
+			<a href="#" class="list-group-item active"><i class="fa fa-users fa-fw"></i>{{settingsData.settings.setting.userManagement.title}}</a>
+			<a href="#" class="list-group-item"><i class="fa fa-tags  fa-fw "></i>{{settingsData.settings.setting.tagManagement.title}}</a>
+			<a href="#" class="list-group-item"><i class="fa fa-files-o fa-fw "></i>{{settingsData.settings.setting.templates.title}}</a>
+			<a href="#" class="list-group-item"><i class="fa fa-th fa-fw "></i>{{settingsData.settings.setting.department.title}}</a>
+			<a href="#" class="list-group-item"><i class="fa fa-tasks  fa-fw"></i>{{settingsData.settings.setting.matching.title}}</a>
 		</div>
 	</div>
 
 </div>
 
-<div class="col-md-9">
-
-	<div class="row title-container">
-		<div class="col-md-12 h3">
-			Gebruikersbeheer
-		</div>
-	</div>
-
-	<div class="row">
-		<div class="col-md-12  breadcrumbs-container">
-			<a href="#" class="btn btn-default pull-right back-btn btn-sm"><i class="fa fa-chevron-left"></i> Terug naar dashboard</a>
-			<ul class="breadcrumb bg-white">
-				<li><a href="#">Instellingen</a></li>
-				<li class="active"><a href="#">Gebruikersbeheer</a></li>
-			</ul>
-		</div>
-	</div>
-
-	<form name="form">
-		<input name="action" value="" type="hidden">
-		<input name="tabpanel" value="" type="hidden">
-		<div role="tabpanel">
-			tabData = {{tabData}}
-			<!-- Nav tabs -->
-			<ul class="nav nav-tabs h10" role="tablist" id="settings-tab-nav">
-				<li role="presentation" class=""><a aria-expanded="false" href="#usersettings" aria-controls="usersettings" role="tab" data-toggle="tab"> <!--Gebruikers --></a></li>
-				<li role="presentation"><a href="#pendingsettings" aria-controls="pendingsettings" role="tab" data-toggle="tab"> <!--Uitgenodigd--> </a></li>
-				<li class="active" role="presentation">
-					<a  aria-expanded="true"
-						ui-sref="settings.userManagement"
-						aria-controls="rightsrolessettings"
-						role="tab"
-						data-toggle="tab">{{viewConfig.title}}</a></li>
-				<li role="presentation">
-					<a  ui-sref="settings.teams"
-					    aria-controls="teamsettings"
-					    role="tab"
-					    data-toggle="tab"> Teams </a></li>
-				<li role="presentation"><a href="#jobdomainsettings" aria-controls="jobdomainsettings" role="tab" data-toggle="tab"> <!--Vacature pool --></a></li>
-			</ul>
-
-			<!-- Tab panes -->
-			<div class="tab-content">
-				<!--  team member settings -->
-				<div role="tabpanel" class="tab-pane margin_top_2" id="usersettings"> <!-- These class id's are essential for the functionality of the tabs -->
-				</div>	<!--  end teammember settings  -->
-
-				<!-- team pending settings -->
-				<div role="tabpanel" class="tab-pane  margin_top_2" id="pendingsettings">
-				</div>
-
-				<!-- rights and roles settings -->
-				<div id="#/settings/userManagement" ng-include="AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS.SETTINGS.USERMANAGEMENT.USERSANDROLES"></div>
-
-				<!-- teams settings -->
-				<div id="#/settings/teams" ng-include="AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS.SETTINGS.USERMANAGEMENT.TEAMS"></div>
-
-				<!-- jobdomain settings -->
-				<div role="tabpanel" class="tab-pane  margin_top_2" id="jobdomainsettings">
-				</div>
-			</div>
-
-		</div>
-	</form>
-</div>
+<div class="col-md-9" ng-include src="'/app/components/settings/userManagement/views/userManagementContainer.html'"></div>

@@ -1,0 +1,50 @@
+<div class="row title-container">
+    <div class="col-md-12 h3">
+        Gebruikersbeheer
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12  breadcrumbs-container">
+        <a href="#" class="btn btn-default pull-right back-btn btn-sm"><i class="fa fa-chevron-left"></i> Terug naar dashboard</a>
+        <ul class="breadcrumb bg-white">
+            <li><a href="#">Instellingen</a></li>
+            <li class="active"><a href="#">Gebruikersbeheer</a></li>
+        </ul>
+    </div>
+</div>
+
+<form name="form">
+    <input name="action" value="" type="hidden">
+    <input name="tabpanel" value="" type="hidden">
+    <div role="tabpanel">
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs h10" role="tablist" id="settings-tab-nav">
+            <li role="presentation"><a aria-expanded="false" href="#usersettings" aria-controls="usersettings" role="tab" data-toggle="tab">{{settingsData.settings.setting.userManagement.page.tabTitles.users}}</a></li>
+            <li role="presentation"><a aria-expanded="false" href="#pendingsettings" aria-controls="pendingsettings" role="tab" data-toggle="tab">{{settingsData.settings.setting.userManagement.page.tabTitles.invited}}</a></li>
+                <li role="presentation"><a aria-expanded="false" href="#userManagement" aria-controls="rightsrolessettings" role="tab" data-toggle="tab">{{settingsData.settings.setting.userManagement.page.tabTitles.rightsAndRoles}}</a></li>
+            <li role="presentation"><a aria-expanded="false" href="#teams" aria-controls="teamsettings" role="tab" data-toggle="tab">{{settingsData.settings.setting.userManagement.page.tabTitles.teams}}</a></li>
+            <li role="presentation"><a aria-expanded="false" href="#jobdomainsettings" aria-controls="jobdomainsettings" role="tab" data-toggle="tab">{{settingsData.settings.setting.userManagement.page.tabTitles.vacaturePool}}</a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <!--  team member settings -->
+            <div role="tabpanel" class="tab-pane margin_top_2" id="usersettings"></div>
+
+            <!-- team pending settings -->
+            <div role="tabpanel" class="tab-pane margin_top_2" id="pendingsettings"></div>
+
+            <!-- rights and roles settings -->
+            <div role="tabpanel" class="tab-pane margin_top_2" id="userManagement" ng-include="'/app/components/settings/userManagement/rechtenEnRollen/views/rechtenEnRollen.html'"></div>
+
+            <!-- teams settings -->
+            <div role="tabpanel" class="tab-pane margin_top_2" id="teams"  ng-include="'/app/components/settings/userManagement/teams/views/teams.html'"></div>
+
+            <!-- jobdomain settings -->
+            <div role="tabpanel" class="tab-pane margin_top_2" id="jobdomainsettings"></div>
+        </div>
+
+    </div>
+</form>

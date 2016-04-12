@@ -1,23 +1,19 @@
 {
 	"settings": {
 		"title": "Instellingen",
-		"settings": {
+		"setting": {
 			"myAccount": {
 				"title": "Mijn account"
 				,"page": {
 					"title": "Mijn account"
-					,"tabTitles": {
-
-					}
+					,"tabTitles": {}
 				}
 			},
 			"companyInfo": {
 				"title": "Bedrijfsinfo"
 				,"page": {
 					"title": "Bedrijfsinfo"
-					,"tabTitles": {
-
-						}
+					,"tabTitles": {}
 					}
 			},
 			"userManagement": {
@@ -36,37 +32,29 @@
 			"tagManagement": {
 				"title": "Tag beheer"
 			,"page": {
-					"title": "Tag beheer"
-				,"tabTitles": {
-
-					}
+				"title": "Tag beheer"
+				,"tabTitles": {}
 				}
 			},
-			"Templates": {
+			"templates": {
 				"title": "Templates"
 				,"page": {
 					"title": "Templates"
-					,"tabTitles": {
-
-					}
+					,"tabTitles": {}
 				}
 			},
 			"department": {
 				"title": "Afdeling"
 				,"page": {
 					"title": "Afdeling beheer"
-					,"tabTitles": {
-
-					}
+					,"tabTitles": {}
 				}
 			},
 			"matching": {
 				"title": "Matching systeem"
 			 	,"page": {
 					"title": "Matching systeem"
-					,"tabTitles": {
-
-					}
+					,"tabTitles": {}
 				}
 			}
 		}

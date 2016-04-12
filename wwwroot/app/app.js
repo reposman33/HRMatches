@@ -11,8 +11,11 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 		,SETTINGS: {
 			CONTAINER: '/app/components/settings/views/container.html'
 			,USERMANAGEMENT: {
-				USERSANDROLES: '/app/components/settings/userManagement/rechtenEnRollen/views/rechtenEnRollen.html'
-				,TEAMS: '/app/components/settings/userManagement/teams/views/teams.html'
+				CONTAINER: "/app/components/settings/userManagement/views/userManagementContainer.html"
+				,PAGES: {
+					USERSANDROLES: '/app/components/settings/userManagement/rechtenEnRollen/views/rechtenEnRollen.html'
+					,TEAMS: '/app/components/settings/userManagement/teams/views/teams.html'
+				}
 			}
 		}
 	}
@@ -67,7 +70,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 					,'platform': navigator.platform //voor welk plaform is de browser
 					,'userAgent': navigator.userAgent //user agent
 					,'screenSize': screen.width + '*' + screen.height //breedte*hoogte van scherm
-					,'colorDepth': screen.colorDepth //kleuren in bits/pixels
+					,'colorDepth': screen.colorDepth + "" //kleuren in bits/pixels
 				}
 			}]
 		},'registration': {
@@ -348,7 +351,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 				data: ['UserManagementService', function (UserManagementService) {
 					return UserManagementService.requestLocalJSON({
 						method: 'GET'
-						, url: '/app/components/settings/userManagement/rechtenEnRollen/dummyData.json'
+						,url: '/app/components/settings/userManagement/rechtenEnRollen/dummyData.json'
 					})
 				}]
 			}

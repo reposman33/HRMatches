@@ -10,15 +10,12 @@ angular.module('app.HRMatches')
 			// RETRIEVE DATA FOR SETTINGS PAGE
 			,loadSettingsData: function(data){
 				return this.requestLocalJSON(data)
-					.then(
-						function(successResponse){
-							this.settingsData = successResponse.data;
-							return successResponse;
-						}
-					)
-					.catch(function(errorResponse){
-						console.error('Error in UserManagementService.getSettingsData(): ',errorResponse);
-					})
+				.then(
+					function(successResponse){
+						this.settingsData = successResponse.data;
+						return successResponse;
+					}
+				)
 			}
 
 
