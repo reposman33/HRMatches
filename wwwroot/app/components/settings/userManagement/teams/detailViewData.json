@@ -1,0 +1,38 @@
+{
+	"configuration": {
+		"title": "Team eigenschappen",
+		"buttons": {
+			"cancel": {
+				"allow": true
+			},
+			"save": {
+				"allow": true
+			},
+			"addTeamMember": {
+				"allow": true
+			},
+			"deleteTeamMembr": {
+				"allow": true
+			}
+		}
+	},
+	"data": {
+		"header": {
+			"label": "Team naam"
+			,"placeHolder": "Demo"
+		},
+		"listingHeaders": ["Naam teamlid","Rol"]
+		,"listing": [
+			{
+				"teamMemberName": "HRMatches, Demo",
+				"teamMemberRole": "Manager"
+			},{
+				"teamMemberName": "Test, Herwin",
+				"teamMemberRole": "Administrator"
+			},{
+				"teamMemberName": "test2,test2",
+				"teamMemberRole": "Manager"
+			}
+		]
+	}
+}

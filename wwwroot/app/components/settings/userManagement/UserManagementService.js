@@ -7,18 +7,6 @@ angular.module('app.HRMatches')
 				console.log('Setting right: ',data.name,' to ',data.value);
 			}
             
-			// RETRIEVE DATA FOR SETTINGS PAGE
-			,loadSettingsData: function(data){
-				return this.requestLocalJSON(data)
-				.then(
-					function(successResponse){
-						this.settingsData = successResponse.data;
-						return successResponse;
-					}
-				)
-			}
-
-
             ,requestLocalJSON: function(data){
                 return APIService.requestLocalJSON(data)
 	                .then(

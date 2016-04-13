@@ -18,22 +18,24 @@
 
 
 				<div class="well well-sm bg-white teams_box">
-					<div class="row">
+					<div class="row" ng-repeat="row in data">
 						<div class="col-md-7">
-							<div class="h9 teams_text"> Demo</div>
+							<div class="h9 teams_text">{{row.title}}</div>
 						</div>
 
 						<div class="col-md-5 right_text">
 							<div class="btn-group btn-group-sm" role="group" aria-label="...">
-								<button type="button" onclick="form.teamId.value='4C387F21-01B8-448E-ADEF-1B17849023C8';form.action.value='addTeam';form.tabpanel.value='teams';form.submit()" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="" data-original-title="Wijzigen"><i class="fa yellow fa-pencil "></i> </button>
-								<button type="submit" class="btn btn-default" onclick="form.teamId.value='4C387F21-01B8-448E-ADEF-1B17849023C8';form.action.value='deleteTeam';form.tabpanel.value='teams'" data-toggle="tooltip" data-placement="top" title="" data-original-title="Verwijderen"><i class="fa red fa-remove"></i></button>
+								<button type="button" ng-click="addTeam('{{row.id}}')" class="btn btn-default">
+									<i class="fa yellow fa-pencil"></i>
+								</button>
+								<button type="submit" class="btn btn-default" ng-click="deleteTeam('{{row.id}}')" title="">
+									<i class="fa red fa-remove"></i>
+								</button>
 							</div>
 						</div>
 					</div>
 				</div>
-
 			</div>
 		</div>
-
 	</div>
 </div>

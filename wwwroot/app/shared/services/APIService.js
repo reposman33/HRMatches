@@ -114,7 +114,16 @@ angular.module('app.HRMatches')
 			}
 		}
 		this.request(AppConfig.API_ENDPOINTS.trackdata)
-		.then(console.log('clientvariables logged for state \'',toStateName,'\''));
+		.then(
+			function(succesResponse){
+				console.log('clientvariables logged for state \'',toStateName,'\'');
+			}
+		)
+		.catch(
+			function(errorResponse){
+				console.log('clientvariables NOT logged for state \'',toStateName,'\'');
+			}
+		)
 	}
 	
 	this.requestLocalJSON = function(data){

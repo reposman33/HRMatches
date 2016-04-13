@@ -13,8 +13,8 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 			,USERMANAGEMENT: {
 				CONTAINER: "/app/components/settings/userManagement/views/userManagementContainer.html"
 				,PAGES: {
-					USERSANDROLES: '/app/components/settings/userManagement/rechtenEnRollen/views/rechtenEnRollen.html'
-					,TEAMS: '/app/components/settings/userManagement/teams/views/teams.html'
+					USERSANDROLES: '/app/components/settings/userManagement/rechtenEnRollen/views/listView.html'
+					,TEAMS: '/app/components/settings/userManagement/teams/views/listView.html'
 				}
 			}
 		}
@@ -29,7 +29,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 	,APPCONSTANTS_NAVIGATION_REDIRECT: {
 		NOTAUTHENTICATED:'login'
 		,NOTAUTHORIZED:''
-		,SETTINGS: '/settings/userManagement'
+		,SETTINGS: '/userManagement/gebruikers'
 	}
 	,APPCONSTANTS_TEXTS: {
 		INVALIDTOKEN: 'Invalid token'
@@ -58,7 +58,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 			,method: 'POST'
 			,addToken: false
 			, parameters: [{
-				name: 'clientvariables'
+				name: 'trackingdata'
 				,value: {
 					'token': '' // value injected later
 					,'state': '' // value injected later
@@ -341,42 +341,97 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 		/*
 		 * ========= SETTINGS =========
 		 */
-		// USE THIS STATE AS AN ABSTRACT STATE.
 		.state('settings', {
-			url: '/settings'
+			abstract: true
+			,url: '/settings'
+			,resolve: {
+				settingsData: ['UserManagementService', function (UserManagementService) {
+					return UserManagementService.requestLocalJSON({
+						method: 'GET'
+						,url: '/app/components/settings/dummyData.json'
+					})
+				}]
+			}
 		})
+		// ---------- SETTINGS.USERMANAGEMENT ----------
 		.state('settings.userManagement', {
 			url: '/userManagement'
+			,templateUrl: '/app/components/settings/userManagement/rechtenEnRollen/views/listView.html'
+			,resolve: {
+/*
+				settingsData: ['UserManagementService', function (UserManagementService) {
+					return UserManagementService.requestLocalJSON({
+						method: 'GET'
+						,url: '/app/components/settings/userManagement/rechtenEnRollen/listViewData.json'
+					})
+				}]
+*/
+			}
+			,views: {
+				'body@': {
+					templateUrl: AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS.SETTINGS.CONTAINER
+					,controller: 'UserManagementController'
+				}
+			}
+		})
+		// ---------- SETTINGS.USERMANAGEMENT.gebruikers----------
+		.state('settings.userManagement.gebruikers', {
+			url:'/userManagement/gebruikers'
+			,templateUrl: '' //?
+		})
+		// ---------- SETTINGS.USERMANAGEMENT.uitgenodigd----------
+		.state('settings.userManagement.uitgenodigd', {
+			url:'/userManagement/uitgenodigd'
+			,templateUrl: '' //?
+		})
+		// ---------- SETTINGS.USERMANAGEMENT.rechtenenrollen----------
+		.state('settings.userManagement.rechtenEnRollen', {
+			url: '/userManagement/rechtenEnRollen'
+			,templateUrl: '/app/components/settings/userManagement/rechtenEnRollen/views/listView.html'
+/*
 			,resolve: {
 				data: ['UserManagementService', function (UserManagementService) {
 					return UserManagementService.requestLocalJSON({
 						method: 'GET'
-						,url: '/app/components/settings/userManagement/rechtenEnRollen/dummyData.json'
+						,url: '/app/components/settings/userManagement/rechtenEnRollen/listViewData.json'
 					})
 				}]
 			}
+*/
+/*
 			,views: {
 				'body@': {
 					templateUrl: AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS.SETTINGS.CONTAINER
 					,controller: 'UserManagementController'
 				}
 			}
+*/
 		})
-		.state('settings.teams', {
-			url: '/teams'
+		// ---------- SETTINGS.USERMANAGEMENT.teams ----------
+		.state('settings.userManagement.teams', {
+			url: '/userManagement/teams'
+			,templateUrl: '/app/components/settings/userManagement/rechtenEnRollen/views/listView.html'
 			,resolve: {
 				data: ['UserManagementService', function(UserManagementService) {
 					return UserManagementService.requestLocalJSON({
 						method: 'GET'
-						, url: '/app/components/settings/userManagement/teams/dummyData.json'
+						,url: '/app/components/settings/userManagement/teams/listViewData.json'
 					})
 				}]
 			}
+/*
 			,views: {
 				'body@': {
 					templateUrl: AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS.SETTINGS.CONTAINER
 					,controller: 'UserManagementController'
 				}
 			}
+*/
 		})
+	// ---------- SETTINGS.USERMANAGEMENT.vacaturePool----------
+		.state('settings.userManagement.vacaturePool', {
+			url:'/userManagement/vacaturePool'
+			,templateUrl: '' //?
+		})
+
 }])
