@@ -1,54 +1,17 @@
 <div class="row title-container">
     <div class="col-md-12 h3">
-        Gebruikersbeheer
+        {{settingsData.settings.setting['userManagement'].title}}
     </div>
 </div>
 
 <div>
-
-    <ul class="nav nav-tabs h10" >
-        <li
+    <uib-tabset class="nav nav-tabs h10" >
+        <uib-tab
             ng-repeat="t in tabs"
             heading="{{t.heading}}"
             select="go(t.route)"
             active="t.active">
-            <a ui-sref="t.route">{{t.heading}}</a>
-        </li>
-    </ul>
-
-    <h2>View:</h2>
-    <div ui-view></div>
-
+            <div ui-view="tabContent"></div>
+        </uib-tab>
+    </uib-tabset>
 </div>
-
-
-<!--
-<div role="tabpanel">
-    &lt;!&ndash; Nav tabs &ndash;&gt;
-    <ul class="nav nav-tabs h10" role="tablist" id="settings-tab-nav">
-        <li role="presentation"><a aria-expanded="false" href="#usersettings" aria-controls="usersettings" role="tab" data-toggle="tab">{{settingsData.settings.setting.userManagement.page.tabTitles.users}}</a></li>
-        <li role="presentation"><a aria-expanded="false" href="#pendingsettings" aria-controls="pendingsettings" role="tab" data-toggle="tab">{{settingsData.settings.setting.userManagement.page.tabTitles.invited}}</a></li>
-        <li role="presentation"><a aria-expanded="false" href="#userManagement" aria-controls="rightsrolessettings" role="tab" data-toggle="tab">{{settingsData.settings.setting.userManagement.page.tabTitles.rightsAndRoles}}</a></li>
-        <li role="presentation"><a aria-expanded="false" href="#teams" aria-controls="teamsettings" role="tab" data-toggle="tab">{{settingsData.settings.setting.userManagement.page.tabTitles.teams}}</a></li>
-        <li role="presentation"><a aria-expanded="false" href="#jobdomainsettings" aria-controls="jobdomainsettings" role="tab" data-toggle="tab">{{settingsData.settings.setting.userManagement.page.tabTitles.vacaturePool}}</a></li>
-    </ul>
-
-    &lt;!&ndash; Tab panes &ndash;&gt;
-    <div class="tab-content">
-        &lt;!&ndash;  team member settings &ndash;&gt;
-        <div role="tabpanel" class="tab-pane margin_top_2" id="usersettings"></div>
-
-        &lt;!&ndash; team pending settings &ndash;&gt;
-        <div role="tabpanel" class="tab-pane margin_top_2" id="pendingsettings"></div>
-
-        &lt;!&ndash; rights and roles settings &ndash;&gt;
-        <div role="tabpanel" class="tab-pane margin_top_2" id="userManagement" ng-include="fileLocations.userManagement"></div>
-
-        &lt;!&ndash; teams settings&ndash;&gt;
-        <div role="tabpanel" class="tab-pane margin_top_2" id="teams" ng-include="fileLocations.teams"></div>
-
-        &lt;!&ndash; jobdomain settings &ndash;&gt;
-        <div role="tabpanel" class="tab-pane margin_top_2" id="jobdomainsettings"></div>
-    </div>
-</div>
--->

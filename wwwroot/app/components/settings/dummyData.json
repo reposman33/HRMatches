@@ -31,10 +31,10 @@
 			},
 			"tagManagement": {
 				"title": "Tag beheer"
-			,"page": {
-				"title": "Tag beheer"
-				,"tabTitles": {}
-				}
+				,"page": {
+					"title": "Tag beheer"
+					,"tabTitles": {}
+					}
 			},
 			"templates": {
 				"title": "Templates"

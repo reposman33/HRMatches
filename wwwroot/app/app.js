@@ -29,7 +29,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 	,APPCONSTANTS_NAVIGATION_REDIRECT: {
 		NOTAUTHENTICATED:'login'
 		,NOTAUTHORIZED:''
-		,SETTINGS: '/userManagement/gebruikers'
+		,SETTINGS: 'settings.userManagement.rechtenEnRollen'
 	}
 	,APPCONSTANTS_TEXTS: {
 		INVALIDTOKEN: 'Invalid token'
@@ -128,6 +128,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 		}
 		else if(AppConfig.APPCONSTANTS_PUBLICSTATES.indexOf(toState.name) > -1){
 			//USER LOGGED IN, ACCESSING PUBLIC STATE (e.g. 'login', 'register')
+			$state.go(AppConfig.APPCONSTANTS_NAVIGATION_ENTRYPOINT);
 			event.preventDefault();
 		}
 	});
@@ -135,12 +136,15 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 
 	$rootScope.$on('$stateChangeSuccess',function(event, toState, toParams, fromState, fromParams, options){
 		APIService.trackData(toState.name);
-
 	});
 
 	$rootScope.$on('$stateChangeError',function(event, toState, toParams, fromState, fromParams, error){
 		switch(error.status){
-			case 500:{ // eerver error
+			case 500:{ // server error
+				SessionService.log(error);
+				break;
+			}
+			case 501:{ // login error
 				SessionService.log(error);
 				break;
 			}
@@ -162,8 +166,12 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 }) // END run
 .config(['$stateProvider','$urlRouterProvider','AppConfig',function($stateProvider,$urlRouterProvider,AppConfig) {
 	$urlRouterProvider
-		.otherwise('/login')
-		.when('/settings',AppConfig.APPCONSTANTS_NAVIGATION_REDIRECT.SETTINGS)
+		.otherwise(function($injector,$location){
+			return '/login';
+		})
+		.when('/settings',function($state){
+			$state.transitionTo('settings.userManagement.rechtenEnRollen');
+		})
 
 	$stateProvider
 		.state('home', {
@@ -202,8 +210,8 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 		 * ========== LOGIN ==========
 		 */
 		.state('login', {
-			url: '/login',
-			views: {
+			url: '/login'
+			,views: {
 				'header': {
 					templateProvider: function ($templateFactory, AuthService) {
 						if (AuthService.isLoggedIn()) {
@@ -222,7 +230,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 		 */
 		.state('login.userProfiles', {
 			url: '/userProfiles'
-			, views: {
+			,views: {
 				'userProfiles': {
 					templateUrl: '/app/components/login/views/userProfiles.html'
 				}
@@ -232,8 +240,8 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 		 * ========= FORGOTPASSWORD =========
 		 */
 		.state('login.forgotPassword', {
-			url: '/forgotPassword',
-			views: {
+			url: '/forgotPassword'
+			,views: {
 				'forgotPassword': {
 					templateUrl: '/app/components/login/views/forgotPassword.html'
 				}
@@ -244,17 +252,17 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 		 */
 		.state('login.resetPassword', {
 			url: '/resetPassword/:key'
-			, resolve: {
+			,resolve: {
 				validateResponse: function ($stateParams, AuthService) {
 					return AuthService.validateSecretKey($stateParams.key);
 				}
 			}
-			, onEnter: function ($rootScope, APIService) {
+			,onEnter: function ($rootScope, APIService) {
 				if (validateResponse.validate_ok == false) {
 					$stateProvider.go('message', {message: (!validateResponse.message ? 'Token invalid' : validateResponse.message)});
 				}
 			}
-			, views: {
+			,views: {
 				'forgotPassword': {
 					templateUrl: '/app/components/login/views/resetPassword.html'
 					, controller: 'AuthController'
@@ -266,7 +274,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 		 */
 		.state('logout', {
 			url: '/logout'
-			, views: {
+			,views: {
 				'body': {
 					templateUrl: '/app/components/login/views/logout.html'
 					, controller: 'AuthController'
@@ -275,14 +283,14 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 		})
 		.state('login.2StepAuthentication', {
 			url: '2StepAuthentication'
-			, templateUrl: '/app/components/login/views/2stepAuthentication.html'
+			,templateUrl: '/app/components/login/views/2stepAuthentication.html'
 		})
 		/*
 		 * ========= REGISTER =========
 		 */
 		.state('login.register', {
 			url: '/register'
-			, views: {
+			,views: {
 				'register': {
 					templateUrl: '/app/components/register/views/register.html'
 					, controller: 'RegisterController'
@@ -294,7 +302,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 		 */
 		.state('vacaturegids', {
 			url: '/vacaturegids'
-			, views: {
+			,views: {
 				'body@': {
 					templateUrl: '/app/components/vacaturegids/views/vacaturegids.html'
 				}
@@ -309,15 +317,15 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 		 */
 		.state('editTranslation', {
 			url: '/editTranslation'
-			, resolve: {
+			,resolve: {
 				data: ['TranslationService', function (TranslationService) {
 					return TranslationService.load(AppConfig.API_ENDPOINTS.translation);
 				}]
 			}
-			, views: {
+			,views: {
 				'body': {
 					templateUrl: '/app/components/translation/views/editTranslation.html'
-					, controller: 'TranslationController'
+					,controller: 'TranslationController'
 				}
 			}
 		})
@@ -326,7 +334,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 		 */
 		.state('joblist', {
 			url: '/joblist'
-			, resolve: {
+			,resolve: {
 				data: ['JoblistService', function (JoblistService) {
 					return JoblistService.load(AppConfig.API_ENDPOINTS.joblist);
 				}]
@@ -334,7 +342,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 			, views: {
 				'body': {
 					templateUrl: '/app/components/joblist/views/jobs.html'
-					, controller: 'JoblistController'
+					,controller: 'JoblistController'
 				}
 			}
 		})
@@ -342,8 +350,8 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 		 * ========= SETTINGS =========
 		 */
 		.state('settings', {
-			abstract: true
-			,url: '/settings'
+			url: '/settings'
+			,redirectTo: 'settings.userManagement.rechtenEnRollen'
 			,resolve: {
 				settingsData: ['UserManagementService', function (UserManagementService) {
 					return UserManagementService.requestLocalJSON({
@@ -352,43 +360,74 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 					})
 				}]
 			}
+			,views: {
+				'body@': {
+					templateUrl: '/app/components/settings/views/container.html'
+					,controller: 'SettingsController'
+				}
+			}
 		})
 		// ---------- SETTINGS.USERMANAGEMENT ----------
 		.state('settings.userManagement', {
 			url: '/userManagement'
-			,templateUrl: '/app/components/settings/userManagement/rechtenEnRollen/views/listView.html'
 			,resolve: {
-/*
-				settingsData: ['UserManagementService', function (UserManagementService) {
-					return UserManagementService.requestLocalJSON({
-						method: 'GET'
-						,url: '/app/components/settings/userManagement/rechtenEnRollen/listViewData.json'
-					})
-				}]
-*/
+				data: function(){
+					return {
+						data:{
+							configuration:{}
+							,data:[]
+						}
+					}
+				}
 			}
 			,views: {
-				'body@': {
-					templateUrl: AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS.SETTINGS.CONTAINER
+				'setting@settings': {
+					templateUrl: '/app/components/settings/userManagement/views/userManagementContainer.html'
 					,controller: 'UserManagementController'
 				}
 			}
 		})
 		// ---------- SETTINGS.USERMANAGEMENT.gebruikers----------
 		.state('settings.userManagement.gebruikers', {
-			url:'/userManagement/gebruikers'
-			,templateUrl: '' //?
+			url:'/gebruikers'
+			,resolve: {
+				data: function(){
+					return {
+						data:{
+							configuration:{}
+							,data:[]
+						}
+					}
+				}
+			}
+			,views: {
+				'tabContent@settings.userManagement': {
+					templateUrl: ''//?
+				}
+			}
 		})
 		// ---------- SETTINGS.USERMANAGEMENT.uitgenodigd----------
 		.state('settings.userManagement.uitgenodigd', {
-			url:'/userManagement/uitgenodigd'
-			,templateUrl: '' //?
+			url:'/uitgenodigd'
+			,resolve: {
+				data: function(){
+					return {
+						data:{
+							configuration:{}
+							,data:[]
+						}
+					}
+				}
+			}
+			,views: {
+				'tabContent@settings.userManagement': {
+					templateUrl: ''//?
+				}
+			}
 		})
 		// ---------- SETTINGS.USERMANAGEMENT.rechtenenrollen----------
 		.state('settings.userManagement.rechtenEnRollen', {
-			url: '/userManagement/rechtenEnRollen'
-			,templateUrl: '/app/components/settings/userManagement/rechtenEnRollen/views/listView.html'
-/*
+			url: '/rechtenEnRollen'
 			,resolve: {
 				data: ['UserManagementService', function (UserManagementService) {
 					return UserManagementService.requestLocalJSON({
@@ -397,20 +436,16 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 					})
 				}]
 			}
-*/
-/*
 			,views: {
-				'body@': {
-					templateUrl: AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS.SETTINGS.CONTAINER
-					,controller: 'UserManagementController'
+				'tabContent@settings.userManagement': {
+					controller: 'UserManagementController'
+					,templateUrl: '/app/components/settings/userManagement/rechtenEnRollen/views/listView.html'
 				}
 			}
-*/
 		})
 		// ---------- SETTINGS.USERMANAGEMENT.teams ----------
 		.state('settings.userManagement.teams', {
-			url: '/userManagement/teams'
-			,templateUrl: '/app/components/settings/userManagement/rechtenEnRollen/views/listView.html'
+			url: '/teams'
 			,resolve: {
 				data: ['UserManagementService', function(UserManagementService) {
 					return UserManagementService.requestLocalJSON({
@@ -419,19 +454,30 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 					})
 				}]
 			}
-/*
 			,views: {
-				'body@': {
-					templateUrl: AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS.SETTINGS.CONTAINER
-					,controller: 'UserManagementController'
+				'tabContent@settings.userManagement': {
+					controller: 'UserManagementController'
+					,templateUrl: '/app/components/settings/userManagement/teams/views/listView.html'
 				}
 			}
-*/
 		})
 	// ---------- SETTINGS.USERMANAGEMENT.vacaturePool----------
 		.state('settings.userManagement.vacaturePool', {
-			url:'/userManagement/vacaturePool'
-			,templateUrl: '' //?
+			url:'/vacaturePool'
+			,resolve: {
+				data: function(){
+					return {
+						data:{
+							configuration:{}
+							,data:[]
+						}
+					}
+				}
+			}
+			,views: {
+				'tabContent@settings.userManagement': {
+					templateUrl: ''
+				}
+			}
 		})
-
 }])

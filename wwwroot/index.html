@@ -39,6 +39,7 @@
 	<!--SETTINGS-->
 	<script type="text/javascript" src="/app/components/settings/userManagement/UserManagementController.js"></script>
 	<script type="text/javascript" src="/app/components/settings/userManagement/UserManagementService.js"></script>
+	<script type="text/javascript" src="/app/components/settings/SettingsController.js"></script>
 
 	<!-- SHARED RESOURCES -->
 	<script type="text/javascript" src="/app/shared/filters/Filters.js"></script>
@@ -53,7 +54,7 @@
 	<div class="row title-container"></div>
 	<div class="header">
 		<ng-include src="AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS.NAVIGATIONBAR" ng-if="SessionService.isLoggedIn()"></div>
-		<div class="pull-right">{{SessionService.isLoggedIn() ? 'Ingelogd' : 'Niet ingelogd'}}</div>
+		<div class="pull-right" ng-if="!AppConfig.APPCONSTANTS_ISLOCAL">{{SessionService.isLoggedIn() ? 'Ingelogd' : 'Niet ingelogd'}}</div>
 	</div>
 
 	<div class="container margin_bottom_20">

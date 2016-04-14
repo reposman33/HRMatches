@@ -13,7 +13,7 @@ angular.module('app.HRMatches')
 		load: function(data){
 			var self = this;
 
-			if(self._isLoaded){
+			if(this._isLoaded){
 				return this.getData();
 			}
 

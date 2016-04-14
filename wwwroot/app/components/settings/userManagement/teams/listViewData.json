@@ -1,34 +1,32 @@
 {
 	"configuration": {
 		"title": "Teams",
-		"buttons": {
-			"newTeam": {
-				"allow": true
-			},
-		  "editTeam": {
-			  "allow": true
-		  },
-		  "deleteTeam": {
-			  "allow": true
-		  }
+		"columns": [{
+			"visible": true,
+			"columnName": "rolTitle",
+			"header_visible": true,
+			"header_text": "Rol",
+			"cell_editable": false
 		}
-	}
-	,"data": [
+		],
+		"row_editable": true,
+		"pagination": {
+			"enable": false
+		}
+	},
+	"data": [
 		{
-			"title": "Demo"
-			,"id":"4C387F21-01B8-448E-ADEF-1B17849023C8"
+			"rolTitle": "Demo"
+			,"rolTeamlid":"1"
+		},{
+			"rolTitle": "HR"
+			,"rolTeamlid":"2"
+		},{
+			"rolTitle": "ICT"
+			,"rolTeamlid":"3"
+		},{
+			"rolTitle": "Logistics"
+			,"rolTeamlid":"4"
 		}
-		,{
-			"title": "HR"
-			,"id":"B367ED11-7D94-4353-A8C4-189130B847C3"
-  		}
-		,{
-			"title": "ICT"
-			,"id":"38D5BD02-19A9-477D-ADE9-3250A3FFA047"
-  		}
-		,{
-			"title": "Logistics"
-			,"id":"AE6A0C10-682F-4490-9355-0321C619BDD7"
-  		}
 	]
 }

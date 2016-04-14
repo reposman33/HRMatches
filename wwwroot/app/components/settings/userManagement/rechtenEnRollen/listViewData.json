@@ -1,5 +1,5 @@
 {
-    "configuration":{
+  "configuration":{
         "title":"Rechten en Rollen"
         ,"buttons":{
             "newRole":{
@@ -68,6 +68,7 @@
             {"value":true,"name":"permission_19_7"},
             {"value":false,"name":"permission_19_6"},
             {"value":true,"name":"permission_19_15"}
-        ]}
         ]
+    }
+  ]
 }

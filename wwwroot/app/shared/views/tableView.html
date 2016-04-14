@@ -25,37 +25,26 @@
 	</tr>
 	</tfoot>
 	<tbody>
-		<tr ng-repeat="columnData in currentDataPage">
+		<tr ng-repeat="row in data">
 			<td ng-repeat="column in viewConfig.columns"
 			    ng-if="column.visible">
 					<span
 						ng-if="column.cell_editable"
-						editable-text="columnData[column.columnName.toLowerCase()]"
+						editable-text="row[column.columnName.toLowerCase()]"
 						onbeforesave="update($data)"
 						e-name="{{column.columnName}}"
 						e-form="rowform"
-						class="form-control">{{columnData[column.columnName]}}</span>
+						class="form-control">{{row[column.columnName]}}</span>
 					<span
-						ng-if="!column.cell_editable">{{columnData[column.columnName]}}</span>
+						ng-if="!column.cell_editable">{{row[column.columnName]}}</span>
 			</td>
 			<td ng-show="viewConfig.row_editable">
-				<form editable-form
-			      name="rowform"
-			      onbeforesave="update($data)">
-				<button type="button"
-			        class="btn btn-primary"
-			        ng-click="rowform.$show()">edit</button>
-				</form>
-				<div class="buttons" ng-show="rowform.$visible">
-					<button type="button"
-				        class="btn btn-primary"
-				        ng-click="update($data)"
-				        ng-disabled="rowform.$waiting">save</button>
-					<button type="button"
-				        class="btn btn-default"
-				        ng-click="rowform.$cancel()"
-				        ng-disabled="rowform.$waiting">cancel</button>
-				</div>
+				<button type="button" ng-click="add('{{row.id}}')" class="btn btn-default">
+					<i class="fa yellow fa-pencil"></i>
+				</button>
+				<button type="submit" class="btn btn-default" ng-click="delete('{{row.id}}')" title="">
+					<i class="fa red fa-remove"></i>
+				</button>
 			</td>
 		</tr>
 	</tbody>

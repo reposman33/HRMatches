@@ -9,7 +9,7 @@ angular.module('app.HRMatches')
 		$scope.currentPage = 1;
 
 		$scope.paginate = function(newPage){
-			$scope.currentDataPage = _data.slice(((newPage-1) * $scope.viewConfig.pagination.itemsPerPage), ((newPage) * $scope.viewConfig.pagination.itemsPerPage))
+			$scope.data = _data.slice(((newPage-1) * $scope.viewConfig.pagination.itemsPerPage), ((newPage) * $scope.viewConfig.pagination.itemsPerPage))
 		}
 
 		$scope.paginate($scope.currentPage);
