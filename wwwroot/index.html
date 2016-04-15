@@ -2,7 +2,6 @@
 <html>
 
 <head>
-	<!-- BOOTSTRAP -->
  	<link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="/node_modules/angular-xeditable-0.1.11/css/xeditable.min.css">
 	<link rel="stylesheet" href="/assets/style/font-awesome-4.6.1/css/font-awesome.min.css">
@@ -53,7 +52,7 @@
 
 	<div class="row title-container"></div>
 	<div class="header">
-		<ng-include src="AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS.NAVIGATIONBAR" ng-if="SessionService.isLoggedIn()"></div>
+		<ng-include src="AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS.NAVIGATIONBAR" ng-if="SessionService.isLoggedIn()"></ng-include>
 		<div class="pull-right" ng-if="!AppConfig.APPCONSTANTS_ISLOCAL">{{SessionService.isLoggedIn() ? 'Ingelogd' : 'Niet ingelogd'}}</div>
 	</div>
 

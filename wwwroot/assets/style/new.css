@@ -1307,7 +1307,7 @@ padding-right:8px;
 /* LOGO - CLIENT */
 /*  size of logo's are not an issue  */	
 .logo_white{
-	background: url("../../images/logo_white.png") center center no-repeat;
+/*	background: url("../../images/logo_white.png") center center no-repeat;*/
 	-webkit-background-size: contain; 
     -moz-background-size: contain; 
     -o-background-size: contain; 

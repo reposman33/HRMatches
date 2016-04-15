@@ -14,7 +14,7 @@ angular.module('app.HRMatches')
 
 		 $scope.paginate($scope.currentPage);
 
-		$scope.update = function(data){
+		$scope.edit = function(id){
 			TranslationService.updateTranslationKey(data)
 			.then(
 				function(successResponse){
@@ -25,4 +25,4 @@ angular.module('app.HRMatches')
 				}
 			);
 		}
-}])
+}]);

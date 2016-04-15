@@ -39,10 +39,10 @@
 						ng-if="!column.cell_editable">{{row[column.columnName]}}</span>
 			</td>
 			<td ng-show="viewConfig.row_editable">
-				<button type="button" ng-click="add('{{row.id}}')" class="btn btn-default">
+				<button type="button" ng-click="edit(row.id)" class="btn btn-default">
 					<i class="fa yellow fa-pencil"></i>
 				</button>
-				<button type="submit" class="btn btn-default" ng-click="delete('{{row.id}}')" title="">
+				<button type="button" class="btn btn-default" ng-click="delete(row.id)" title="">
 					<i class="fa red fa-remove"></i>
 				</button>
 			</td>

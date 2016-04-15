@@ -7,26 +7,30 @@ angular.module('app.HRMatches')
 		$scope.viewConfig = data.configuration;
 		$scope.AppConfig = AppConfig;
 
+		$scope.edit = function(id){
+			console.log('edit(' + id + ')');
+		}
+
+		$scope.delete = function(id){
+			console.log('delete(' + id + '))');
+		}
+
 		/*TABS*/
 		$scope.tabs = [
 			{ heading: settingsData.settings.setting.userManagement.page.tabTitles.users, route:"settings.userManagement.gebruikers", active:false },
 			{ heading: settingsData.settings.setting.userManagement.page.tabTitles.invited, route:"settings.userManagement.uitgenodigd", active:false },
 			{ heading: settingsData.settings.setting.userManagement.page.tabTitles.rightsAndRoles, route:"settings.userManagement.rechtenEnRollen", active:true },
 			{ heading: settingsData.settings.setting.userManagement.page.tabTitles.teams, route:"settings.userManagement.teams", active:false },
-			{ heading: settingsData.settings.setting.userManagement.page.tabTitles.vacaturePool, route:"settings.userManagement.vacaturePool", active:false },
+			{ heading: settingsData.settings.setting.userManagement.page.tabTitles.vacaturePool, route:"settings.userManagement.vacaturePool", active:false }
 		];
 
 		$scope.go = function(route){
 			$state.go(route);
 		};
 
-		$scope.active = function(route){
-			return $state.is(route);
-		};
-
 		$scope.$on("$stateChangeSuccess", function() {
 			$scope.tabs.forEach(function(tab) {
-				tab.active = $scope.active(tab.route);
+				tab.active = $state.is(tab.route);
 			});
 		});
 		/*END TABS*/
@@ -41,13 +45,6 @@ angular.module('app.HRMatches')
 
 		/*========== TEAMS ==========*/
 
-		$scope.addTeam = function(id){
-			console.log('Add ',id);
-		}
-
-		$scope.deleteTeam = function(id){
-			console.log('Delete ',id);
-		}
 
 		/*========== VACATURE POOL==========*/
 	}]

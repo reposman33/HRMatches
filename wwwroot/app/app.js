@@ -8,32 +8,16 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 	,APPCONSTANTS_FILELOCATIONS_VIEWS: {
 		NAVIGATIONBAR: '/app/components/navigation/views/navigation.html'
 		,TABLEVIEW: '/app/shared/views/tableView.html'
-		,SETTINGS: {
-			CONTAINER: '/app/components/settings/views/container.html'
-			,USERMANAGEMENT: {
-				CONTAINER: "/app/components/settings/userManagement/views/userManagementContainer.html"
-				,PAGES: {
-					USERSANDROLES: '/app/components/settings/userManagement/rechtenEnRollen/views/listView.html'
-					,TEAMS: '/app/components/settings/userManagement/teams/views/listView.html'
-				}
-			}
-		}
 	}
-	/* ,APPCONSTANTS_SECURITY_SESSIONTIMEOUT: 20*60*1000 // deprecated: wordt alleen server side gebruikt */
 
-	// BACK END DEFINED CONSTANTS
-	,APPCONSTANTS_PAGINATION_MAXSIZE: 25
+	// TEMP CONSTANTS TO BE DEFINED BY BACK END
 	,APPCONSTANTS_API_URL: 'http://api-development.hrmatches.com'
 	,APPCONSTANTS_PUBLICSTATES: "login,login.forgotPassword,login.userProfiles,login.resetPassword,login.register" // exclusively public states
 	,APPCONSTANTS_NAVIGATION_ENTRYPOINT: 'editTranslation'
 	,APPCONSTANTS_NAVIGATION_REDIRECT: {
-		NOTAUTHENTICATED:'login'
-		,NOTAUTHORIZED:''
-		,SETTINGS: 'settings.userManagement.rechtenEnRollen'
+		NOTAUTHENTICATED:'login' // redirect hiernaartoe als niet ingelogd
 	}
-	,APPCONSTANTS_TEXTS: {
-		INVALIDTOKEN: 'Invalid token'
-	}
+
 	,API_ENDPOINTS: {
 		'translation': {
 			endpoint: 'translation'
@@ -91,11 +75,39 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 				}
 			}]
 		}
-		,'rechtenenrollen': {
-			endpoint: 'rechtenenrollen'
-			,method: 'GET'
-			,addToken: 'true'
-			,parameters: []
+		,'settings': {
+			'userManagement': {
+				'users': {
+					endpoint: 'userManagement-users'
+					,method: 'GET'
+					,addToken: 'true'
+					,parameters: []
+				},
+				'invited': {
+					endpoint: 'userManagement-invited'
+					,method: 'GET'
+					,addToken: 'true'
+					,parameters: []
+				},
+				'rightsAndsRoles': {
+					endpoint: 'userManagement-rightsAndsRoles'
+					,method: 'GET'
+					,addToken: 'true'
+					,parameters: []
+				},
+				'teams': {
+					endpoint: 'userManagement-teams'
+					,method: 'GET'
+					,addToken: 'true'
+					,parameters: []
+				},
+				'jobpool': { // vacaturePool
+					endpoint: 'userManagement-jobpool'
+					,method: 'GET'
+					,addToken: 'true'
+					,parameters: []
+				}
+			}
 		}
 	}
 }) //END constant
@@ -171,7 +183,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 		})
 		.when('/settings',function($state){
 			$state.transitionTo('settings.userManagement.rechtenEnRollen');
-		})
+		});
 
 	$stateProvider
 		.state('home', {
@@ -400,11 +412,6 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 					}
 				}
 			}
-			,views: {
-				'tabContent@settings.userManagement': {
-					templateUrl: ''//?
-				}
-			}
 		})
 		// ---------- SETTINGS.USERMANAGEMENT.uitgenodigd----------
 		.state('settings.userManagement.uitgenodigd', {
@@ -419,13 +426,8 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 					}
 				}
 			}
-			,views: {
-				'tabContent@settings.userManagement': {
-					templateUrl: ''//?
-				}
-			}
 		})
-		// ---------- SETTINGS.USERMANAGEMENT.rechtenenrollen----------
+		// ---------- SETTINGS.USERMANAGEMENT.RECHTENENROLLEN----------
 		.state('settings.userManagement.rechtenEnRollen', {
 			url: '/rechtenEnRollen'
 			,resolve: {
@@ -435,7 +437,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 						,url: '/app/components/settings/userManagement/rechtenEnRollen/listViewData.json'
 					})
 				}]
-			}
+				}
 			,views: {
 				'tabContent@settings.userManagement': {
 					controller: 'UserManagementController'
@@ -443,7 +445,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 				}
 			}
 		})
-		// ---------- SETTINGS.USERMANAGEMENT.teams ----------
+		// ---------- SETTINGS.USERMANAGEMENT.TEAMS ----------
 		.state('settings.userManagement.teams', {
 			url: '/teams'
 			,resolve: {
@@ -474,10 +476,5 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 					}
 				}
 			}
-			,views: {
-				'tabContent@settings.userManagement': {
-					templateUrl: ''
-				}
-			}
 		})
-}])
+}]);

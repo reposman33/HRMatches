@@ -3,30 +3,37 @@
 		"title": "Teams",
 		"columns": [{
 			"visible": true,
-			"columnName": "rolTitle",
+			"columnName": "title",
 			"header_visible": true,
 			"header_text": "Rol",
 			"cell_editable": false
+		},{
+		  "visible": false,
+		  "columnName": "id",
+		  "header_visible": false,
+		  "header_text": "ID",
+		  "cell_editable": false
 		}
 		],
 		"row_editable": true,
-		"pagination": {
-			"enable": false
-		}
-	},
+	  "pagination": {
+		"enable": false,
+		"itemsPerPage": 15,
+		"maxSize": 10
+	  }	},
 	"data": [
 		{
-			"rolTitle": "Demo"
-			,"rolTeamlid":"1"
+			"title": "Demo"
+			,"id":"1"
 		},{
-			"rolTitle": "HR"
-			,"rolTeamlid":"2"
+			"title": "HR"
+			,"id":"2"
 		},{
-			"rolTitle": "ICT"
-			,"rolTeamlid":"3"
+			"title": "ICT"
+			,"id":"3"
 		},{
-			"rolTitle": "Logistics"
-			,"rolTeamlid":"4"
+			"title": "Logistics"
+			,"id":"4"
 		}
 	]
 }
