@@ -8,11 +8,13 @@ angular.module('app.HRMatches')
 		store.set('currentUser',{'token':selectedToken,'loginTime':new Date().getTime()});
 	}
 
+/*
 	service.resetLoginTimeOut = function(){
 		var currentUser = service.getCurrentUser();
 		currentUser.loginTime = new Date().getTime();
 		store.set('currentUser',currentUser);
 	}
+*/
 
 	service.getCurrentUser = function(){
 		return currentUser = store.get('currentUser');

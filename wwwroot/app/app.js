@@ -224,14 +224,14 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 		.state('login', {
 			url: '/login'
 			,views: {
-				'header': {
+/*				'header': {
 					templateProvider: function ($templateFactory, AuthService) {
 						if (AuthService.isLoggedIn()) {
 							return $templateFactory.fromUrl(AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS_NAVIGATIONBAR)
 						}
 					}
 				},
-				'body': {
+*/				'body': {
 					templateUrl: '/app/components/login/views/login.html'
 					, controller: 'AuthController'
 				}
@@ -243,7 +243,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 		.state('login.userProfiles', {
 			url: '/userProfiles'
 			,views: {
-				'userProfiles': {
+				'modal': {
 					templateUrl: '/app/components/login/views/userProfiles.html'
 				}
 			}
@@ -254,7 +254,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 		.state('login.forgotPassword', {
 			url: '/forgotPassword'
 			,views: {
-				'forgotPassword': {
+				'modal': {
 					templateUrl: '/app/components/login/views/forgotPassword.html'
 				}
 			}
@@ -275,9 +275,9 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 				}
 			}
 			,views: {
-				'forgotPassword': {
+				'modal': {
 					templateUrl: '/app/components/login/views/resetPassword.html'
-					, controller: 'AuthController'
+					,controller: 'AuthController'
 				}
 			}
 		})
@@ -303,9 +303,9 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 		.state('login.register', {
 			url: '/register'
 			,views: {
-				'register': {
+				'modal': {
 					templateUrl: '/app/components/register/views/register.html'
-					, controller: 'RegisterController'
+					,controller: 'RegisterController'
 				}
 			}
 		})

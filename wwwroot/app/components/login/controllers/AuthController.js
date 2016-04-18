@@ -26,21 +26,27 @@ angular.module('app.HRMatches')
 						$scope.tokens = successResponse.data.tokens; //authenticated accounts are identified by these tokens
 
 						if(successResponse.data.status && successResponse.data.status.loggedInWithProfile){
-
 							// OTHER USER SESSION ACTIVE
 							$scope.loggedInWithProfileText = TranslationService.getText('LOGIN_LOGGEDINWITHPROFILE');
 
 						}
 						if(successResponse.data.token.length > 1){
-
 							// MULTIPLE PROFILES
 							$scope.userHasMultipleProfiles = TranslationService.getText('LOGIN_MULTIPLEPROFILES');
 							AuthService.validateTokens(successResponse.data.token)
 							.then(function(result){
 								$scope.profiles = result.profiles;
 								$scope.selectedToken = result.selectedToken;
+								//STORE TOKENS FROM USERPROFILES
+								var tokens = result.profiles.map(function(currentProfile, ind, profiles){return currentProfile.token;})
+								SessionService.set('tokens',tokens);
 								$state.go('login.userProfiles');
 							})
+						}
+						else{ // SINGLE PROFILE - USER IS LOGGED IN
+							// CREATE LOCAL SESSION
+							SessionService.setCurrentUser(data.token);
+
 						}
 
 					},
@@ -67,11 +73,11 @@ angular.module('app.HRMatches')
 			.then(
 				function(successResponse){
 					$scope.message = successResponse.data.message;
-					//$state.go('message',{message:successResponse.data.message});
+					//BACKEND SENDS EMAIL WITH LINK: /resetPassword/:key'
 				}
 				,function(errorResponse){
 					$scope.message = errorResponse.data.message;
-					//$state.go('message',{message:errorResponse.data.message});
+					$state.go('message',{message:errorResponse.data.message});
 				}
 			);
 		}
@@ -102,8 +108,7 @@ angular.module('app.HRMatches')
 				$state.go('login');
 			}
 
-			SessionService.setCurrentUser(selectedToken);
-
+			// LOGOUT EACH NOT-SELECTED USERPROFILE
 			var tokens = SessionService.get('tokens');
 			angular.forEach(tokens,function(token){
 				if(token!=selectedToken){
@@ -115,12 +120,14 @@ angular.module('app.HRMatches')
 				AuthService.logout(logoutTokens)
 			}
 
+			// CREATE LOCAL SESSION
+			SessionService.setCurrentUser(selectedToken);
 			$state.go(AppConfig.APPCONSTANTS_NAVIGATION_ENTRYPOINT);
 		}
 
 
 		$scope.logout = function (){
-			AuthService.logout();
+			AuthService.logout()
 			$state.go('logout',{reload:true});
 		}
 
