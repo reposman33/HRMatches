@@ -15,6 +15,36 @@
 				"allow": true
 			}
 		}
+		,"columns": [{
+			"visible": true,
+			"columnName": "name",
+			"header_visible": true,
+			"header_text": "Naam teamlid",
+			"cell_editable": false,
+			"cell": {
+				"type":"text"
+			}
+		},{
+			"visible": true,
+			"columnName": "role",
+			"header_visible": true,
+			"header_text": "Rol",
+			"cell_editable": false,
+			"cell": {
+				"type":"select",
+				"options": [{
+					"title": "Administrator",
+					"id": 1
+				},{
+					"title": "Beoordelaar",
+					"id": 2
+				},{
+					"title": "Manager",
+					"id": 3
+				}],
+				"defaultSelected": 2
+			}
+		}]
 	},
 	"data": {
 		"header": {
@@ -24,14 +54,14 @@
 		"listingHeaders": ["Naam teamlid","Rol"]
 		,"listing": [
 			{
-				"teamMemberName": "HRMatches, Demo",
-				"teamMemberRole": "Manager"
+				"name": "HRMatches, Demo", // name of team member
+				"role": "1" //id of selected role
 			},{
-				"teamMemberName": "Test, Herwin",
-				"teamMemberRole": "Administrator"
+				"name": "Test, Herwin",
+				"role": "2"
 			},{
-				"teamMemberName": "test2,test2",
-				"teamMemberRole": "Manager"
+				"name": "test2,test2",
+				"role": "1"
 			}
 		]
 	}

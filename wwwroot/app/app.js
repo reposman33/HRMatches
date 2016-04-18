@@ -224,14 +224,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 		.state('login', {
 			url: '/login'
 			,views: {
-/*				'header': {
-					templateProvider: function ($templateFactory, AuthService) {
-						if (AuthService.isLoggedIn()) {
-							return $templateFactory.fromUrl(AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS_NAVIGATIONBAR)
-						}
-					}
-				},
-*/				'body': {
+				'body': {
 					templateUrl: '/app/components/login/views/login.html'
 					, controller: 'AuthController'
 				}
@@ -242,28 +235,21 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 		 */
 		.state('login.userProfiles', {
 			url: '/userProfiles'
-			,views: {
-				'modal': {
-					templateUrl: '/app/components/login/views/userProfiles.html'
-				}
-			}
+			,templateUrl: '/app/components/login/views/userProfiles.html'
 		})
 		/*
 		 * ========= FORGOTPASSWORD =========
 		 */
 		.state('login.forgotPassword', {
 			url: '/forgotPassword'
-			,views: {
-				'modal': {
-					templateUrl: '/app/components/login/views/forgotPassword.html'
-				}
-			}
+			,templateUrl: '/app/components/login/views/forgotPassword.html'
 		})
 		/*
 		 * ========= RESETPASSWORD =========
 		 */
 		.state('login.resetPassword', {
 			url: '/resetPassword/:key'
+			,templateUrl: '/app/components/login/views/resetPassword.html'
 			,resolve: {
 				validateResponse: function ($stateParams, AuthService) {
 					return AuthService.validateSecretKey($stateParams.key);
@@ -272,12 +258,6 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 			,onEnter: function ($rootScope, APIService) {
 				if (validateResponse.validate_ok == false) {
 					$stateProvider.go('message', {message: (!validateResponse.message ? 'Token invalid' : validateResponse.message)});
-				}
-			}
-			,views: {
-				'modal': {
-					templateUrl: '/app/components/login/views/resetPassword.html'
-					,controller: 'AuthController'
 				}
 			}
 		})
@@ -302,12 +282,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 		 */
 		.state('login.register', {
 			url: '/register'
-			,views: {
-				'modal': {
-					templateUrl: '/app/components/register/views/register.html'
-					,controller: 'RegisterController'
-				}
-			}
+			,templateUrl: '/app/components/register/views/register.html'
 		})
 		/*
 		 * ========= VACATUREGIDS =========
