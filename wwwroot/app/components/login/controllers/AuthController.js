@@ -1,7 +1,7 @@
 angular.module('app.HRMatches')
 .controller('AuthController',
-	['$scope','$location','$rootScope','$state','AppConfig','AuthService','TranslationService','SessionService',
-	 function($scope,$location,$rootScope,$state,AppConfig,AuthService,TranslationService,SessionService){
+	['$scope','$location','$rootScope','$state','$uibModal','AppConfig','AuthService','TranslationService','SessionService',
+	 function($scope,$location,$rootScope,$state,$uibModal,AppConfig,AuthService,TranslationService,SessionService){
 
 		//AUTHENTICATE
 		$scope.authenticate = function(){
@@ -115,10 +115,11 @@ angular.module('app.HRMatches')
 					logoutTokens.push(token);
 				}
 			});
-			// log other tokens out
 			if(logoutTokens.length){
 				AuthService.logout(logoutTokens)
 			}
+
+			SessionService.delete('tokens');
 
 			// CREATE LOCAL SESSION
 			SessionService.setCurrentUser(selectedToken);
@@ -135,6 +136,6 @@ angular.module('app.HRMatches')
 		$scope.twoStepAuthenticationSubmit = function(code){
 
 		}
-}
+	 }
 
 ]);

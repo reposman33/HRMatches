@@ -5,14 +5,11 @@
 </div>
 
 <div>
-    <uib-tabset class="nav nav-tabs h10" >
+    <uib-tabset class="nav nav-tabs h10" active="activeTab">
         <uib-tab
             ng-repeat="t in tabs"
             heading="{{t.heading}}"
-            select="go(t.route)"
-            active="t.active">
-
-        </uib-tab>
+            select="go(t.route)"></uib-tab>
     </uib-tabset>
 
     <div ui-view="tabContent"></div>

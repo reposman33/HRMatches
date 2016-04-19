@@ -6,7 +6,7 @@
 				class="close"
 				data-dismiss="modal"
 				aria-label="Close"
-				ng-click="$state.go('login')"
+				ng-click="close('cancel')"
 				title={{TranslationService.getText('LOGIN_CLOSE')}}
 			><span aria-hidden="true">&times;</span>
 			</button>
@@ -16,10 +16,10 @@
 			<div ng-show="loggedInWithProfileText.length">
 				<h5>{{loggedInWithProfileText}}</h5>
 			</div>
-	
+
 			<div ng-show="userHasMultipleProfiles.length">
 				<h5>{{userHasMultipleProfiles}}</h5>
-	
+
 				<div class="modal-output-field">
 					<ul>
 						<li ng-repeat="profile in profiles" style="list-style-type: none;">
@@ -28,15 +28,14 @@
 								type="radio"
 								name="profiles"
 								ng-model="$parent.selectedToken"
-								value="{{profile.token}}"
-							>
+								value="{{profile.token}}">
 							{{profile.candidateOrigin}} {{profile.customerName}}
 						</li>
 					</ul>
 				</div>
 			</div>
 		</div>
-	
+
 		<div class="modal-footer modal-button">
 			<button
 				type="button"

@@ -16,6 +16,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 	,APPCONSTANTS_NAVIGATION_ENTRYPOINT: 'editTranslation'
 	,APPCONSTANTS_NAVIGATION_REDIRECT: {
 		NOTAUTHENTICATED:'login' // redirect hiernaartoe als niet ingelogd
+		,SETTINGS:'settings.userManagement.rechtenEnRollen'
 	}
 
 	,API_ENDPOINTS: {
@@ -145,7 +146,6 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 		}
 	});
 
-
 	$rootScope.$on('$stateChangeSuccess',function(event, toState, toParams, fromState, fromParams, options){
 		APIService.trackData(toState.name);
 	});
@@ -180,9 +180,9 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 	$urlRouterProvider
 		.otherwise(function($injector,$location){
 			return '/login';
-		})
+		}) // REDIRECT
 		.when('/settings',function($state){
-			$state.transitionTo('settings.userManagement.rechtenEnRollen');
+			$state.go(AppConfig.APPCONSTANTS_NAVIGATION_REDIRECT.SETTINGS);
 		});
 
 	$stateProvider
@@ -236,6 +236,21 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 		.state('login.userProfiles', {
 			url: '/userProfiles'
 			,templateUrl: '/app/components/login/views/userProfiles.html'
+			,onEnter: ['$state', '$uibModal', function ($state, $uibModal) {
+				$uibModal.open({
+					templateUrl: '/app/components/login/views/userProfiles.html',
+					controller: ['$scope','$uibModalInstance',function($scope,$uibModalInstance){
+						$scope.close = function(reason){
+							$uibModalInstance.$dismiss();
+						}
+					}]
+				}).result.finally(function () {
+					$state.go('^');
+				});
+			}]
+			,onExit: [function(){
+
+			}]
 		})
 		/*
 		 * ========= FORGOTPASSWORD =========
@@ -338,7 +353,6 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 		 */
 		.state('settings', {
 			url: '/settings'
-			,redirectTo: 'settings.userManagement.rechtenEnRollen'
 			,resolve: {
 				settingsData: ['UserManagementService', function (UserManagementService) {
 					return UserManagementService.requestLocalJSON({
@@ -421,8 +435,8 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 			}
 		})
 		// ---------- SETTINGS.USERMANAGEMENT.TEAMS ----------
-		.state('settings.userManagement.teams', {
-			url: '/teams'
+		.state('settings.userManagement.listTeams', {
+			url: '/listTeams'
 			,resolve: {
 				data: ['UserManagementService', function(UserManagementService) {
 					return UserManagementService.requestLocalJSON({

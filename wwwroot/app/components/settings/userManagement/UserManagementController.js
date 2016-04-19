@@ -17,22 +17,23 @@ angular.module('app.HRMatches')
 
 		/*TABS*/
 		$scope.tabs = [
-			{ heading: settingsData.settings.setting.userManagement.page.tabTitles.users, route:"settings.userManagement.gebruikers", active:false },
-			{ heading: settingsData.settings.setting.userManagement.page.tabTitles.invited, route:"settings.userManagement.uitgenodigd", active:false },
-			{ heading: settingsData.settings.setting.userManagement.page.tabTitles.rightsAndRoles, route:"settings.userManagement.rechtenEnRollen", active:true },
-			{ heading: settingsData.settings.setting.userManagement.page.tabTitles.teams, route:"settings.userManagement.teams", active:false },
-			{ heading: settingsData.settings.setting.userManagement.page.tabTitles.vacaturePool, route:"settings.userManagement.vacaturePool", active:false }
+			{ heading: settingsData.settings.setting.userManagement.page.tabTitles.users, route:"settings.userManagement.gebruikers" },
+			{ heading: settingsData.settings.setting.userManagement.page.tabTitles.invited, route:"settings.userManagement.uitgenodigd"},
+			{ heading: settingsData.settings.setting.userManagement.page.tabTitles.rightsAndRoles, route:"settings.userManagement.rechtenEnRollen"},
+			{ heading: settingsData.settings.setting.userManagement.page.tabTitles.teams, route:"settings.userManagement.listTeams"},
+			{ heading: settingsData.settings.setting.userManagement.page.tabTitles.vacaturePool, route:"settings.userManagement.vacaturePool"}
 		];
+
+		// FIND ACTIVE TAB THAT CORRESPONDS TO CURRENT STATE
+		$scope.activeTab = $scope.tabs.findIndex(function(el,ind,arr){
+			if(el.route == $state.$current.name){
+				return ind;
+			}
+		})
 
 		$scope.go = function(route){
 			$state.go(route);
 		};
-
-		$scope.$on("$stateChangeSuccess", function() {
-			$scope.tabs.forEach(function(tab) {
-				tab.active = $state.is(tab.route);
-			});
-		});
 		/*END TABS*/
 
 		/*========== GEBRUIKERS ==========*/

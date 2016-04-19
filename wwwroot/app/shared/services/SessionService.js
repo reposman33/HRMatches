@@ -47,6 +47,16 @@ angular.module('app.HRMatches')
 		store.set(key,value);
 	}
 
+	// convenience method for remove
+	service.delete = function(key){
+		service.remove(key);
+	}
+
+	service.remove = function(key){
+		store.remove(key);
+	}
+
+
 	service.log = function(message){
 		// add messages to a log
 		if(!store.get('log')){
