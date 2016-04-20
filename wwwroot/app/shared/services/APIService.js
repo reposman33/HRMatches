@@ -1,9 +1,9 @@
 angular.module('app.HRMatches')
-.service('APIService',['$http','$timeout','$q','$state','AppConfig','SessionService',
-	function($http,$timeout,$q,$state,AppConfig,SessionService){
+.service('APIService',['$http','AppConfig','SessionService',
+	function($http,AppConfig,SessionService){
 
 	this.request = function(data){
-		var token = data.addToken ? SessionService.getCurrentUserToken() : '';
+		var token = data.addToken == true ? SessionService.getCurrentUserToken() : '';
 
 		return $http({
 			method:data.method
@@ -13,34 +13,45 @@ angular.module('app.HRMatches')
 	}
 
 
-	this.authenticate = function(data){
-		return $http({
-			method: 'POST',
-			url: AppConfig.APPCONSTANTS_API_URL + '/authenticate',
-			data: data
+	this.login = function(data){
+		return this.request({
+			method: AppConfig.API_ENDPOINTS.login.method,
+			endpoint: AppConfig.API_ENDPOINTS.login.endpoint,
+			addToken: AppConfig.API_ENDPOINTS.login.addToken,
+			parameters: data
+		});
+	}
+
+
+	this.authenticate= function(data){
+		return this.request({
+			method: AppConfig.API_ENDPOINTS.authenticate.method,
+			endpoint: AppConfig.API_ENDPOINTS.authenticate.endpoint,
+			addToken: AppConfig.API_ENDPOINTS.authenticate.addToken,
+			parameters: data
+		});
+	}
+
+
+	this.logout = function(data){
+		return this.request({
+			method: AppConfig.API_ENDPOINTS.logout.method,
+			endpoint: AppConfig.API_ENDPOINTS.logout.endpoint,
+			addToken: AppConfig.API_ENDPOINTS.logout.addToken,
+			parameters: data
 		})
 	}
 
-	this.logout = function(tokens){
+/*
 		return $http({
 			method: 'POST',
 			url: AppConfig.APPCONSTANTS_API_URL + '/logout',
 			data: {
-				'tokens':tokens
+				'tokens':token
 			}
 		})
 	}
-
-	this.validateTokens = function(tokens){
-		var promises = tokens.map(function(token){
-			return $http({
-				method: 'GET',
-				url: AppConfig.APPCONSTANTS_API_URL + '/validate_token/' + token
-			});
-		});
-
-		return $q.all(promises);
-	}
+*/
 
 	// FORGOTPASSWORD
 	this.forgotPassword = function(data){
@@ -93,14 +104,14 @@ angular.module('app.HRMatches')
 				displayName:data.displayName
 				,id: data.id
 			}
-		})
+		});
 	}
 
 		/*
 		* @toStateName: name of state where to transition to
 		* @currentState: name of state where onEnter is currently executed
-		* @description: onEnter() of child states (eg 'parent.child') ia called twice: once for state parent ('parent')
-		* ]and once for 'parent.child' even if only defined in the child's onEnter() callBack
+		* @description: onEnter() of child states (eg 'parent.child') is called twice: once for state parent ('parent')
+		* and once for 'parent.child' even if only defined in the child's onEnter() callBack
 		* */
 	this.trackData = function(toStateName){
 		// assign values to clientvariables

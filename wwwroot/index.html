@@ -53,7 +53,6 @@
 	<div class="row title-container"></div>
 	<div class="header">
 		<ng-include src="AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS.NAVIGATIONBAR" ng-if="SessionService.isLoggedIn()"></ng-include>
-		<div class="pull-right" ng-if="!AppConfig.APPCONSTANTS_ISLOCAL">{{SessionService.isLoggedIn() ? 'Ingelogd' : 'Niet ingelogd'}}</div>
 	</div>
 
 	<div class="container margin_bottom_20">

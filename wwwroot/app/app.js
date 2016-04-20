@@ -9,6 +9,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 		NAVIGATIONBAR: '/app/components/navigation/views/navigation.html'
 		,TABLEVIEW: '/app/shared/views/tableView.html'
 	}
+	,APPCONSTANTS_DEVICEID: ''
 
 	// TEMP CONSTANTS TO BE DEFINED BY BACK END
 	,APPCONSTANTS_API_URL: 'http://api-development.hrmatches.com'
@@ -109,6 +110,24 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 					,parameters: []
 				}
 			}
+		},
+		'authenticate': {
+			endpoint: 'auth'
+			,method: 'POST'
+			,addToken: 'false'
+			,parameters: []
+		},
+		'login': {
+			endpoint: 'login',
+			method: 'POST',
+			addToken: 'false',
+			parameters: []
+		},
+		'logout': {
+			endpoint: 'logout',
+			method: 'POST',
+			addToken: 'false    ',
+			parameters: []
 		}
 	}
 }) //END constant
@@ -226,42 +245,47 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 			,views: {
 				'body': {
 					templateUrl: '/app/components/login/views/login.html'
-					, controller: 'AuthController'
+					,controller: 'AuthController'
 				}
 			}
 		})
 		/*
-		 *    ========== USERPROFILES ==========
+		 * ---------- userprofiles ----------
 		 */
 		.state('login.userProfiles', {
 			url: '/userProfiles'
 			,templateUrl: '/app/components/login/views/userProfiles.html'
-			,onEnter: ['$state', '$uibModal', function ($state, $uibModal) {
+			,onEnter: ['$state', '$uibModal', function($state, $uibModal) {
 				$uibModal.open({
-					templateUrl: '/app/components/login/views/userProfiles.html',
-					controller: ['$scope','$uibModalInstance',function($scope,$uibModalInstance){
-						$scope.close = function(reason){
-							$uibModalInstance.$dismiss();
-						}
-					}]
-				}).result.finally(function () {
+					templateUrl: '/app/components/login/views/userProfiles.html'
+				}).result.finally(function(){
 					$state.go('^');
 				});
 			}]
-			,onExit: [function(){
-
+			,onExit: ['$uibModalStack',function($uibModalStack){
+				$uibModalStack.dismissAll();
 			}]
 		})
 		/*
-		 * ========= FORGOTPASSWORD =========
+		 * ---------- forgotpassword ----------
 		 */
 		.state('login.forgotPassword', {
 			url: '/forgotPassword'
 			,templateUrl: '/app/components/login/views/forgotPassword.html'
+			,onEnter: ['$state', '$uibModal', function($state, $uibModal) {
+				$uibModal.open({
+					templateUrl: '/app/components/login/views/userProfiles.html'
+				}).result.finally(function(){
+					$state.go('^');
+				});
+			}]
+			,onExit: ['$uibModalStack',function($uibModalStack){
+				$uibModalStack.dismissAll();
+			}]
 		})
 		/*
-		 * ========= RESETPASSWORD =========
-		 */
+		 * ---------- resetpassword ----------
+		 */ // called via url in mail
 		.state('login.resetPassword', {
 			url: '/resetPassword/:key'
 			,templateUrl: '/app/components/login/views/resetPassword.html'
@@ -270,11 +294,45 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 					return AuthService.validateSecretKey($stateParams.key);
 				}
 			}
-			,onEnter: function ($rootScope, APIService) {
+			,onEnter: ['$rootScope','APIService',function($rootScope,APIService) {
 				if (validateResponse.validate_ok == false) {
 					$stateProvider.go('message', {message: (!validateResponse.message ? 'Token invalid' : validateResponse.message)});
 				}
-			}
+			}]
+		})
+		/*
+		 * ---------- 2StepAuthentication ----------
+		 */
+		.state('login.2StepAuthentication', {
+			url: '2StepAuthentication'
+			,templateUrl: '/app/components/login/views/2stepAuthentication.html'
+			,onEnter: ['$state', '$uibModal', function($state, $uibModal) {
+				$uibModal.open({
+					templateUrl: '/app/components/login/views/userProfiles.html'
+				}).result.finally(function(){
+					$state.go('^');
+				});
+			}]
+			,onExit: ['$uibModalStack',function($uibModalStack){
+				$uibModalStack.dismissAll();
+			}]
+		})
+		/*
+		 * ---------- register ----------
+		 */
+		.state('login.register', {
+			url: '/register'
+			,templateUrl: '/app/components/register/views/register.html'
+			,onEnter: ['$state', '$uibModal', function($state, $uibModal) {
+				$uibModal.open({
+					templateUrl: '/app/components/login/views/userProfiles.html'
+				}).result.finally(function(){
+					$state.go('^');
+				});
+			}]
+			,onExit: ['$uibModalStack',function($uibModalStack){
+				$uibModalStack.dismissAll();
+			}]
 		})
 		/*
 		 * ========= LOGOUT =========
@@ -287,17 +345,6 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 					, controller: 'AuthController'
 				}
 			}
-		})
-		.state('login.2StepAuthentication', {
-			url: '2StepAuthentication'
-			,templateUrl: '/app/components/login/views/2stepAuthentication.html'
-		})
-		/*
-		 * ========= REGISTER =========
-		 */
-		.state('login.register', {
-			url: '/register'
-			,templateUrl: '/app/components/register/views/register.html'
 		})
 		/*
 		 * ========= VACATUREGIDS =========

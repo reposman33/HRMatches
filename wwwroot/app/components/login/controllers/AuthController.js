@@ -1,52 +1,47 @@
 angular.module('app.HRMatches')
 .controller('AuthController',
-	['$scope','$location','$rootScope','$state','$uibModal','AppConfig','AuthService','TranslationService','SessionService',
-	 function($scope,$location,$rootScope,$state,$uibModal,AppConfig,AuthService,TranslationService,SessionService){
+	['$scope','$state','AppConfig','AuthService','TranslationService','SessionService',
+	 function($scope,$state,AppConfig,AuthService,TranslationService,SessionService){
 
 		//AUTHENTICATE
-		$scope.authenticate = function(){
-			var loginName = $scope.loginName || "";
-			var password = $scope.loginPassword || "";
-
+		$scope.authenticate = function(user){
+			var loggedInDomains = "";
+			SessionService.set('username',user.username);
+			SessionService.set('password',user.password);
 			$scope.loginFeedbackText = "";
 			$scope.profiles = [];
 
-			if(loginName.length && password.length){
+			if(user.username.length && user.password.length){
 				AuthService.authenticate({
-					username: $scope.loginName,
-					password:$scope.loginPassword,
-					candidateOrigin: $location.host(),
-					deviceId:''
+					username: user.username,
+					password: user.password
 				})
 				.then(
 					function(successResponse){
 						// AUTHENTICATE SUCCESS
 						$scope.error = successResponse.status != 200
 						$scope.loginFeedbackText = $scope.error ? TranslationService.getText(successResponse.data.message) : "";
-						$scope.tokens = successResponse.data.tokens; //authenticated accounts are identified by these tokens
+						$scope.profiles = successResponse.data.profiles;
 
-						if(successResponse.data.status && successResponse.data.status.loggedInWithProfile){
-							// OTHER USER SESSION ACTIVE
-							$scope.loggedInWithProfileText = TranslationService.getText('LOGIN_LOGGEDINWITHPROFILE');
-
-						}
-						if(successResponse.data.token.length > 1){
+						successResponse.data.profiles.forEach(function(currentProfile,index,profiles){
+							if(currentProfile.loggedIn == true){
+								// OTHER USER SESSION ACTIVE
+								loggedInDomains += "\n" + currentProfile.domainName + " (" + currentProfile.domainOwner + ")";
+							}
+							if(loggedInDomains.length > 0){
+								$scope.loggedInWithProfileText = TranslationService.getText('LOGIN_LOGGEDINWITHPROFILE') + loggedInDomains;
+							}
+						});
+						if(successResponse.data.profiles.length > 1){
 							// MULTIPLE PROFILES
 							$scope.userHasMultipleProfiles = TranslationService.getText('LOGIN_MULTIPLEPROFILES');
-							AuthService.validateTokens(successResponse.data.token)
-							.then(function(result){
-								$scope.profiles = result.profiles;
-								$scope.selectedToken = result.selectedToken;
-								//STORE TOKENS FROM USERPROFILES
-								var tokens = result.profiles.map(function(currentProfile, ind, profiles){return currentProfile.token;})
-								SessionService.set('tokens',tokens);
-								$state.go('login.userProfiles');
-							})
-						}
-						else{ // SINGLE PROFILE - USER IS LOGGED IN
-							// CREATE LOCAL SESSION
-							SessionService.setCurrentUser(data.token);
 
+								$scope.profiles = successResponse.data.profiles;
+								$state.go('login.userProfiles');
+						}
+						else{
+							// LOG IN WITH PROFILE
+							login(successResponse.data.profiles[0].domainId);
 						}
 
 					},
@@ -84,10 +79,9 @@ angular.module('app.HRMatches')
 
 
 		$scope.resetPassword = function(newPassword){
-			return AuthService.resetPassword(
-				{
-					password:newPassword
-					,secretKey:SessionService.get('secretKey')
+			return AuthService.resetPassword({
+					password:newPassword,
+					secretKey:SessionService.get('secretKey')
 				}
 			)
 			.then(
@@ -99,31 +93,36 @@ angular.module('app.HRMatches')
 				}
 			);
 		}
+		 $scope.login = login
+		 function login(selectedDomainId){
 
-		// LOGIN NA PROFIEL SELECTIE
-		$scope.confirmLogin = function(selectedToken){
-			var logoutTokens = [];
-
-			if(!selectedToken){
+			if(!selectedDomainId){
 				$state.go('login');
 			}
 
-			// LOGOUT EACH NOT-SELECTED USERPROFILE
-			var tokens = SessionService.get('tokens');
-			angular.forEach(tokens,function(token){
-				if(token!=selectedToken){
-					logoutTokens.push(token);
+			// LOG IN WITH SELECTED  PROFILE
+			AuthService.login({
+				deviceId: AppConfig.APPCONSTANTS_DEVICEID,
+				domainId: selectedDomainId,
+				username: SessionService.get('username'),
+				password: SessionService.get('password')
+			})
+			.then(
+				function(successResponse){
+					// CREATE LOCAL SESSION
+					SessionService.setCurrentUser(successResponse.data.token);
+					$state.go(AppConfig.APPCONSTANTS_NAVIGATION_ENTRYPOINT);
+				},
+				function(errorResponse){
+					console.log(errorResponse)
 				}
-			});
-			if(logoutTokens.length){
-				AuthService.logout(logoutTokens)
-			}
-
-			SessionService.delete('tokens');
-
-			// CREATE LOCAL SESSION
-			SessionService.setCurrentUser(selectedToken);
-			$state.go(AppConfig.APPCONSTANTS_NAVIGATION_ENTRYPOINT);
+			).finally(
+				function(){
+					SessionService.delete('username');
+					SessionService.delete('password');
+					ApiService.trackdata('login');
+				}
+			);
 		}
 
 
@@ -132,10 +131,9 @@ angular.module('app.HRMatches')
 			$state.go('logout',{reload:true});
 		}
 
+
 		// 2STEP AUTHENTICATION
 		$scope.twoStepAuthenticationSubmit = function(code){
-
 		}
 	 }
-
 ]);

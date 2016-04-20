@@ -8,13 +8,11 @@ angular.module('app.HRMatches')
 		store.set('currentUser',{'token':selectedToken,'loginTime':new Date().getTime()});
 	}
 
-/*
-	service.resetLoginTimeOut = function(){
+/*	service.resetLoginTimeOut = function(){
 		var currentUser = service.getCurrentUser();
 		currentUser.loginTime = new Date().getTime();
 		store.set('currentUser',currentUser);
-	}
-*/
+	} */
 
 	service.getCurrentUser = function(){
 		return currentUser = store.get('currentUser');
@@ -22,8 +20,7 @@ angular.module('app.HRMatches')
 
 	service.getCurrentUserToken = function(){
 		var currentUser = store.get('currentUser');
-		var token = (currentUser && currentUser.token) || '';
-		return token;
+		return (currentUser && currentUser.token) || '';
 	}
 
 	service.removeCurrentUser = function(){
@@ -39,8 +36,7 @@ angular.module('app.HRMatches')
 
 	// STORE MISC SESSION DATA
 	service.get = function(key){
-		var result = store.get(key);
-		return result;
+		return store.get(key);
 	}
 	
 	service.set = function(key,value){
@@ -66,5 +62,4 @@ angular.module('app.HRMatches')
 		log[new Date().toLocaleString()] = message;
 		store.set('log',log);
 	}
-
 }])

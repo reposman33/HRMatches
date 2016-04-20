@@ -6,9 +6,8 @@
 				class="close"
 				data-dismiss="modal"
 				aria-label="Close"
-				ng-click="close('cancel')"
-				title={{TranslationService.getText('LOGIN_CLOSE')}}
-			><span aria-hidden="true">&times;</span>
+				ng-click="$state.go('^')"
+				title={{TranslationService.getText('LOGIN_CLOSE')}}><span aria-hidden="true">&times;</span>
 			</button>
 		</div>
 
@@ -27,9 +26,9 @@
 							<input
 								type="radio"
 								name="profiles"
-								ng-model="$parent.selectedToken"
-								value="{{profile.token}}">
-							{{profile.candidateOrigin}} {{profile.customerName}}
+								ng-model="$parent.selectedDomainId"
+								value="{{profile.domainId}}">
+							{{profile.domainName}} ({{profile.domainOwner}})
 						</li>
 					</ul>
 				</div>
@@ -42,7 +41,7 @@
 				class="btn btn-default"
 				data-dismiss="modal"
 				aria-label="Close"
-				ng-click="confirmLogin(selectedToken)">OK
+				ng-click="login(selectedDomainId)">OK
 			</button>
 		</div>
 	</div>
