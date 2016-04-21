@@ -18,6 +18,8 @@
   },
   "devDependencies": {
     "angular-animate": "^1.5.2",
-    "angular-messages": "^1.5.0"
- }
+    "angular-messages": "^1.5.0",
+    "angular-ui-router-uib-modal": "0.0.6",
+    "grunt-ngdocs": "^0.2.9"
+  }
 }
