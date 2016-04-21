@@ -1,9 +1,7 @@
 /*global module:false*/
 module.exports = function (grunt) {
 
-  grunt.loadNpmTasks('grunt-conventional-changelog');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-jasmine-node');
+  grunt.loadNpmTasks('grunt-ngdocs');
 
   grunt.initConfig({
 	  ngdocs: {
@@ -11,8 +9,8 @@ module.exports = function (grunt) {
 		       dest: 'documentation',
 		       html5Mode: false,
 		       scripts: [
-		           '/node_modules/angular/angular.min.js',
-		           '/node_modules/angular-animate/angular-animate.min.js'
+		           'node_modules/angular/angular.min.js',
+		           'node_modules/angular-animate/angular-animate.min.js'
 		       ]
 		   },
 		   api: {
@@ -21,17 +19,7 @@ module.exports = function (grunt) {
 		   }
 		},
 	    pkg: grunt.file.readJSON('package.json'),
-	    changelog: { options: { dest: 'CHANGELOG.md' } },
-	    jasmine_node: {
-	      forceexit: true,
-	      captureExceptions: true
-	    },
-	    watch: {
-	      parser: {
-	        files: ['src/*.js', 'spec/*Spec.js'],
-	        tasks: ['jasmine_node']
-	      }
-	    }
+	    changelog: { options: { dest: 'CHANGELOG.md' } }
   });
 
   grunt.registerTask('test', 'Run tests for parser code', ['jasmine_node']);

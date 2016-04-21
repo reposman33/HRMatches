@@ -1,13 +1,12 @@
 /**
 	* @ngdoc directive
-	* @name global.directive:nameOfDirective
+	* @name app.ontdekJouwTalent.directive:select
 	* @scope
-	* @restrict E
+	* @restrict A
 	*
 	* @description
-	* A description of the directive
+	* Checks if 2 fields are the same. Usage: compare-to='field-to-compare-to',ng-model='field'
 	*
-	* @param {object}  field   A field object
 	*
 	*/
 	angular.module('app.ontdekJouwTalent')

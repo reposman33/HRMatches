@@ -1,5 +1,13 @@
+/**
+ * @ngdoc service
+ * @name app.ontdekJouwTalent.service:APIService
+ * @description
+ * This service contains functionality for calls to the REST backend <br /><br />
+ * Dependencies: $http,AppConfig,SessionService<br />
+ * */
 angular.module('app.ontdekJouwTalent')
-.service('APIService',['$http','AppConfig','SessionService',
+.service('APIService',
+	['$http','AppConfig','SessionService',
 	function($http,AppConfig,SessionService){
 
 	this.request = function(data){
@@ -8,8 +16,8 @@ angular.module('app.ontdekJouwTalent')
 		return $http({
 			method:data.method
 			,url: AppConfig.APPCONSTANTS_API_URL + '/' + data.endpoint + (token != '' ? ('/' + token) : '')
-			,data:_loadParams(data.parameters)
-		})
+			,data:_concatParams(data.parameters)
+		});
 	}
 
 
@@ -39,30 +47,7 @@ angular.module('app.ontdekJouwTalent')
 			endpoint: AppConfig.API_ENDPOINTS.logout.endpoint,
 			addToken: AppConfig.API_ENDPOINTS.logout.addToken,
 			parameters: data
-		})
-	}
-
-/*
-		return $http({
-			method: 'POST',
-			url: AppConfig.APPCONSTANTS_API_URL + '/logout',
-			data: {
-				'tokens':token
-			}
-		})
-	}
-*/
-
-	// FORGOTPASSWORD
-	this.forgotPassword = function(data){
-		return $http({
-			method: 'POST',
-			url: AppConfig.APPCONSTANTS_API_URL + '/forgotpassword',
-			data: {
-				hostname: data.hostName,
-				emailaddress: data.emailAddress
-			}
-		})
+		});
 	}
 
 	this.validateSecretKey = function(secretKey){
@@ -72,7 +57,7 @@ angular.module('app.ontdekJouwTalent')
 			,data:{
 				secretkey: secretKey
 			}
-		})
+		});
 	}
 
 
@@ -84,7 +69,7 @@ angular.module('app.ontdekJouwTalent')
 				secretKey: data.secretKey
 				,password: data.password
 			}
-		})
+		});
 	}
 	
 	this.register = function(data){
@@ -92,10 +77,21 @@ angular.module('app.ontdekJouwTalent')
 				method: 'POST',
 			url: '',
 			data: ''//'loginName=' + $scope.loginName + '&loginPassword=' + $scope.loginPassword
-		})
+		});
 	}
 	
 
+	// UPDATETRANSLATIONKEY
+ 	/**
+	 * @ngdoc method
+	 * @name edit
+	 * @methodOf app.ontdekJouwTalent.service:APIService
+	 * @description
+	 * Submits an updated translation key.<br/><br/>
+	 * Dependencies:  TranslationService.
+	 *
+	 * @param {Object} data - The new data to save {key: translationKey,value: translationValue}
+	 */
 	this.updateTranslationKey = function(data){
 		return $http({
 			method: 'POST'
@@ -134,7 +130,7 @@ angular.module('app.ontdekJouwTalent')
 			function(errorResponse){
 				console.log('clientvariables NOT logged for state \'',toStateName,'\'');
 			}
-		)
+		);
 	}
 	
 	this.requestLocalJSON = function(data){
@@ -146,10 +142,10 @@ angular.module('app.ontdekJouwTalent')
 			function(successResponse){
 				return successResponse.data;
 			}
-		)
+		);
 	}
 
-	_loadParams = function(params){
+	_concatParams = function(params){
 		var result={};
 		for(var i=0;i<params.length;i++){
 			result[params[i].name] = params[i].value;

@@ -1,4 +1,4 @@
-<div class="navbar navbar-default navbar-fixed-top" ng-controller="NavigationController">
+<div class="navbar navbar-default navbar-fixed-top">
 	<div class="container-fluid brand_color_1">
 		<div class="navbar-header">
 			<div class="logo_white" href="#"></div>
@@ -18,7 +18,10 @@
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li>
-					<a on-click="logout()">{{TranslationService.getText('LOGIN_LOGOUT')}}</a>
+					<a ui-sref="logout">{{TranslationService.getText('LOGIN_LOGOUT')}}</a>
+				</li>
+				<li ng-if="AppConfig.APPCONSTANTS_ISLOCAL===true">
+					<a ng-href="{{AppConfig.APPCONSTANTS_RESOURCES_URIS.DOCUMENTATION}}" target="_blank" class="small" title="Shown on local domains only">code documentation</a>
 				</li>
 			</ul>
 		</div>

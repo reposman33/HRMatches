@@ -1,11 +1,30 @@
+/**
+ * @ngdoc controller
+ * @name app.ontdekJouwTalent.controller:RegisterController
+ * @description
+ * This controller contains functionality for registering new users.<br /><br />
+ * Dependencies: $scope,$location,AppConfig,APIService,TranslationService<br />
+ * Referring states: 'login.register'
+ * */
 angular.module('app.ontdekJouwTalent')
 .controller('RegisterController',
-
-	['$scope','$location','AppConfig','APIService','TranslationService',function($scope,$location,AppConfig,APIService,TranslationService){
+	['$scope','$location','AppConfig','APIService','TranslationService',
+	 function($scope,$location,AppConfig,APIService,TranslationService){
 		$scope.emailInvalidClass = AppConfig.APPCONSTANTS_REGISTER_EMAILINVALID_FEEDBACK_CLASS;
 		$scope.emailInvalidText = AppConfig.APPCONSTANTS_REGISTER_EMAILINVALID_FEEDBACK_TEXT;
 		$scope.loginURL = $location.protocol() + '://' + $location.host() + ($location.port == 80 ? "" : (':' + $location.port())) + '/#/login';
 
+
+		// REGISTERSUBMIT
+		/**
+		 * @ngdoc method
+		 * @name registerSubmit
+		 * @methodOf app.ontdekJouwTalent.controller:RegisterController
+		 * @description
+		 * Registers new users.<br/><br/>
+		 * Dependencies: AppConfig,AuthService,APIService,TranslationService
+		 *
+		 */
 		$scope.registerSubmit = function(){
 			var error = false;
 			$scope.infix = $scope.infix || "";

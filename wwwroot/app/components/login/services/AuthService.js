@@ -1,6 +1,6 @@
 angular.module('app.ontdekJouwTalent')
-.factory('AuthService',['$state','APIService','SessionService',
-	function($state,APIService,SessionService){
+.factory('AuthService',['$state','APIService','AppConfig','SessionService',
+	function($state,APIService,AppConfig,SessionService){
 
 		// TRANSFORM A KEY-VALUE PAIR IN AN OBJECT WITH KEYS 'NAME' AND 'VALUE' WITH THE ORIGINAL VALUES
 		function extract(data){
@@ -46,7 +46,13 @@ angular.module('app.ontdekJouwTalent')
 			// chaining promises http://solutionoptimist.com/2013/12/27/javascript-promise-chains-2/
 			//data = {hostName:...,emailAddress:...}
 			forgotPassword: function (data) {
-				return APIService.forgotPassword(data)
+				data.hostname = AppConfig.APPCONSTANTS_HOSTNAME;
+				_data = {};
+				_data.parameters = extract(data);
+				_data.addToken = AppConfig.API_ENDPOINTS.forgotPassword.addToken;
+				_data.endpoint = AppConfig.API_ENDPOINTS.forgotPassword.endpoint;
+				_data.method = AppConfig.API_ENDPOINTS.forgotPassword.method
+				return APIService.request(_data)
 				.then(function (data) {
 					return data;//{validate_ok:true/false,message:I18nKey}
 				});

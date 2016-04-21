@@ -2,8 +2,11 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 .constant('AppConfig',{
 	// APPLICATION DEFINED VALUES
 	APPCONSTANTS_HOSTNAME: location.hostname
-	,APPCONSTANTS_ISLOCAL: "127.0.0.1".indexOf(location.hostname) != -1
+	,APPCONSTANTS_ISLOCAL: "127.0.0.1,ontdekjouwtalent.local,ojt.hrmatches.com".indexOf(location.hostname) != -1
 	,APPCONSTANTS_NAVIGATION_CURRENTDOMAIN: document.location.protocol + '://' + document.location.hostname
+	,APPCONSTANTS_RESOURCES_URIS:{
+		DOCUMENTATION: document.location.protocol + '//' + document.location.hostname + '/documentation'
+	}
 	,APPCONSTANTS_PROTOCOL: location.protocol
 	,APPCONSTANTS_FILELOCATIONS_VIEWS: {
 		NAVIGATIONBAR: '/app/components/navigation/views/navigation.html'
@@ -13,7 +16,7 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 
 	// TEMP CONSTANTS TO BE DEFINED BY BACK END
 	,APPCONSTANTS_API_URL: 'http://api-development.hrmatches.com'
-	,APPCONSTANTS_PUBLICSTATES: "login,login.forgotPassword,login.userProfiles,login.resetPassword,login.register" // exclusively public states
+	,APPCONSTANTS_PUBLICSTATES: "login,login.forgotPassword,login.userProfiles,login.resetPassword,login.register,message" // exclusively public states
 	,APPCONSTANTS_NAVIGATION_ENTRYPOINT: 'editTranslation'
 	,APPCONSTANTS_NAVIGATION_REDIRECT: {
 		NOTAUTHENTICATED:'login' // redirect hiernaartoe als niet ingelogd
@@ -126,9 +129,16 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 		'logout': {
 			endpoint: 'logout',
 			method: 'POST',
-			addToken: 'false    ',
+			addToken: 'false',
 			parameters: []
+		},
+		forgotPassword: {
+			endpoint: 'forgotpassword',
+			method: 'POST',
+			addToken: 'false',
+			parameters: ['hostname','emailaddress']
 		}
+		
 	}
 }) //END constant
 .run(function($rootScope,$state,APIService,AppConfig,AuthService,TranslationService,SessionService){
@@ -205,15 +215,6 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 		});
 
 	$stateProvider
-		.state('home', {
-			views: {
-				'header': {
-					templateUrl: AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS_NAVIGATIONBAR,
-					controller: 'AuthController'
-				}
-			}
-			, abstract: true
-		})
 		.state('message', {
 			url: '/message/',
 			params: {
@@ -245,7 +246,7 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 			,views: {
 				'body': {
 					templateUrl: '/app/components/login/views/login.html'
-					,controller: 'AuthController'
+					,controller: 'AuthenticationController'
 				}
 			}
 		})
@@ -297,16 +298,20 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 			url: '/register'
 			,modal: true
 			,templateUrl: '/app/components/register/views/register.html'
+			,controller: '/app/components/register/controllers/RegisterController.js'
 		})
 		/*
 		 * ========= LOGOUT =========
 		 */
 		.state('logout', {
 			url: '/logout'
+			,onEnter: ['AuthService',function(AuthService){
+				AuthService.logout();
+			}]
 			,views: {
-				'body': {
+				'body@': {
 					templateUrl: '/app/components/login/views/logout.html'
-					, controller: 'AuthController'
+					,controller: 'AuthenticationController'
 				}
 			}
 		})
@@ -318,10 +323,6 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 			,views: {
 				'body@': {
 					templateUrl: '/app/components/vacaturegids/views/vacaturegids.html'
-				}
-				, 'header': {
-					templateUrl: AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS_NAVIGATIONBAR
-					, controller: 'AuthController'
 				}
 			}
 		})
