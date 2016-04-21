@@ -1,4 +1,4 @@
-angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xeditable'])
+angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ui.router.modal','xeditable'])
 .constant('AppConfig',{
 	// APPLICATION DEFINED VALUES
 	APPCONSTANTS_HOSTNAME: location.hostname
@@ -112,7 +112,7 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 			}
 		},
 		'authenticate': {
-			endpoint: 'auth'
+			endpoint: 'authenticate'
 			,method: 'POST'
 			,addToken: 'false'
 			,parameters: []
@@ -254,34 +254,16 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 		 */
 		.state('login.userProfiles', {
 			url: '/userProfiles'
+			,modal: true
 			,templateUrl: '/app/components/login/views/userProfiles.html'
-			,onEnter: ['$state', '$uibModal', function($state, $uibModal) {
-				$uibModal.open({
-					templateUrl: '/app/components/login/views/userProfiles.html'
-				}).result.finally(function(){
-					$state.go('^');
-				});
-			}]
-			,onExit: ['$uibModalStack',function($uibModalStack){
-				$uibModalStack.dismissAll();
-			}]
 		})
 		/*
 		 * ---------- forgotpassword ----------
 		 */
 		.state('login.forgotPassword', {
 			url: '/forgotPassword'
+			,modal: true
 			,templateUrl: '/app/components/login/views/forgotPassword.html'
-			,onEnter: ['$state', '$uibModal', function($state, $uibModal) {
-				$uibModal.open({
-					templateUrl: '/app/components/login/views/userProfiles.html'
-				}).result.finally(function(){
-					$state.go('^');
-				});
-			}]
-			,onExit: ['$uibModalStack',function($uibModalStack){
-				$uibModalStack.dismissAll();
-			}]
 		})
 		/*
 		 * ---------- resetpassword ----------
@@ -305,34 +287,16 @@ angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','xe
 		 */
 		.state('login.2StepAuthentication', {
 			url: '2StepAuthentication'
+			,modal: true
 			,templateUrl: '/app/components/login/views/2stepAuthentication.html'
-			,onEnter: ['$state', '$uibModal', function($state, $uibModal) {
-				$uibModal.open({
-					templateUrl: '/app/components/login/views/userProfiles.html'
-				}).result.finally(function(){
-					$state.go('^');
-				});
-			}]
-			,onExit: ['$uibModalStack',function($uibModalStack){
-				$uibModalStack.dismissAll();
-			}]
 		})
 		/*
 		 * ---------- register ----------
 		 */
 		.state('login.register', {
 			url: '/register'
+			,modal: true
 			,templateUrl: '/app/components/register/views/register.html'
-			,onEnter: ['$state', '$uibModal', function($state, $uibModal) {
-				$uibModal.open({
-					templateUrl: '/app/components/login/views/userProfiles.html'
-				}).result.finally(function(){
-					$state.go('^');
-				});
-			}]
-			,onExit: ['$uibModalStack',function($uibModalStack){
-				$uibModalStack.dismissAll();
-			}]
 		})
 		/*
 		 * ========= LOGOUT =========

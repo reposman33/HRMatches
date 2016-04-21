@@ -19,5 +19,5 @@
   "devDependencies": {
     "angular-animate": "^1.5.2",
     "angular-messages": "^1.5.0"
-]  }
+ }
 }
