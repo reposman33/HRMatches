@@ -1,4 +1,4 @@
-angular.module('app.HRMatches')
+angular.module('app.ontdekJouwTalent')
 .factory('TranslationService',['APIService','AppConfig',function(APIService,AppConfig){
 	return{
 		_translationsData: {},

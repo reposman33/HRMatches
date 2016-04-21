@@ -1,7 +1,7 @@
 /*
  *Compare two fields for equality and - as long as not equal - display a message.
  */
-angular.module('app.HRMatches')
+angular.module('app.ontdekJouwTalent')
 .directive('compareTo',function() {
     return {
       require: "ngModel",

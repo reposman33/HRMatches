@@ -1,4 +1,4 @@
-angular.module('app.HRMatches')
+angular.module('app.ontdekJouwTalent')
 	.factory('JoblistService',['APIService','AppConfig',function(APIService,AppConfig){
 		return{
 			_viewConfig: {},

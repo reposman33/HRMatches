@@ -1,4 +1,4 @@
-angular.module('app.HRMatches',['angular-storage','ui.bootstrap','ui.router','ui.router.modal','xeditable'])
+angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.router','ui.router.modal','xeditable'])
 .constant('AppConfig',{
 	// APPLICATION DEFINED VALUES
 	APPCONSTANTS_HOSTNAME: location.hostname

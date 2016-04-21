@@ -8,7 +8,7 @@ module.exports = function (grunt) {
   grunt.initConfig({
 	  ngdocs: {
 		   options: {
-		       dest: 'docs',
+		       dest: 'documentation',
 		       html5Mode: false,
 		       scripts: [
 		           '/node_modules/angular/angular.min.js',

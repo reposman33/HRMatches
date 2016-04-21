@@ -1,4 +1,4 @@
-angular.module('app.HRMatches')
+angular.module('app.ontdekJouwTalent')
 .filter('pagination',function(){
 	return function(pages,currentPage,pageSize){
 		if(angular.isArray(pages)){

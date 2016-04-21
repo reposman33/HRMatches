@@ -1,4 +1,4 @@
-angular.module('app.HRMatches')
+angular.module('app.ontdekJouwTalent')
 .service('SessionService',['store',function(store){
 	var service = this,
 		currentUser = null;

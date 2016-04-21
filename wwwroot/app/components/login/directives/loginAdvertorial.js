@@ -1,4 +1,4 @@
-angular.module('app.HRMatches')
+angular.module('app.ontdekJouwTalent')
 .directive('hrmLoginAdvertorial',function(){
 	return{
 		restrict: 'AE',

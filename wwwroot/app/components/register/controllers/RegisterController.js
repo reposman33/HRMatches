@@ -1,4 +1,4 @@
-angular.module('app.HRMatches')
+angular.module('app.ontdekJouwTalent')
 .controller('RegisterController',
 
 	['$scope','$location','AppConfig','APIService','TranslationService',function($scope,$location,AppConfig,APIService,TranslationService){

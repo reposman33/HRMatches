@@ -1,4 +1,4 @@
-angular.module('app.HRMatches')
+angular.module('app.ontdekJouwTalent')
 .controller('TranslationController',
 	['$scope','AppConfig','data','SessionService','TranslationService',
 	 function($scope,AppConfig,data,SessionService,TranslationService){

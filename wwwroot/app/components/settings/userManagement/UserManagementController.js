@@ -1,4 +1,4 @@
-angular.module('app.HRMatches')
+angular.module('app.ontdekJouwTalent')
 .controller('UserManagementController',
 	['$scope','$state','AppConfig','settingsData','data','UserManagementService','SessionService',
 	function($scope,$state,AppConfig,settingsData,data,UserManagementService,SessionService) {

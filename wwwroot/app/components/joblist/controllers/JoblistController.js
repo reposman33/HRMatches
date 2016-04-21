@@ -1,4 +1,4 @@
-angular.module('app.HRMatches')
+angular.module('app.ontdekJouwTalent')
 .controller('JoblistController',
 	['$scope','AppConfig','JoblistService','data','SessionService',
 	 function($scope,AppConfig,JoblistService,data,SessionService){

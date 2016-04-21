@@ -8,7 +8,7 @@
  *  * 
  * */
 
-angular.module('app.HRMatches')
+angular.module('app.ontdekJouwTalent')
 .controller('NavigationController',['$scope','$state','AuthService',function($scope,$state,AuthService){
 
 	$scope.logout = function(){

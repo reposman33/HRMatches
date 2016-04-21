@@ -1,4 +1,4 @@
-angular.module('app.HRMatches')
+angular.module('app.ontdekJouwTalent')
 .service('APIService',['$http','AppConfig','SessionService',
 	function($http,AppConfig,SessionService){
 
