@@ -1,17 +1,16 @@
 /**
  * @ngdoc controller
  * @name app.ontdekJouwTalent.controller:UserManagementController
- * @description
- * This controller contains functionality for usermanagement under 'Settings'<br /><br />
- * Dependencies: $scope,$state,AppConfig,settingsData,data,UserManagementService,SessionService<br />
+ * @description This controller contains functionality for usermanagement under 'Settings'
+ * @requires $scope,$state,AppConfig,settingsData,data,UserManagementService,SessionService
  * Referring states: 'settings.userManagement','settings.userManagement.rechtenEnRollen','settings.userManagement.listTeams
  * */
 angular.module('app.ontdekJouwTalent')
 .controller('UserManagementController',
 	['$scope','$state','AppConfig','settingsData','data','UserManagementService','SessionService',
 	function($scope,$state,AppConfig,settingsData,data,UserManagementService,SessionService) {
-		$scope.data = data.data;
-		$scope.viewConfig = data.configuration;
+		$scope.data = data;
+		//$scope.viewConfig = data.configuration;
 		$scope.AppConfig = AppConfig;
 
 		/* TABS DATA */

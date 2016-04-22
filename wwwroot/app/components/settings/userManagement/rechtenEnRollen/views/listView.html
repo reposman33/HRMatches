@@ -1,47 +1,45 @@
 <div class="well bg-white">
 
-    <div class="row margin_bottom_20">
-        <div class="col-md-3">
-            <div class="h4">{{viewConfig.verticalAxis.title}}</div>
-        </div>
-        <div class="col-md-7">
-            <div class="h4">{{viewConfig.horizontalAxis.title}}</div>
-        </div>
-        <div class="col-md-2" ng-if="viewConfig.buttons.newRole .allow">
-            <button onclick="form.action.value='addRole';form.tabpanel.value='permissions'" type="submit" class="btn btn-primary pull-right"> <i class="fa fa-plus"></i> Nieuwe rol </button>
-        </div>
-    </div>
+	<div class="row margin_bottom_20">
+		<div class="col-md-3">
+			<div class="h4"><!-- {{viewConfig.verticalAxis.title}} --></div>
+		</div>
+		<div class="col-md-7">
+			<div class="h4"><!-- {{viewConfig.horizontalAxis.title}} --></div>
+		</div>
+		<div class="col-md-2" ng-if="viewConfig.buttons.newRole .allow">
+			<!-- <button onclick="form.action.value='addRole';form.tabpanel.value='permissions'" type="submit" class="btn btn-primary pull-right"> <i class="fa fa-plus"></i> Nieuwe rol </button> -->
+		</div>
+	</div>
 
-    <div class="row margin_bottom_20">
-        <div class="col-md-12">
-            <div class="table-responsive">
-                <table class="table table-bordered table-striped">
-                    <thead>
-                    <tr>
-                        <th>&nbsp;</th>
-                        <th class="h11" ng-repeat="header in viewConfig.horizontalAxis.columnHeaders">{{header}}</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="row in data">
-                        <th scope="row" class="h9">
-                            <input type="text" value="{{row.title}}" id="exampleRoleType" class="" name="roleName_61">
-                        </th>
-                        <td class="centered_text" ng-repeat="cb in row.data">
-                            <input type="checkbox" name="cb.name" ng-change="assignRight(cb)" ng-model="cb.value">
-                        </td>
-                     </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+	<div class="row margin_bottom_20">
+		<div class="col-md-12">
+			<div class="table-responsive">
+				<table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>&nbsp;</th>
+							<!-- <th class="h11" ng-repeat="header in viewConfig.horizontalAxis.columnHeaders">{{header}}</th> -->
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="row in data">
+							<th scope="row" class="h9">
+								<input type="text" value="{{row.systemName}}" title="{{row.created}}">
+							</th>
+							<td class="centered_text" ng-repeat="permission in row.PERMISSIONS">
+								<input type="checkbox" name="permission.permissionName" ng-change="assignRight(cb)" ng-model="permission.id">
+							</td>
+						 </tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 
-    <div class="row">
-        <div class="col-md-12" ng-if="viewConfig.buttons.save.allow">
-            <button onclick="form.action.value='savePermissions';form.tabpanel.value='permissions'" type="submit" class="btn btn-success pull-right"> <i class="fa fa-plus"></i> Opslaan </button>
-        </div>
-    </div>
-
+	<div class="row">
+<!--	<div class="col-md-12" ng-if="viewConfig.buttons.save.allow">
+			<button onclick="form.action.value='savePermissions';form.tabpanel.value='permissions'" type="submit" class="btn btn-success pull-right"> <i class="fa fa-plus"></i> Opslaan </button>
+		</div>
+ -->	</div>
 </div>
-

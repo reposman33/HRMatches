@@ -2,8 +2,8 @@
  * @ngdoc controller
  * @name app.ontdekJouwTalent.controller:RegisterController
  * @description
- * This controller contains functionality for registering new users.<br /><br />
- * Dependencies: $scope,$location,AppConfig,APIService,TranslationService<br />
+ * This controller contains functionality for registering new users.
+ * @requires  $scope,$location,AppConfig,APIService,TranslationService
  * Referring states: 'login.register'
  * */
 angular.module('app.ontdekJouwTalent')

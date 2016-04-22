@@ -5,7 +5,7 @@
 	* @restrict A
 	*
 	* @description
-	* Checks if 2 fields are the same. Usage: compare-to='field-to-compare-to',ng-model='field'
+	* Checks if 2 fields are the same.
 	*
 	*
 	*/

@@ -7,18 +7,33 @@ angular.module('app.ontdekJouwTalent')
 				console.log('Setting right: ',data.name,' to ',data.value);
 			}
             
-            ,requestLocalJSON: function(data){
-                return APIService.requestLocalJSON(data)
+            ,load: function(data){
+                return APIService.request(data)
 	                .then(
 		                function(succesResponse){
-			                return succesResponse;
+			                return succesResponse.data;
 		                }
 	                )
 	                .catch(
 		                function(errorResponse){
 			                console.error('ERROR in APIService.requestLocal: ',errorResponse);
+			                return;
 		                }
 	                )
+            },
+
+            requestLocalJSON:  function(data){
+                return APIService.requestLocalJSON(data)
+                .then(
+	                function(succesResponse){
+		                return succesResponse;
+	                }
+                )
+                .catch(
+	                function(errorResponse){
+		                console.error('ERROR in APIService.requestLocal: ',errorResponse);
+	                }
+                )
             }
 
 

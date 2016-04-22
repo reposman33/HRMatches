@@ -15,7 +15,7 @@ angular.module('app.ontdekJouwTalent')
 
 		return $http({
 			method:data.method
-			,url: AppConfig.APPCONSTANTS_API_URL + '/' + data.endpoint + (token != '' ? ('/' + token) : '')
+			,url: AppConfig.APPCONSTANTS_API_URL + '/' + data.endpoint + (token != '' ? ('/?token=' + token) : '')
 			,data:_concatParams(data.parameters)
 		});
 	}

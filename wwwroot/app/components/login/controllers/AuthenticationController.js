@@ -2,9 +2,9 @@
  * @ngdoc controller
  * @name app.ontdekJouwTalent.controller:AuthenticationController
  * @description
- * This controller contains functionality for authenticating, login, resetPassword etc.<br /><br />
- * Dependencies: $scope,$state,AppConfig,AuthService,TranslationService,SessionService<br />
- * Referring states: 'login','login.*','logout'
+ * This controller contains functionality for authenticating, login, resetPassword etc.
+ * @requires $scope,$state,AppConfig,AuthService,TranslationService,SessionService
+ * Referring states: login, login.*, logout
  * */
 angular.module('app.ontdekJouwTalent')
 .controller('AuthenticationController',
@@ -20,7 +20,7 @@ angular.module('app.ontdekJouwTalent')
 		 * Authenticates using provided username and password.<br/><br/>
 		 * Dependencies: $state,SessionService,AuthService,TranslationService
 		 *
-		 * @param {Object} user: {user.username,user.password}
+		 * @param {Object} user: object with keys username,password
 		 */
 		$scope.authenticate = function(user){
 			var loggedInDomains = "";
@@ -79,14 +79,13 @@ angular.module('app.ontdekJouwTalent')
 
 		// FORGOTPASSWORD
 		/**
-		 * @ngdoc method
-		 * @name forgotPassword
-		 * @methodOf app.ontdekJouwTalent.controller:AuthenticationController
-		 * @description
-		 * Initialises forgot password procedure using provided email address.<br/><br/>
+		 * @ngdoc		method
+		 * @name		forgotPassword
+		 * @methodOf	app.ontdekJouwTalent.controller:AuthenticationController
+		 * @description	Initialises forgot password procedure using provided email address.<br/><br/>
 		 * Dependencies: $state,AuthService
 		 *
-		 * @param {String} emailaddress: emailaddress to send email to with resetPassowrd link
+		 * @param {String} emailAddress: emailaddress to send email to with resetPassowrd link
 		 */
 		$scope.forgotPassword = function(emailAddress){
 			AuthService.forgotPassword({'emailaddress':emailAddress})
@@ -197,7 +196,7 @@ angular.module('app.ontdekJouwTalent')
 		 * @name authenticateIn2Steps
 		 * @methodOf app.ontdekJouwTalent.controller:AuthenticationController
 		 * @description
-		 \* [ NOT IMPLEMENTED YET ]<br />
+		 * [ NOT IMPLEMENTED YET ]
 		 * Authenticate using 2 step authentication
 		 *
 		 */

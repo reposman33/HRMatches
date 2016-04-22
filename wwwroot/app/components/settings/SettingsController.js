@@ -1,9 +1,8 @@
 /**
  * @ngdoc controller
  * @name app.ontdekJouwTalent.controller:SettingsController
- * @description
- * This controller contains common functionality for Settings.<br /><br />
- * Dependencies: $scope,settingsData<br />
+ * @description This controller contains common functionality for Settings.
+ * @requires $scope,settingsData
  * Referring states: 'settings'
  * */
 angular.module('app.ontdekJouwTalent')

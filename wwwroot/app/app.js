@@ -85,31 +85,31 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 				'users': {
 					endpoint: 'userManagement-users'
 					,method: 'GET'
-					,addToken: 'true'
+					,addToken: true
 					,parameters: []
 				},
 				'invited': {
 					endpoint: 'userManagement-invited'
 					,method: 'GET'
-					,addToken: 'true'
+					,addToken: true
 					,parameters: []
 				},
 				'rightsAndsRoles': {
-					endpoint: 'userManagement-rightsAndsRoles'
+					endpoint: 'role'
 					,method: 'GET'
-					,addToken: 'true'
+					,addToken: true
 					,parameters: []
 				},
 				'teams': {
 					endpoint: 'userManagement-teams'
 					,method: 'GET'
-					,addToken: 'true'
+					,addToken: true
 					,parameters: []
 				},
 				'jobpool': { // vacaturePool
 					endpoint: 'userManagement-jobpool'
 					,method: 'GET'
-					,addToken: 'true'
+					,addToken: true
 					,parameters: []
 				}
 			}
@@ -117,25 +117,25 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 		'authenticate': {
 			endpoint: 'authenticate'
 			,method: 'POST'
-			,addToken: 'false'
+			,addToken: false
 			,parameters: []
 		},
 		'login': {
 			endpoint: 'login',
 			method: 'POST',
-			addToken: 'false',
+			addToken: false,
 			parameters: []
 		},
 		'logout': {
 			endpoint: 'logout',
 			method: 'POST',
-			addToken: 'false',
+			addToken: false,
 			parameters: []
 		},
-		forgotPassword: {
+		'forgotPassword': {
 			endpoint: 'forgotpassword',
 			method: 'POST',
-			addToken: 'false',
+			addToken: false,
 			parameters: ['hostname','emailaddress']
 		}
 		
@@ -350,7 +350,7 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 			url: '/joblist'
 			,resolve: {
 				data: ['JoblistService', function (JoblistService) {
-					return JoblistService.load(AppConfig.API_ENDPOINTS.joblist);
+					return JoblistService.load();
 				}]
 			}
 			, views: {
@@ -433,10 +433,7 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 			url: '/rechtenEnRollen'
 			,resolve: {
 				data: ['UserManagementService', function (UserManagementService) {
-					return UserManagementService.requestLocalJSON({
-						method: 'GET'
-						,url: '/app/components/settings/userManagement/rechtenEnRollen/listViewData.json'
-					})
+					return UserManagementService.load(AppConfig.API_ENDPOINTS.settings.userManagement.rightsAndsRoles);
 				}]
 				}
 			,views: {
