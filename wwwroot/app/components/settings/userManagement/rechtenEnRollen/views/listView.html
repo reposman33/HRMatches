@@ -33,7 +33,7 @@
 									name="rolePermission[]"
 									value="{{rolePermission.roleId}}_{{rolePermission.id}}"
 									ng-model="rolePermission.selected"
-									ng-change="updatePermission('{{rolePermission.roleId}}_{{rolePermission.id}},{{rolePermission.selected}}')">
+									ng-change="update('{{role.roleId}}_{{rolePermission.id}},{{rolePermission.selected}}')">
 							</td>
 						 </tr>
 					</tbody>
