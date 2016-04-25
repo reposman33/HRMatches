@@ -50,7 +50,26 @@ angular.module('app.ontdekJouwTalent')
 		});
 	}
 
-	this.validateSecretKey = function(secretKey){
+	this.permissions = function(){
+		return this.request({
+			method: AppConfig.API_ENDPOINTS.settings.userManagement.permissions.method,
+			endpoint: AppConfig.API_ENDPOINTS.settings.userManagement.permissions.endpoint,
+			addToken: AppConfig.API_ENDPOINTS.settings.userManagement.permissions.addToken,
+			parameters: AppConfig.API_ENDPOINTS.settings.userManagement.permissions.parameters
+		});
+	}
+
+
+	this.roles = function(){
+		return this.request({
+			method: AppConfig.API_ENDPOINTS.settings.userManagement.roles.method,
+			endpoint: AppConfig.API_ENDPOINTS.settings.userManagement.roles.endpoint,
+			addToken: AppConfig.API_ENDPOINTS.settings.userManagement.roles.addToken,
+			parameters: AppConfig.API_ENDPOINTS.settings.userManagement.roles.parameters
+		});
+	}
+
+		this.validateSecretKey = function(secretKey){
 		return $http({
 			method: 'POST'
 			,url: AppConfig.APPCONSTANTS_API_URL + '/validate_secretkey'

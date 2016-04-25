@@ -53,9 +53,8 @@ angular.module('app.ontdekJouwTalent')
 						if(successResponse.data.profiles.length > 1){
 							// MULTIPLE PROFILES
 							$scope.userHasMultipleProfiles = TranslationService.getText('LOGIN_MULTIPLEPROFILES');
-
-								$scope.profiles = successResponse.data.profiles;
-								$state.go('login.userProfiles');
+							$scope.profiles = successResponse.data.profiles;
+							$state.go('login.userProfiles');
 						}
 						else{
 							// LOG IN WITH PROFILE
@@ -141,8 +140,10 @@ angular.module('app.ontdekJouwTalent')
 		 *
 		 * @param {String} selectedDomainId: The id of the domain user log in to
 		 */
+
 		$scope.login = login
-		 function login(selectedDomainId){
+
+		function login(selectedDomainId){
 
 			if(!selectedDomainId){
 				$state.go('login');
@@ -169,6 +170,7 @@ angular.module('app.ontdekJouwTalent')
 					SessionService.delete('username');
 					SessionService.delete('password');
 					ApiService.trackdata('login');
+					$state.go('^');
 				}
 			);
 		}

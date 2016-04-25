@@ -3,11 +3,34 @@ angular.module('app.ontdekJouwTalent')
 	function(APIService,AppConfig){
 		return{
 			settingsData: {}
-			,assignRight: function(data){
-				console.log('Setting right: ',data.name,' to ',data.value);
+
+			,permissions: function(data){
+				return APIService.permissions()
+				.then(
+					function(successResponse){
+						return successResponse.data;
+					}
+				)
+				.catch(function(errorResponse){
+					console.error('ERROR in UserManagementService.permissions: ',errorResponse)
+				})
 			}
-            
-            ,load: function(data){
+
+
+			,roles: function(data){
+				return APIService.roles()
+				.then(
+					function(successResponse){
+						return successResponse.data;
+					}
+				)
+				.catch(function(errorResponse){
+					console.error('ERROR in UserManagementService.roles: ',errorResponse)
+				})
+			}
+
+
+			,load: function(data){
                 return APIService.request(data)
 	                .then(
 		                function(succesResponse){

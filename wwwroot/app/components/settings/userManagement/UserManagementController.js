@@ -10,7 +10,6 @@ angular.module('app.ontdekJouwTalent')
 	['$scope','$state','AppConfig','settingsData','data','UserManagementService','SessionService',
 	function($scope,$state,AppConfig,settingsData,data,UserManagementService,SessionService) {
 		$scope.data = data;
-		//$scope.viewConfig = data.configuration;
 		$scope.AppConfig = AppConfig;
 
 		/* TABS DATA */

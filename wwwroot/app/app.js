@@ -94,8 +94,14 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 					,addToken: true
 					,parameters: []
 				},
-				'rightsAndsRoles': {
+				'roles': {
 					endpoint: 'role'
+					,method: 'GET'
+					,addToken: true
+					,parameters: []
+				},
+				'permissions': {
+					endpoint: 'permission'
 					,method: 'GET'
 					,addToken: true
 					,parameters: []
@@ -112,6 +118,7 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 					,addToken: true
 					,parameters: []
 				}
+
 			}
 		},
 		'authenticate': {
@@ -385,12 +392,7 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 			url: '/userManagement'
 			,resolve: {
 				data: function(){
-					return {
-						data:{
-							configuration:{}
-							,data:[]
-						}
-					}
+					return {}; // later invullen
 				}
 			}
 			,views: {
@@ -403,47 +405,30 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 		// ---------- SETTINGS.USERMANAGEMENT.gebruikers----------
 		.state('settings.userManagement.gebruikers', {
 			url:'/gebruikers'
-			,resolve: {
-				data: function(){
-					return {
-						data:{
-							configuration:{}
-							,data:[]
-						}
-					}
-				}
-			}
 		})
 		// ---------- SETTINGS.USERMANAGEMENT.uitgenodigd----------
 		.state('settings.userManagement.uitgenodigd', {
 			url:'/uitgenodigd'
-			,resolve: {
-				data: function(){
-					return {
-						data:{
-							configuration:{}
-							,data:[]
-						}
-					}
-				}
-			}
 		})
-		// ---------- SETTINGS.USERMANAGEMENT.RECHTENENROLLEN----------
+		// ---------- SETTINGS.USERMANAGEMENT.rollen----------
 		.state('settings.userManagement.rechtenEnRollen', {
 			url: '/rechtenEnRollen'
 			,resolve: {
-				data: ['UserManagementService', function (UserManagementService) {
-					return UserManagementService.load(AppConfig.API_ENDPOINTS.settings.userManagement.rightsAndsRoles);
+				roles: ['UserManagementService', function (UserManagementService) {
+					return UserManagementService.roles();
 				}]
-				}
+				,permissions: ['UserManagementService', function (UserManagementService){
+						return UserManagementService.permissions();
+				}]
+			}
 			,views: {
 				'tabContent@settings.userManagement': {
-					controller: 'UserManagementController'
+					controller: 'RightsAndRolesController'
 					,templateUrl: '/app/components/settings/userManagement/rechtenEnRollen/views/listView.html'
 				}
 			}
 		})
-		// ---------- SETTINGS.USERMANAGEMENT.TEAMS ----------
+		// ---------- SETTINGS.USERMANAGEMENT.teams ----------
 		.state('settings.userManagement.listTeams', {
 			url: '/listTeams'
 			,resolve: {
@@ -464,15 +449,5 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 	// ---------- SETTINGS.USERMANAGEMENT.vacaturePool----------
 		.state('settings.userManagement.vacaturePool', {
 			url:'/vacaturePool'
-			,resolve: {
-				data: function(){
-					return {
-						data:{
-							configuration:{}
-							,data:[]
-						}
-					}
-				}
-			}
 		})
 }]);
