@@ -58,7 +58,7 @@ angular.module('app.ontdekJouwTalent')
 						AppConfig.API_ENDPOINTS.registration.parameters[0].value[param] = params.param;
 					}
 				}
-				APIService.request(AppConfig.API_ENDPOINTS.registration)
+				APIService.register(AppConfig.API_ENDPOINTS.registration)
 				.then(
 					function(successResponse){
 						$scope.error = successResponse.status != 200

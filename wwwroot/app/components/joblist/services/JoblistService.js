@@ -30,7 +30,7 @@ angular.module('app.ontdekJouwTalent')
 					return this.getData();
 				}
 
-				return APIService.request(AppConfig.API_ENDPOINTS.joblist)
+				return APIService.loadJobList()
 				.then(
 					function(successResponse){
 						self.cacheResponse(successResponse.data);

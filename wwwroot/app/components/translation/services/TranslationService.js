@@ -10,14 +10,14 @@ angular.module('app.ontdekJouwTalent')
 		 * ========== PUBLIC METHODS ==========
 		 */
 
-		load: function(data){
+		load: function(){
 			var self = this;
 
 			if(this._isLoaded){
 				return this.getData();
 			}
 
-			return APIService.request(data)
+			return APIService.loadTranslation()
 			.then(
 				function(successResponse){
 					self.loadResponse(successResponse.data);
