@@ -11,65 +11,52 @@ angular.module('app.ontdekJouwTalent')
 	function($http,AppConfig,SessionService){
 
 	this.request = function(data){
-		var token = data.addToken == true ? SessionService.getCurrentUserToken() : '';
+		var token = data.API.addToken == true ? SessionService.getCurrentUserToken() : '';
 
 		return $http({
-			method:data.method
-			,url: AppConfig.APPCONSTANTS_API_URL + '/' + data.endpoint + (token != '' ? ('/?token=' + token) : '')
-			,data:_concatParams(data.parameters)
+			method:data.API.method
+			,url: AppConfig.APPCONSTANTS_API_URL + '/' + data.API.endpoint + (token != '' ? ('/?token=' + token) : '')
+			,data:(data.data || data.API.parameters)
 		});
 	}
 
 
 	this.login = function(data){
-		return this.request({
-			method: AppConfig.API_ENDPOINTS.login.method,
-			endpoint: AppConfig.API_ENDPOINTS.login.endpoint,
-			addToken: AppConfig.API_ENDPOINTS.login.addToken,
-			parameters: data
-		});
+		return this.request({API:AppConfig.API_ENDPOINTS.login, data:data});
 	}
 
 
 	this.authenticate= function(data){
-		return this.request({
-			method: AppConfig.API_ENDPOINTS.authenticate.method,
-			endpoint: AppConfig.API_ENDPOINTS.authenticate.endpoint,
-			addToken: AppConfig.API_ENDPOINTS.authenticate.addToken,
-			parameters: data
-		});
+		return this.request({API:AppConfig.API_ENDPOINTS.authenticate, data:data});
 	}
 
 
 	this.logout = function(data){
-		return this.request({
-			method: AppConfig.API_ENDPOINTS.logout.method,
-			endpoint: AppConfig.API_ENDPOINTS.logout.endpoint,
-			addToken: AppConfig.API_ENDPOINTS.logout.addToken,
-			parameters: data
-		});
+		return this.request({API:AppConfig.API_ENDPOINTS.logout, data:data});
 	}
 
 	this.permissions = function(){
-		return this.request({
-			method: AppConfig.API_ENDPOINTS.settings.userManagement.permissions.method,
-			endpoint: AppConfig.API_ENDPOINTS.settings.userManagement.permissions.endpoint,
-			addToken: AppConfig.API_ENDPOINTS.settings.userManagement.permissions.addToken,
-			parameters: AppConfig.API_ENDPOINTS.settings.userManagement.permissions.parameters
-		});
+		return this.request({API:AppConfig.API_ENDPOINTS.settings.userManagement.permissions});
 	}
 
 
 	this.roles = function(){
-		return this.request({
-			method: AppConfig.API_ENDPOINTS.settings.userManagement.roles.method,
-			endpoint: AppConfig.API_ENDPOINTS.settings.userManagement.roles.endpoint,
-			addToken: AppConfig.API_ENDPOINTS.settings.userManagement.roles.addToken,
-			parameters: AppConfig.API_ENDPOINTS.settings.userManagement.roles.parameters
-		});
+		return this.request({API:AppConfig.API_ENDPOINTS.settings.userManagement.roles});
 	}
 
-		this.validateSecretKey = function(secretKey){
+	this.loadTranslation = function(){
+		return this.request({API:AppConfig.API_ENDPOINTS.translation});
+	}
+
+	this.loadJobList = function() {
+		return this.request({API: AppConfig.API_ENDPOINTS.joblist});
+	}
+
+	this.forgotPassword = function(data){
+		return this.request({API: AppConfig.API_ENDPOINTS.forgotPassword, data:data});
+	}
+
+	this.validateSecretKey = function(secretKey){
 		return $http({
 			method: 'POST'
 			,url: AppConfig.APPCONSTANTS_API_URL + '/validate_secretkey'
@@ -78,7 +65,6 @@ angular.module('app.ontdekJouwTalent')
 			}
 		});
 	}
-
 
 	this.resetPassword = function(data){
 		return $http({
@@ -92,11 +78,7 @@ angular.module('app.ontdekJouwTalent')
 	}
 	
 	this.register = function(data){
-		return $http({
-				method: 'POST',
-			url: '',
-			data: ''//'loginName=' + $scope.loginName + '&loginPassword=' + $scope.loginPassword
-		});
+		return this.request({API:AppConfig.API_ENDPOINTS.registration});
 	}
 	
 
@@ -122,14 +104,14 @@ angular.module('app.ontdekJouwTalent')
 		});
 	}
 
-		/*
-		* @toStateName: name of state where to transition to
-		* @currentState: name of state where onEnter is currently executed
-		* @description: onEnter() of child states (eg 'parent.child') is called twice: once for state parent ('parent')
-		* and once for 'parent.child' even if only defined in the child's onEnter() callBack
-		* */
+	/*
+	* @toStateName: name of state where to transition to
+	* @currentState: name of state where onEnter is currently executed
+	* @description: onEnter() of child states (eg 'parent.child') is called twice: once for state parent ('parent')
+	* and once for 'parent.child' even if only defined in the child's onEnter() callBack
+	* */
 	this.trackData = function(toStateName){
-		// assign values to clientvariables
+		// ASSIGN DYNAMIC VALUES TO THE CLIENTVARIABLES
 		var params = {
 			token:SessionService.getCurrentUserToken()
 			,state: toStateName
@@ -139,7 +121,11 @@ angular.module('app.ontdekJouwTalent')
 				AppConfig.API_ENDPOINTS.trackdata.parameters[0].value[param] = params[param];
 			}
 		}
-		this.request(AppConfig.API_ENDPOINTS.trackdata)
+
+		this.request({
+			API: AppConfig.API_ENDPOINTS.trackdata,
+			data: _concatParams(AppConfig.API_ENDPOINTS.trackdata.parameters)
+		})
 		.then(
 			function(succesResponse){
 				console.log('clientvariables logged for state \'',toStateName,'\'');
@@ -163,6 +149,16 @@ angular.module('app.ontdekJouwTalent')
 			}
 		);
 	}
+
+
+	this.updateRolesAndPermissions = function(data){
+		//return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.updateRolesAndPermissions,data: {roles:data}});
+	}
+
+	this.getNewRoleId = function(data){
+		this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.getNewRoleId, data:data});
+	}
+
 
 	_concatParams = function(params){
 		var result={};

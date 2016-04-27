@@ -22,19 +22,19 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 		NOTAUTHENTICATED:'login' // redirect hiernaartoe als niet ingelogd
 		,SETTINGS:'settings.userManagement.rechtenEnRollen'
 	}
-
+	,APPCONSTANTS_SETTINGS_USERMANAGEMENT_ROLE: {
+		id: 0,
+		systemName: 'New Role'
+	}
 	,API_ENDPOINTS: {
-		'translation': {
-			endpoint: 'translation'
-			,method: 'POST'
-			,addToken: false
-			,parameters: [{
-				name: 'language'
-				,value: 'nl_NL'
-			},{
-				name:'languageKey'
-				,value: ''
-			}]
+		'translation': {			// ===== LEGENDA =====
+			endpoint: 'translation'	// endpoint to use for call to API
+			,method: 'POST'			// http method to use
+			,addToken: false		// wether to add or not a user token (supplied at login) to the API call
+			,parameters: {			// parameters defined by user's permissions are supplied by API
+				language: 'nl_NL',
+				languageKey: ''
+			}
 		}
 		,'joblist': {
 			endpoint: 'joblist'
@@ -59,16 +59,15 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 					,'platform': navigator.platform //voor welk plaform is de browser
 					,'userAgent': navigator.userAgent //user agent
 					,'screenSize': screen.width + '*' + screen.height //breedte*hoogte van scherm
-					,'colorDepth': screen.colorDepth + "" //kleuren in bits/pixels
+					,'colorDepth': screen.colorDepth + '' //kleuren in bits/pixels
+					,'error': '' // possible errors
 				}
 			}]
 		},'registration': {
 			endpoint: 'registration'
 			,method: 'POST'
 			,addToken: false
-			,parameters: [{
-				name: 'data'
-				,value: {
+			,parameters: {data: { // custom format needed to inject dynamic values later in APIService
 					firstName: '' // value injected later
 					,infix: '' // value injected later
 					,username: '' // value injected later
@@ -78,7 +77,7 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 					,lastName: '' // value injected later
 					,personId: '' // value injected later
 				}
-			}]
+			}
 		}
 		,'settings': {
 			'userManagement': {
@@ -117,8 +116,19 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 					,method: 'GET'
 					,addToken: true
 					,parameters: []
+				},
+				'updateRolesAndPermissions': {
+					endpoint: 'role'
+					,method: 'PUT'
+					,addToken: true
+					,parameters: []
+				},
+				'getNewRoleId': {
+					endpoint: 'role'
+					,method: 'POST'
+					,addToken: true
+					,parameters: []
 				}
-
 			}
 		},
 		'authenticate': {
@@ -143,7 +153,7 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 			endpoint: 'forgotpassword',
 			method: 'POST',
 			addToken: false,
-			parameters: ['hostname','emailaddress']
+			parameters: []
 		}
 		
 	}
@@ -156,7 +166,7 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 	$rootScope.SessionService = SessionService;
 
 	// RETRIEVE TRANSLATION
-	TranslationService.load(AppConfig.API_ENDPOINTS.translation)
+	TranslationService.load()
 	.then(
 		function(successResponse){
 			console.log('Translation loaded');
@@ -189,20 +199,20 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 	$rootScope.$on('$stateChangeError',function(event, toState, toParams, fromState, fromParams, error){
 		switch(error.status){
 			case 500:{ // server error
-				SessionService.log(error);
+				//SessionService.log(error);
 				break;
 			}
 			case 501:{ // login error
-				SessionService.log(error);
+				//SessionService.log(error);
 				break;
 			}
 			case 401:{ //niet authenticated
-				SessionService.log(error);
+				//SessionService.log(error);
 				$state.go(APPCONSTANTS_NAVIGATION_REDIRECT.NOTAUTHENTICATED);
 				break;
 			}
 			case 403:{ // niet geauthoriseerd
-				SessionService.log(error);
+				//SessionService.log(error);
 				$state.go('message',{message:'U bent niet geauthoriseerd voor deze actie!'});
 				break;
 			}

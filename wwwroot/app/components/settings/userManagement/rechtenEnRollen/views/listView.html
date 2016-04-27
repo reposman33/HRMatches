@@ -7,8 +7,13 @@
 		<div class="col-md-7">
 			<div class="h4"><!-- {{viewConfig.horizontalAxis.title}} --></div>
 		</div>
-		<div class="col-md-2" ng-if="viewConfig.buttons.newRole .allow">
-			<!-- <button onclick="form.action.value='addRole';form.tabpanel.value='permissions'" type="submit" class="btn btn-primary pull-right"> <i class="fa fa-plus"></i> Nieuwe rol </button> -->
+		<div class="col-md-2">
+			<button
+				ng-click="addRole()"
+				type="submit"
+				class="btn btn-primary pull-right">
+				<i class="fa fa-plus"></i>
+				{{TranslationService.getText('SETTINGS_ADD_ROLE')}}</button>
 		</div>
 	</div>
 
@@ -25,15 +30,14 @@
 					<tbody>
 						<tr ng-repeat="role in rolesWithAllPermissions">
 							<th scope="row" class="h9">
-								<input type="text" value="{{role.systemName}}" title="{{role.created}}">
+								<input type="text" value="{{role.systemName}}" title="{{role.created}}" ng-model="role.systemName">
 							</th>
-							<td class="centered_text" ng-repeat="rolePermission in role.permissions">
+							<td class="centered_text" ng-repeat="rolePermission in role.PERMISSIONS">
 								<input
 									type="checkbox"
 									name="rolePermission[]"
 									value="{{rolePermission.roleId}}_{{rolePermission.id}}"
-									ng-model="rolePermission.selected"
-									ng-change="update('{{role.roleId}}_{{rolePermission.id}},{{rolePermission.selected}}')">
+									ng-model="rolePermission.selected">
 							</td>
 						 </tr>
 					</tbody>
@@ -44,7 +48,7 @@
 
 	<div class="row">
 		<div class="col-md-12" ng-if="true">
-			<button ng-click="update(rolePermissions)" class="btn btn-success pull-right">
+			<button ng-click="save(rolesWithAllPermissions)" class="btn btn-success pull-right">
 				<i class="fa fa-plus"></i> Opslaan
 			</button>
 		</div>

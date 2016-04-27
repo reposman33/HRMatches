@@ -2,6 +2,7 @@ angular.module('app.ontdekJouwTalent')
 .factory('AuthService',['$state','APIService','AppConfig','SessionService',
 	function($state,APIService,AppConfig,SessionService){
 
+/*
 		// TRANSFORM A KEY-VALUE PAIR IN AN OBJECT WITH KEYS 'NAME' AND 'VALUE' WITH THE ORIGINAL VALUES
 		function extract(data){
 			var result = [];
@@ -13,23 +14,21 @@ angular.module('app.ontdekJouwTalent')
 			});
 			return result;
 		}
+*/
 
 		return {
 			authenticate: function(data) {
-				var parameters = extract(data);
-				return APIService.authenticate(parameters);
+				return APIService.authenticate(data);
 			},
 
 
 			login: function (data) {
-				var parameters = extract(data);
-				return APIService.login(parameters);
+				return APIService.login(data);
 			},
 
 
 			logout: function() {
-				var token = SessionService.getCurrentUser().token;
-				var parameters = extract({'tokens':token});
+				var parameters = {'tokens':SessionService.getCurrentUser().token};
 				return APIService.logout(parameters)
 				.catch(
 					function(errorResponse){
@@ -45,14 +44,14 @@ angular.module('app.ontdekJouwTalent')
 
 			// chaining promises http://solutionoptimist.com/2013/12/27/javascript-promise-chains-2/
 			//data = {hostName:...,emailAddress:...}
-			forgotPassword: function (data) {
+			forgotPassword: function(data) {
 				data.hostname = AppConfig.APPCONSTANTS_HOSTNAME;
 				_data = {};
 				_data.parameters = extract(data);
 				_data.addToken = AppConfig.API_ENDPOINTS.forgotPassword.addToken;
 				_data.endpoint = AppConfig.API_ENDPOINTS.forgotPassword.endpoint;
 				_data.method = AppConfig.API_ENDPOINTS.forgotPassword.method
-				return APIService.request(_data)
+				return APIService.forgotPassword(_data)
 				.then(function (data) {
 					return data;//{validate_ok:true/false,message:I18nKey}
 				});
