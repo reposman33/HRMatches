@@ -153,7 +153,7 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 			endpoint: 'forgotpassword',
 			method: 'POST',
 			addToken: false,
-			parameters: []
+			parameters: ['hostname','emailaddress']
 		}
 		
 	}
