@@ -82,50 +82,6 @@ angular.module('app.ontdekJouwTalent')
 			);
 		}
 
-		// UPDATE
-		/**
-		 * @ngdoc method
-		 * @name update
-		 * @methodOf app.ontdekJouwTalent.controller:RightsAndRolesController
-		 * @description Called when user selects or deselects a role.
-		 * The role.permissions array of the corresponding permission role is updated
-		 * @param {string} data contains roleId, permisisonId, checkbox status _before_ change and permission name
-		 */
-
-/*
-	2) dan is onderstaande loop om role.PERMISSION array te updaten niet meer nodig: er is een 2 way databinding tussen model
-	(rolesWithAllPermissions) en view
-
-		$scope.updatePermission = function(data){
-			var roleId = data.substring(0,data.indexOf("_"));
-			var permissionId = data.substring(data.indexOf("_") + 1,data.indexOf(","));
-			var selected = data.substring(data.indexOf(",") + 1);
-			var permissionName = data.substring(data.indexOf("|") + 1);
-			var roleRemoved = false;
-
-			// FIND THE ROLE CONTAINING UPDATED PERMISSION
-			roles.map(function(role, index, roles){
-				if(role.id == roleId) {
-					// FIND THE PERMISSION IN ROLE PERMISSIONS
-					role.PERMISSIONS.map(function (permission, index, permissions) {
-						if(permission.id == permissionId) {
-							// PERMISSION FOUND: USER DESELECTED IT, DELETE IT FROM ROLE.PERMISSIONS
-							if(selected) { // extra check, should be true
-								role.PERMISSIONS.splice(index, 1);
-								roleRemoved = true;
-							}
-						}
-					});
-					if (!roleRemoved) {
-						// PERMISSION WAS NOT FOUND in ROLES PERMISSIONS: USER SELECTED IT, ADD IT TO ROLE.PERMISSIONS
-						role.PERMISSIONS.push({id: parseInt(permissionId), permissionName: permissionName}); //? API should return all permissionNames, not just of selected permissions
-					}
-				}
-			});
-		}
- */
-
-
 		// addrole
 		/**
 		 * @ngdoc method

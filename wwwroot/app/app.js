@@ -22,9 +22,10 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 		NOTAUTHENTICATED:'login' // redirect hiernaartoe als niet ingelogd
 		,SETTINGS:'settings.userManagement.rechtenEnRollen'
 	}
-	,APPCONSTANTS_SETTINGS_USERMANAGEMENT_ROLE: {
-		id: 0,
-		systemName: 'New Role'
+	,APPCONSTANTS_SETTINGS_USERMANAGEMENT_ROLE: { // TEMPLATE FOR SETTINGS-USERMANAAGEMENT-RIGHTS_AND_ROLES- ADD NEW ROLE
+		id: 0
+		,systemName: 'New Role'
+		,token:''
 	}
 	,API_ENDPOINTS: {
 		'translation': {			// ===== LEGENDA =====

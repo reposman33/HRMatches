@@ -152,11 +152,11 @@ angular.module('app.ontdekJouwTalent')
 
 
 	this.updateRolesAndPermissions = function(data){
-		//return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.updateRolesAndPermissions,data: {roles:data}});
+		return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.updateRolesAndPermissions,data:{roles:data}});
 	}
 
 	this.getNewRoleId = function(data){
-		this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.getNewRoleId, data:data});
+		return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.getNewRoleId, data:{roles:data}});
 	}
 
 

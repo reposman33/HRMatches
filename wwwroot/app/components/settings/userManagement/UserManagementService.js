@@ -28,23 +28,6 @@ angular.module('app.ontdekJouwTalent')
 			}
 
 
-/*
-			,load: function(data){
-				return APIService.request(data)
-					.then(
-						function(succesResponse){
-							return succesResponse.data;
-						}
-					)
-					.catch(
-						function(errorResponse){
-							console.error('ERROR in APIService.requestLocal: ',errorResponse);
-							return;
-						}
-					)
-			},
-*/
-
 			,requestLocalJSON:  function(data){
 				return APIService.requestLocalJSON(data)
 				.then(
@@ -98,7 +81,7 @@ angular.module('app.ontdekJouwTalent')
 			,getNewRoleId: function(role){
 				role.token = SessionService.getCurrentUserToken();
 
-				return APIService.getNewRoleId([{"roles":role}])
+				return APIService.getNewRoleId([role])
 				.then(
 					function(succesResponse){
 						return succesResponse.data;
