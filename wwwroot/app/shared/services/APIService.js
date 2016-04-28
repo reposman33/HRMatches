@@ -7,17 +7,46 @@
  * */
 angular.module('app.ontdekJouwTalent')
 .service('APIService',
-	['$http','AppConfig','SessionService',
-	function($http,AppConfig,SessionService){
+	['$http','$state','AppConfig','SessionService',
+	function($http,$state,AppConfig,SessionService){
+
 
 	this.request = function(data){
 		var token = data.API.addToken == true ? SessionService.getCurrentUserToken() : '';
+		var url = (AppConfig.APPCONSTANTS_API_URL + ((data.API.endpoint != '') ? ('/' + data.API.endpoint) : ''));
+		var payload = data.data || data.API.parameters;
+		var qpDelimiter = '/?';
+
+		if((data.API.method == 'GET' || data.API.method == 'DELETE')){
+			// APPEND QUERY PARAMETERS TO URL FOR GET,DELETE HTTP METHODS
+			angular.forEach(payload,function(value,key){
+				url += (qpDelimiter + key + '=' + value);
+				qpDelimiter = '&';
+			});
+			url += (token === '') ? url : qpDelimiter + 'token=' + token;
+			payload = '';
+		}
+		else if((data.API.method == 'PUT' || data.API.method == 'POST')){
+			//SEND DATA IN BODY
+			if(token != ''){
+				url += (qpDelimiter + 'token=' + token);
+				payload.token = token;
+			}
+		}
 
 		return $http({
 			method:data.API.method
-			,url: AppConfig.APPCONSTANTS_API_URL + '/' + data.API.endpoint + (token != '' ? ('/?token=' + token) : '')
-			,data:(data.data || data.API.parameters)
-		});
+			,url: url
+			,data: payload
+		})
+		.catch(
+			function(errorResponse){
+				if(errorResponse.status === 403){
+					SessionService.removeCurrentUser();
+					$state.go(AppConfig.APPCONSTANTS_NAVIGATION_REDIRECT.NOTAUTHENTICATED);
+					event.preventDefault();
+				}
+			})
 	}
 
 
@@ -112,19 +141,12 @@ angular.module('app.ontdekJouwTalent')
 	* */
 	this.trackData = function(toStateName){
 		// ASSIGN DYNAMIC VALUES TO THE CLIENTVARIABLES
-		var params = {
-			token:SessionService.getCurrentUserToken()
-			,state: toStateName
-		}
-		for(var param in params){
-			if(params.hasOwnProperty(param)){
-				AppConfig.API_ENDPOINTS.trackdata.parameters[0].value[param] = params[param];
-			}
-		}
+		AppConfig.API_ENDPOINTS.trackdata.parameters.token = SessionService.getCurrentUserToken();
+		AppConfig.API_ENDPOINTS.trackdata.parameters.state = toStateName;
 
 		this.request({
 			API: AppConfig.API_ENDPOINTS.trackdata,
-			data: _concatParams(AppConfig.API_ENDPOINTS.trackdata.parameters)
+			data: AppConfig.API_ENDPOINTS.trackdata.parameters
 		})
 		.then(
 			function(succesResponse){
@@ -155,8 +177,14 @@ angular.module('app.ontdekJouwTalent')
 		return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.updateRolesAndPermissions,data:{roles:data}});
 	}
 
+
 	this.getNewRoleId = function(data){
 		return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.getNewRoleId, data:{roles:data}});
+	}
+
+
+	this.deleteRole = function(data){
+		return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.deleteRole, data:data});
 	}
 
 

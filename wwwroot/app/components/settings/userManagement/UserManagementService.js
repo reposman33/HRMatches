@@ -93,6 +93,10 @@ angular.module('app.ontdekJouwTalent')
 					}
 				)
 			}
+
+			,deleteRole: function(id){
+				return APIService.deleteRole({roleId:id});
+			}
 		}
 	}
 ]);

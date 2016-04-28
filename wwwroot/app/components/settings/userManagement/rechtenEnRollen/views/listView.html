@@ -30,7 +30,13 @@
 					<tbody>
 						<tr ng-repeat="role in rolesWithAllPermissions">
 							<th scope="row" class="h9">
-								<input type="text" value="{{role.systemName}}" title="{{role.created}}" ng-model="role.systemName">
+								<div class="input-group ">
+									<input type="text" value="{{role.systemName}}" title="{{role.created}}" ng-model="role.systemName">
+									<a class="fa fa-times-circle"
+									   confirm="Really delete role '{{role.systemName}}'?"
+									   ng-click="deleteRole(role.id)"
+									   title="{{TranslationService.getText('SETTINGS_DELETE_ROLE')}}"></a>
+								</div>
 							</th>
 							<td class="centered_text" ng-repeat="rolePermission in role.PERMISSIONS">
 								<input

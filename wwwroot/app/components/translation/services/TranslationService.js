@@ -13,10 +13,6 @@ angular.module('app.ontdekJouwTalent')
 		load: function(){
 			var self = this;
 
-			if(this._isLoaded){
-				return this.getData();
-			}
-
 			return APIService.loadTranslation()
 			.then(
 				function(successResponse){

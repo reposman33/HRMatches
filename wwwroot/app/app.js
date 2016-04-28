@@ -1,4 +1,4 @@
-angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.router','ui.router.modal','xeditable'])
+angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.router','ui.router.modal','xeditable','angular-confirm'])
 .constant('AppConfig',{
 	// APPLICATION DEFINED VALUES
 	APPCONSTANTS_HOSTNAME: location.hostname
@@ -47,9 +47,8 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 			endpoint: 'trackdata'
 			,method: 'POST'
 			,addToken: false
-			, parameters: [{
-				name: 'trackingdata'
-				,value: {
+			, parameters: {
+				'trackingdata': {
 					'token': '' // value injected later
 					,'state': '' // value injected later
 					,'protocol': location.protocol
@@ -63,7 +62,7 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 					,'colorDepth': screen.colorDepth + '' //kleuren in bits/pixels
 					,'error': '' // possible errors
 				}
-			}]
+			}
 		},'registration': {
 			endpoint: 'registration'
 			,method: 'POST'
@@ -127,6 +126,12 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 				'getNewRoleId': {
 					endpoint: 'role'
 					,method: 'POST'
+					,addToken: true
+					,parameters: []
+				},
+				'deleteRole': {
+					endpoint: 'role'
+					,method: 'DELETE'
 					,addToken: true
 					,parameters: []
 				}

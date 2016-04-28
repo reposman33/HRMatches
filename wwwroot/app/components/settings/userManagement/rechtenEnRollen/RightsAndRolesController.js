@@ -7,8 +7,8 @@
  * */
 angular.module('app.ontdekJouwTalent')
 .controller('RightsAndRolesController',
-	['$scope','$filter','AppConfig','roles','permissions','UserManagementService',
-	function($scope,$filter,AppConfig,roles,permissions,UserManagementService) {
+	['$scope','$state','$filter','AppConfig','roles','permissions','UserManagementService',
+	function($scope,$state,$filter,AppConfig,roles,permissions,UserManagementService) {
 
 		$scope.roles = roles;
 		$scope.permissions = permissions;
@@ -91,16 +91,39 @@ angular.module('app.ontdekJouwTalent')
 		 * The roles array is updated with a new role
 		 */
 		$scope.addRole = function(data){
-			// ADD NEW ROLE TO ROLES
 			var role = AppConfig.APPCONSTANTS_SETTINGS_USERMANAGEMENT_ROLE;
-			UserManagementService.getNewRoleId(role)
-			.then(function(data){
-				role.id = data.id;
-			});
 
-			roles.push(role);
-			// CREATE NEW rolesWithAllPermissions DATA STRUCT
-			expandRoles();// (implicit update view)
+			UserManagementService.getNewRoleId(role)
+			.then(
+				function(data){
+					$state.go('settings.userManagement.rechtenEnRollen',{},{reload:true});
+				}
+			);
+		}
+
+
+		// deleteRole
+		/**
+		 * @ngdoc method
+		 * @name deleteRole
+		 * @methodOf app.ontdekJouwTalent.controller:RightsAndRolesController
+		 * @description Called when user deletes a role.
+		 */
+		$scope.deleteRole = function(id){
+			UserManagementService.deleteRole(id)
+			.then(
+				function(successResponse){
+				// REMOVE ROLE FROM ROLESWITHALLPERMISSIONS
+				var allRoles = [];
+				allRoles = $scope.rolesWithAllPermissions.filter(function(role,index,allRoles){
+					if(role.id != id){
+						return role;
+					}
+				});
+				$scope.rolesWithAllPermissions = allRoles;
+				roles = allRoles;
+				console.log(successResponse);
+			});
 		}
 	}]
 );
