@@ -43,19 +43,6 @@ angular.module('app.ontdekJouwTalent')
 		}
 
 		
-		// DELETE
-		/**
-		 * @ngdoc method
-		 * @name delete
-		 * @methodOf app.ontdekJouwTalent.controller:UserManagementController
-		 * @description
-		 * Used in generic tableView.html to delete row content
-		 *
-		 */
-		$scope.delete = function(id){
-			console.log('delete(' + id + '))');
-		}
-
 		// GO
 		/**
 		 * @ngdoc method

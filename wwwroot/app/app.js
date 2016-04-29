@@ -16,15 +16,20 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 
 	// TEMP CONSTANTS TO BE DEFINED BY BACK END
 	,APPCONSTANTS_API_URL: 'http://api-development.hrmatches.com'
-	,APPCONSTANTS_PUBLICSTATES: "login,login.forgotPassword,login.userProfiles,login.resetPassword,login.register,message" // exclusively public states
+	,APPCONSTANTS_PUBLICSTATES: "login,login.forgotPassword,login.userProfiles,login.resetPassword,login.register" // exclusively public states
 	,APPCONSTANTS_NAVIGATION_ENTRYPOINT: 'editTranslation'
 	,APPCONSTANTS_NAVIGATION_REDIRECT: {
 		NOTAUTHENTICATED:'login' // redirect hiernaartoe als niet ingelogd
 		,SETTINGS:'settings.userManagement.rechtenEnRollen'
 	}
-	,APPCONSTANTS_SETTINGS_USERMANAGEMENT_ROLE: { // TEMPLATE FOR SETTINGS-USERMANAAGEMENT-RIGHTS_AND_ROLES- ADD NEW ROLE
+	,APPCONSTANTS_SETTINGS_USERMANAGEMENT_ROLE: { // TEMPLATE FOR SETTINGS-USERMANAAGEMENT-RIGHTS_AND_ROLES ADD NEW ROLE
 		id: 0
 		,systemName: 'New Role'
+		,token:''
+	}
+	,APPCONSTANTS_SETTINGS_USERMANAGEMENT_TEAM: { // TEMPLATE FOR SETTINGS-USERMANAAGEMENT-TEAM ADD NEW TEAM
+		id: 0
+		,displayName: 'New Team'
 		,token:''
 	}
 	,API_ENDPOINTS: {
@@ -32,10 +37,19 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 			endpoint: 'translation'	// endpoint to use for call to API
 			,method: 'POST'			// http method to use
 			,addToken: false		// wether to add or not a user token (supplied at login) to the API call
-			,parameters: {			// parameters defined by user's permissions are supplied by API
-				language: 'nl_NL',
-				languageKey: ''
+			,columnNames: {         // reference to columnames so we use different columnames in same shared view
+				'displayName':'DisplayName'
+				,'id':'id'
 			}
+			,parameters: {			// parameters defined by user's permissions are supplied by API
+				language: 'nl_NL'
+				,languageKey: ''
+			}
+		}
+		,'updateTranslation': {
+			endpoint: 'updateTranslation'
+			,method: 'POST'
+			,addToken: true
 		}
 		,'joblist': {
 			endpoint: 'joblist'
@@ -86,82 +100,113 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 					,method: 'GET'
 					,addToken: true
 					,parameters: []
-				},
-				'invited': {
+				}
+				,'invited': {
 					endpoint: 'userManagement-invited'
 					,method: 'GET'
 					,addToken: true
 					,parameters: []
-				},
-				'roles': {
+				}
+				,'roles': {
 					endpoint: 'role'
 					,method: 'GET'
 					,addToken: true
 					,parameters: []
-				},
-				'permissions': {
+				}
+				,'permissions': {
 					endpoint: 'permission'
 					,method: 'GET'
 					,addToken: true
 					,parameters: []
-				},
-				'teams': {
-					endpoint: 'userManagement-teams'
+				}
+				,'teams': {
+					endpoint: 'teams'
 					,method: 'GET'
 					,addToken: true
+					,columnNames: {
+						'displayName':'DisplayName'
+						,'id':'id'
+					}
 					,parameters: []
-				},
-				'jobpool': { // vacaturePool
+				}
+				,'jobpool': { // vacaturePool
 					endpoint: 'userManagement-jobpool'
 					,method: 'GET'
 					,addToken: true
 					,parameters: []
-				},
-				'updateRolesAndPermissions': {
+				}
+				,'updateRolesAndPermissions': {
 					endpoint: 'role'
 					,method: 'PUT'
 					,addToken: true
 					,parameters: []
-				},
-				'getNewRoleId': {
+				}
+				,'addRole': {
 					endpoint: 'role'
 					,method: 'POST'
 					,addToken: true
 					,parameters: []
-				},
-				'deleteRole': {
+				}
+				,'deleteRole': {
 					endpoint: 'role'
 					,method: 'DELETE'
 					,addToken: true
 					,parameters: []
 				}
+				,'updateTeam': {
+					endpoint: 'teams'
+					,method: 'POST'
+					,addToken: true
+					,parameters: []
+				}
+				,'addTeam': {
+					endpoint: 'teams'
+					,method: 'POST'
+					,addToken: true
+					,parameters: []
+				}
+				,'deleteTeam': {
+					endpoint: 'teams'
+					,method: 'DELETE'
+					,addToken: true
+					,parameters: []
+				}
 			}
-		},
-		'authenticate': {
+		}
+		,'authenticate': {
 			endpoint: 'authenticate'
 			,method: 'POST'
 			,addToken: false
 			,parameters: []
-		},
-		'login': {
-			endpoint: 'login',
-			method: 'POST',
-			addToken: false,
-			parameters: []
-		},
-		'logout': {
-			endpoint: 'logout',
-			method: 'POST',
-			addToken: false,
-			parameters: []
-		},
-		'forgotPassword': {
-			endpoint: 'forgotpassword',
-			method: 'POST',
-			addToken: false,
-			parameters: ['hostname','emailaddress']
 		}
-		
+		,'login': {
+			endpoint: 'login'
+			,method: 'POST'
+			,addToken: false
+			,parameters: []
+		}
+		,'logout': {
+			endpoint: 'logout'
+			,method: 'POST'
+			,addToken: false
+			,parameters: []
+		}
+		,'forgotPassword': {
+			endpoint: 'forgotpassword'
+			,method: 'POST'
+			,addToken: false
+			,parameters: ['hostname','emailaddress']
+		}
+		,'resetPassword': {
+			endpoint: 'resetpassword'
+			,method: 'POST'
+			,addToken: false
+		}
+		,'validateSecretKey': {
+			endpoint: 'validate_secretkey'
+			,method: 'POST'
+			,addToken: false
+		}
 	}
 }) //END constant
 .run(function($rootScope,$state,APIService,AppConfig,AuthService,TranslationService,SessionService){
@@ -203,28 +248,7 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 	});
 
 	$rootScope.$on('$stateChangeError',function(event, toState, toParams, fromState, fromParams, error){
-		switch(error.status){
-			case 500:{ // server error
-				//SessionService.log(error);
-				break;
-			}
-			case 501:{ // login error
-				//SessionService.log(error);
-				break;
-			}
-			case 401:{ //niet authenticated
-				//SessionService.log(error);
-				$state.go(APPCONSTANTS_NAVIGATION_REDIRECT.NOTAUTHENTICATED);
-				break;
-			}
-			case 403:{ // niet geauthoriseerd
-				//SessionService.log(error);
-				$state.go('message',{message:'U bent niet geauthoriseerd voor deze actie!'});
-				break;
-			}
-		}
-		event.preventDefault();
-		console.error('ERROR $stateChangeError! fromState:',fromState,' toState:',toState,' error:',error);
+		console.error('$stateChangeError from ' + fromState.name + ' to ' + toState.name, ':', error);
 	});
 
 }) // END run
@@ -239,18 +263,18 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 
 	$stateProvider
 		.state('message', {
-			url: '/message/',
-			params: {
+			url: '/message/'
+			,params: {
 				message: null
-				, fromStateName: ''
-			},
-			views: {
+				,fromStateName: ''
+			}
+			,views: {
 				'body': {
 					controller: function ($scope, $stateParams, TranslationService) {
 						$scope.message = TranslationService.getText($stateParams.message);
 						$scope.fromStateName = $stateParams.fromStateName;
-					},
-					templateUrl: '/app/shared/views/message.html'
+					}
+					,templateUrl: '/app/shared/views/message.html'
 				}
 			}
 		})
@@ -356,7 +380,7 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 			url: '/editTranslation'
 			,resolve: {
 				data: ['TranslationService', function (TranslationService) {
-					return TranslationService.load(AppConfig.API_ENDPOINTS.translation);
+					return TranslationService.load();
 				}]
 			}
 			,views: {
@@ -449,20 +473,46 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 			url: '/listTeams'
 			,resolve: {
 				data: ['UserManagementService', function(UserManagementService) {
-					return UserManagementService.requestLocalJSON({
-						method: 'GET'
-						,url: '/app/components/settings/userManagement/teams/listViewData.json'
-					})
+					return UserManagementService.team();
 				}]
 			}
 			,views: {
 				'tabContent@settings.userManagement': {
-					controller: 'UserManagementController'
+					controller: 'TeamsController'
 					,templateUrl: '/app/components/settings/userManagement/teams/views/listView.html'
 				}
 			}
 		})
-	// ---------- SETTINGS.USERMANAGEMENT.vacaturePool----------
+		.state('settings.userManagement.detailTeam', {
+			url: '/detailTeams'
+			,onEnter: ['$state','$stateParams',function($state,$stateParams){
+				if($stateParams.teamId == undefined){
+					$state.go('settings.userManagement.listTeams');
+					event.preventDefault();
+				}
+			}]
+			,params: {
+				teamId: null
+			}
+			,resolve: {
+				roles: ['UserManagementService', function (UserManagementService) {
+					return UserManagementService.roles();
+				}]
+				,team: ['$stateParams','roles','UserManagementService', function($stateParams,roles,UserManagementService) {
+					return UserManagementService.team($stateParams.teamId);
+				}]
+				,data: ['roles','team', function(roles,team) {
+					return {'roles':roles,'team':team};
+				}]
+			}
+			,views: {
+				'tabContent@settings.userManagement': {
+					controller: 'TeamsController'
+					,templateUrl: '/app/components/settings/userManagement/teams/views/detailView.html'
+				}
+			}
+		})
+		// ---------- SETTINGS.USERMANAGEMENT.vacaturePool----------
 		.state('settings.userManagement.vacaturePool', {
 			url:'/vacaturePool'
 		})

@@ -3,8 +3,8 @@
 	<tr>
 		<th class="col-md-3"
 			ng-repeat="column in viewConfig.columns"
-			ng-show="column.header_visible && column.visible">{{column.header_text}}</th>
-		<th  class="col-md-2" ng-show="viewConfig.row_editable">Edit</th>
+			ng-if="column.header_visible && column.visible">column.header_text</th>
+		<th  class="col-md-8" ng-show="viewConfig.row_editable">Edit</th>
 	</tr>
 	</thead>
 	<tfoot>

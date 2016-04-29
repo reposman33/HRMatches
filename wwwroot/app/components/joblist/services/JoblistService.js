@@ -33,8 +33,8 @@ angular.module('app.ontdekJouwTalent')
 				return APIService.loadJobList()
 				.then(
 					function(successResponse){
-						self.cacheResponse(successResponse.data);
-						return successResponse.data;
+						self.cacheResponse(successResponse);
+						return successResponse;
 					});
 			},
 
@@ -83,7 +83,7 @@ angular.module('app.ontdekJouwTalent')
 				return APIService.updateJob(data)
 					.then(
 						function(successResponse){
-							return successResponse.data;
+							return successResponse;
 						}
 					)
 			}

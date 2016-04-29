@@ -1,145 +1,86 @@
 <div class="well bg-white">
-    <div class="row">
-        <input type="hidden" name="teamId" value="4C387F21-01B8-448E-ADEF-1B17849023C8">
+	<div class="row">
+		<div class="col-md-12 ">
+			<div class="h4">{{data.team.DisplayName}}</div>
+			<div class="well teamsettings">
 
 
-        <div class="col-md-12 ">
-            <div class="h4">{{viewConfig.title}}</div>
-            <div class="well teamsettings">
+				<div class="row form-group">
+					<div class="col-md-4">
+						<label for="exampleInputTeamname">{{TranslationService.getText('SETTINGS_TEAM_NAME')}}</label>
+					</div>
+
+					<div class="col-md-8">
+						<input
+							type="text"
+							name="teamName"
+							value="{{data.team.DisplayName}}"
+							class="form-control"
+							id="exampleInputTeamname"
+							placeholder="{{data.team.DisplayName}}">
+					</div>
+				</div>
 
 
-                <div class="row form-group">
-                    <div class="col-md-4">
-                        <label for="exampleInputTeamname">{{data.header.label}}</label>
-                    </div>
+				<div class="well bg-white team-well">
+					<div class="row">
+						<div class="col-md-12">
 
-                    <div class="col-md-8">
-                        <input type="text" name="teamName" value="Demo" class="form-control" id="exampleInputTeamname" placeholder="{{data.header.placeHolder}}">
-                    </div>
-                </div>
+							<div class="bs-example" data-example-id="striped-table">
+								<table class="table table-striped h10">
+									<thead>
+									<tr>
+										<th>{{TranslationService.getText('SETTINGS_TEAMMEMBER_NAME')}}</th>
+										<th>{{TranslationService.getText('SETTINGS_TEAMMEMBER_ROLE')}}</th>
+									</tr>
+									</thead>
+									<tbody>
 
+									<tr ng-repeat="teamMember in data.team.MEMBERS">
+										<td>{{teamMember.firstName}} {{teamMember.infix}} {{teamMember.lastName}}</td>
+										<td>
+											<select name="teamMemberRole" class="form-control h9 selectpicker" style="display:block;">
+												<option ng-repeat="role in data.roles" value="{{role.id}}" ng-selected="role.id==teamMember.roleId">{{role.systemName}}</option>
+											</select>
+										</td>
+										<td class="right_text">
+											<button
+												type="submit"
+												ng-click="deleteTeamMember(teamMember.personId)"
+												class="btn btn-sm btn-default"
+												data-toggle="tooltip"
+												data-placement="top"
+												title=""
+												data-original-title="Verwijderen">
+											<i class="fa red fa-remove"></i>
+											</button>
+										</td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
 
-                <div class="well bg-white team-well">
-                    <div class="row">
-                        <div class="col-md-12">
+				<div class="row form-group">
+					<div class="col-md-2 pull-right">
+						<button
+							type="button"
+							class="btn btn-success pull-right"
+							ng-click="saveTeam(data.id)">{{TranslationService.getText('SETTINGS_SAVE_TEAM')}}
+						</button>
+					</div>
 
-                            <div class="bs-example" data-example-id="striped-table">
-                                <table class="table table-striped h10">
-                                    <thead>
-                                    <tr>
-                                        <th ng-repeat="header in listingHeaders">{{header}}</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <input type="hidden" name="deleteTeamMemberId" value="">
+					<div class="col-md-2 pull-right">
+						<button
+							type="submit"
+							class="btn btn-danger pull-right"
+							ng-click="cancel()">{{TranslationService.getText('SETTINGS_CANCEL_TEAM')}}</button>
+					</div>
+				</div>
 
-                                    <tr>
-                                        <td>HRMatches, Demo </td>
-                                        <td>
-                                            <select name="teamMemberRoleId_3" class="form-control h9 selectpicker" data-live-search="true" style="display: none;">
-
-                                                <option value="61">Administrator</option>
-
-                                                <option value="30">Beoordelaar</option>
-
-                                                <option value="29" selected="">Manager</option>
-
-                                            </select><div class="btn-group bootstrap-select form-control h9"><button type="button" class="btn dropdown-toggle selectpicker btn-default" data-toggle="dropdown" title="Manager"><span class="filter-option pull-left">Manager</span>&nbsp;<span class="caret"></span></button><div class="dropdown-menu open"><div class="bs-searchbox"><input type="text" class="input-block-level form-control" autocomplete="off"></div><ul class="dropdown-menu inner selectpicker" role="menu"><li data-original-index="0"><a tabindex="0" class="" data-normalized-text="<span class=&quot;text&quot;>Administrator</span>"><span class="text">Administrator</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="1"><a tabindex="0" class="" data-normalized-text="<span class=&quot;text&quot;>Beoordelaar</span>"><span class="text">Beoordelaar</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="2" class="selected"><a tabindex="0" class="" data-normalized-text="<span class=&quot;text&quot;>Manager</span>"><span class="text">Manager</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li></ul></div></div>
-                                        </td>
-                                        <td class="right_text"><button type="submit" onclick="form.deleteTeamMemberId.value='7152DB9E-B1AF-41AC-AACF-A6A1F4F91170';form.action.value='deleteTeamMember';form.tabpanel.value='teams'" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="" data-original-title="Verwijderen"><i class="fa red fa-remove"></i></button></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Test, Herwin </td>
-                                        <td>
-                                            <select name="teamMemberRoleId_5" class="form-control h9 selectpicker" data-live-search="true" style="display: none;">
-
-                                                <option value="61" selected="">Administrator</option>
-
-                                                <option value="30">Beoordelaar</option>
-
-                                                <option value="29">Manager</option>
-
-                                            </select><div class="btn-group bootstrap-select form-control h9"><button type="button" class="btn dropdown-toggle selectpicker btn-default" data-toggle="dropdown" title="Administrator"><span class="filter-option pull-left">Administrator</span>&nbsp;<span class="caret"></span></button><div class="dropdown-menu open"><div class="bs-searchbox"><input type="text" class="input-block-level form-control" autocomplete="off"></div><ul class="dropdown-menu inner selectpicker" role="menu"><li data-original-index="0" class="selected"><a tabindex="0" class="" data-normalized-text="<span class=&quot;text&quot;>Administrator</span>"><span class="text">Administrator</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="1"><a tabindex="0" class="" data-normalized-text="<span class=&quot;text&quot;>Beoordelaar</span>"><span class="text">Beoordelaar</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="2"><a tabindex="0" class="" data-normalized-text="<span class=&quot;text&quot;>Manager</span>"><span class="text">Manager</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li></ul></div></div>
-                                        </td>
-                                        <td class="right_text"><button type="submit" onclick="form.deleteTeamMemberId.value='E05671F7-F583-49E8-A3AD-A03E23126A74';form.action.value='deleteTeamMember';form.tabpanel.value='teams'" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="" data-original-title="Verwijderen"><i class="fa red fa-remove"></i></button></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>test2, test2 </td>
-                                        <td>
-                                            <select name="teamMemberRoleId_7" class="form-control h9 selectpicker" data-live-search="true" style="display: none;">
-
-                                                <option value="61">Administrator</option>
-
-                                                <option value="30">Beoordelaar</option>
-
-                                                <option value="29" selected="">Manager</option>
-
-                                            </select><div class="btn-group bootstrap-select form-control h9"><button type="button" class="btn dropdown-toggle selectpicker btn-default" data-toggle="dropdown" title="Manager"><span class="filter-option pull-left">Manager</span>&nbsp;<span class="caret"></span></button><div class="dropdown-menu open"><div class="bs-searchbox"><input type="text" class="input-block-level form-control" autocomplete="off"></div><ul class="dropdown-menu inner selectpicker" role="menu"><li data-original-index="0"><a tabindex="0" class="" data-normalized-text="<span class=&quot;text&quot;>Administrator</span>"><span class="text">Administrator</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="1"><a tabindex="0" class="" data-normalized-text="<span class=&quot;text&quot;>Beoordelaar</span>"><span class="text">Beoordelaar</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="2" class="selected"><a tabindex="0" class="" data-normalized-text="<span class=&quot;text&quot;>Manager</span>"><span class="text">Manager</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li></ul></div></div>
-                                        </td>
-                                        <td class="right_text"><button type="submit" onclick="form.deleteTeamMemberId.value='22A7441A-2906-4659-B626-2CCBA4B4EB43';form.action.value='deleteTeamMember';form.tabpanel.value='teams'" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="" data-original-title="Verwijderen"><i class="fa red fa-remove"></i></button></td>
-                                    </tr>
-
-
-                                    <tr>
-                                        <td>
-                                            <select name="teamMemberId" class="form-control selectpicker" data-live-search="true" style="display: none;">
-                                                <option value="">- Selecteer teamlid -</option>
-
-                                                <option value="605A0302-CCE3-449A-AC50-5EF27E3E3330">Cheung, Brian </option>
-
-                                                <option value="D03BD83B-D4C2-4D11-A31A-AB02EE8F887D">Hardeman, Jaap </option>
-
-                                                <option value="7152DB9E-B1AF-41AC-AACF-A6A1F4F91170">HRMatches, Demo </option>
-
-                                                <option value="ED1CBD99-F004-423B-A3F3-7F38E7DFC407">keers, sezan </option>
-
-                                                <option value="E05671F7-F583-49E8-A3AD-A03E23126A74">Test, Herwin </option>
-
-                                                <option value="F3F6A457-B8CA-464B-B8DF-E6F770422560">test1, test1 </option>
-
-                                                <option value="22A7441A-2906-4659-B626-2CCBA4B4EB43">test2, test2 </option>
-
-                                                <option value="D0A9E672-4519-40B1-93AC-230AA62CBA41">van Koppenhagen, Lion </option>
-
-                                            </select><div class="btn-group bootstrap-select form-control"><button type="button" class="btn dropdown-toggle selectpicker btn-default" data-toggle="dropdown" title="- Selecteer teamlid -"><span class="filter-option pull-left">- Selecteer teamlid -</span>&nbsp;<span class="caret"></span></button><div class="dropdown-menu open"><div class="bs-searchbox"><input type="text" class="input-block-level form-control" autocomplete="off"></div><ul class="dropdown-menu inner selectpicker" role="menu"><li data-original-index="0" class="selected"><a tabindex="0" class="" data-normalized-text="<span class=&quot;text&quot;>- Selecteer teamlid -</span>"><span class="text">- Selecteer teamlid -</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="1"><a tabindex="0" class="" data-normalized-text="<span class=&quot;text&quot;>Cheung, Brian </span>"><span class="text">Cheung, Brian </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="2"><a tabindex="0" class="" data-normalized-text="<span class=&quot;text&quot;>Hardeman, Jaap </span>"><span class="text">Hardeman, Jaap </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="3"><a tabindex="0" class="" data-normalized-text="<span class=&quot;text&quot;>HRMatches, Demo </span>"><span class="text">HRMatches, Demo </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="4"><a tabindex="0" class="" data-normalized-text="<span class=&quot;text&quot;>keers, sezan </span>"><span class="text">keers, sezan </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="5"><a tabindex="0" class="" data-normalized-text="<span class=&quot;text&quot;>Test, Herwin </span>"><span class="text">Test, Herwin </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="6"><a tabindex="0" class="" data-normalized-text="<span class=&quot;text&quot;>test1, test1 </span>"><span class="text">test1, test1 </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="7"><a tabindex="0" class="" data-normalized-text="<span class=&quot;text&quot;>test2, test2 </span>"><span class="text">test2, test2 </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="8"><a tabindex="0" class="" data-normalized-text="<span class=&quot;text&quot;>van Koppenhagen, Lion </span>"><span class="text">van Koppenhagen, Lion </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li></ul></div></div>
-                                        </td>
-
-                                        <td>
-                                            <select name="teamMemberRoleId" class="form-control h9 selectpicker" data-live-search="true" style="display: none;">
-
-                                                <option value="61">Administrator</option>
-
-                                                <option value="30">Beoordelaar</option>
-
-                                                <option value="29">Manager</option>
-
-                                            </select><div class="btn-group bootstrap-select form-control h9"><button type="button" class="btn dropdown-toggle selectpicker btn-default" data-toggle="dropdown" title="Administrator"><span class="filter-option pull-left">Administrator</span>&nbsp;<span class="caret"></span></button><div class="dropdown-menu open"><div class="bs-searchbox"><input type="text" class="input-block-level form-control" autocomplete="off"></div><ul class="dropdown-menu inner selectpicker" role="menu"><li data-original-index="0" class="selected"><a tabindex="0" class="" data-normalized-text="<span class=&quot;text&quot;>Administrator</span>"><span class="text">Administrator</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="1"><a tabindex="0" class="" data-normalized-text="<span class=&quot;text&quot;>Beoordelaar</span>"><span class="text">Beoordelaar</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="2"><a tabindex="0" class="" data-normalized-text="<span class=&quot;text&quot;>Manager</span>"><span class="text">Manager</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li></ul></div></div>
-                                        </td>
-                                        <td class="right_text"><button type="submit" onclick="form.action.value='saveTeam';form.tabpanel.value='teams'" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="" data-original-title="Toevoegen"><i class="fa blue fa-plus"></i></button></td>
-
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row form-group">
-                    <div class="col-md-2 pull-right">
-                        <button type="submit" class="btn btn-success pull-right" onclick="form.action.value='saveTeam';form.tabpanel.value='teams'"> Opslaan </button>
-                    </div>
-
-                    <div class="col-md-2 pull-right">
-                        <button type="submit" class="btn btn-danger pull-right" onclick="form.action.value='listTeams';form.tabpanel.value='teams'"> Annuleren </button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-    </div>
+			</div>
+		</div>
+	</div>
 </div>

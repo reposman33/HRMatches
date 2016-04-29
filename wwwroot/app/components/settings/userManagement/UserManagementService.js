@@ -2,32 +2,30 @@ angular.module('app.ontdekJouwTalent')
 .factory('UserManagementService',['APIService','AppConfig','SessionService',
 	function(APIService,AppConfig,SessionService){
 		return{
+
+			// ========== RIGHTS AND ROLES ==========
 			permissions: function(data){
 				return APIService.permissions()
 				.then(
 					function(successResponse){
-						return successResponse.data;
+						return successResponse;
 					}
 				)
-				.catch(function(errorResponse){
-					console.error('ERROR in UserManagementService.permissions: ',errorResponse)
-				})
 			}
-
 
 			,roles: function(data){
 				return APIService.roles()
 				.then(
 					function(successResponse){
-						return successResponse.data;
+						return successResponse;
+					}
+					,function(errorResponse){
+						return errorResponse;
 					}
 				)
-				.catch(function(errorResponse){
-					console.error('ERROR in UserManagementService.roles: ',errorResponse)
-				})
 			}
 
-
+			// dummydata voor settings - userManagement
 			,requestLocalJSON:  function(data){
 				return APIService.requestLocalJSON(data)
 				.then(
@@ -35,13 +33,7 @@ angular.module('app.ontdekJouwTalent')
 						return succesResponse;
 					}
 				)
-				.catch(
-					function(errorResponse){
-						console.error('ERROR in APIService.requestLocal: ',errorResponse);
-					}
-				)
 			}
-
 
 			,updateRolesAndPermissions: function(rolesWithAllPermissions){
 				var roles = [];
@@ -65,37 +57,54 @@ angular.module('app.ontdekJouwTalent')
 				});
 
 				return APIService.updateRolesAndPermissions(roles)
-					.then(
-						function(succesResponse){
-							return succesResponse.data;
-						}
-					)
-					.catch(
-						function(errorResponse){
-							console.error('ERROR in APIService.request: ',errorResponse);
-							return;
-						}
-					)
-			}
-
-			,getNewRoleId: function(role){
-				role.token = SessionService.getCurrentUserToken();
-
-				return APIService.getNewRoleId([role])
 				.then(
 					function(succesResponse){
-						return succesResponse.data;
+						return succesResponse;
 					}
 				)
-				.catch(
-					function(errorResponse){
-						console.error('ERROR in APIService.getNewRoleId: ',errorResponse);
+			}
+
+			,addRole: function(){
+				var role = AppConfig.APPCONSTANTS_SETTINGS_USERMANAGEMENT_ROLE;
+				role.token = SessionService.getCurrentUserToken();
+
+				return APIService.addRole([role])
+				.then(
+					function(succesResponse){
+						return succesResponse;
 					}
 				)
 			}
 
 			,deleteRole: function(id){
 				return APIService.deleteRole({roleId:id});
+			}
+
+
+			// ========== TEAMS ==========
+			,team: function(teamId){
+				return APIService.team(teamId)
+				.then(
+					function(successResponse){
+						return successResponse;
+					}
+				)
+			}
+
+			,addTeam: function(){
+				var team = AppConfig.APPCONSTANTS_SETTINGS_USERMANAGEMENT_TEAM;
+				team.token = SessionService.getCurrentUserToken();
+
+				return APIService.addTeam([team])
+				.then(
+					function(succesResponse){
+						return succesResponse;
+					}
+				)
+			}
+
+			,deleteTeam: function(id){
+				return APIService.deleteTeam({teamId:id});
 			}
 		}
 	}

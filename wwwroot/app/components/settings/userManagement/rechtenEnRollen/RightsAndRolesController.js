@@ -91,16 +91,13 @@ angular.module('app.ontdekJouwTalent')
 		 * The roles array is updated with a new role
 		 */
 		$scope.addRole = function(data){
-			var role = AppConfig.APPCONSTANTS_SETTINGS_USERMANAGEMENT_ROLE;
-
-			UserManagementService.getNewRoleId(role)
+			UserManagementService.addRole()
 			.then(
 				function(data){
 					$state.go('settings.userManagement.rechtenEnRollen',{},{reload:true});
 				}
 			);
 		}
-
 
 		// deleteRole
 		/**
@@ -113,17 +110,18 @@ angular.module('app.ontdekJouwTalent')
 			UserManagementService.deleteRole(id)
 			.then(
 				function(successResponse){
-				// REMOVE ROLE FROM ROLESWITHALLPERMISSIONS
-				var allRoles = [];
-				allRoles = $scope.rolesWithAllPermissions.filter(function(role,index,allRoles){
-					if(role.id != id){
-						return role;
-					}
-				});
-				$scope.rolesWithAllPermissions = allRoles;
-				roles = allRoles;
-				console.log(successResponse);
-			});
+					// REMOVE ROLE FROM ROLESWITHALLPERMISSIONS
+					var allRoles = [];
+					allRoles = $scope.rolesWithAllPermissions.filter(function(role,index,allRoles){
+						if(role.id != id){
+							return role;
+						}
+					});
+					$scope.rolesWithAllPermissions = allRoles;
+					roles = allRoles;
+					console.log(successResponse);
+				}
+			);
 		}
 	}]
 );

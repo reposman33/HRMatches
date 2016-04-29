@@ -16,9 +16,9 @@ angular.module('app.ontdekJouwTalent')
 			return APIService.loadTranslation()
 			.then(
 				function(successResponse){
-					self.loadResponse(successResponse.data);
+					self.loadResponse(successResponse);
 					self._isLoaded = true;
-					return successResponse.data;
+					return successResponse;
 				}
 			);
 		},
@@ -49,13 +49,13 @@ angular.module('app.ontdekJouwTalent')
 		},
 
 
-		updateTranslationKey : function(data){
-			return APIService.updateTranslationKey(data)
-				.then(
-					function(successResponse){
-						return successResponse.data;
-					}
-				)
+		updateTranslation: function(data){
+			return APIService.updateTranslation(data)
+			.then(
+				function(successResponse){
+					return successResponse;
+				}
+			)
 		},
 	}
 }])

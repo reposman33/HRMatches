@@ -38,10 +38,10 @@ angular.module('app.ontdekJouwTalent')
 					function(successResponse){
 						// AUTHENTICATE SUCCESS
 						$scope.error = successResponse.status != 200
-						$scope.loginFeedbackText = $scope.error ? TranslationService.getText(successResponse.data.message) : "";
-						$scope.profiles = successResponse.data.profiles;
+						$scope.loginFeedbackText = $scope.error ? TranslationService.getText(successResponse.message) : "";
+						$scope.profiles = successResponse.profiles;
 
-						successResponse.data.profiles.forEach(function(currentProfile,index,profiles){
+						successResponse.profiles.forEach(function(currentProfile,index,profiles){
 							if(currentProfile.loggedIn == true){
 								// OTHER USER SESSION ACTIVE
 								loggedInDomains += "\n" + currentProfile.domainName + " (" + currentProfile.domainOwner + ")";
@@ -50,22 +50,17 @@ angular.module('app.ontdekJouwTalent')
 								$scope.loggedInWithProfileText = TranslationService.getText('LOGIN_LOGGEDINWITHPROFILE') + loggedInDomains;
 							}
 						});
-						if(successResponse.data.profiles.length > 1){
+						if(successResponse.profiles.length > 1){
 							// MULTIPLE PROFILES
 							$scope.userHasMultipleProfiles = TranslationService.getText('LOGIN_MULTIPLEPROFILES');
-							$scope.profiles = successResponse.data.profiles;
+							$scope.profiles = successResponse.profiles;
 							$state.go('login.userProfiles');
 						}
 						else{
 							// LOG IN WITH PROFILE
-							login(successResponse.data.profiles[0].domainId);
+							login(successResponse.profiles[0].domainId);
 						}
 
-					},
-					function(errorResponse){
-						// AUTHENTICATE ERROR
-						$scope.error = errorResponse.status != 200 //error is nu boolean, kan in de toekomst uitgebreid worden
-						$scope.loginFeedbackText = TranslationService.getText(errorResponse.data.message);
 					}
 				)
 			}
@@ -90,12 +85,8 @@ angular.module('app.ontdekJouwTalent')
 			AuthService.forgotPassword({'emailaddress':emailAddress})
 			.then(
 				function(successResponse){
-					$scope.message = successResponse.data.message;
+					$scope.message = successResponse.message;
 					//BACKEND SENDS EMAIL WITH LINK: /resetPassword/:key'
-				}
-				,function(errorResponse){
-					$scope.message = (errorResponse.data && errorResponse.data.message != '') ? errorResponse.data.message : '';
-					$state.go('message',{message:$scope.message});
 				}
 			);
 		}
@@ -120,10 +111,7 @@ angular.module('app.ontdekJouwTalent')
 			)
 			.then(
 				function(successResponse){
-					$state.go('message',{message:successResponse.data.message});
-				}
-				,function(errorResponse){
-					$state.go('message',{message:errorResponse.data.message});
+					$state.go('message',{message:successResponse.message});
 				}
 			);
 		}
@@ -159,11 +147,8 @@ angular.module('app.ontdekJouwTalent')
 			.then(
 				function(successResponse){
 					// CREATE LOCAL SESSION
-					SessionService.setCurrentUser(successResponse.data.token);
+					SessionService.setCurrentUser(successResponse.token);
 					$state.go(AppConfig.APPCONSTANTS_NAVIGATION_ENTRYPOINT);
-				},
-				function(errorResponse){
-					console.log(errorResponse)
 				}
 			).finally(
 				function(){

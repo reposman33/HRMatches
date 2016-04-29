@@ -46,14 +46,9 @@ angular.module('app.ontdekJouwTalent')
 			//data = {hostName:...,emailAddress:...}
 			forgotPassword: function(data) {
 				data.hostname = AppConfig.APPCONSTANTS_HOSTNAME;
-				_data = {};
-				_data.parameters = extract(data);
-				_data.addToken = AppConfig.API_ENDPOINTS.forgotPassword.addToken;
-				_data.endpoint = AppConfig.API_ENDPOINTS.forgotPassword.endpoint;
-				_data.method = AppConfig.API_ENDPOINTS.forgotPassword.method
-				return APIService.forgotPassword(_data)
-				.then(function (data) {
-					return data;//{validate_ok:true/false,message:I18nKey}
+				return APIService.forgotPassword(data)
+				.then(function (successResponse) {
+					return successResponse;//{validate_ok:true/false,message:I18nKey}
 				});
 			},
 
@@ -65,22 +60,16 @@ angular.module('app.ontdekJouwTalent')
 						SessionService.set('secretKey', $stateParams.key);
 						return {validate_ok: successResponse.tokenIsValid}
 					}
-					, function (errorResponse) {
-						SessionService.set('secretKey', $stateParams.key);
-						return {
-							validate_ok: false
-							, message: (errorResponse.ERROR ? errorResponse.ERROR : '')
-						}
-					}
 				)
 			},
 
-			resetPassword: function (data) {
-				//data = {password:...,passwordResetToken:...}
+			resetPassword: function(data) {
 				return APIService.resetPassword(data)
-				.then(function (data) {
-					return data; // {update_OK:...}}
-				})
+				.then(
+					function (data) {
+						return data;
+					}
+				)
 			},
 
 			register: function (data) {

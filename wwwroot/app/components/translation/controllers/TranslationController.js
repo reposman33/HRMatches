@@ -45,7 +45,7 @@ angular.module('app.ontdekJouwTalent')
 			 * @param {Object} data - The new data to save {key: translationKey,value: translationValue}
 			 */
 		$scope.edit = function(data){
-			TranslationService.updateTranslationKey(data)
+			TranslationService.updateTranslation(data)
 			.then(
 				function(successResponse){
 					return successResponse;

@@ -62,13 +62,8 @@ angular.module('app.ontdekJouwTalent')
 				.then(
 					function(successResponse){
 						$scope.error = successResponse.status != 200
-						$scope.registerFeedbackText = TranslationService.getText(successResponse.data.message);
-					},
-					function(errorResponse){
-						$scope.error = errorResponse.status != 200
-						$scope.registerFeedbackText = TranslationService.getText(errorResponse.data.message);
-					}
-				);
+						$scope.registerFeedbackText = TranslationService.getText(successResponse.message);
+					}				);
 			}
 		}
 	}

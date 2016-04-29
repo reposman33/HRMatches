@@ -6,11 +6,17 @@
  * Dependencies: $http,AppConfig,SessionService<br />
  * */
 angular.module('app.ontdekJouwTalent')
-.service('APIService',
-	['$http','$state','AppConfig','SessionService',
+.service('APIService',['$http','$state','AppConfig','SessionService',
 	function($http,$state,AppConfig,SessionService){
 
-
+	// REQUEST
+	/**
+	 * @ngdoc method
+	 * @name request
+	 * @methodOf app.ontdekJouwTalent.service:APIService
+	 * @description Performs a $http request, accepts API_ENDPOINT and data
+	 * @param {Object} data - API_ENDPOINT data and payload for Api call
+	 */
 	this.request = function(data){
 		var token = data.API.addToken == true ? SessionService.getCurrentUserToken() : '';
 		var url = (AppConfig.APPCONSTANTS_API_URL + ((data.API.endpoint != '') ? ('/' + data.API.endpoint) : ''));
@@ -23,7 +29,7 @@ angular.module('app.ontdekJouwTalent')
 				url += (qpDelimiter + key + '=' + value);
 				qpDelimiter = '&';
 			});
-			url += (token === '') ? url : qpDelimiter + 'token=' + token;
+			url += (token === '') ? url : (qpDelimiter + 'token=' + token);
 			payload = '';
 		}
 		else if((data.API.method == 'PUT' || data.API.method == 'POST')){
@@ -33,52 +39,56 @@ angular.module('app.ontdekJouwTalent')
 				payload.token = token;
 			}
 		}
-
 		return $http({
 			method:data.API.method
 			,url: url
 			,data: payload
 		})
-		.catch(
-			function(errorResponse){
-				if(errorResponse.status === 403){
-					SessionService.removeCurrentUser();
-					$state.go(AppConfig.APPCONSTANTS_NAVIGATION_REDIRECT.NOTAUTHENTICATED);
-					event.preventDefault();
+		.then(
+			function(successResponse){
+				return successResponse.data;
+			}
+			// ========== ERROR HANDLING ==========
+			,function(errorResponse){
+				switch(errorResponse.status){
+					case 500:{ // server error
+						$state.go('message',{message:errorResponse.status +'(' + errorResponse.statusText + ')'});
+						event.preventDefault();
+						break;
+					}
+					case 501:{ // login error
+						$state.go('message',{message:errorResponse.status +'(' + errorResponse.statusText + ')'});
+						event.preventDefault();
+						break;
+					}
+					case 401:{ //niet authenticated
+						SessionService.removeCurrentUser(); //LOGOUT
+						$state.go(AppConfig.APPCONSTANTS_NAVIGATION_REDIRECT.NOTAUTHENTICATED);
+						event.preventDefault();
+						break;
+					}
+					case 403:{ // niet geauthoriseerd
+						$state.go('message',{message:'U bent niet geauthoriseerd voor deze actie: ' + errorResponse.status +'(' + errorResponse.statusText + ')'});
+						event.preventDefault();
+						break;
+					}
 				}
-			})
+			}
+		)
 	}
 
 
+	// ========== LOGIN ==========
 	this.login = function(data){
 		return this.request({API:AppConfig.API_ENDPOINTS.login, data:data});
 	}
-
 
 	this.authenticate= function(data){
 		return this.request({API:AppConfig.API_ENDPOINTS.authenticate, data:data});
 	}
 
-
 	this.logout = function(data){
 		return this.request({API:AppConfig.API_ENDPOINTS.logout, data:data});
-	}
-
-	this.permissions = function(){
-		return this.request({API:AppConfig.API_ENDPOINTS.settings.userManagement.permissions});
-	}
-
-
-	this.roles = function(){
-		return this.request({API:AppConfig.API_ENDPOINTS.settings.userManagement.roles});
-	}
-
-	this.loadTranslation = function(){
-		return this.request({API:AppConfig.API_ENDPOINTS.translation});
-	}
-
-	this.loadJobList = function() {
-		return this.request({API: AppConfig.API_ENDPOINTS.joblist});
 	}
 
 	this.forgotPassword = function(data){
@@ -86,33 +96,66 @@ angular.module('app.ontdekJouwTalent')
 	}
 
 	this.validateSecretKey = function(secretKey){
-		return $http({
-			method: 'POST'
-			,url: AppConfig.APPCONSTANTS_API_URL + '/validate_secretkey'
-			,data:{
-				secretkey: secretKey
-			}
-		});
+		return this.request({API: AppConfig.API_ENDPOINTS.validateSecretKey, data:{secretkey: secretKey}});
 	}
 
 	this.resetPassword = function(data){
-		return $http({
-			method: 'POST',
-			url: AppConfig.APPCONSTANTS_API_URL + '/resetpassword',
-			data: {
-				secretKey: data.secretKey
-				,password: data.password
-			}
-		});
+		return this.request({API:AppConfig.API_ENDPOINTS.resetPassword,data:data});
 	}
-	
+
 	this.register = function(data){
 		return this.request({API:AppConfig.API_ENDPOINTS.registration});
 	}
-	
+
+
+	// ========== SETTINGS-USERMANAGEMENT-RIGHTSANDROLES ==========
+	this.permissions = function(){
+		return this.request({API:AppConfig.API_ENDPOINTS.settings.userManagement.permissions});
+	}
+
+	this.roles = function(){
+		return this.request({API:AppConfig.API_ENDPOINTS.settings.userManagement.roles});
+	}
+
+	this.updateRolesAndPermissions = function(data){
+		return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.updateRolesAndPermissions,data:{roles:data}});
+	}
+
+	this.addRole = function(data){
+		return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.addRole, data:{roles:data}});
+	}
+
+	this.deleteRole = function(data){
+		return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.deleteRole, data:data});
+	}
+
+
+	// ========== SETTINGS-USERMANAGEMENT-TEAMS ==========
+	this.team = function(id) {
+		if(id!=undefined){
+			return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.teams,data:{teamid:id}});
+		}
+		else{
+			return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.teams});
+		}
+	}
+
+	this.addTeam = function(data){
+		return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.addTeam, data:{teams:data}});
+	}
+
+	this.deleteTeam = function(data){
+		return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.deleteTeam, data:data});
+	}
+
+
+	 // ========== TRANSLATION ==========
+	this.loadTranslation = function(){
+		return this.request({API:AppConfig.API_ENDPOINTS.translation});
+	}
 
 	// UPDATETRANSLATIONKEY
- 	/**
+	/**
 	 * @ngdoc method
 	 * @name edit
 	 * @methodOf app.ontdekJouwTalent.service:APIService
@@ -122,17 +165,17 @@ angular.module('app.ontdekJouwTalent')
 	 *
 	 * @param {Object} data - The new data to save {key: translationKey,value: translationValue}
 	 */
-	this.updateTranslationKey = function(data){
-		return $http({
-			method: 'POST'
-			,url: AppConfig.APPCONSTANTS_API_URL + '/updateTranslation'
-			,data:{
-				displayName:data.displayName
-				,id: data.id
-			}
-		});
+	this.updateTranslation = function(data){
+		return this.request({API:AppConfig.API_ENDPOINTS.updateTranslation});
 	}
 
+	// ========== JOBLIST ==========
+	this.loadJobList = function() {
+		return this.request({API: AppConfig.API_ENDPOINTS.joblist});
+	}
+
+
+	// ====================
 	/*
 	* @toStateName: name of state where to transition to
 	* @currentState: name of state where onEnter is currently executed
@@ -160,6 +203,7 @@ angular.module('app.ontdekJouwTalent')
 		);
 	}
 	
+	// TO BE REMOVED WHEN SETTINGS-USERMANAGEMENT COMES FROM API
 	this.requestLocalJSON = function(data){
 		return $http({
 			method: 'GET'
@@ -170,29 +214,5 @@ angular.module('app.ontdekJouwTalent')
 				return successResponse.data;
 			}
 		);
-	}
-
-
-	this.updateRolesAndPermissions = function(data){
-		return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.updateRolesAndPermissions,data:{roles:data}});
-	}
-
-
-	this.getNewRoleId = function(data){
-		return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.getNewRoleId, data:{roles:data}});
-	}
-
-
-	this.deleteRole = function(data){
-		return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.deleteRole, data:data});
-	}
-
-
-	_concatParams = function(params){
-		var result={};
-		for(var i=0;i<params.length;i++){
-			result[params[i].name] = params[i].value;
-		}
-		return result;
 	}
 }]);
