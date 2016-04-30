@@ -6,8 +6,8 @@
  * Dependencies: $http,AppConfig,SessionService<br />
  * */
 angular.module('app.ontdekJouwTalent')
-.service('APIService',['$http','$state','AppConfig','SessionService',
-	function($http,$state,AppConfig,SessionService){
+.service('APIService',['$http','$rootScope','$state','AppConfig','SessionService',
+	function($http,$rootScope,$state,AppConfig,SessionService){
 
 	// REQUEST
 	/**
@@ -50,25 +50,36 @@ angular.module('app.ontdekJouwTalent')
 			}
 			// ========== ERROR HANDLING ==========
 			,function(errorResponse){
+			$rootScope.error = {status:errorResponse.status,statusText:errorResponse.statusText}
 				switch(errorResponse.status){
 					case 500:{ // server error
 						$state.go('message',{message:errorResponse.status +'(' + errorResponse.statusText + ')'});
+						return errorResponse;
 						event.preventDefault();
 						break;
 					}
 					case 501:{ // login error
 						$state.go('message',{message:errorResponse.status +'(' + errorResponse.statusText + ')'});
+						return errorResponse;
 						event.preventDefault();
 						break;
 					}
 					case 401:{ //niet authenticated
 						SessionService.removeCurrentUser(); //LOGOUT
 						$state.go(AppConfig.APPCONSTANTS_NAVIGATION_REDIRECT.NOTAUTHENTICATED);
+						return errorResponse;
 						event.preventDefault();
 						break;
 					}
 					case 403:{ // niet geauthoriseerd
 						$state.go('message',{message:'U bent niet geauthoriseerd voor deze actie: ' + errorResponse.status +'(' + errorResponse.statusText + ')'});
+						return errorResponse;
+						event.preventDefault();
+						break;
+					}
+					default: {
+						$state.go('message',{message:'Er is een fout opgetreden'});
+						return errorResponse;
 						event.preventDefault();
 						break;
 					}
@@ -184,15 +195,44 @@ angular.module('app.ontdekJouwTalent')
 	* */
 	this.trackData = function(toStateName){
 		// ASSIGN DYNAMIC VALUES TO THE CLIENTVARIABLES
-		AppConfig.API_ENDPOINTS.trackdata.parameters.token = SessionService.getCurrentUserToken();
-		AppConfig.API_ENDPOINTS.trackdata.parameters.state = toStateName;
+		var trackingData = AppConfig.API_ENDPOINTS.trackdata.parameters.trackingData;
 
+		var trackingData = {
+			token: SessionService.getCurrentUserToken()
+			,state: toStateName
+			,protocol: location.protocol
+			,hostname: location.hostname //hostname van website
+			,href: location.href // url (=incl protocol,port,hostname,querystring)
+			,appVersion: navigator.appVersion //browser versie
+			,language: navigator.language //browser taal
+			,platform: navigator.platform //voor welk plaform is de browser
+			,userAgent: navigator.userAgent //user agent
+			,screenSize: screen.width + '*' + screen.height //breedte*hoogte van scherm
+			,colorDepth: screen.colorDepth + '' //kleuren in bits/pixels
+		}
+
+		if($rootScope.error) {
+			if ($rootScope.error.status != undefined) {
+				trackingData.errorStatus = $rootScope.error.status;
+			}
+			if ($rootScope.error && $rootScope.error.statusText != undefined) {
+				trackingData.errorStatusText = $rootScope.error.statusText;
+			}
+			delete $rootScope['error'];
+		}
 		this.request({
 			API: AppConfig.API_ENDPOINTS.trackdata,
-			data: AppConfig.API_ENDPOINTS.trackdata.parameters
+			data: {trackingData:trackingData}
+
 		})
 		.then(
 			function(succesResponse){
+				if(trackingData.errorStatus != undefined){
+					delete trackingData.errorStatus;
+				}
+				if(trackingData.errorStatusText != undefined){
+					delete trackingData.errorStatusText;
+				}
 				console.log('clientvariables logged for state \'',toStateName,'\'');
 			}
 		)
