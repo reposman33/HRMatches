@@ -29,6 +29,7 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 	}
 	,APPCONSTANTS_SETTINGS_USERMANAGEMENT_TEAM: { // TEMPLATE FOR SETTINGS-USERMANAAGEMENT-TEAM ADD NEW TEAM
 		id: 0
+		,MEMBERS: []
 		,displayName: 'New Team'
 		,token:''
 	}
@@ -62,7 +63,7 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 			,method: 'POST'
 			,addToken: false
 			, parameters: {
-				'trackingdata': {
+				'trackingData': {
 					'token': '' // value injected later
 					,'state': '' // value injected later
 					,'protocol': location.protocol
@@ -74,7 +75,6 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 					,'userAgent': navigator.userAgent //user agent
 					,'screenSize': screen.width + '*' + screen.height //breedte*hoogte van scherm
 					,'colorDepth': screen.colorDepth + '' //kleuren in bits/pixels
-					,'error': '' // possible errors
 				}
 			}
 		},'registration': {
@@ -96,7 +96,7 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 		,'settings': {
 			'userManagement': {
 				'users': {
-					endpoint: 'userManagement-users'
+					endpoint: 'users'
 					,method: 'GET'
 					,addToken: true
 					,parameters: []
@@ -153,9 +153,9 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 					,addToken: true
 					,parameters: []
 				}
-				,'updateTeam': {
+				,'saveTeam': {
 					endpoint: 'teams'
-					,method: 'POST'
+					,method: 'PUT'
 					,addToken: true
 					,parameters: []
 				}
@@ -226,7 +226,7 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 
 	$rootScope.$on('$stateChangeStart',function(event, toState, toParams, fromState, fromParams, options){
 		var currentUser = SessionService.getCurrentUser();
-
+		$rootScope.fromStateName = fromState.name;
 		if(!currentUser){ // USER NOT LOGGED IN
 			if(AppConfig.APPCONSTANTS_PUBLICSTATES.indexOf(toState.name) == -1){
 				// REQUESTING PROTECTED STATE
@@ -254,7 +254,7 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 }) // END run
 .config(['$stateProvider','$urlRouterProvider','AppConfig',function($stateProvider,$urlRouterProvider,AppConfig) {
 	$urlRouterProvider
-		.otherwise(function($injector,$location){
+		.otherwise(function(){
 			return '/login';
 		}) // REDIRECT
 		.when('/settings',function($state){
@@ -272,7 +272,6 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 				'body': {
 					controller: function ($scope, $stateParams, TranslationService) {
 						$scope.message = TranslationService.getText($stateParams.message);
-						$scope.fromStateName = $stateParams.fromStateName;
 					}
 					,templateUrl: '/app/shared/views/message.html'
 				}
@@ -324,7 +323,7 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 					return AuthService.validateSecretKey($stateParams.key);
 				}
 			}
-			,onEnter: ['$rootScope','APIService',function($rootScope,APIService) {
+			,onEnter: ['$stateProvider',function($stateProvider) {
 				if (validateResponse.validate_ok == false) {
 					$stateProvider.go('message', {message: (!validateResponse.message ? 'Token invalid' : validateResponse.message)});
 				}
@@ -501,8 +500,11 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 				,team: ['$stateParams','roles','UserManagementService', function($stateParams,roles,UserManagementService) {
 					return UserManagementService.team($stateParams.teamId);
 				}]
-				,data: ['roles','team', function(roles,team) {
-					return {'roles':roles,'team':team};
+				,users: ['UserManagementService', function(UserManagementService) {
+					return UserManagementService.user();
+				}]
+				,data: ['roles','team','users', function(roles,team,users) {
+					return {'roles':roles,'team':team,users:users};
 				}]
 			}
 			,views: {
@@ -512,7 +514,7 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 				}
 			}
 		})
-		// ---------- SETTINGS.USERMANAGEMENT.vacaturePool----------
+	// ---------- SETTINGS.USERMANAGEMENT.vacaturePool----------
 		.state('settings.userManagement.vacaturePool', {
 			url:'/vacaturePool'
 		})

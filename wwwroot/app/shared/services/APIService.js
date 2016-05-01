@@ -50,42 +50,38 @@ angular.module('app.ontdekJouwTalent')
 			}
 			// ========== ERROR HANDLING ==========
 			,function(errorResponse){
-			$rootScope.error = {status:errorResponse.status,statusText:errorResponse.statusText}
+				$rootScope.error = {status:errorResponse.status,statusText:errorResponse.statusText};
+				var message = {message:'Er is een fout opgetreden: ' + errorResponse.status +' (' + errorResponse.statusText + ')'};
 				switch(errorResponse.status){
 					case 500:{ // server error
-						$state.go('message',{message:errorResponse.status +'(' + errorResponse.statusText + ')'});
+						$state.go('message',message);
 						return errorResponse;
-						event.preventDefault();
 						break;
 					}
 					case 501:{ // login error
-						$state.go('message',{message:errorResponse.status +'(' + errorResponse.statusText + ')'});
+						$state.go('message',message);
 						return errorResponse;
-						event.preventDefault();
 						break;
 					}
 					case 401:{ //niet authenticated
 						SessionService.removeCurrentUser(); //LOGOUT
 						$state.go(AppConfig.APPCONSTANTS_NAVIGATION_REDIRECT.NOTAUTHENTICATED);
 						return errorResponse;
-						event.preventDefault();
 						break;
 					}
 					case 403:{ // niet geauthoriseerd
-						$state.go('message',{message:'U bent niet geauthoriseerd voor deze actie: ' + errorResponse.status +'(' + errorResponse.statusText + ')'});
+						$state.go('message',message);
 						return errorResponse;
-						event.preventDefault();
 						break;
 					}
 					default: {
-						$state.go('message',{message:'Er is een fout opgetreden'});
+						$state.go('message',{message:'Er is een onbekende fout opgetreden'});
 						return errorResponse;
-						event.preventDefault();
 						break;
 					}
 				}
 			}
-		)
+		);
 	}
 
 
@@ -152,11 +148,25 @@ angular.module('app.ontdekJouwTalent')
 	}
 
 	this.addTeam = function(data){
-		return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.addTeam, data:{teams:data}});
+		return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.addTeam, data:data});
 	}
 
 	this.deleteTeam = function(data){
 		return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.deleteTeam, data:data});
+	}
+
+	this.saveTeam = function(data){
+		return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.saveTeam, data:data});
+	}
+
+	// ========== SETTINGS-USERMANAGEMENT-USERS ==========
+	this.user = function(domainName) {
+		if(domainName!=undefined){
+			return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.users,data:{domainName:domainName}});
+		}
+		else{
+			return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.users});
+		}
 	}
 
 
@@ -176,6 +186,7 @@ angular.module('app.ontdekJouwTalent')
 	 *
 	 * @param {Object} data - The new data to save {key: translationKey,value: translationValue}
 	 */
+	//TODO implement method updateTranslation()
 	this.updateTranslation = function(data){
 		return this.request({API:AppConfig.API_ENDPOINTS.updateTranslation});
 	}
@@ -195,8 +206,6 @@ angular.module('app.ontdekJouwTalent')
 	* */
 	this.trackData = function(toStateName){
 		// ASSIGN DYNAMIC VALUES TO THE CLIENTVARIABLES
-		var trackingData = AppConfig.API_ENDPOINTS.trackdata.parameters.trackingData;
-
 		var trackingData = {
 			token: SessionService.getCurrentUserToken()
 			,state: toStateName
@@ -209,7 +218,7 @@ angular.module('app.ontdekJouwTalent')
 			,userAgent: navigator.userAgent //user agent
 			,screenSize: screen.width + '*' + screen.height //breedte*hoogte van scherm
 			,colorDepth: screen.colorDepth + '' //kleuren in bits/pixels
-		}
+		};
 
 		if($rootScope.error) {
 			if ($rootScope.error.status != undefined) {
@@ -223,7 +232,6 @@ angular.module('app.ontdekJouwTalent')
 		this.request({
 			API: AppConfig.API_ENDPOINTS.trackdata,
 			data: {trackingData:trackingData}
-
 		})
 		.then(
 			function(succesResponse){

@@ -37,7 +37,7 @@ angular.module('app.ontdekJouwTalent')
 				.then(
 					function(successResponse){
 						// AUTHENTICATE SUCCESS
-						$scope.error = successResponse.status != 200
+						$scope.error = successResponse.status != 200;
 						$scope.loginFeedbackText = $scope.error ? TranslationService.getText(successResponse.message) : "";
 						$scope.profiles = successResponse.profiles;
 
@@ -129,7 +129,7 @@ angular.module('app.ontdekJouwTalent')
 		 * @param {String} selectedDomainId: The id of the domain user log in to
 		 */
 
-		$scope.login = login
+		$scope.login = login;
 
 		function login(selectedDomainId){
 
@@ -147,7 +147,7 @@ angular.module('app.ontdekJouwTalent')
 			.then(
 				function(successResponse){
 					// CREATE LOCAL SESSION
-					SessionService.setCurrentUser(successResponse.token);
+					SessionService.setCurrentUser({token:successResponse.token,domainId:selectedDomainId,username:SessionService.get('username')});
 					$state.go(AppConfig.APPCONSTANTS_NAVIGATION_ENTRYPOINT);
 				}
 			).finally(
@@ -172,7 +172,7 @@ angular.module('app.ontdekJouwTalent')
 		 *
 		 */
 		$scope.logout = function (){
-			AuthService.logout()
+			AuthService.logout();
 			$state.go('logout',{reload:true});
 		}
 

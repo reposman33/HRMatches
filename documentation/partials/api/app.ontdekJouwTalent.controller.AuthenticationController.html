@@ -1,0 +1,48 @@
+<h1><code ng:non-bindable="">AuthenticationController</code>
+<div><span class="hint">controller in module <code ng:non-bindable="">app.ontdekJouwTalent</code>
+</span>
+</div>
+</h1>
+<div><h2 id="description">Description</h2>
+<div class="description"><div class="app-ontdekjouwtalent-controller-page app-ontdekjouwtalent-controller-authenticationcontroller-page"><p>This controller contains functionality for authenticating, login, resetPassword etc.<br /><br />
+Dependencies: $scope,$state,AppConfig,AuthService,TranslationService,SessionService<br />
+Referring states: &#39;login&#39;,&#39;login.*&#39;,&#39;logout&#39;</p>
+</div></div>
+<div class="member method"><h2 id="methods">Methods</h2>
+<ul class="methods"><li><h3 id="methods_authenticate">authenticate(user:)</h3>
+<div class="authenticate"><div class="authenticate-page"><p>Authenticates using provided username and password.<br/><br/>
+Dependencies: $state,SessionService,AuthService,TranslationService</p>
+</div><h5 id="methods_authenticate_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>user:</td><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="authenticate-page"><p>{user.username,user.password}</p>
+</div></td></tr></tbody></table></div>
+</li>
+<li><h3 id="methods_authenticatein2steps">authenticateIn2Steps()</h3>
+<div class="authenticatein2steps"><div class="authenticatein2steps-page"><p>[ NOT IMPLEMENTED YET ]
+Authenticate using 2 step authentication</p>
+</div></div>
+</li>
+<li><h3 id="methods_forgotpassword">forgotPassword(emailaddress:)</h3>
+<div class="forgotpassword"><div class="forgotpassword-page"><p>Initialises forgot password procedure using provided email address.<br/><br/>
+Dependencies: $state,AuthService</p>
+</div><h5 id="methods_forgotpassword_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>emailaddress:</td><td><a href="" class="label type-hint type-hint-string">String</a></td><td><div class="forgotpassword-page"><p>emailaddress to send email to with resetPassowrd link</p>
+</div></td></tr></tbody></table></div>
+</li>
+<li><h3 id="methods_login">login(selectedDomainId:)</h3>
+<div class="login"><div class="login-page"><p>Logs user in after authentication<br/><br/>
+Dependencies: $state,AuthService,SessionService,ApiService</p>
+</div><h5 id="methods_login_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>selectedDomainId:</td><td><a href="" class="label type-hint type-hint-string">String</a></td><td><div class="login-page"><p>The id of the domain user log in to</p>
+</div></td></tr></tbody></table></div>
+</li>
+<li><h3 id="methods_logout">logout()</h3>
+<div class="logout"><div class="logout-page"><p>Logs user out<br/><br/>
+Dependencies: $state,AuthService</p>
+</div></div>
+</li>
+<li><h3 id="methods_resetpassword">resetPassword(newPassword:)</h3>
+<div class="resetpassword"><div class="resetpassword-page"><p>Called when confirming the new password in resetPassword.html.<br/><br/>
+Dependencies: $state</p>
+</div><h5 id="methods_resetpassword_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>newPassword:</td><td><a href="" class="label type-hint type-hint-string">String</a></td><td><div class="resetpassword-page"><p>the new password in plaintext</p>
+</div></td></tr></tbody></table></div>
+</li>
+</ul>
+</div>
+</div>

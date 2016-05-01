@@ -31,16 +31,17 @@
 									<thead>
 									<tr>
 										<th>{{TranslationService.getText('SETTINGS_TEAMMEMBER_NAME')}}</th>
-										<th>{{TranslationService.getText('SETTINGS_TEAMMEMBER_ROLE')}}</th>
+										<th>{{TranslationService.getText('SETTINGS_ROLE')}}</th>
 									</tr>
 									</thead>
 									<tbody>
-
 									<tr ng-repeat="teamMember in data.team.MEMBERS">
 										<td>{{teamMember.firstName}} {{teamMember.infix}} {{teamMember.lastName}}</td>
 										<td>
-											<select name="teamMemberRole" class="form-control h9 selectpicker" style="display:block;">
-												<option ng-repeat="role in data.roles" value="{{role.id}}" ng-selected="role.id==teamMember.roleId">{{role.systemName}}</option>
+											<select
+												ng-model="teamMember.roleId"
+												ng-options="role.id as role.systemName for role in data.roles"
+												class="form-control h9 selectpicker">
 											</select>
 										</td>
 										<td class="right_text">
@@ -56,6 +57,34 @@
 											</button>
 										</td>
 									</tr>
+									<!--ADD NEW TEAMMEMBER-->
+									<tr>
+										<td>
+											<select
+												class="form-control selectpicker"
+												ng-model="newUser.id"
+												ng-options="user.id as (user.firstName + ' ' + user.infix + ' ' + user.lastName) for user in data.users">
+												<option value="">- Selecteer teamlid -</option>
+											</select>
+										</td>
+
+										<td>
+											<select
+												ng-model="newUser.roleId"
+												ng-options="role.id as role.systemName for role in data.roles"
+												class="form-control h9 selectpicker">
+												<option value="0">- Selecteer rol -</option>
+											</select>
+										</td>
+										<td class="right_text">
+											<button
+												ng-click="addTeamMember(newUser)"
+												class="btn btn-sm btn-default">
+												<i class="fa blue fa-plus"></i>
+											</button>
+										</td>
+									</tr>
+
 									</tbody>
 								</table>
 							</div>
@@ -68,7 +97,7 @@
 						<button
 							type="button"
 							class="btn btn-success pull-right"
-							ng-click="saveTeam(data.id)">{{TranslationService.getText('SETTINGS_SAVE_TEAM')}}
+							ng-click="saveTeam(data.team)">{{TranslationService.getText('SETTINGS_SAVE')}}
 						</button>
 					</div>
 
@@ -76,7 +105,7 @@
 						<button
 							type="submit"
 							class="btn btn-danger pull-right"
-							ng-click="cancel()">{{TranslationService.getText('SETTINGS_CANCEL_TEAM')}}</button>
+							ng-click="cancel()">{{TranslationService.getText('SETTINGS_CANCEL')}}</button>
 					</div>
 				</div>
 

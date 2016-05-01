@@ -4,8 +4,9 @@ angular.module('app.ontdekJouwTalent')
 		currentUser = null;
 	
 	// USER MANAGEMENT
-	service.setCurrentUser = function(selectedToken){
-		store.set('currentUser',{'token':selectedToken,'loginTime':new Date().getTime()});
+	service.setCurrentUser = function(user){
+		user.loginTime = new Date();
+		store.set('currentUser',user);
 	}
 
 /*	service.resetLoginTimeOut = function(){
@@ -23,6 +24,11 @@ angular.module('app.ontdekJouwTalent')
 		return (currentUser && currentUser.token) || '';
 	}
 
+	service.getCurrentUserDomainId = function(){
+		var currentUser = store.get('currentUser');
+		return currentUser.domainId;
+	}
+
 	service.removeCurrentUser = function(){
 		store.remove('currentUser');
 	}
@@ -36,7 +42,8 @@ angular.module('app.ontdekJouwTalent')
 
 	// STORE MISC SESSION DATA
 	service.get = function(key){
-		return store.get(key);
+		var value = store.get(key);
+		return value;
 	}
 	
 	service.set = function(key,value){
@@ -62,4 +69,4 @@ angular.module('app.ontdekJouwTalent')
 		log[new Date().toLocaleString()] = message;
 		store.set('log',log);
 	}
-}])
+}]);

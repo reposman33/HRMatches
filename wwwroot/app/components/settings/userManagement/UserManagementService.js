@@ -41,7 +41,7 @@ angular.module('app.ontdekJouwTalent')
 
 				// CHANGE THIS DATA STRUCT (ROLES) BACK TO FORMAT TAFFY API UNDERSTANDS: PERMISSIONS ARRAY CONTAINS _ONLY_ SELECTED ROLES;
 				rolesWithAllPermissions.map(function(role,index,rolesWithAllPermissions){
-					currentRole = {}
+					currentRole = {};
 					for(var key in role){
 						currentRole[key] = role[key];
 					}
@@ -84,18 +84,13 @@ angular.module('app.ontdekJouwTalent')
 			// ========== TEAMS ==========
 			,team: function(teamId){
 				return APIService.team(teamId)
-				.then(
-					function(successResponse){
-						return successResponse;
-					}
-				)
 			}
 
 			,addTeam: function(){
 				var team = AppConfig.APPCONSTANTS_SETTINGS_USERMANAGEMENT_TEAM;
 				team.token = SessionService.getCurrentUserToken();
 
-				return APIService.addTeam([team])
+				return APIService.addTeam({teams:[team]})
 				.then(
 					function(succesResponse){
 						return succesResponse;
@@ -106,6 +101,17 @@ angular.module('app.ontdekJouwTalent')
 			,deleteTeam: function(id){
 				return APIService.deleteTeam({teamId:id});
 			}
+
+			,saveTeam: function(team){
+				return APIService.saveTeam({teams:[team],domainOwnerId:team.domainOwnerId});
+			}
+
+
+			// ========== USERS ==========
+			,user: function(domainName){
+				return APIService.user(domainName);
+			}
+
 		}
 	}
 ]);
