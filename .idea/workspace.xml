@@ -1,46 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="530532aa-8ff9-4b00-95fe-5e20c8d1eeac" name="Default" comment="Settings-Usermanagement-Teams: in Teams overview delete a team; implement the Team details window - minus addTeamember() and delete teammember.">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/documentation/font/FontAwesome.otf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/documentation/font/fontawesome-webfont.eot" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/documentation/font/fontawesome-webfont.ttf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/documentation/font/fontawesome-webfont.woff" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/.name" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/documentation/css/animations.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/documentation/css/bootstrap.min.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/documentation/css/doc_widgets.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/documentation/css/docs.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/documentation/css/font-awesome.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/documentation/css/prettify.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/documentation/font/fontawesome-webfont.svg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/documentation/grunt-scripts/angular-animate.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/documentation/grunt-scripts/angular.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/documentation/index.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/documentation/js/angular-bootstrap-prettify.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/documentation/js/angular-bootstrap.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/documentation/js/angular.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/documentation/js/docs-setup.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/documentation/js/docs.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/documentation/js/google-code-prettify.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/documentation/js/marked.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/documentation/partials/api/app.ontdekJouwTalent.controller.AuthenticationController.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/documentation/partials/api/app.ontdekJouwTalent.controller.JoblistController.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/documentation/partials/api/app.ontdekJouwTalent.controller.RegisterController.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/documentation/partials/api/app.ontdekJouwTalent.controller.SettingsController.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/documentation/partials/api/app.ontdekJouwTalent.controller.TranslationController.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/documentation/partials/api/app.ontdekJouwTalent.controller.UserManagementController.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/documentation/partials/api/app.ontdekJouwTalent.directive.select.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/documentation/partials/api/app.ontdekJouwTalent.service.APIService.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Docs/ToDo.docx" afterPath="$PROJECT_DIR$/Docs/ToDo.docx" />
+    <list default="true" id="530532aa-8ff9-4b00-95fe-5e20c8d1eeac" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/app.js" afterPath="$PROJECT_DIR$/wwwroot/app/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/login/controllers/AuthenticationController.js" afterPath="$PROJECT_DIR$/wwwroot/app/components/login/controllers/AuthenticationController.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/UserManagementService.js" afterPath="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/UserManagementService.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/teams/TeamsController.js" afterPath="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/teams/TeamsController.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/teams/views/detailView.html" afterPath="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/teams/views/detailView.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/shared/services/APIService.js" afterPath="$PROJECT_DIR$/wwwroot/app/shared/services/APIService.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/shared/services/SessionService.js" afterPath="$PROJECT_DIR$/wwwroot/app/shared/services/SessionService.js" />
     </list>
     <ignored path="OntdekJouwTalent.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -712,7 +674,7 @@
       <workItem from="1461966158816" duration="4537000" />
       <workItem from="1462016763003" duration="3920000" />
       <workItem from="1462021114864" duration="19894000" />
-      <workItem from="1462107428523" duration="12353000" />
+      <workItem from="1462107428523" duration="12371000" />
     </task>
     <task id="LOCAL-00001" summary="Listview: Kolommen dynamisch - afhankelijk van API response; data kolomnamen voor uitlezen data generiek maken; enable-disable row editing ,enable-disable cell editing.">
       <created>1459354329432</created>
@@ -826,11 +788,18 @@
       <option name="project" value="LOCAL" />
       <updated>1462017212241</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Settings-Usermanagement-Teams: in Teams overview delete a team; implement the Team details window - minus addTeamember() and delete teammember.">
+      <created>1462127585837</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1462127585837</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="477025000" />
+    <option name="totallyTimeSpent" value="477043000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -846,7 +815,7 @@
     <editor active="false" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32976446" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32441112" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32475883" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3294621" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -881,6 +850,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="false" />
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="Listview: Kolommen dynamisch - afhankelijk van API response; data kolomnamen voor uitlezen data generiek maken; enable-disable row editing ,enable-disable cell editing." />
     <MESSAGE value="API response data formaat bedenken en gebruiken bij tonen van listview; refactoren code om listview data te isoleren van context pagina;testen van table view : tonen van dynamisch kolommen en data" />
     <MESSAGE value="/trackdata: statename en token values toevoegen aan POST payload; public states alleen toegankelijk wanneer niet ingelogd; bij uitloggen AuthService.logout() aanroepen vanuit NavigationController ipv ui router;  /trackdata finetunen; in run() alleen translation ophalen wanneer en tingelogd; directive onClick toegevoegd aan &lt;a&gt;;App doorlopen en finetunen." />
