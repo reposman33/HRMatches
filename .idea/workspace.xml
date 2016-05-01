@@ -674,7 +674,7 @@
       <workItem from="1461966158816" duration="4537000" />
       <workItem from="1462016763003" duration="3920000" />
       <workItem from="1462021114864" duration="19894000" />
-      <workItem from="1462107428523" duration="12371000" />
+      <workItem from="1462107428523" duration="12383000" />
     </task>
     <task id="LOCAL-00001" summary="Listview: Kolommen dynamisch - afhankelijk van API response; data kolomnamen voor uitlezen data generiek maken; enable-disable row editing ,enable-disable cell editing.">
       <created>1459354329432</created>
@@ -795,11 +795,18 @@
       <option name="project" value="LOCAL" />
       <updated>1462127585837</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Settings-Usermanagement-Teams: in Teams overview delete a team; implement the Team details window - minus addTeamember() and delete teammember.">
+      <created>1462127595016</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1462127595016</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="477043000" />
+    <option name="totallyTimeSpent" value="477055000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
