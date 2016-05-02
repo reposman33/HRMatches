@@ -1322,7 +1322,7 @@ padding-right:8px;
 }
 
 .logo_btn{
-	background: url("../../images/logo_black.png") center center no-repeat;
+	background: url("../../assets/img/logo_black.png") center center no-repeat;
 	-webkit-background-size: contain; 
     -moz-background-size: contain; 
     -o-background-size: contain; 

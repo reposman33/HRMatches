@@ -1139,10 +1139,10 @@ color:#fff !important;
 /*------------------------------*/
 
 /* LOGO - CLIENT */
-/*  size of logo's are not an issue  */	
+/*  size of logo's are not an issue  */
 .logo_white{
     display: block;
-	background: url("http://ontdekjouwtalent.nl/wp-content/uploads/images/logo_ontdekjouwtalent.png") center center no-repeat;
+	background: url("../../assets/img/logo_white.png") center center no-repeat;
 	-webkit-background-size: contain; 
     -moz-background-size: contain; 
     -o-background-size: contain; 
@@ -1153,7 +1153,7 @@ color:#fff !important;
     margin-right: 190px;
     margin-left: 0px;
 }
-
+	
 .logo_black{
 	background: url("../../images/logo_black.png") center center no-repeat;
 	-webkit-background-size: contain; 

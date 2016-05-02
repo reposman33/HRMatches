@@ -29,7 +29,7 @@ angular.module('app.ontdekJouwTalent')
 				url += (qpDelimiter + key + '=' + value);
 				qpDelimiter = '&';
 			});
-			url += (token === '') ? url : (qpDelimiter + 'token=' + token);
+			url += (token === '') ? '' : (qpDelimiter + 'token=' + token);
 			payload = '';
 		}
 		else if((data.API.method == 'PUT' || data.API.method == 'POST')){
@@ -45,10 +45,11 @@ angular.module('app.ontdekJouwTalent')
 			,data: payload
 		})
 		.then(
+			// API CALL SUCCESSFUL (200 OK)
 			function(successResponse){
 				return successResponse.data;
 			}
-			// ========== ERROR HANDLING ==========
+			// API CALL RETURNS NON-200 ERROR
 			,function(errorResponse){
 				$rootScope.error = {status:errorResponse.status,statusText:errorResponse.statusText};
 				var message = {message:'Er is een fout opgetreden: ' + errorResponse.status +' (' + errorResponse.statusText + ')'};
@@ -81,7 +82,13 @@ angular.module('app.ontdekJouwTalent')
 					}
 				}
 			}
+		)
+		.catch(
+			function(errorResponse){
+				console.log('clientvariables NOT logged for state \'',toStateName,'\'');
+			}
 		);
+
 	}
 
 
@@ -120,8 +127,13 @@ angular.module('app.ontdekJouwTalent')
 		return this.request({API:AppConfig.API_ENDPOINTS.settings.userManagement.permissions});
 	}
 
-	this.roles = function(){
-		return this.request({API:AppConfig.API_ENDPOINTS.settings.userManagement.roles});
+	this.role = function(id){
+		if(id!=undefined) {
+			return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.roles, data: id});
+		}
+		else{
+			return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.roles});
+		}
 	}
 
 	this.updateRolesAndPermissions = function(data){
@@ -148,15 +160,17 @@ angular.module('app.ontdekJouwTalent')
 	}
 
 	this.addTeam = function(data){
+		this.trackData('addTeam');
 		return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.addTeam, data:data});
 	}
 
 	this.deleteTeam = function(data){
+		this.trackData('deleteTeam');
 		return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.deleteTeam, data:data});
 	}
 
 	this.saveTeam = function(data){
-		return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.saveTeam, data:data});
+		return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.addTeam, data:data});
 	}
 
 	// ========== SETTINGS-USERMANAGEMENT-USERS ==========
@@ -168,6 +182,10 @@ angular.module('app.ontdekJouwTalent')
 			return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.users});
 		}
 	}
+
+		this.deleteUser = function(data){
+			return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.deleteUser,data:data});
+		}
 
 
 	 // ========== TRANSLATION ==========
@@ -229,7 +247,7 @@ angular.module('app.ontdekJouwTalent')
 			}
 			delete $rootScope['error'];
 		}
-		this.request({
+		return this.request({
 			API: AppConfig.API_ENDPOINTS.trackdata,
 			data: {trackingData:trackingData}
 		})
@@ -242,13 +260,9 @@ angular.module('app.ontdekJouwTalent')
 					delete trackingData.errorStatusText;
 				}
 				console.log('clientvariables logged for state \'',toStateName,'\'');
+				return succesResponse.data || {};
 			}
 		)
-		.catch(
-			function(errorResponse){
-				console.log('clientvariables NOT logged for state \'',toStateName,'\'');
-			}
-		);
 	}
 	
 	// TO BE REMOVED WHEN SETTINGS-USERMANAGEMENT COMES FROM API

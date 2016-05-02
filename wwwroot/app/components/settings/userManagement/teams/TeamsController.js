@@ -7,8 +7,9 @@
  * */
 angular.module('app.ontdekJouwTalent')
 .controller('TeamsController',
-	['$scope','$state','AppConfig','data','UserManagementService',
-	function($scope,$state,AppConfig,data,UserManagementService) {
+	['$scope','$state','APIService','AppConfig','data','UserManagementService',
+	function($scope,$state,APIService,AppConfig,data,UserManagementService) {
+		<!--text to display when user clicks 'Delete' button for a team-->
 		$scope.selectedOption = 30;
 		$scope.data = data;
 		$scope.viewConfig = {
@@ -34,6 +35,7 @@ angular.module('app.ontdekJouwTalent')
 				"maxSize": 10
 			}
 		}
+		$scope.confirmationText = $scope.TranslationService.getText('SETTINGS_CONFIRMATION');
 
 		// ========== TEAM LISTVIEW METHODS ==========
 		// ADDTEAM
@@ -46,16 +48,23 @@ angular.module('app.ontdekJouwTalent')
 		$scope.addTeam = function(){
 			UserManagementService.addTeam()
 			.then(
-			function(successResponse){
-				$state.go('settings.userManagement.listTeams',{},{reload:true});
-			}
+				function(successResponse){
+					// NO STATE CORRESPONDS TO THIS ACTION, CALL TRACKDATA MANUALLY
+					APIService.trackData('addTeam')
+					.then(
+						function(){
+							// REFRESH TEAM LIST
+							$state.go('settings.userManagement.detailTeam');
+						}
+					)
+				}
 			);
 		}
 
 		// DELETE
 		/**
 		 * @ngdoc method
-		 * @name deleteTeam
+		 * @name delete
 		 * @methodOf app.ontdekJouwTalent.controller:TeamsController
 		 * @parameters {Integer} id id of team to delete
 		 * @description Called when user deletes a team.
@@ -64,9 +73,15 @@ angular.module('app.ontdekJouwTalent')
 		$scope.delete = function(id){
 			UserManagementService.deleteTeam(id)
 			.then(
-			function(successResponse){
-				$state.go('settings.userManagement.listTeams',{},{reload:true});
-			}
+				function(successResponse){
+					// NO STATE CORRESPONDS TO THIS ACTION, CALL TRACKDATA MANUALLY
+					APIService.trackData('deleteTeam')
+					.then(
+						function(){
+						// REFRESH TEAM LIST
+						$state.go('settings.userManagement.listTeams',{},{reload:true});
+					})
+				}
 			);
 		}
 
@@ -80,7 +95,7 @@ angular.module('app.ontdekJouwTalent')
 		 */
 		//TODO trackdata aanroepen
 		$scope.edit = function(id){
-			$state.go('settings.userManagement.detailTeam',{teamId:id});
+			$state.go('settings.userManagement.detailTeam',{teamId:id})
 		}
 
 
@@ -93,7 +108,7 @@ angular.module('app.ontdekJouwTalent')
 		 * @description Called when user cancels the teams detailswindow and is redirected to teams listView.
 		 */
 		$scope.cancel = function(){
-			$state.go('settings.userManagement.listTeams',{},{reload:true});
+			$state.go('settings.userManagement.listTeams',{},{reload:true})
 		}
 
 		// SAVETEAM
@@ -106,30 +121,70 @@ angular.module('app.ontdekJouwTalent')
 		 */
 		$scope.saveTeam = function(team){
 			UserManagementService.saveTeam(team)
+			.then(
+				function(successResponse){
+					APIService.trackData('saveTeam')
+					.then(
+						function(){
+							$state.go('settings.userManagement.listTeams',{},{reload:true});
+						}
+					)
+				}
+			);
 		}
 
+		// DELETETEAMMEMBER
 		/**
 		 * @ngdoc method
 		 * @name deleteTeamMember
 		 * @methodOf app.ontdekJouwTalent.controller:TeamsController
-		 * @parameters {uuid} id id of teammember to delete
-		 * @description Called when user edits a team and deletes a member.
+		 * @description delete a team member. No API call, teammember is deleted from team MEMBERS array
+		 * @param {uuid} id id of teammember to delete
 		 */
-		//TODO method deleteTeamMember() implementeren
 		$scope.deleteTeamMember = function(id){
-
+			// DELETE TEAMMEMBER FROM MEMBER ARRAY
+			for(var i=0; i<data.team.MEMBERS.length; i++){
+				if(data.team.MEMBERS[i].personId == id){
+					data.team.MEMBERS.splice(i,1);
+					break;
+				}
+			}
+			$scope.saveTeam(data.team)
+			.then(
+				function(successResponse){
+					APIService.trackData('deleteTeamMember')
+					.then(
+						function(){
+							$state.go('settings.userManagement.listTeams',{},{reload:true});
+						})
+				}
+			);
 		}
 
+		// ADDTEAMMEMBER
 		/**
 		 * @ngdoc method
 		 * @name addTeamMember
 		 * @methodOf app.ontdekJouwTalent.controller:TeamsController
-		 * @parameters {object} newTeamMember new teammember to add
-		 * @description Called when user edits a team and adds a new member.
+		 * @description adds a team member. No API call, teammember is added to team MEMBERS array
+		 * @param {object} team member to add
 		 */
-		//TODO method addTeamMember() implementeren
 		$scope.addTeamMember = function(newTeamMember){
+			// retrieve user from users list
+			for(var i=0; i<data.users.length; i++){
+				if(data.users[i].id == newTeamMember.personId){
+					var _newTeamMember = angular.copy(data.users[i]); //use angular.copy() to clone
+					_newTeamMember.roleId = newTeamMember.roleId
+					_newTeamMember.personId = newTeamMember.personId
+					data.team.MEMBERS.push(_newTeamMember);
+					break;
+				}
+			}
+			// reset select to '-- select teammember --' and '-- select role --'
+			$scope.newUser.roleId = "";
+			$scope.newUser.personId = "";
 
+			APIService.trackData('addTeamMember');
 		}
 	}]
 );

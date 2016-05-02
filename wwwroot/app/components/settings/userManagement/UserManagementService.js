@@ -1,10 +1,25 @@
+/**
+ * @ngdoc service
+ * @name app.ontdekJouwTalent.service:UserManagementService
+ * @description
+ * This service contains functionality for calls to the REST backend for Usermanagement
+ * Dependencies: $http,AppConfig,SessionService
+ * */
 angular.module('app.ontdekJouwTalent')
 .factory('UserManagementService',['APIService','AppConfig','SessionService',
 	function(APIService,AppConfig,SessionService){
 		return{
 
 			// ========== RIGHTS AND ROLES ==========
-			permissions: function(data){
+			// PERMISSION
+			/**
+			 * @ngdoc method
+			 * @name permissions
+			 * @methodOf app.ontdekJouwTalent.service:UserManagementService
+			 * @parameters {Integer} id id of permission to retrieve
+			 * @description Called from state 'settings.userManagement.rechtenEnRollen'
+			 */
+			permission: function(data){
 				return APIService.permissions()
 				.then(
 					function(successResponse){
@@ -13,8 +28,16 @@ angular.module('app.ontdekJouwTalent')
 				)
 			}
 
-			,roles: function(data){
-				return APIService.roles()
+			// ROLE
+			/**
+			 * @ngdoc method
+			 * @name role
+			 * @methodOf app.ontdekJouwTalent.service:UserManagementService
+			 * @parameters {Integer} id id of role to retrieve
+			 * @description Called from states 'settings.userManagement.rechtenEnRollen',settings.userManagement.detailTeam
+			 */
+			,role: function(id){
+				return APIService.role(id)
 				.then(
 					function(successResponse){
 						return successResponse;
@@ -35,6 +58,14 @@ angular.module('app.ontdekJouwTalent')
 				)
 			}
 
+			// UPDATEROLESANDPERMISSIONS
+			/**
+			 * @ngdoc method
+			 * @name updateRolesAndPermissions
+			 * @methodOf app.ontdekJouwTalent.service:UserManagementService
+			 * @parameters {Array} rolesWithAllPermissions array with roles and permissions to update
+			 * @description Called from  RightsAndRolesController $scope.save
+			 */
 			,updateRolesAndPermissions: function(rolesWithAllPermissions){
 				var roles = [];
 				var currentRole = {};
@@ -64,6 +95,14 @@ angular.module('app.ontdekJouwTalent')
 				)
 			}
 
+			// ADDROLE
+			/**
+			 * @ngdoc method
+			 * @name addRole
+			 * @methodOf app.ontdekJouwTalent.service:UserManagementService
+			 * @parameters
+			 * @description Called from RightsAndRolesController $scope.addRole
+			 */
 			,addRole: function(){
 				var role = AppConfig.APPCONSTANTS_SETTINGS_USERMANAGEMENT_ROLE;
 				role.token = SessionService.getCurrentUserToken();
@@ -82,6 +121,8 @@ angular.module('app.ontdekJouwTalent')
 
 
 			// ========== TEAMS ==========
+			// listview
+
 			,team: function(teamId){
 				return APIService.team(teamId)
 			}
@@ -106,10 +147,33 @@ angular.module('app.ontdekJouwTalent')
 				return APIService.saveTeam({teams:[team],domainOwnerId:team.domainOwnerId});
 			}
 
+			// detailView
+
 
 			// ========== USERS ==========
+
+			// USER
+			/**
+			 * @ngdoc method
+			 * @name user
+			 * @methodOf app.ontdekJouwTalent.service:UserManagementService
+			 * @parameters {String} domainName optional
+			 * @description Called from state 'settings.userManagement.listUsers'
+			 */
 			,user: function(domainName){
 				return APIService.user(domainName);
+			}
+
+			// DELETEUSER
+			/**
+			 * @ngdoc method
+			 * @name deleteUser
+			 * @methodOf app.ontdekJouwTalent.service:UserManagementService
+			 * @parameters
+			 * @description Called from UsersController $scope.deleteUser
+			 */
+			,deleteUser: function(id){
+				return APIService.deleteUser({personId:id});
 			}
 
 		}

@@ -14,7 +14,7 @@ angular.module('app.ontdekJouwTalent')
 
 		/* TABS DATA */
 		$scope.tabs = [
-			{ heading: settingsData.settings.setting.userManagement.page.tabTitles.users, route:"settings.userManagement.gebruikers" },
+			{ heading: settingsData.settings.setting.userManagement.page.tabTitles.users, route:"settings.userManagement.listUsers" },
 			{ heading: settingsData.settings.setting.userManagement.page.tabTitles.invited, route:"settings.userManagement.uitgenodigd"},
 			{ heading: settingsData.settings.setting.userManagement.page.tabTitles.rightsAndRoles, route:"settings.userManagement.rechtenEnRollen"},
 			{ heading: settingsData.settings.setting.userManagement.page.tabTitles.teams, route:"settings.userManagement.listTeams"},

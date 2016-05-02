@@ -2,7 +2,7 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 .constant('AppConfig',{
 	// APPLICATION DEFINED VALUES
 	APPCONSTANTS_HOSTNAME: location.hostname
-	,APPCONSTANTS_ISLOCAL: "127.0.0.1,ontdekjouwtalent.local,ojt.hrmatches.com".indexOf(location.hostname) != -1
+	,APPCONSTANTS_ISLOCAL: "127.0.0.1,ontdekjouwtalent.local".indexOf(location.hostname) != -1
 	,APPCONSTANTS_NAVIGATION_CURRENTDOMAIN: document.location.protocol + '://' + document.location.hostname
 	,APPCONSTANTS_RESOURCES_URIS:{
 		DOCUMENTATION: document.location.protocol + '//' + document.location.hostname + '/documentation'
@@ -36,8 +36,8 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 	,API_ENDPOINTS: {
 		'translation': {			// ===== LEGENDA =====
 			endpoint: 'translation'	// endpoint to use for call to API
-			,method: 'POST'			// http method to use
-			,addToken: false		// wether to add or not a user token (supplied at login) to the API call
+			,method: 'GET'			// http method to use
+			,addToken: false		// whether to add or not a user token (supplied at login) to the API call
 			,columnNames: {         // reference to columnames so we use different columnames in same shared view
 				'displayName':'DisplayName'
 				,'id':'id'
@@ -100,6 +100,12 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 					,method: 'GET'
 					,addToken: true
 					,parameters: []
+				},
+				'deleteUser': {
+					endpoint: 'users'
+					,method: 'DELETE'
+					,addToken: true
+					,parameters: ['personId'] // not implemented yet
 				}
 				,'invited': {
 					endpoint: 'userManagement-invited'
@@ -153,12 +159,6 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 					,addToken: true
 					,parameters: []
 				}
-				,'saveTeam': {
-					endpoint: 'teams'
-					,method: 'PUT'
-					,addToken: true
-					,parameters: []
-				}
 				,'addTeam': {
 					endpoint: 'teams'
 					,method: 'POST'
@@ -170,6 +170,12 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 					,method: 'DELETE'
 					,addToken: true
 					,parameters: []
+				}
+				,'deleteTeamMember':{
+					endpoint: 'teams'
+					,method: 'DELETE'
+					,addToken: true
+					,parameters: ['id']
 				}
 			}
 		}
@@ -441,9 +447,20 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 				}
 			}
 		})
-		// ---------- SETTINGS.USERMANAGEMENT.gebruikers----------
-		.state('settings.userManagement.gebruikers', {
-			url:'/gebruikers'
+		// ---------- SETTINGS.USERMANAGEMENT.USERS----------
+		.state('settings.userManagement.listUsers', {
+			url:'/listUsers'
+			,resolve: {
+				data: ['UserManagementService',function(UserManagementService){
+					return UserManagementService.user();
+				}]
+			}
+			,views:{
+				'tabContent@settings.userManagement': {
+					controller: 'UsersController'
+					,templateUrl: '/app/components/settings/userManagement/users/views/listView.html'
+				}
+			}
 		})
 		// ---------- SETTINGS.USERMANAGEMENT.uitgenodigd----------
 		.state('settings.userManagement.uitgenodigd', {
@@ -454,10 +471,10 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 			url: '/rechtenEnRollen'
 			,resolve: {
 				roles: ['UserManagementService', function (UserManagementService) {
-					return UserManagementService.roles();
+					return UserManagementService.role();
 				}]
 				,permissions: ['UserManagementService', function (UserManagementService){
-						return UserManagementService.permissions();
+					return UserManagementService.permission();
 				}]
 			}
 			,views: {
@@ -482,23 +499,23 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 				}
 			}
 		})
+		// detail
 		.state('settings.userManagement.detailTeam', {
-			url: '/detailTeams'
-			,onEnter: ['$state','$stateParams',function($state,$stateParams){
-				if($stateParams.teamId == undefined){
-					$state.go('settings.userManagement.listTeams');
-					event.preventDefault();
-				}
-			}]
+			url: '/detailTeam'
 			,params: {
 				teamId: null
 			}
 			,resolve: {
 				roles: ['UserManagementService', function (UserManagementService) {
-					return UserManagementService.roles();
+					return UserManagementService.role();
 				}]
 				,team: ['$stateParams','roles','UserManagementService', function($stateParams,roles,UserManagementService) {
-					return UserManagementService.team($stateParams.teamId);
+					if($stateParams.teamId){
+						return UserManagementService.team($stateParams.teamId);
+					}
+					else{
+						return AppConfig.APPCONSTANTS_SETTINGS_USERMANAGEMENT_TEAM;
+					}
 				}]
 				,users: ['UserManagementService', function(UserManagementService) {
 					return UserManagementService.user();

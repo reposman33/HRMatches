@@ -14,6 +14,7 @@
 						<input
 							type="text"
 							name="teamName"
+							ng-model="data.team.DisplayName"
 							value="{{data.team.DisplayName}}"
 							class="form-control"
 							id="exampleInputTeamname"
@@ -47,12 +48,11 @@
 										<td class="right_text">
 											<button
 												type="submit"
+												confirm="{{TranslationService.getText('SETTINGS_CONFIRMATION')}}"
 												ng-click="deleteTeamMember(teamMember.personId)"
 												class="btn btn-sm btn-default"
 												data-toggle="tooltip"
-												data-placement="top"
-												title=""
-												data-original-title="Verwijderen">
+												data-placement="top">
 											<i class="fa red fa-remove"></i>
 											</button>
 										</td>
@@ -62,7 +62,7 @@
 										<td>
 											<select
 												class="form-control selectpicker"
-												ng-model="newUser.id"
+												ng-model="newUser.personId"
 												ng-options="user.id as (user.firstName + ' ' + user.infix + ' ' + user.lastName) for user in data.users">
 												<option value="">- Selecteer teamlid -</option>
 											</select>
@@ -73,12 +73,12 @@
 												ng-model="newUser.roleId"
 												ng-options="role.id as role.systemName for role in data.roles"
 												class="form-control h9 selectpicker">
-												<option value="0">- Selecteer rol -</option>
+												<option value="">- Selecteer rol -</option>
 											</select>
 										</td>
 										<td class="right_text">
 											<button
-												ng-click="addTeamMember(newUser)"
+												ng-click="addTeamMember(newUser);"
 												class="btn btn-sm btn-default">
 												<i class="fa blue fa-plus"></i>
 											</button>
