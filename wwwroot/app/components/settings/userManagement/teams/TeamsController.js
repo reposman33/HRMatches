@@ -46,19 +46,7 @@ angular.module('app.ontdekJouwTalent')
 		 * @description Called when user addTeam a team.
 		 */
 		$scope.addTeam = function(){
-			UserManagementService.addTeam()
-			.then(
-				function(successResponse){
-					// NO STATE CORRESPONDS TO THIS ACTION, CALL TRACKDATA MANUALLY
-					APIService.trackData('addTeam')
-					.then(
-						function(){
-							// REFRESH TEAM LIST
-							$state.go('settings.userManagement.detailTeam');
-						}
-					)
-				}
-			);
+			$state.go('settings.userManagement.detailTeam');
 		}
 
 		// DELETE

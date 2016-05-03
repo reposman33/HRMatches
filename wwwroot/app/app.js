@@ -514,7 +514,7 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 						return UserManagementService.team($stateParams.teamId);
 					}
 					else{
-						return AppConfig.APPCONSTANTS_SETTINGS_USERMANAGEMENT_TEAM;
+						return angular.copy(AppConfig.APPCONSTANTS_SETTINGS_USERMANAGEMENT_TEAM);
 					}
 				}]
 				,users: ['UserManagementService', function(UserManagementService) {
