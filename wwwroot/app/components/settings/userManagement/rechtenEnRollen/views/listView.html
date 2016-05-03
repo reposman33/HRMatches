@@ -1,62 +1,66 @@
-<div class="well bg-white">
-
-	<div class="row margin_bottom_20">
-		<div class="col-md-3">
-			<div class="h4"><!-- {{viewConfig.verticalAxis.title}} --></div>
-		</div>
-		<div class="col-md-7">
-			<div class="h4"><!-- {{viewConfig.horizontalAxis.title}} --></div>
-		</div>
-		<div class="col-md-2">
-			<button
-				ng-click="addRole()"
-				type="submit"
-				class="btn btn-primary pull-right">
-				<i class="fa fa-plus"></i>
-				{{TranslationService.getText('SETTINGS_ADD_ROLE')}}</button>
-		</div>
-	</div>
-
-	<div class="row margin_bottom_20">
-		<div class="col-md-12">
-			<div class="table-responsive">
-				<table class="table table-bordered table-striped">
-					<thead>
-						<tr>
-							<th>&nbsp;</th>
-							<th class="h11" ng-repeat="permission in permissions">{{permission.DisplayName}}</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat="role in rolesWithAllPermissions">
-							<th scope="row" class="h9">
-								<div class="input-group ">
-									<input type="text" value="{{role.systemName}}" title="{{role.created}}" ng-model="role.systemName">
-									<a class="fa fa-times-circle"
-									   confirm="Really delete role '{{role.systemName}}'?"
-									   ng-click="deleteRole(role.id)"
-									   title="{{TranslationService.getText('SETTINGS_DELETE_ROLE')}}"></a>
-								</div>
-							</th>
-							<td class="centered_text" ng-repeat="rolePermission in role.PERMISSIONS">
-								<input
-									type="checkbox"
-									name="rolePermission[]"
-									value="{{rolePermission.roleId}}_{{rolePermission.id}}"
-									ng-model="rolePermission.selected">
-							</td>
-						 </tr>
-					</tbody>
-				</table>
+<!-- Rights and Roles  settings -->
+<div rolw="tabpanel">
+	<div class="tab-content">
+		<div class="well bg-white">
+			<div class="row margin_bottom_20">
+				<div class="col-md-3">
+					<div class="h4"><!-- {{viewConfig.verticalAxis.title}} --></div>
+				</div>
+				<div class="col-md-7">
+					<div class="h4"><!-- {{viewConfig.horizontalAxis.title}} --></div>
+				</div>
+				<div class="col-md-2">
+					<button
+						ng-click="addRole()"
+						type="submit"
+						class="btn btn-primary pull-right">
+						<i class="fa fa-plus"></i>
+						{{TranslationService.getText('SETTINGS_ADD_ROLE')}}</button>
+				</div>
 			</div>
-		</div>
-	</div>
 
-	<div class="row">
-		<div class="col-md-12" ng-if="true">
-			<button ng-click="save(rolesWithAllPermissions)" class="btn btn-success pull-right">
-				<i class="fa fa-plus"></i> Opslaan
-			</button>
+			<div class="row margin_bottom_20">
+				<div class="col-md-12">
+					<div class="table-responsive">
+						<table class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th>&nbsp;</th>
+									<th class="h11" ng-repeat="permission in permissions">{{permission.DisplayName}}</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="role in rolesWithAllPermissions">
+									<th scope="row" class="h9">
+										<div class="input-group ">
+											<input type="text" value="{{role.systemName}}" title="{{role.created}}" ng-model="role.systemName">
+											<a class="fa fa-times-circle"
+											   confirm="Really delete role '{{role.systemName}}'?"
+											   ng-click="deleteRole(role.id)"
+											   title="{{TranslationService.getText('SETTINGS_DELETE_ROLE')}}"></a>
+										</div>
+									</th>
+									<td class="centered_text" ng-repeat="rolePermission in role.PERMISSIONS">
+										<input
+											type="checkbox"
+											name="rolePermission[]"
+											value="{{rolePermission.roleId}}_{{rolePermission.id}}"
+											ng-model="rolePermission.selected">
+									</td>
+								 </tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-12" ng-if="true">
+					<button ng-click="save(rolesWithAllPermissions)" class="btn btn-success pull-right">
+						<i class="fa fa-plus"></i> Opslaan
+					</button>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

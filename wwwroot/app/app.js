@@ -1,4 +1,4 @@
-angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.router','ui.router.modal','xeditable','angular-confirm'])
+angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.router','ui.router.modal','xeditable','angular-confirm','ngPassword'])
 .constant('AppConfig',{
 	// APPLICATION DEFINED VALUES
 	APPCONSTANTS_HOSTNAME: location.hostname
@@ -22,16 +22,24 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 		NOTAUTHENTICATED:'login' // redirect hiernaartoe als niet ingelogd
 		,SETTINGS:'settings.userManagement.rechtenEnRollen'
 	}
-	,APPCONSTANTS_SETTINGS_USERMANAGEMENT_ROLE: { // TEMPLATE FOR SETTINGS-USERMANAAGEMENT-RIGHTS_AND_ROLES ADD NEW ROLE
+	,APPCONSTANTS_SETTINGS_USERMANAGEMENT_ROLE: { // TEMPLATE FOR SETTINGS-USERMANAAGEMENT-RIGHTS_AND_ROLES: ADD NEW ROLE
 		id: 0
 		,systemName: 'New Role'
 		,token:''
 	}
-	,APPCONSTANTS_SETTINGS_USERMANAGEMENT_TEAM: { // TEMPLATE FOR SETTINGS-USERMANAAGEMENT-TEAM ADD NEW TEAM
+	,APPCONSTANTS_SETTINGS_USERMANAGEMENT_TEAM: { // TEMPLATE FOR SETTINGS-USERMANAAGEMENT-TEAM: ADD NEW TEAM
 		id: 0
 		,MEMBERS: []
 		,displayName: 'New Team'
 		,token:''
+	}
+	,APPCONSTANTS_SETTINGS_USERMANAGEMENT_USER: { // TEMPLATE FOR SETTINGS-USERMANAAGEMENT-USER: ADD NEW USER
+		emailaddress: ''
+		,firstName: ''
+		,id: '0'
+		,infix: ''
+		,lastName: ''
+		,password: ''
 	}
 	,API_ENDPOINTS: {
 		'translation': {			// ===== LEGENDA =====
@@ -62,7 +70,7 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 			endpoint: 'trackdata'
 			,method: 'POST'
 			,addToken: false
-			, parameters: {
+			, parameters: { // the parameters property is not implemented yet for other Api calls
 				'trackingData': {
 					'token': '' // value injected later
 					,'state': '' // value injected later
@@ -81,7 +89,8 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 			endpoint: 'registration'
 			,method: 'POST'
 			,addToken: false
-			,parameters: {data: { // custom format needed to inject dynamic values later in APIService
+			,parameters: {
+				data: { // custom format needed to inject dynamic values later in APIService
 					firstName: '' // value injected later
 					,infix: '' // value injected later
 					,username: '' // value injected later
@@ -99,31 +108,31 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 					endpoint: 'users'
 					,method: 'GET'
 					,addToken: true
-					,parameters: []
-				},
-				'deleteUser': {
+				}
+				,'addUser': {
+					endpoint: 'users'
+					, method: 'POST'
+					, addToken: true
+				}
+				,'deleteUser': {
 					endpoint: 'users'
 					,method: 'DELETE'
 					,addToken: true
-					,parameters: ['personId'] // not implemented yet
 				}
 				,'invited': {
 					endpoint: 'userManagement-invited'
 					,method: 'GET'
 					,addToken: true
-					,parameters: []
 				}
 				,'roles': {
 					endpoint: 'role'
 					,method: 'GET'
 					,addToken: true
-					,parameters: []
 				}
 				,'permissions': {
 					endpoint: 'permission'
 					,method: 'GET'
 					,addToken: true
-					,parameters: []
 				}
 				,'teams': {
 					endpoint: 'teams'
@@ -133,49 +142,41 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 						'displayName':'DisplayName'
 						,'id':'id'
 					}
-					,parameters: []
 				}
 				,'jobpool': { // vacaturePool
 					endpoint: 'userManagement-jobpool'
 					,method: 'GET'
 					,addToken: true
-					,parameters: []
 				}
 				,'updateRolesAndPermissions': {
 					endpoint: 'role'
 					,method: 'PUT'
 					,addToken: true
-					,parameters: []
 				}
 				,'addRole': {
 					endpoint: 'role'
 					,method: 'POST'
 					,addToken: true
-					,parameters: []
 				}
 				,'deleteRole': {
 					endpoint: 'role'
 					,method: 'DELETE'
 					,addToken: true
-					,parameters: []
 				}
 				,'addTeam': {
 					endpoint: 'teams'
 					,method: 'POST'
 					,addToken: true
-					,parameters: []
 				}
 				,'deleteTeam': {
 					endpoint: 'teams'
 					,method: 'DELETE'
 					,addToken: true
-					,parameters: []
 				}
 				,'deleteTeamMember':{
 					endpoint: 'teams'
 					,method: 'DELETE'
 					,addToken: true
-					,parameters: ['id']
 				}
 			}
 		}
@@ -183,25 +184,21 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 			endpoint: 'authenticate'
 			,method: 'POST'
 			,addToken: false
-			,parameters: []
 		}
 		,'login': {
 			endpoint: 'login'
 			,method: 'POST'
 			,addToken: false
-			,parameters: []
 		}
 		,'logout': {
 			endpoint: 'logout'
 			,method: 'POST'
 			,addToken: false
-			,parameters: []
 		}
 		,'forgotPassword': {
 			endpoint: 'forgotpassword'
 			,method: 'POST'
 			,addToken: false
-			,parameters: ['hostname','emailaddress']
 		}
 		,'resetPassword': {
 			endpoint: 'resetpassword'
@@ -350,7 +347,6 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 			url: '/register'
 			,modal: true
 			,templateUrl: '/app/components/register/views/register.html'
-			,controller: '/app/components/register/controllers/RegisterController.js'
 		})
 		/*
 		 * ========= LOGOUT =========
@@ -459,6 +455,22 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 				'tabContent@settings.userManagement': {
 					controller: 'UsersController'
 					,templateUrl: '/app/components/settings/userManagement/users/views/listView.html'
+				}
+			}
+		})
+		// ---------- SETTINGS.USERMANAGEMENT.addUser----------
+		.state('settings.userManagement.addUser', {
+			url:'/addUser'
+			,resolve: {
+				data: function(){
+					// return the user template defined earlier
+					return angular.copy(AppConfig.APPCONSTANTS_SETTINGS_USERMANAGEMENT_USER);
+				}
+			}
+			,views:{
+				'tabContent@settings.userManagement': {
+					controller: 'UsersController'
+					,templateUrl: '/app/components/settings/userManagement/users/views/detailView.html'
 				}
 			}
 		})

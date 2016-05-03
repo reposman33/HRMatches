@@ -98,7 +98,13 @@ angular.module('app.ontdekJouwTalent')
 	}
 
 	this.authenticate= function(data){
-		return this.request({API:AppConfig.API_ENDPOINTS.authenticate, data:data});
+		return $http({
+			method:AppConfig.API_ENDPOINTS.authenticate.method
+			,url: AppConfig.APPCONSTANTS_API_URL + '/' + AppConfig.API_ENDPOINTS.authenticate.endpoint
+			,data: data
+		});
+		// DON'T USE THIS.REQUEST BECAUSE ERRORHANDLING IS DONE BY THE TEAMSCONTROLLER.
+		//return this.request({API:AppConfig.API_ENDPOINTS.authenticate, data:data});
 	}
 
 	this.logout = function(data){
@@ -183,10 +189,13 @@ angular.module('app.ontdekJouwTalent')
 		}
 	}
 
-		this.deleteUser = function(data){
-			return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.deleteUser,data:data});
-		}
+	this.deleteUser = function(data){
+		return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.deleteUser,data:data});
+	}
 
+	this.addUser = function(data){
+		return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.addUser,data:data});
+	}
 
 	 // ========== TRANSLATION ==========
 	this.loadTranslation = function(){

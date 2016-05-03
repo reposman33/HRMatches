@@ -1,0 +1,89 @@
+<div class = "well">
+	<div class = "row">
+		<div class = "col-md-12 usersettings_add">
+			<div class = "h4 margin_bottom_20">{{TranslationService.getText('SETTINGS_ADD_NEW_MEMBER')}}</div>
+
+			<div class = "row form-group">
+				<div class = "col-md-4">
+					<input
+						type = "text"
+						class = "form-control"
+						placeholder = "{{TranslationService.getText('SETTINGS_FIRSTNAME')}}"
+						ng-model = "newUser.firstName">
+				</div>
+				<div class = "col-md-3">
+					<input
+						type = "text"
+						class = "form-control"
+						placeholder = "{{TranslationService.getText('SETTINGS_INFIX')}}"
+						ng-model = "newUser.infix">
+				</div>
+				<div class = "col-md-5">
+					<input
+						type		= "text"
+						class		= "form-control"
+						placeholder	= "{{TranslationService.getText('SETTINGS_LASTNAME')}}"
+						ng-model	= "newUser.lastName">
+				</div>
+			</div>
+
+			<div class = "row form-group">
+				<div class = "col-md-12">
+					<input
+						type		= "text"
+						class		= "form-control"
+						placeholder	= "{{TranslationService.getText('SETTINGS_EMAIL')}}"
+						ng-model	= "newUser.emailaddress">
+				</div>
+			</div>
+
+			<div class = "row form-group margin_bottom_20" ng-form="resetPasswordForm">
+				<div class = "col-md-6">
+					<input
+						type		= "password"
+						name		= "newpassword"
+						class		= "form-control password"
+						placeholder	= "{{TranslationService.getText('SETTINGS_PASSWORD')}}"
+						ng-model	= "newUser.password">
+				</div>
+				<div class = "col-md-5">
+					<input
+						type		= "password"
+						class		= "form-control verifypassword"
+						name		= "confirmPassword"
+						placeholder	= "{{TranslationService.getText('SETTINGS_REPEAT_PASSWORD')}}"
+						ng-model	= "passwordconfirm"
+						wj-validation-error = "passwordconfirm != newUser.password ? 'niet gelijk!!!' : ''" />
+				</div>
+
+<!--
+				<div ng-messages="resetPasswordForm.newpassword.$error" class="error">
+					<span ng-message="passwordMatch">
+						{{TranslationService.getText('ATSREGISTER_PASSWORD_MATCH')}}
+					</span>
+				</div>
+-->
+				<div class = "col-md-1">
+					<span class = "verified-confirmation glyphicon"></span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-offset-8 col-md-2">
+		<div class="form-group">
+			<button class="btn btn-danger btn-block pull-right" type="button"ng-click=" $state.go('^')">
+				{{TranslationService.getText('SETTINGS_CANCEL')}}
+			</button>
+		</div>
+	</div>
+	<div class="col-md-2">
+		<div class="form-group">
+			<button class="btn btn-success pull-right save-user" type="button" onclick="saveUser(newUser)">
+				{{TranslationService.getText('SETTINGS_SAVE')}}
+			</button>
+		</div>
+	</div>
+</div>

@@ -176,6 +176,17 @@ angular.module('app.ontdekJouwTalent')
 				return APIService.deleteUser({personId:id});
 			}
 
+			// ADDUSER
+			/**
+			 * @ngdoc method
+			 * @name addUser
+			 * @methodOf app.ontdekJouwTalent.service:UserManagementService
+			 * @parameters
+			 * @description Add a new user in detailswindow of Settings-UserManagement-Users
+			 */
+			,addUser: function(data){
+				return APIService.addUser({person:data});
+			}
 		}
 	}
 ]);

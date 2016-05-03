@@ -13,8 +13,7 @@ angular.module('app.ontdekJouwTalent')
 		$scope.emailInvalidClass = AppConfig.APPCONSTANTS_REGISTER_EMAILINVALID_FEEDBACK_CLASS;
 		$scope.emailInvalidText = AppConfig.APPCONSTANTS_REGISTER_EMAILINVALID_FEEDBACK_TEXT;
 		$scope.loginURL = $location.protocol() + '://' + $location.host() + ($location.port == 80 ? "" : (':' + $location.port())) + '/#/login';
-
-
+		
 		// REGISTERSUBMIT
 		/**
 		 * @ngdoc method
@@ -63,7 +62,8 @@ angular.module('app.ontdekJouwTalent')
 					function(successResponse){
 						$scope.error = successResponse.status != 200
 						$scope.registerFeedbackText = TranslationService.getText(successResponse.message);
-					}				);
+					}
+				);
 			}
 		}
 	}

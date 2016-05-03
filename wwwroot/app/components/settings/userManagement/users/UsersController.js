@@ -7,32 +7,32 @@
  * */
 angular.module('app.ontdekJouwTalent')
 .controller('UsersController',
-	['$scope','data','UserManagementService','APIService',
-	function($scope,data,UserManagementService,APIService) {
-		$scope.data = data;
-		$scope.confirmationText = $scope.TranslationService.getText('SETTINGS_CONFIRMATION');
+	['$scope','$state','data','UserManagementService','APIService',
+	function($scope,$state,data,UserManagementService,APIService) {
+
+		$scope.data = data; // REFERRED TO IN LISTVIEW
+		$scope.newUser = data; // REFERRED TO IN DETAILVIEW
 
 		// ========== USER LISTVIEW METHODS ==========
 
-		// ADDTEAM
+		// SAVEUSER
 		/**
 		 * @ngdoc method
-		 * @name addTeam
-		 * @methodOf app.ontdekJouwTalent.controller:TeamsController
-		 * @description Called when user addTeam a team.
+		 * @name saveUser
+		 * @methodOf app.ontdekJouwTalent.controller:UsersController
+		 * @description Called when a user is added.
 		 */
-		$scope.addUser = function(){
-			UserManagementService.addTeam()
+		$scope.saveUser = function(newUser){
+			UserManagementService.addUser(newUser)
 			.then(
 				function(successResponse){
 					// NO STATE CORRESPONDS TO THIS ACTION, CALL TRACKDATA MANUALLY
-					APIService.trackData('addTeam')
+					APIService.trackData('saveUser')
 					.then(
 						function(){
 							// REFRESH TEAM LIST
-							$state.go('settings.userManagement.listTeams',{},{reload:true});
-						}
-					)
+							$state.go('settings.userManagement.listUsers');
+						})
 				}
 			);
 		}

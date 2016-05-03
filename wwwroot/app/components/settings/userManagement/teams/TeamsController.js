@@ -43,7 +43,7 @@ angular.module('app.ontdekJouwTalent')
 		 * @ngdoc method
 		 * @name addTeam
 		 * @methodOf app.ontdekJouwTalent.controller:TeamsController
-		 * @description Called when user addTeam a team.
+		 * @description Called when user adds a team.
 		 */
 		$scope.addTeam = function(){
 			$state.go('settings.userManagement.detailTeam');
@@ -126,7 +126,7 @@ angular.module('app.ontdekJouwTalent')
 		 * @ngdoc method
 		 * @name deleteTeamMember
 		 * @methodOf app.ontdekJouwTalent.controller:TeamsController
-		 * @description delete a team member. No API call, teammember is deleted from team MEMBERS array
+		 * @description Delete a team member.
 		 * @param {uuid} id id of teammember to delete
 		 */
 		$scope.deleteTeamMember = function(id){
@@ -141,10 +141,6 @@ angular.module('app.ontdekJouwTalent')
 			.then(
 				function(successResponse){
 					APIService.trackData('deleteTeamMember')
-					.then(
-						function(){
-							$state.go('settings.userManagement.listTeams',{},{reload:true});
-						})
 				}
 			);
 		}
@@ -154,7 +150,7 @@ angular.module('app.ontdekJouwTalent')
 		 * @ngdoc method
 		 * @name addTeamMember
 		 * @methodOf app.ontdekJouwTalent.controller:TeamsController
-		 * @description adds a team member. No API call, teammember is added to team MEMBERS array
+		 * @description Adds a team member. No API resulting call, teammember is added to team MEMBERS array
 		 * @param {object} team member to add
 		 */
 		$scope.addTeamMember = function(newTeamMember){

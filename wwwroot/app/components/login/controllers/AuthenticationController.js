@@ -35,13 +35,14 @@ angular.module('app.ontdekJouwTalent')
 					password: user.password
 				})
 				.then(
+					// SUCCESS (STATUS:200)
 					function(successResponse){
 						// AUTHENTICATE SUCCESS
 						$scope.error = successResponse.status != 200;
-						$scope.loginFeedbackText = $scope.error ? TranslationService.getText(successResponse.message) : "";
-						$scope.profiles = successResponse.profiles;
+						$scope.loginFeedbackText = $scope.error ? TranslationService.getText(successResponse.data.message) : "";
+						$scope.profiles = successResponse.data.profiles;
 
-						successResponse.profiles.forEach(function(currentProfile,index,profiles){
+						successResponse.data.profiles.forEach(function(currentProfile,index,profiles){
 							if(currentProfile.loggedIn == true){
 								// OTHER USER SESSION ACTIVE
 								loggedInDomains += "\n" + currentProfile.domainName + " (" + currentProfile.domainOwner + ")";
@@ -50,17 +51,20 @@ angular.module('app.ontdekJouwTalent')
 								$scope.loggedInWithProfileText = TranslationService.getText('LOGIN_LOGGEDINWITHPROFILE') + loggedInDomains;
 							}
 						});
-						if(successResponse.profiles.length > 1){
+						if(successResponse.data.profiles.length > 1){
 							// MULTIPLE PROFILES
 							$scope.userHasMultipleProfiles = TranslationService.getText('LOGIN_MULTIPLEPROFILES');
-							$scope.profiles = successResponse.profiles;
+							$scope.profiles = successResponse.data.profiles;
 							$state.go('login.userProfiles');
 						}
 						else{
-							// LOG IN WITH PROFILE
-							login(successResponse.profiles[0].domainId);
+							// LOG IN WITH ONLY PROFILE AVAILABLE
+							login(successResponse.data.profiles[0].domainId);
 						}
-
+					}
+					// ERROR (status:501)
+					,function(successResponse){
+						$scope.loginFeedbackText = TranslationService.getText('LOGIN_ERROR');
 					}
 				)
 			}

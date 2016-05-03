@@ -2,20 +2,6 @@ angular.module('app.ontdekJouwTalent')
 .factory('AuthService',['$state','APIService','AppConfig','SessionService',
 	function($state,APIService,AppConfig,SessionService){
 
-/*
-		// TRANSFORM A KEY-VALUE PAIR IN AN OBJECT WITH KEYS 'NAME' AND 'VALUE' WITH THE ORIGINAL VALUES
-		function extract(data){
-			var result = [];
-			angular.forEach(data,function(value,key){
-				result.push({
-					'name': key,
-					'value': value
-				});
-			});
-			return result;
-		}
-*/
-
 		return {
 			authenticate: function(data) {
 				return APIService.authenticate(data);
