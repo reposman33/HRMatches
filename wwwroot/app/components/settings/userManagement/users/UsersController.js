@@ -12,7 +12,7 @@ angular.module('app.ontdekJouwTalent')
 
 		$scope.data = data; // REFERRED TO IN LISTVIEW
 		$scope.newUser = data; // REFERRED TO IN DETAILVIEW
-
+		$scope.confirmDeleteUserText = $scope.TranslationService.getText('SETTINGS_CONFIRMATION');
 		// ========== USER LISTVIEW METHODS ==========
 
 		// SAVEUSER
@@ -25,16 +25,17 @@ angular.module('app.ontdekJouwTalent')
 		$scope.saveUser = function(newUser){
 			UserManagementService.addUser(newUser)
 			.then(
-				function(successResponse){
+				function(successResponse) {
 					// NO STATE CORRESPONDS TO THIS ACTION, CALL TRACKDATA MANUALLY
-					APIService.trackData('saveUser')
-					.then(
-						function(){
-							// REFRESH TEAM LIST
-							$state.go('settings.userManagement.listUsers');
-						})
+					APIService.trackData('saveUser');
 				}
-			);
+			)
+			.then(
+				function(){
+					// REFRESH TEAM LIST
+					$state.go('settings.userManagement.listUsers');
+				}
+			)
 		}
 
 		// DELETEUSER
@@ -51,14 +52,13 @@ angular.module('app.ontdekJouwTalent')
 				function(successResponse){
 					// NO STATE CORRESPONDS TO THIS ACTION, CALL TRACKDATA MANUALLY
 					APIService.trackData('deleteUser')
-					.then(
-						function(){
-							// REFRESH TEAM LIST
-							$state.go('settings.userManagement.listUsers',{},{reload:true});
-						})
 				}
-			);
+			)
+			.then(
+				function(){
+				// REFRESH TEAM LIST
+				$state.go('settings.userManagement.listUsers',{},{reload:true});
+			})
 		}
-
 	}]
 );

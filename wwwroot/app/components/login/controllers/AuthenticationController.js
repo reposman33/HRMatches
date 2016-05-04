@@ -8,8 +8,8 @@
  * */
 angular.module('app.ontdekJouwTalent')
 .controller('AuthenticationController',
-	['$scope','$state','AppConfig','AuthService','TranslationService','SessionService',
-	 function($scope,$state,AppConfig,AuthService,TranslationService,SessionService){
+	['$scope','$state','AppConfig','AuthService','filterFilter','TranslationService','SessionService',
+	 function($scope,$state,AppConfig,AuthService,filterFilter,TranslationService,SessionService){
 
 		//AUTHENTICATE
 		/**
@@ -136,7 +136,6 @@ angular.module('app.ontdekJouwTalent')
 		$scope.login = login;
 
 		function login(selectedDomainId){
-
 			if(!selectedDomainId){
 				$state.go('login');
 			}
@@ -151,7 +150,10 @@ angular.module('app.ontdekJouwTalent')
 			.then(
 				function(successResponse){
 					// CREATE LOCAL SESSION
-					SessionService.setCurrentUser({token:successResponse.token,domainId:selectedDomainId,username:SessionService.get('username')});
+					// RETRIEVE USERPROFILE DATA
+					var selectedUserProfile = filterFilter($scope.profiles,{domainId:selectedDomainId}); // selectedUserProfile is an array
+					SessionService.setCurrentUser({userProfile:selectedUserProfile[0], token:successResponse.token,domainId:selectedDomainId,username:SessionService.get('username')});
+
 					$state.go(AppConfig.APPCONSTANTS_NAVIGATION_ENTRYPOINT);
 				}
 			).finally(

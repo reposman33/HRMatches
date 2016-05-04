@@ -1,4 +1,4 @@
-angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.router','ui.router.modal','xeditable','angular-confirm','ngPassword'])
+angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.router','ui.router.modal','xeditable','angular-confirm'])
 .constant('AppConfig',{
 	// APPLICATION DEFINED VALUES
 	APPCONSTANTS_HOSTNAME: location.hostname
@@ -34,12 +34,13 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 		,token:''
 	}
 	,APPCONSTANTS_SETTINGS_USERMANAGEMENT_USER: { // TEMPLATE FOR SETTINGS-USERMANAAGEMENT-USER: ADD NEW USER
-		emailaddress: ''
+		id: ''
+		,emailaddress: ''
 		,firstName: ''
-		,id: '0'
 		,infix: ''
 		,lastName: ''
-		,password: ''
+		,password: undefined // IMPORTANT FOR PASSWORD MATCH CHECK
+		,passwordConfirm: undefined //IMPORTANT FOR PASSWORD MATCH CHECK
 	}
 	,API_ENDPOINTS: {
 		'translation': {			// ===== LEGENDA =====
