@@ -1,0 +1,68 @@
+{
+	"configuration": {
+		"title": "Team eigenschappen",
+		"buttons": {
+			"cancel": {
+				"allow": true
+			},
+			"save": {
+				"allow": true
+			},
+			"addTeamMember": {
+				"allow": true
+			},
+			"deleteTeamMembr": {
+				"allow": true
+			}
+		}
+		,"columns": [{
+			"visible": true,
+			"columnName": "name",
+			"header_visible": true,
+			"header_text": "Naam teamlid",
+			"cell_editable": false,
+			"cell": {
+				"type":"text"
+			}
+		},{
+			"visible": true,
+			"columnName": "role",
+			"header_visible": true,
+			"header_text": "Rol",
+			"cell_editable": false,
+			"cell": {
+				"type":"select",
+				"options": [{
+					"title": "Administrator",
+					"id": 1
+				},{
+					"title": "Beoordelaar",
+					"id": 2
+				},{
+					"title": "Manager",
+					"id": 3
+				}],
+				"defaultSelected": 2
+			}
+		}]
+	},
+	"data": {
+		"header": {
+			"label": "Team naam"
+			,"placeHolder": "Demo"
+		},
+		"listingHeaders": ["Naam teamlid","Rol"]
+		,"listing": [
+			{
+				"name": "HRMatches, Demo", // name of team member
+				"role": "1" //id of selected role
+			},{
+				"name": "Test, Herwin",
+				"role": "2"
+			},{
+				"name": "test2,test2",
+				"role": "1"
+			}
+		]
+	}
+}

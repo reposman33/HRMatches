@@ -186,6 +186,20 @@ angular.module('app.ontdekJouwTalent')
 			 */
 			,addUser: function(data){
 				return APIService.addUser({person:data});
+			},
+			
+			// ========== JOBDOMAINS ==========
+			
+			// JOBDOMAIN
+			/**
+				* @ngdoc method
+				* @name jobdomain
+				* @methodOf app.ontdekJouwTalent.service:UserManagementService
+				* @parameters {String} jobDomainId optional
+				* @description Called from state 'settings.userManagement.jobdomains'
+			**/
+			jobDomains: function(jobDomainId) {
+				return APIService.jobDomain(jobDomainId);
 			}
 		}
 	}

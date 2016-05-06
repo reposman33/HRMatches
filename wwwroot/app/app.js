@@ -32,6 +32,15 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 		,MEMBERS: []
 		,displayName: 'New Team'
 		,token:''
+	},
+	APPCONSTANTS_SETTINGS_USERMANAGEMENT_JODOMAIN: {
+		id: 0,
+		TEAMS: [],
+		displayName: 'New',
+		parent: 0,
+		cultureId: 0,
+		matchingId: 0,
+		token: ''
 	}
 	,APPCONSTANTS_SETTINGS_USERMANAGEMENT_USER: { // TEMPLATE FOR SETTINGS-USERMANAAGEMENT-USER: ADD NEW USER
 		id: ''
@@ -144,8 +153,8 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 						,'id':'id'
 					}
 				}
-				,'jobpool': { // vacaturePool
-					endpoint: 'userManagement-jobpool'
+				,'jobDomains': { // vacaturePool
+					endpoint: 'jobdomains'
 					,method: 'GET'
 					,addToken: true
 				}
@@ -178,6 +187,11 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 					endpoint: 'teams'
 					,method: 'DELETE'
 					,addToken: true
+				},
+				'jobdomains': {
+					endpoint: 'jobdomains',
+					method: 'GET',
+					addToken: true
 				}
 			}
 		}
@@ -545,7 +559,12 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 			}
 		})
 	// ---------- SETTINGS.USERMANAGEMENT.vacaturePool----------
-		.state('settings.userManagement.vacaturePool', {
-			url:'/vacaturePool'
+		.state('settings.userManagement.jobDomains', {
+			url:'/jobDomains',
+			resolve: {
+				data: ['UserManagementService', function(UserManagementService) {
+					return UserManagementService.jobDomains();
+				}]
+			}
 		})
 }]);

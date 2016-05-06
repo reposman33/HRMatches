@@ -196,6 +196,15 @@ angular.module('app.ontdekJouwTalent')
 	this.addUser = function(data){
 		return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.addUser,data:data});
 	}
+	// ========== SETTINGS-USERMANAGEMENT-JOBDOMAINS ==========
+	this.jobDomain = function(id) {
+		if(id!=undefined){
+			return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.jobDomain,data:{jobDomainId:id}});
+		}
+		else{
+			return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.jobDomain});
+		}
+	}
 
 	 // ========== TRANSLATION ==========
 	this.loadTranslation = function(){

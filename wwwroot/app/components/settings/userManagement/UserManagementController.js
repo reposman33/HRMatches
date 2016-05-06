@@ -18,7 +18,7 @@ angular.module('app.ontdekJouwTalent')
 			{ heading: settingsData.settings.setting.userManagement.page.tabTitles.invited, route:"settings.userManagement.uitgenodigd"},
 			{ heading: settingsData.settings.setting.userManagement.page.tabTitles.rightsAndRoles, route:"settings.userManagement.rechtenEnRollen"},
 			{ heading: settingsData.settings.setting.userManagement.page.tabTitles.teams, route:"settings.userManagement.listTeams"},
-			{ heading: settingsData.settings.setting.userManagement.page.tabTitles.vacaturePool, route:"settings.userManagement.vacaturePool"}
+			{ heading: settingsData.settings.setting.userManagement.page.tabTitles.jobDomains, route:"settings.userManagement.jobDomains"}
 		];
 
 		// FIND ACTIVE TAB THAT CORRESPONDS TO CURRENT STATE

@@ -1,0 +1,39 @@
+{
+	"configuration": {
+		"title": "Teams",
+		"columns": [{
+			"visible": true,
+			"columnName": "title",
+			"header_visible": true,
+			"header_text": "Rol",
+			"cell_editable": false
+		},{
+		  "visible": false,
+		  "columnName": "id",
+		  "header_visible": false,
+		  "header_text": "ID",
+		  "cell_editable": false
+		}
+		],
+		"row_editable": true,
+	  "pagination": {
+		"enable": false,
+		"itemsPerPage": 15,
+		"maxSize": 10
+	  }	},
+	"data": [
+		{
+			"title": "Demo"
+			,"id":"1"
+		},{
+			"title": "HR"
+			,"id":"2"
+		},{
+			"title": "ICT"
+			,"id":"3"
+		},{
+			"title": "Logistics"
+			,"id":"4"
+		}
+	]
+}
