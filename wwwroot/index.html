@@ -2,10 +2,26 @@
 <html>
 
 <head>
- 	<link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
-	<link rel="stylesheet" href="/node_modules/angular-xeditable-0.1.11/css/xeditable.min.css">
-	<link rel="stylesheet" href="/assets/style/font-awesome-4.6.1/css/font-awesome.min.css">
+	<!--BOOTSTRAP JS + JQUERY -->
+	<script type="text/javascript" src="/assets/js/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="/assets/js/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="/assets/style/Bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/assets/style/Bootstrap/js/bootstrap-select.min.js"></script>
 
+	<!-- BOOTSTRAP CSS-->
+ 	<link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+
+	<link rel="stylesheet" href="/assets/style/font-awesome-4.6.1/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/assets/style/jquery-ui.min.css">
+
+	<!--BOOTSTRAP-SELECT-->
+	<link rel="stylesheet" href="/assets/style/Bootstrap/css/bootstrap-select.min.css">
+	<!--BOOTSTRAP-AUTOCOMPLETE-->
+	<link rel="stylesheet" href="/assets/style/Bootstrap/css/bootstrap-autocomplete.css">
+
+	<link rel="stylesheet" href="/node_modules/angular-xeditable-0.1.11/css/xeditable.min.css">
+
+	<link type="text/css" rel="stylesheet" href="//fonts.googleapis.com/css?family=Sintony:400,700">
 	<!-- CUSTOM CSS -->
 	<link rel="stylesheet" href="/assets/style/custom_code.css">
 	<link rel="stylesheet" href="/assets/style/new.css">
@@ -24,20 +40,20 @@
 	<script type="text/javascript" src="app/app.js"></script>
 
 	<!--NAVBAR-->
-	<script type="text/javascript" src="wwwroot/app/components/navigation/NavigationController.js"></script>
+	<script type="text/javascript" src="/app/components/navigation/NavigationController.js"></script>
 	<!-- REGISTRATION -->
 	<script type="text/javascript" src="/app/components/register/controllers/RegisterController.js"></script>
 	<!-- LOGIN -->
 	<script type="text/javascript" src="/app/components/login/controllers/AuthenticationController.js"></script>
 	<script type="text/javascript" src="/app/components/login/directives/loginAdvertorial.js"></script>
-	<script type="text/javascript" src="/app/components/login/directives/compareTo.js"></script>
+	<script type="text/javascript" src="/app/shared/directives.js"></script>
 	<script type="text/javascript" src="/app/components/login/services/AuthService.js"></script>
 	<!-- TRANSLATION -->
 	<script type="text/javascript" src="/app/components/translation/controllers/TranslationController.js"></script>
 	<script type="text/javascript" src="/app/components/translation/services/TranslationService.js"></script>
 	<!-- JOBLIST -->
 	<script type="text/javascript" src="/app/components/joblist/controllers/JoblistController.js"></script>
-	<script type="text/javascript" src="/app/components/joblist/services/JoblistService.js"></script>
+	<script type="text/javascript" src="/app/components/settings/userManagement/jobdomains/controller.js"></script>
 	<!--SETTINGS-->
 	<script type="text/javascript" src="/app/components/settings/userManagement/UserManagementController.js"></script>
 	<script type="text/javascript" src="/app/components/settings/userManagement/UserManagementService.js"></script>
@@ -45,7 +61,6 @@
 	<script type="text/javascript" src="/app/components/settings/userManagement/rechtenEnRollen/RightsAndRolesController.js"></script>
 	<script type="text/javascript" src="/app/components/settings/userManagement/teams/TeamsController.js"></script>
 	<script type="text/javascript" src="/app/components/settings/userManagement/users/UsersController.js"></script>
-
 	<!-- SHARED RESOURCES -->
 	<script type="text/javascript" src="/app/shared/filters/Filters.js"></script>
 	<script type="text/javascript" src="/app/shared/services/UtilsService.js"></script>

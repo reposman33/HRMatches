@@ -190,7 +190,7 @@ angular.module('app.ontdekJouwTalent')
 			
 			// ========== JOBDOMAINS ==========
 			
-			// JOBDOMAIN
+			// JOBDOMAINS
 			/**
 				* @ngdoc method
 				* @name jobdomain
@@ -198,8 +198,38 @@ angular.module('app.ontdekJouwTalent')
 				* @parameters {String} jobDomainId optional
 				* @description Called from state 'settings.userManagement.jobdomains'
 			**/
-			jobDomains: function(jobDomainId) {
-				return APIService.jobDomain(jobDomainId);
+			jobdomain: function(jobDomainId) {
+				return APIService.jobdomain(jobDomainId);
+			}
+
+			,getCultures: function(API_endpoint,API_method){
+				return APIService.get({endpoint:API_endpoint,method:API_method});
+			}
+
+			,getMatchingconfigurations: function(API_endpoint,API_method){
+				return APIService.get({endpoint:API_endpoint,method:API_method});
+			}
+
+			,saveJobdomain: function(API_endpoint,API_method,data){
+				return APIService.request({
+					API:{
+						endpoint:API_endpoint,
+						method:API_method
+					},
+					data:data
+					}
+				);
+			}
+
+			,deleteJobdomain: function(API_endpoint,API_method,data){
+				return APIService.request({
+						API:{
+							endpoint:API_endpoint,
+							method:API_method
+						},
+						data:data
+					}
+				);
 			}
 		}
 	}

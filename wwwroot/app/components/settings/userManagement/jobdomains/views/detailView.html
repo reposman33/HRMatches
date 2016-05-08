@@ -1,115 +1,115 @@
 <div class="well bg-white">
 	<div class="row">
 		<div class="col-md-12 ">
-			<div class="h4">{{data.team.DisplayName}}</div>
+			<div class="h4">{{TranslationService.getText('SETTINGS_JOBDOMAIN_PROPERTIES')}}</div>
 			<div class="well teamsettings">
 
 
 				<div class="row form-group">
 					<div class="col-md-4">
-						<label for="exampleInputTeamname">{{TranslationService.getText('SETTINGS_TEAM_NAME')}}</label>
+						<label for="exampleInputTeamname">{{TranslationService.getText('SETTINGS_JOBDOMAIN_NAME')}}</label>
 					</div>
 
 					<div class="col-md-8">
 						<input
-							type="text"
-							name="teamName"
-							ng-model="data.team.DisplayName"
-							value="{{data.team.DisplayName}}"
+							name="jobDomainName"
+							placeholder="TranslationService.getText('SETTINGS_LASTNAME')"
+							value="{{data.jobDomain.DisplayName}}"
 							class="form-control"
-							id="exampleInputTeamname"
-							placeholder="{{data.team.DisplayName}}">
-					</div>
-				</div>
-
-
-				<div class="well bg-white team-well">
-					<div class="row">
-						<div class="col-md-12">
-
-							<div class="bs-example" data-example-id="striped-table">
-								<table class="table table-striped h10">
-									<thead>
-									<tr>
-										<th>{{TranslationService.getText('SETTINGS_TEAMMEMBER_NAME')}}</th>
-										<th>{{TranslationService.getText('SETTINGS_ROLE')}}</th>
-									</tr>
-									</thead>
-									<tbody>
-									<tr ng-repeat="teamMember in data.team.MEMBERS">
-										<td>{{teamMember.firstName}} {{teamMember.infix}} {{teamMember.lastName}}</td>
-										<td>
-											<select
-												ng-model="teamMember.roleId"
-												ng-options="role.id as role.systemName for role in data.roles"
-												class="form-control h9 selectpicker">
-											</select>
-										</td>
-										<td class="right_text">
-											<button
-												type="submit"
-												confirm="{{TranslationService.getText('SETTINGS_CONFIRMATION')}}"
-												ng-click="deleteTeamMember(teamMember.personId)"
-												class="btn btn-sm btn-default"
-												data-toggle="tooltip"
-												data-placement="top">
-											<i class="fa red fa-remove"></i>
-											</button>
-										</td>
-									</tr>
-									<!--ADD NEW TEAMMEMBER-->
-									<tr>
-										<td>
-											<select
-												class="form-control selectpicker"
-												ng-model="newUser.personId"
-												ng-options="user.id as (user.firstName + ' ' + user.infix + ' ' + user.lastName) for user in data.users">
-												<option value="">- Selecteer teamlid -</option>
-											</select>
-										</td>
-
-										<td>
-											<select
-												ng-model="newUser.roleId"
-												ng-options="role.id as role.systemName for role in data.roles"
-												class="form-control h9 selectpicker">
-												<option value="">- Selecteer rol -</option>
-											</select>
-										</td>
-										<td class="right_text">
-											<button
-												ng-click="addTeamMember(newUser);"
-												class="btn btn-sm btn-default">
-												<i class="fa blue fa-plus"></i>
-											</button>
-										</td>
-									</tr>
-
-									</tbody>
-								</table>
-							</div>
-						</div>
+							type="text"
+							ng-model="data.jobDomain.DisplayName">
 					</div>
 				</div>
 
 				<div class="row form-group">
-					<div class="col-md-2 pull-right">
-						<button
-							type="button"
-							class="btn btn-success pull-right"
-							ng-click="saveTeam(data.team)">{{TranslationService.getText('SETTINGS_SAVE')}}
-						</button>
+					<div class="col-md-4">
+						<label for="exampleInputTeamname">{{TranslationService.getText('SETTINGS_JOBDOMAIN_NAME_PARENT')}}</label>
 					</div>
 
-					<div class="col-md-2 pull-right">
-						<button
-							type="submit"
-							class="btn btn-danger pull-right"
-							ng-click="cancel()">{{TranslationService.getText('SETTINGS_CANCEL')}}</button>
+					<div class="col-md-8">
+						<select
+							name="jobDomainParent"
+							class="form-control"
+							ng-model="data.jobDomain.parent"
+							ng-selected="data.jobDomain.parent"
+							ng-options="currentJobDomain.id as currentJobDomain[AppConfig.API_ENDPOINTS.settings.userManagement.jobdomains.columnNames.displayName] for currentJobDomain in data.jobDomains"
+						>
+							<option>{{TranslationService.getText('SETTINGS_JOBDOMAIN_NONE')}}</option>
+						</select>
 					</div>
 				</div>
 
-			</div>
+				<div class="row form-group">
+					<div class="col-md-4">
+						<label>{{TranslationService.getText('SETTINGS_CULTURE')}}</label>
+					</div>
+
+					<div class="col-md-8">
+						<select
+							name="domainOwnerCompanyCulture"
+							class="form-control"
+							ng-model="data.jobDomain.companyCultureId"
+							ng-selected="data.jobDomain.companyCultureId"
+							ng-options="culture.id as culture[AppConfig.API_ENDPOINTS.settings.userManagement.jobdomains.columnNames.cultureName] for culture in data.cultures"
+						>
+							<option value="{{data.jobDomain.companyCultureId}}">{{TranslationService.getText('SETTINGS_JOBDOMAIN_NONE')}}</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="row form-group">
+					<div class="col-md-4">
+						<label>{{TranslationService.getText('SETTINGS_MATCHING')}}</label>
+					</div>
+
+					<div class="col-md-8">
+						<select
+							name="domainOwnerCompanyCulture"
+							class="form-control"
+							ng-model="data.jobDomain.matchingId"
+							ng-selected="data.jobDomain.matchingId"
+							ng-options="matchingconfiguration.id as matchingconfiguration[AppConfig.API_ENDPOINTS.settings.userManagement.jobdomains.columnNames.matchingconfigurationName] for matchingconfiguration in data.matchingconfigurations"
+						>
+							<option value="{{data.jobDomain.matchingId}}">{{TranslationService.getText('SETTINGS_JOBDOMAIN_NONE')}}</option>
+						</select>
+					</div>
+				</div>
+
+
+				<div class="row form-group">
+					<div class="col-md-4">
+						<label>{{TranslationService.getText('SETTINGS_TEAMS')}}</label>
+					</div>
+
+					<div class="col-md-8">
+						<select
+							name="jobdomainTeamId"
+							multiple
+							class="form-control"
+							ng-model="data.jobDomain.TEAMS"
+							ng-options="team.id as team[AppConfig.API_ENDPOINTS.settings.userManagement.teams.columnNames.displayName] for team in data.teams"
+						>
+							<option value="{{data.jobDomain.TEAMS}}">{{TranslationService.getText('SETTINGS_JOBDOMAIN_NONE')}}</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="row form-group">
+					<div class="col-md-4 pull-right">
+						<button
+							type="button"
+							class="btn btn-success pull-right"
+							ng-click="saveJobdomain(data.jobDomain.domainOwnerId,data.jobDomain.id,data.jobDomain.DisplayName,data.jobDomain.parent,data.jobDomain.companyCultureId,data.jobDomain.matchingId,data.jobDomain.TEAMS)">
+							{{TranslationService.getText('SETTINGS_SAVE')}}
+						</button>
+					</div>
+
+					<div class="col-md-4 pull-right">
+						<button type="button" class="btn btn-danger pull-right" ng-click="$state.go('settings.userManagement.jobdomains')">{{TranslationService.getText('')}} Annuleren </button>
+					</div>
+				</div>
 		</div>
+
+
 	</div>
 </div>

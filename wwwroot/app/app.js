@@ -33,10 +33,10 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 		,displayName: 'New Team'
 		,token:''
 	},
-	APPCONSTANTS_SETTINGS_USERMANAGEMENT_JODOMAIN: {
+	APPCONSTANTS_SETTINGS_USERMANAGEMENT_JOBDOMAIN: {
 		id: 0,
 		TEAMS: [],
-		displayName: 'New',
+		DisplayName: 'New',
 		parent: 0,
 		cultureId: 0,
 		matchingId: 0,
@@ -153,10 +153,18 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 						,'id':'id'
 					}
 				}
-				,'jobDomains': { // vacaturePool
-					endpoint: 'jobdomains'
-					,method: 'GET'
-					,addToken: true
+				,'jobdomains': { //vacaturePool
+					endpoint: 'jobdomains',
+					method: 'GET',
+					addToken: true,
+					columnNames: {
+						displayName: 'DisplayName',
+						id: 'id',
+						cultureName:'name',
+						cultureNameId: 'id',
+						matchingconfigurationName:'DisplayName',
+						matchingconfigurationId: 'id'
+					}
 				}
 				,'updateRolesAndPermissions': {
 					endpoint: 'role'
@@ -187,11 +195,6 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 					endpoint: 'teams'
 					,method: 'DELETE'
 					,addToken: true
-				},
-				'jobdomains': {
-					endpoint: 'jobdomains',
-					method: 'GET',
-					addToken: true
 				}
 			}
 		}
@@ -224,6 +227,16 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 			endpoint: 'validate_secretkey'
 			,method: 'POST'
 			,addToken: false
+		}
+		,'cultures': {
+			endpoint: 'cultures'
+			,method: 'GET'
+			,addToken: true
+		}
+		,'matchingconfigurations': {
+			endpoint: 'matchingconfigurations'
+			,method: 'GET'
+			,addToken: true
 		}
 	}
 }) //END constant
@@ -558,13 +571,60 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 				}
 			}
 		})
-	// ---------- SETTINGS.USERMANAGEMENT.vacaturePool----------
-		.state('settings.userManagement.jobDomains', {
-			url:'/jobDomains',
+	// ---------- SETTINGS.USERMANAGEMENT.jobdomains----------
+		.state('settings.userManagement.jobdomains', {
+			url:'/jobDomain',
 			resolve: {
 				data: ['UserManagementService', function(UserManagementService) {
-					return UserManagementService.jobDomains();
+					return UserManagementService.jobdomain();
 				}]
 			}
+			,views: {
+				'tabContent@settings.userManagement': {
+					controller: 'JobdomainsController'
+					,templateUrl: '/app/components/settings/userManagement/jobdomains/views/listView.html'
+				}
+			}
 		})
+		.state('settings.userManagement.jobdomain', {
+			url: '/addJobdomain'
+				,params: {
+					id: undefined
+				}
+			,resolve: {
+				jobdomain: ['$stateParams','UserManagementService', function($stateParams,UserManagementService) {
+					return $stateParams.id != undefined? UserManagementService.jobdomain($stateParams.id) : AppConfig.APPCONSTANTS_SETTINGS_USERMANAGEMENT_JOBDOMAIN;
+				}]
+				,cultures: ['UserManagementService', function(UserManagementService) {
+					return UserManagementService.getCultures(AppConfig.API_ENDPOINTS.cultures.endpoint,'GET');
+				}]
+				,matchingconfigurations: ['UserManagementService', function(UserManagementService) {
+					return UserManagementService.getMatchingconfigurations(AppConfig.API_ENDPOINTS.matchingconfigurations.endpoint,'GET');
+				}]
+				,jobDomains: ['UserManagementService', function(UserManagementService) {
+					return UserManagementService.jobdomain();
+				}]
+				,teams: ['UserManagementService', function(UserManagementService) {
+					return UserManagementService.team();
+				}]
+				,data: ['$stateParams','jobdomain','cultures','matchingconfigurations','jobDomains','teams','UserManagementService',
+						function($stateParams,jobdomain,cultures,matchingconfigurations,jobDomains,teams,UserManagementService) {
+							return {
+								jobDomains:jobDomains,
+								jobDomain: jobdomain,
+								cultures:cultures,
+								matchingconfigurations:matchingconfigurations,
+								teams:teams
+							};
+						}
+					]
+			}
+			,views: {
+				'tabContent@settings.userManagement': {
+					controller: 'JobdomainsController'
+					,templateUrl: '/app/components/settings/userManagement/jobdomains/views/detailView.html'
+				}
+			}
+		}
+	)
 }]);

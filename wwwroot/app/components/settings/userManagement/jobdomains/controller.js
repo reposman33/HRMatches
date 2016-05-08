@@ -1,32 +1,48 @@
 /**
  * @ngdoc controller
- * @name app.ontdekJouwTalent.controller:TeamsController
- * @description This controller contains functionality for Teams under 'Settings-Usermanagement '
+ * @name app.ontdekJouwTalent.controller:JobdomainsController
+ * @description This controller contains functionality for Jobdomains under 'Settings-Usermanagement '
  * @requires $scope,$state,AppConfig,settingsData,data,UserManagementService,SessionService
- * Referring states:'settings.userManagement.listTeams
+ * Referring states:'settings.userManagement.jobdomains
  * */
 angular.module('app.ontdekJouwTalent')
-.controller('TeamsController',
-	['$scope','$state','APIService','AppConfig','data','UserManagementService',
-	function($scope,$state,APIService,AppConfig,data,UserManagementService) {
+.controller('JobdomainsController',
+	['$scope','$state','APIService','AppConfig','data','SessionService','UserManagementService',
+	function($scope,$state,APIService,AppConfig,data,SessionService,UserManagementService) {
 		$scope.selectedOption = 30;
 		$scope.data = data;
+
+		// TEAMS ARRAY FOR A SINGLE JOBDOMAIN CONTAINS OBJECTS {NAME,ID}. WE ONLY NEED IDS FOR THE MULTIPLE SELECT SO CHANGE THAT HERE
+		if(data.jobDomain != undefined){
+			$scope.data.jobDomain.TEAMS = data.jobDomain.TEAMS.map(function(currentValue, index,teams){
+				return currentValue.id;
+			});
+		}
+
+		$scope.deleteConfirmationText = $scope.TranslationService.getText('SETTINGS_CONFIRMATION');
 		$scope.viewConfig = {
 			"title": "Jobdomains",
 			"columns": [{
 				"visible": true,
-				"columnName": AppConfig.API_ENDPOINTS.settings.userManagement.jobDomains.columnNames.displayName,
+				"columnName": AppConfig.API_ENDPOINTS.settings.userManagement.jobdomains.columnNames.displayName,
 				"header_visible": false,
 				"header_text": "",
 				"cell_editable": false
 			},{
 				"visible": false,
-				"columnName": AppConfig.API_ENDPOINTS.settings.userManagement.jobDomains.columnNames.id,
+				"columnName": AppConfig.API_ENDPOINTS.settings.userManagement.jobdomains.columnNames.id,
 				"header_visible": false,
 				"header_text": "",
 				"cell_editable": false
 			}
-			],
+			,{
+				"visible": false,
+				"columnName": AppConfig.API_ENDPOINTS.settings.userManagement.jobdomains.columnNames.id,
+				"header_visible": false,
+				"header_text": "",
+				"cell_editable": false
+			}
+				],
 			"row_editable": true,
 			"pagination": {
 				"enable": false,
@@ -34,18 +50,17 @@ angular.module('app.ontdekJouwTalent')
 				"maxSize": 10
 			}
 		}
-		$scope.confirmationText = $scope.TranslationService.getText('SETTINGS_CONFIRMATION');
 
 		// ========== JOBDOMAIN LISTVIEW METHODS ==========
 		// ADDJOBDOMAIN
 		/**
 		 * @ngdoc method
-		 * @name addTeam
-		 * @methodOf app.ontdekJouwTalent.controller:controller
+		 * @name addJobdomain
+		 * @methodOf app.ontdekJouwTalent.controller:JobdomainsController
 		 * @description Called when user adds a jobdomain.
 		 */
 		$scope.addJobdomain = function(){
-			$state.go('settings.userManagement.jobDomains');
+			$state.go('settings.userManagement.jobdomain');
 		}
 
 		// DELETE
@@ -58,7 +73,7 @@ angular.module('app.ontdekJouwTalent')
 		 */
 		//TODO trackdata aanroepen
 		$scope.delete = function(id){
-			UserManagementService.deleteJobdomain(id)
+			UserManagementService.deleteJobdomain('jobdomains','DELETE',{jobDomainId:id})
 			.then(
 				function(successResponse){
 					// NO STATE CORRESPONDS TO THIS ACTION, CALL TRACKDATA MANUALLY
@@ -66,7 +81,7 @@ angular.module('app.ontdekJouwTalent')
 					.then(
 						function(){
 						// REFRESH JOBDOMAIN LIST
-						$state.go('settings.userManagement.jobDomains',{},{reload:true});
+						$state.go('settings.userManagement.jobdomains',{},{reload:true});
 					})
 				}
 			);
@@ -80,9 +95,8 @@ angular.module('app.ontdekJouwTalent')
 		 * @parameters {uuid} id id of team to edit
 		 * @description Called when user edits a jobdomain.
 		 */
-		//TODO trackdata aanroepen
 		$scope.edit = function(id){
-			$state.go('settings.userManagement.detailJobdomain',{teamId:id})
+			$state.go('settings.userManagement.jobdomain',{id:id})
 		}
 
 
@@ -95,7 +109,7 @@ angular.module('app.ontdekJouwTalent')
 		 * @description Called when user cancels the teams detailswindow and is redirected to teams listView.
 		 */
 		$scope.cancel = function(){
-			$state.go('settings.userManagement.jobDomains',{},{reload:true})
+			$state.go('settings.userManagement.jobdomains',{},{reload:true})
 		}
 
 		// SAVEJOBDOMAIN
@@ -106,14 +120,30 @@ angular.module('app.ontdekJouwTalent')
 		 * @parameters {uuid} id id of team to save
 		 * @description Called when user edits a jobdomain and clicks 'Save'.
 		 */
-		$scope.saveJobdomain = function(jobdomain){
-			UserManagementService.saveJobdomain(jobdomain)
+		$scope.saveJobdomain = function(domainOwnerId,id,lastName,parent,culture,matchingconfiguration,teams){
+			UserManagementService.saveJobdomain(
+				AppConfig.API_ENDPOINTS.settings.userManagement.jobdomains.endpoint,
+				id.length > 1 ? 'PUT' : 'POST',
+				{
+					jobdomains:[
+						{
+							id: id,
+							parent: parent,
+							companyCultureId: culture,
+							displayName: lastName,
+							matchingId: matchingconfiguration,
+							domainOwnerId: domainOwnerId,
+							teams: teams
+						}
+					]
+				}
+			)
 			.then(
 				function(successResponse){
 					APIService.trackData('saveJobdomain')
 					.then(
 						function(){
-							$state.go('settings.userManagement.jobDomains',{},{reload:true});
+							$state.go('settings.userManagement.jobdomains',{},{reload:true});
 						}
 					)
 				}
