@@ -137,12 +137,6 @@ angular.module('app.ontdekJouwTalent')
 					break;
 				}
 			}
-			$scope.saveTeam(data.team)
-			.then(
-				function(successResponse){
-					APIService.trackData('deleteTeamMember')
-				}
-			);
 		}
 
 		// ADDTEAMMEMBER
