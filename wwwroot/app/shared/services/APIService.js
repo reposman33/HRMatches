@@ -158,9 +158,9 @@ angular.module('app.ontdekJouwTalent')
 
 
 			// ========== SETTINGS-USERMANAGEMENT-TEAMS ==========
-			this.team = function(id) {
-				if(id!=undefined){
-					return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.teams,data:{teamid:id}});
+			this.team = function(data) {
+				if(data!=undefined){
+					return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.teams,data:data});
 				}
 				else{
 					return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.teams});

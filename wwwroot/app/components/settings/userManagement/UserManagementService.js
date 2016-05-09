@@ -123,9 +123,11 @@ angular.module('app.ontdekJouwTalent')
 			// ========== TEAMS ==========
 			// listview
 
-			,team: function(teamId){
-				return APIService.team(teamId)
+/*
+			,team: function(data){
+				return APIService.team(data)
 			}
+*/
 
 			,addTeam: function(){
 				var team = AppConfig.APPCONSTANTS_SETTINGS_USERMANAGEMENT_TEAM;

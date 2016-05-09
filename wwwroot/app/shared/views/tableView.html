@@ -2,16 +2,16 @@
 	<thead>
 	<tr>
 		<th class="col-md-3"
-			ng-repeat="column in viewConfig.columns"
+			ng-repeat="column in data.listView.configuration.columns"
 			ng-if="column.header_visible && column.visible">column.header_text</th>
-		<th  class="col-md-8" ng-show="viewConfig.row_editable">Edit</th>
+		<th  class="col-md-8" ng-show="data.configuration.row_editable">Edit</th>
 	</tr>
 	</thead>
 	<tfoot>
 	<tr
-		colspan="{{viewConfig.columns.length + (viewConfig.row_editable ? 1 : 0)}}"
-		ng-if="viewConfig.pagination.enable">
-		<td colspan="{{viewConfig.columns.length + (viewConfig.row_editable ? 1 : 0)}}">
+		colspan="{{data.listView.configuration.columns.length + (data.listView.configuration.row_editable ? 1 : 0)}}"
+		ng-if="data.listView.configuration.pagination.enable">
+		<td colspan="{{data.listView.configuration.columns.length + (data.listView.configuration.row_editable ? 1 : 0)}}">
 			<uib-pagination
 					total-items="totalItems"
 					max-size="viewConfig.pagination.maxSize"
@@ -25,8 +25,8 @@
 	</tr>
 	</tfoot>
 	<tbody>
-		<tr ng-repeat="row in data">
-			<td ng-repeat="column in viewConfig.columns"
+		<tr ng-repeat="row in data.listView.data">
+			<td ng-repeat="column in data.listView.configuration.columns"
 			    ng-if="column.visible">
 					<span
 						ng-if="column.cell_editable"
@@ -38,7 +38,7 @@
 					<span
 						ng-if="!column.cell_editable">{{row[column.columnName]}}</span>
 			</td>
-			<td ng-show="viewConfig.row_editable">
+			<td ng-show="data.listView.configuration.row_editable">
 				<button type="button" ng-click="edit(row.id)" class="btn btn-default">
 					<i class="fa yellow fa-pencil"></i>
 				</button>

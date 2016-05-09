@@ -1,4 +1,5 @@
 <div class="well bg-white">
+
 	<div class="row">
 		<div class="col-md-12 ">
 			<div class="h4">{{TranslationService.getText('SETTINGS_JOBDOMAIN_PROPERTIES')}}</div>
@@ -14,10 +15,10 @@
 						<input
 							name="jobDomainName"
 							placeholder="TranslationService.getText('SETTINGS_LASTNAME')"
-							value="{{data.jobDomain.DisplayName}}"
+							value="{{data.detailView.jobDomain.displayName}}"
 							class="form-control"
 							type="text"
-							ng-model="data.jobDomain.DisplayName">
+							ng-model="data.detailView.jobDomain.displayName">
 					</div>
 				</div>
 
@@ -30,11 +31,11 @@
 						<select
 							name="jobDomainParent"
 							class="form-control"
-							ng-model="data.jobDomain.parent"
-							ng-selected="data.jobDomain.parent"
-							ng-options="currentJobDomain.id as currentJobDomain[AppConfig.API_ENDPOINTS.settings.userManagement.jobdomains.columnNames.displayName] for currentJobDomain in data.jobDomains"
+							ng-model="data.detailView.jobDomain.parent"
+							ng-selected="data.detailView.jobDomain.parent"
+							ng-options="currentJobDomain.id as currentJobDomain[AppConfig.API_ENDPOINTS.settings.userManagement.jobdomains.columnNames.displayName] for currentJobDomain in data.detailView.jobDomains"
 						>
-							<option>{{TranslationService.getText('SETTINGS_JOBDOMAIN_NONE')}}</option>
+							<option value="">{{TranslationService.getText('SETTINGS_JOBDOMAIN_NONE')}}</option>
 						</select>
 					</div>
 				</div>
@@ -48,11 +49,11 @@
 						<select
 							name="domainOwnerCompanyCulture"
 							class="form-control"
-							ng-model="data.jobDomain.companyCultureId"
-							ng-selected="data.jobDomain.companyCultureId"
-							ng-options="culture.id as culture[AppConfig.API_ENDPOINTS.settings.userManagement.jobdomains.columnNames.cultureName] for culture in data.cultures"
+							ng-model="data.detailView.jobDomain.companyCultureId"
+							ng-selected="data.detailView.jobDomain.companyCultureId"
+							ng-options="culture.id as culture[AppConfig.API_ENDPOINTS.settings.userManagement.jobdomains.columnNames.cultureName] for culture in data.detailView.cultures"
 						>
-							<option value="{{data.jobDomain.companyCultureId}}">{{TranslationService.getText('SETTINGS_JOBDOMAIN_NONE')}}</option>
+							<option value="">{{TranslationService.getText('SETTINGS_JOBDOMAIN_NONE')}}</option>
 						</select>
 					</div>
 				</div>
@@ -66,11 +67,11 @@
 						<select
 							name="domainOwnerCompanyCulture"
 							class="form-control"
-							ng-model="data.jobDomain.matchingId"
-							ng-selected="data.jobDomain.matchingId"
-							ng-options="matchingconfiguration.id as matchingconfiguration[AppConfig.API_ENDPOINTS.settings.userManagement.jobdomains.columnNames.matchingconfigurationName] for matchingconfiguration in data.matchingconfigurations"
+							ng-model="data.detailView.jobDomain.matchingId"
+							ng-selected="data.detailView.jobDomain.matchingId"
+							ng-options="matchingconfiguration.id as matchingconfiguration[AppConfig.API_ENDPOINTS.settings.userManagement.jobdomains.columnNames.matchingconfigurationName] for matchingconfiguration in data.detailView.matchingconfigurations"
 						>
-							<option value="{{data.jobDomain.matchingId}}">{{TranslationService.getText('SETTINGS_JOBDOMAIN_NONE')}}</option>
+							<option value="">{{TranslationService.getText('SETTINGS_JOBDOMAIN_NONE')}}</option>
 						</select>
 					</div>
 				</div>
@@ -86,10 +87,10 @@
 							name="jobdomainTeamId"
 							multiple
 							class="form-control"
-							ng-model="data.jobDomain.TEAMS"
-							ng-options="team.id as team[AppConfig.API_ENDPOINTS.settings.userManagement.teams.columnNames.displayName] for team in data.teams"
+							ng-model="data.detailView.jobDomain.teams"
+							ng-options="team.id as team[AppConfig.API_ENDPOINTS.settings.userManagement.teams.columnNames.displayName] for team in data.detailView.teams"
 						>
-							<option value="{{data.jobDomain.TEAMS}}">{{TranslationService.getText('SETTINGS_JOBDOMAIN_NONE')}}</option>
+							<option value="">{{TranslationService.getText('SETTINGS_JOBDOMAIN_NONE')}}</option>
 						</select>
 					</div>
 				</div>
@@ -99,7 +100,7 @@
 						<button
 							type="button"
 							class="btn btn-success pull-right"
-							ng-click="saveJobdomain(data.jobDomain.domainOwnerId,data.jobDomain.id,data.jobDomain.DisplayName,data.jobDomain.parent,data.jobDomain.companyCultureId,data.jobDomain.matchingId,data.jobDomain.TEAMS)">
+							ng-click="saveJobdomain(data.detailView.jobDomain.domainOwnerId,data.detailView.jobDomain.id,data.detailView.jobDomain.displayName,data.detailView.jobDomain.parent,data.detailView.jobDomain.companyCultureId,data.detailView.jobDomain.matchingId,data.detailView.jobDomain.teams)">
 							{{TranslationService.getText('SETTINGS_SAVE')}}
 						</button>
 					</div>
@@ -109,7 +110,5 @@
 					</div>
 				</div>
 		</div>
-
-
 	</div>
 </div>

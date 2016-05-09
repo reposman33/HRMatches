@@ -29,14 +29,14 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 	}
 	,APPCONSTANTS_SETTINGS_USERMANAGEMENT_TEAM: { // TEMPLATE FOR SETTINGS-USERMANAAGEMENT-TEAM: ADD NEW TEAM
 		id: 0
-		,MEMBERS: []
+		,members: []
 		,displayName: 'New Team'
 		,token:''
 	},
 	APPCONSTANTS_SETTINGS_USERMANAGEMENT_JOBDOMAIN: {
 		id: 0,
-		TEAMS: [],
-		DisplayName: 'New',
+		teams: [],
+		displayName: 'New',
 		parent: 0,
 		cultureId: 0,
 		matchingId: 0,
@@ -57,7 +57,7 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 			,method: 'GET'			// http method to use
 			,addToken: false		// whether to add or not a user token (supplied at login) to the API call
 			,columnNames: {         // reference to columnames so we use different columnames in same shared view
-				'displayName':'DisplayName'
+				'displayName':'displayName'
 				,'id':'id'
 			}
 			,parameters: {			// parameters defined by user's permissions are supplied by API
@@ -71,7 +71,7 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 			,addToken: true
 		}
 		,'joblist': {
-			endpoint: 'joblist'
+			endpoint: 'jobs'
 			,method: 'GET'
 			,addToken: true
 			,parameters: []
@@ -149,7 +149,7 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 					,method: 'GET'
 					,addToken: true
 					,columnNames: {
-						'displayName':'DisplayName'
+						'displayName':'displayName'
 						,'id':'id'
 					}
 				}
@@ -158,11 +158,11 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 					method: 'GET',
 					addToken: true,
 					columnNames: {
-						displayName: 'DisplayName',
+						displayName: 'displayName',
 						id: 'id',
 						cultureName:'name',
 						cultureNameId: 'id',
-						matchingconfigurationName:'DisplayName',
+						matchingconfigurationName:'displayName',
 						matchingconfigurationId: 'id'
 					}
 				}
@@ -285,12 +285,12 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 }) // END run
 .config(['$stateProvider','$urlRouterProvider','AppConfig',function($stateProvider,$urlRouterProvider,AppConfig) {
 	$urlRouterProvider
-		.otherwise(function(){
-			return '/login';
-		}) // REDIRECT
-		.when('/settings',function($state){
-			$state.go(AppConfig.APPCONSTANTS_NAVIGATION_REDIRECT.SETTINGS);
-		});
+	.otherwise(function(){
+		return '/login';
+	}) // REDIRECT
+	.when('/settings',function($state){
+		$state.go(AppConfig.APPCONSTANTS_NAVIGATION_REDIRECT.SETTINGS);
+	});
 
 	$stateProvider
 		.state('message', {
@@ -408,8 +408,16 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 		.state('editTranslation', {
 			url: '/editTranslation'
 			,resolve: {
-				data: ['TranslationService', function (TranslationService) {
+				translation: ['TranslationService', function (TranslationService) {
 					return TranslationService.load();
+				}]
+				,data: ['translation', function (translation) {
+					return {
+						listView:{
+							data: translation.data,
+							configuration: translation.configuration || {}
+						}
+					}
 				}]
 			}
 			,views: {
@@ -528,8 +536,16 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 		.state('settings.userManagement.listTeams', {
 			url: '/listTeams'
 			,resolve: {
-				data: ['UserManagementService', function(UserManagementService) {
-					return UserManagementService.team();
+				teams: ['APIService', function(APIService) {
+					return APIService.team();
+				}]
+				,data: ['teams', function(teams) {
+					return {
+						listView:{
+							data: teams,
+							configuration: teams.configuration || {}
+						}
+					}
 				}]
 			}
 			,views: {
@@ -543,15 +559,15 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 		.state('settings.userManagement.detailTeam', {
 			url: '/detailTeam'
 			,params: {
-				teamId: null
+				id: null
 			}
 			,resolve: {
 				roles: ['UserManagementService', function (UserManagementService) {
 					return UserManagementService.role();
 				}]
-				,team: ['$stateParams','roles','UserManagementService', function($stateParams,roles,UserManagementService) {
-					if($stateParams.teamId){
-						return UserManagementService.team($stateParams.teamId);
+				,team: ['$stateParams','APIService', function($stateParams,APIService) {
+					if($stateParams.id){
+						return APIService.team({teamId:$stateParams.id})
 					}
 					else{
 						return angular.copy(AppConfig.APPCONSTANTS_SETTINGS_USERMANAGEMENT_TEAM);
@@ -561,7 +577,14 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 					return UserManagementService.user();
 				}]
 				,data: ['roles','team','users', function(roles,team,users) {
-					return {'roles':roles,'team':team,users:users};
+					return {
+						detailView: {
+							roles: roles,
+						 	team:  team,
+							users: users
+						},
+						configuration: team.configuration || {}
+					}
 				}]
 			}
 			,views: {
@@ -575,8 +598,16 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 		.state('settings.userManagement.jobdomains', {
 			url:'/jobDomain',
 			resolve: {
-				data: ['UserManagementService', function(UserManagementService) {
+				jobDomains: ['UserManagementService', function(UserManagementService) {
 					return UserManagementService.jobdomain();
+				}]
+				,data: ['jobDomains', function(jobDomains) {
+					return {
+						listView:{
+							data: jobDomains,
+							configuration: jobDomains.configuration || {}
+						}
+					}
 				}]
 			}
 			,views: {
@@ -604,17 +635,19 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 				,jobDomains: ['UserManagementService', function(UserManagementService) {
 					return UserManagementService.jobdomain();
 				}]
-				,teams: ['UserManagementService', function(UserManagementService) {
-					return UserManagementService.team();
+				,teams: ['APIService', function(APIService) {
+					return APIService.team();
 				}]
 				,data: ['$stateParams','jobdomain','cultures','matchingconfigurations','jobDomains','teams','UserManagementService',
 						function($stateParams,jobdomain,cultures,matchingconfigurations,jobDomains,teams,UserManagementService) {
 							return {
-								jobDomains:jobDomains,
-								jobDomain: jobdomain,
-								cultures:cultures,
-								matchingconfigurations:matchingconfigurations,
-								teams:teams
+								detailView:{
+									jobDomains:jobDomains,
+									jobDomain: jobdomain,
+									cultures:cultures,
+									matchingconfigurations:matchingconfigurations,
+									teams:teams
+								}
 							};
 						}
 					]

@@ -13,41 +13,43 @@ angular.module('app.ontdekJouwTalent')
 		$scope.data = data;
 
 		// TEAMS ARRAY FOR A SINGLE JOBDOMAIN CONTAINS OBJECTS {NAME,ID}. WE ONLY NEED IDS FOR THE MULTIPLE SELECT SO CHANGE THAT HERE
-		if(data.jobDomain != undefined){
-			$scope.data.jobDomain.TEAMS = data.jobDomain.TEAMS.map(function(currentValue, index,teams){
+		if(data.detailView && data.detailView.jobDomain!= undefined){
+			$scope.data.detailView.jobDomain.teams = data.detailView.jobDomain.teams.map(function(currentValue, index,teams){
 				return currentValue.id;
 			});
 		}
 
 		$scope.deleteConfirmationText = $scope.TranslationService.getText('SETTINGS_CONFIRMATION');
-		$scope.viewConfig = {
-			"title": "Jobdomains",
-			"columns": [{
-				"visible": true,
-				"columnName": AppConfig.API_ENDPOINTS.settings.userManagement.jobdomains.columnNames.displayName,
-				"header_visible": false,
-				"header_text": "",
-				"cell_editable": false
-			},{
-				"visible": false,
-				"columnName": AppConfig.API_ENDPOINTS.settings.userManagement.jobdomains.columnNames.id,
-				"header_visible": false,
-				"header_text": "",
-				"cell_editable": false
-			}
-			,{
-				"visible": false,
-				"columnName": AppConfig.API_ENDPOINTS.settings.userManagement.jobdomains.columnNames.id,
-				"header_visible": false,
-				"header_text": "",
-				"cell_editable": false
-			}
+		if($scope.data.listView){
+			$scope.data.listView.configuration = {
+				"title": "Jobdomains",
+				"columns": [{
+					"visible": true,
+					"columnName": AppConfig.API_ENDPOINTS.settings.userManagement.jobdomains.columnNames.displayName,
+					"header_visible": false,
+					"header_text": "",
+					"cell_editable": false
+				},{
+					"visible": false,
+					"columnName": AppConfig.API_ENDPOINTS.settings.userManagement.jobdomains.columnNames.id,
+					"header_visible": false,
+					"header_text": "",
+					"cell_editable": false
+				}
+					,{
+						"visible": false,
+						"columnName": AppConfig.API_ENDPOINTS.settings.userManagement.jobdomains.columnNames.id,
+						"header_visible": false,
+						"header_text": "",
+						"cell_editable": false
+					}
 				],
-			"row_editable": true,
-			"pagination": {
-				"enable": false,
-				"itemsPerPage": 15,
-				"maxSize": 10
+				"row_editable": true,
+				"pagination": {
+					"enable": false,
+					"itemsPerPage": 15,
+					"maxSize": 10
+				}
 			}
 		}
 

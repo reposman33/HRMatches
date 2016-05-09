@@ -7,10 +7,10 @@
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-left h8">
 				<li>
-					<a ui-sref="joblist">Jobs</a>
+					<a ui-sref="joblist">{{TranslationService.getText('TOPBAR_MY_JOBS')}}</a>
 				</li>
 				<li>
-					<a ui-sref="editTranslation">Translation</a>
+					<a ui-sref="editTranslation">{{TranslationService.getText('TOPBAR_TRANSLATION')}}</a>
 				</li>
 			</ul>
 
@@ -21,9 +21,9 @@
 						<span>{{SessionService.getCurrentUserProfile()}}</span>
 					</button>
 					<ul class="dropdown-menu" >
-						<li><a ui-sref="settings"><i class="fa fa-cog"></i> Settings</a></li>
+						<li><a ui-sref="settings"><i class="fa fa-cog"></i>{{TranslationService.getText('TOPBAR_SETTINGS')}}</a></li>
 						<li class="divider"></li>
-						<li><a ui-sref="logout"><i class="fa fa-sign-out"></i>{{TranslationService.getText('LOGIN_LOGOUT')}}</a></li>
+						<li><a ui-sref="logout"><i class="fa fa-sign-out"></i>{{TranslationService.getText('TOPBAR_LOGOUT')}}</a></li>
 					</ul>
 				</div>
 			</ul>

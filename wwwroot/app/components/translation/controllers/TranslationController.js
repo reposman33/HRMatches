@@ -11,9 +11,16 @@ angular.module('app.ontdekJouwTalent')
 	['$scope','data','SessionService','TranslationService',
 	function($scope,data,SessionService,TranslationService){
 
-		var _data = data.data;
-		$scope.viewConfig = data.configuration;
-		$scope.totalItems = _data.length;
+		var _data = data;
+
+		// MAKE ROW EDITABLE WHEN THERE IS AT LEAST 1 CELL EDITABLE
+		data.listView.configuration.row_editable = data.listView.configuration.columns.some(function(column,index,array){
+			return column.cell_editable == true;
+		});
+
+		$scope.data = data;
+
+		$scope.totalItems = _data.listView.data.length;
 		$scope.currentPage = 1;
 
 		// PAGINATE
@@ -28,7 +35,7 @@ angular.module('app.ontdekJouwTalent')
 		 * @param {Integer} newPage  - the page to retrieve
 		 */
 		$scope.paginate = function(newPage){
-			$scope.data = _data.slice(((newPage-1)*$scope.viewConfig.pagination.itemsPerPage), ((newPage)*$scope.viewConfig.pagination.itemsPerPage))
+			$scope.data.listView.data = _data.listView.data.slice(((newPage-1)*$scope.data.listView.configuration.pagination.itemsPerPage), ((newPage)*$scope.data.listView.configuration.pagination.itemsPerPage))
 		}
 
 		$scope.paginate($scope.currentPage);
