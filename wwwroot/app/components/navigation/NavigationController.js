@@ -11,9 +11,6 @@ angular.module('app.ontdekJouwTalent')
 	['$scope','SessionService',
 		function($scope,SessionService){
 
-			$scope.currentUserProfile = SessionService.getCurrentUserProfile();
-			$scope.username = SessionService.get('username');
-
 		}
 	]
 )

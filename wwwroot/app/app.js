@@ -22,6 +22,7 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 		NOTAUTHENTICATED:'login' // redirect hiernaartoe als niet ingelogd
 		,SETTINGS:'settings.userManagement.rechtenEnRollen'
 	}
+	// ENTITIES TEMPLATES - these templates are used for different entities (e.g. user, team) to define the default values for properties
 	,APPCONSTANTS_SETTINGS_USERMANAGEMENT_ROLE: { // TEMPLATE FOR SETTINGS-USERMANAAGEMENT-RIGHTS_AND_ROLES: ADD NEW ROLE
 		id: 0
 		,systemName: 'New Role'
@@ -29,17 +30,19 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 	}
 	,APPCONSTANTS_SETTINGS_USERMANAGEMENT_TEAM: { // TEMPLATE FOR SETTINGS-USERMANAAGEMENT-TEAM: ADD NEW TEAM
 		id: 0
-		,members: []
 		,displayName: 'New Team'
+		,domainOwnerId: 0
+		,members: []
 		,token:''
 	},
 	APPCONSTANTS_SETTINGS_USERMANAGEMENT_JOBDOMAIN: {
 		id: 0,
-		teams: [],
+		companyCultureId: 0,
 		displayName: 'New',
-		parent: 0,
-		cultureId: 0,
+		domainOwnerId: 0,
 		matchingId: 0,
+		parent: 0,
+		teams: [],
 		token: ''
 	}
 	,APPCONSTANTS_SETTINGS_USERMANAGEMENT_USER: { // TEMPLATE FOR SETTINGS-USERMANAAGEMENT-USER: ADD NEW USER
@@ -51,6 +54,7 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 		,password: undefined // IMPORTANT FOR PASSWORD MATCH CHECK
 		,passwordConfirm: undefined //IMPORTANT FOR PASSWORD MATCH CHECK
 	}
+	// API CONFIGURATION temporary struct to define endpoints, methods etc for API calls
 	,API_ENDPOINTS: {
 		'translation': {			// ===== LEGENDA =====
 			endpoint: 'translation'	// endpoint to use for call to API
@@ -242,10 +246,10 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 }) //END constant
 .run(function($rootScope,$state,APIService,AppConfig,AuthService,TranslationService,SessionService){
 	// perform any site-wide initialisation here
-	$rootScope.AppConfig = AppConfig;
-	$rootScope.$state = $state;
-	$rootScope.TranslationService = TranslationService;
-	$rootScope.SessionService = SessionService;
+	$rootScope.AppConfig = AppConfig; // use to access constants in views
+	$rootScope.$state = $state; // use to go directly to state in view
+	$rootScope.TranslationService = TranslationService; // used to display texts in view
+	$rootScope.SessionService = SessionService; // used in index.html to display navigationbar when user is logged in.
 
 	// RETRIEVE TRANSLATION
 	TranslationService.load()
@@ -510,11 +514,11 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 				}
 			}
 		})
-		// ---------- SETTINGS.USERMANAGEMENT.uitgenodigd----------
+		// ---------- SETTINGS.USERMANAGEMENT.UITGENODIGD----------
 		.state('settings.userManagement.uitgenodigd', {
 			url:'/uitgenodigd'
 		})
-		// ---------- SETTINGS.USERMANAGEMENT.rollen----------
+		// ---------- SETTINGS.USERMANAGEMENT.RECHTEN EN ROLLEN----------
 		.state('settings.userManagement.rechtenEnRollen', {
 			url: '/rechtenEnRollen'
 			,resolve: {
@@ -532,7 +536,8 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 				}
 			}
 		})
-		// ---------- SETTINGS.USERMANAGEMENT.teams ----------
+		// ---------- SETTINGS.USERMANAGEMENT.TEAMS ----------
+		// LIST
 		.state('settings.userManagement.listTeams', {
 			url: '/listTeams'
 			,resolve: {
@@ -555,7 +560,7 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 				}
 			}
 		})
-		// detail
+		// DETAIL
 		.state('settings.userManagement.detailTeam', {
 			url: '/detailTeam'
 			,params: {
@@ -594,7 +599,7 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 				}
 			}
 		})
-	// ---------- SETTINGS.USERMANAGEMENT.jobdomains----------
+	// ---------- SETTINGS.USERMANAGEMENT.VACATUREPOOL (JOBDOMAINS) ----------
 		.state('settings.userManagement.jobdomains', {
 			url:'/jobDomain',
 			resolve: {
@@ -623,7 +628,7 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 					id: undefined
 				}
 			,resolve: {
-				jobdomain: ['$stateParams','UserManagementService', function($stateParams,UserManagementService) {
+				jobdomain: ['$stateParams','AppConfig','UserManagementService', function($stateParams,AppConfig,UserManagementService) {
 					return $stateParams.id != undefined? UserManagementService.jobdomain($stateParams.id) : AppConfig.APPCONSTANTS_SETTINGS_USERMANAGEMENT_JOBDOMAIN;
 				}]
 				,cultures: ['UserManagementService', function(UserManagementService) {

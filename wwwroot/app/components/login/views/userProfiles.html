@@ -24,11 +24,12 @@
 						<li ng-repeat="profile in profiles" style="list-style-type: none;">
 							&nbsp;&nbsp;&nbsp;
 							<input
+								id="profile_{{$index}}"
 								type="radio"
 								name="profiles"
 								ng-model="$parent.selectedDomainId"
 								value="{{profile.domainId}}">
-							{{profile.domainName}} ({{profile.domainOwner}}) {{profile.website}}
+							<label for="profile_{{$index}}">{{profile.domainName}} ({{profile.domainOwner}}) {{profile.website}}</label>
 						</li>
 					</ul>
 				</div>

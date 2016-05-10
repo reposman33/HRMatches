@@ -8,8 +8,8 @@
  * */
 angular.module('app.ontdekJouwTalent')
 .controller('AuthenticationController',
-	['$scope','$state','AppConfig','AuthService','filterFilter','TranslationService','SessionService',
-	 function($scope,$state,AppConfig,AuthService,filterFilter,TranslationService,SessionService){
+	['$scope','$rootScope','$state','AppConfig','AuthService','filterFilter','TranslationService','SessionService',
+	 function($scope,$rootScope,$state,AppConfig,AuthService,filterFilter,TranslationService,SessionService){
 
 		//AUTHENTICATE
 		/**
@@ -153,7 +153,6 @@ angular.module('app.ontdekJouwTalent')
 					// RETRIEVE USERPROFILE DATA
 					var selectedUserProfile = filterFilter($scope.profiles,{domainId:selectedDomainId}); // selectedUserProfile is an array
 					SessionService.setCurrentUser({userProfile:selectedUserProfile[0], token:successResponse.token,domainId:selectedDomainId,username:SessionService.get('username')});
-
 					$state.go(AppConfig.APPCONSTANTS_NAVIGATION_ENTRYPOINT);
 				}
 			).finally(
@@ -178,8 +177,12 @@ angular.module('app.ontdekJouwTalent')
 		 *
 		 */
 		$scope.logout = function (){
-			AuthService.logout();
-			$state.go('logout',{reload:true});
+			AuthService.logout()
+			.then(
+				function(successResponse){
+					$state.go('logout',{reload:true});
+				}
+			)
 		}
 
 
