@@ -122,23 +122,11 @@ angular.module('app.ontdekJouwTalent')
 		 * @parameters {uuid} id id of team to save
 		 * @description Called when user edits a jobdomain and clicks 'Save'.
 		 */
-		$scope.saveJobdomain = function(domainOwnerId,id,lastName,parent,culture,matchingconfiguration,teams){
+		$scope.saveJobdomain = function(jobdomain){
 			UserManagementService.saveJobdomain(
 				AppConfig.API_ENDPOINTS.settings.userManagement.jobdomains.endpoint,
-				id.length > 1 ? 'PUT' : 'POST',
-				{
-					jobdomains:[
-						{
-							id: id,
-							parent: parent,
-							companyCultureId: culture,
-							displayName: lastName,
-							matchingId: matchingconfiguration,
-							domainOwnerId: domainOwnerId,
-							teams: teams
-						}
-					]
-				}
+				jobdomain.id.length > 1 ? 'PUT' : 'POST',
+				{jobdomains:[jobdomain]}
 			)
 			.then(
 				function(successResponse){
