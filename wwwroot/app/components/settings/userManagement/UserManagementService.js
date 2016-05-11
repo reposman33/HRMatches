@@ -148,48 +148,12 @@ angular.module('app.ontdekJouwTalent')
 			,saveTeam: function(team){
 				return APIService.saveTeam({teams:[team],domainOwnerId:team.domainOwnerId});
 			}
-
 			// detailView
 
 
 			// ========== USERS ==========
 
-			// USER
-			/**
-			 * @ngdoc method
-			 * @name user
-			 * @methodOf app.ontdekJouwTalent.service:UserManagementService
-			 * @parameters {String} domainName optional
-			 * @description Called from state 'settings.userManagement.listUsers'
-			 */
-			,user: function(domainName){
-				return APIService.user(domainName);
-			}
 
-			// DELETEUSER
-			/**
-			 * @ngdoc method
-			 * @name deleteUser
-			 * @methodOf app.ontdekJouwTalent.service:UserManagementService
-			 * @parameters
-			 * @description Called from UsersController $scope.deleteUser
-			 */
-			,deleteUser: function(id){
-				return APIService.deleteUser({personId:id});
-			}
-
-			// ADDUSER
-			/**
-			 * @ngdoc method
-			 * @name addUser
-			 * @methodOf app.ontdekJouwTalent.service:UserManagementService
-			 * @parameters
-			 * @description Add a new user in detailswindow of Settings-UserManagement-Users
-			 */
-			,addUser: function(data){
-				return APIService.addUser({person:data});
-			},
-			
 			// ========== JOBDOMAINS ==========
 			
 			// JOBDOMAINS
@@ -200,7 +164,7 @@ angular.module('app.ontdekJouwTalent')
 				* @parameters {String} jobDomainId optional
 				* @description Called from state 'settings.userManagement.jobdomains'
 			**/
-			jobdomain: function(jobDomainId) {
+			,jobdomain: function(jobDomainId) {
 				return APIService.jobdomain(jobDomainId);
 			}
 

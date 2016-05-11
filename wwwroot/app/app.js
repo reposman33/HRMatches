@@ -486,9 +486,15 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 		// ---------- SETTINGS.USERMANAGEMENT.USERS----------
 		.state('settings.userManagement.listUsers', {
 			url:'/listUsers'
+			,params: {
+				domainName: undefined
+			}
 			,resolve: {
-				data: ['UserManagementService',function(UserManagementService){
-					return UserManagementService.user();
+				data: ['$stateParams','APIService','UserManagementService',function($stateParams,APIService,UserManagementService){
+					return APIService.call({
+						API: AppConfig.API_ENDPOINTS.settings.userManagement.users,
+						data:{domainName:$stateParams.domainName}
+					});
 				}]
 			}
 			,views:{

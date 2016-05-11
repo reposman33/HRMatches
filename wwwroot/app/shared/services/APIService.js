@@ -59,28 +59,23 @@ angular.module('app.ontdekJouwTalent')
 								case 500:{ // server error
 									$state.go('message',message);
 									return errorResponse;
-									break;
 								}
 								case 501:{ // login error
 									$state.go('message',message);
 									return errorResponse;
-									break;
 								}
 								case 401:{ //niet authenticated
 									SessionService.removeCurrentUser(); //LOGOUT
 									$state.go(AppConfig.APPCONSTANTS_NAVIGATION_REDIRECT.NOTAUTHENTICATED);
 									return errorResponse;
-									break;
 								}
 								case 403:{ // niet geauthoriseerd
 									$state.go('message',message);
 									return errorResponse;
-									break;
 								}
 								default: {
 									$state.go('message',{message:'Er is een onbekende fout opgetreden'});
 									return errorResponse;
-									break;
 								}
 							}
 						}
@@ -93,6 +88,10 @@ angular.module('app.ontdekJouwTalent')
 
 			}
 
+
+			this.call = function(API,data){
+				return this.request(API,data);
+			}
 
 			// ========== LOGIN ==========
 			this.login = function(data){
@@ -129,6 +128,26 @@ angular.module('app.ontdekJouwTalent')
 				return this.request({API:AppConfig.API_ENDPOINTS.registration});
 			}
 
+			// ========== SETTINGS-USERMANAGEMENT-USERS ==========
+/* replaced by call to call()
+			this.user = function(domainName) {
+				if(domainName!=undefined){
+					return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.users,data:{domainName:domainName}});
+				}
+				else{
+					return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.users});
+				}
+			}
+*/
+
+			this.deleteUser = function(data){
+				return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.deleteUser,data:data});
+			}
+
+			this.addUser = function(data){
+				return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.addUser,data:data});
+			}
+			// ========== SETTINGS-USERMANAGEMENT-INVITED ==========
 
 			// ========== SETTINGS-USERMANAGEMENT-RIGHTSANDROLES ==========
 			this.permissions = function(){
@@ -181,23 +200,6 @@ angular.module('app.ontdekJouwTalent')
 				return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.addTeam, data:data});
 			}
 
-			// ========== SETTINGS-USERMANAGEMENT-USERS ==========
-			this.user = function(domainName) {
-				if(domainName!=undefined){
-					return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.users,data:{domainName:domainName}});
-				}
-				else{
-					return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.users});
-				}
-			}
-
-			this.deleteUser = function(data){
-				return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.deleteUser,data:data});
-			}
-
-			this.addUser = function(data){
-				return this.request({API: AppConfig.API_ENDPOINTS.settings.userManagement.addUser,data:data});
-			}
 			// ========== SETTINGS-USERMANAGEMENT-JOBDOMAINS ==========
 			this.jobdomain = function(id) {
 				if(id!=undefined){

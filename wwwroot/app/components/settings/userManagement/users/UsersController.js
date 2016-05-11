@@ -23,7 +23,7 @@ angular.module('app.ontdekJouwTalent')
 		 * @description Called when a user is added.
 		 */
 		$scope.saveUser = function(newUser){
-			UserManagementService.addUser(newUser)
+			APIService.addUser({person:newUser})
 			.then(
 				function(successResponse) {
 					// NO STATE CORRESPONDS TO THIS ACTION, CALL TRACKDATA MANUALLY
@@ -47,7 +47,7 @@ angular.module('app.ontdekJouwTalent')
 		 * @description Called when user deletes a user from listView.
 		 */
 		$scope.deleteUser = function(id){
-			UserManagementService.deleteUser(id)
+			APIService.deleteUser({personId:id})
 			.then(
 				function(successResponse){
 					// NO STATE CORRESPONDS TO THIS ACTION, CALL TRACKDATA MANUALLY
