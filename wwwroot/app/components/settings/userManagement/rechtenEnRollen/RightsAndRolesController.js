@@ -7,9 +7,11 @@
  * */
 angular.module('app.ontdekJouwTalent')
 .controller('RightsAndRolesController',
-	['$scope','$state','$filter','AppConfig','roles','permissions','UserManagementService',
-	function($scope,$state,$filter,AppConfig,roles,permissions,UserManagementService) {
+	['$scope','$state','AppConfig','data','UserManagementService','APIService',
+	function($scope,$state,AppConfig,data,UserManagementService,APIService) {
 
+		var roles = data.roles;
+		var permissions = data.permissions;
 		$scope.roles = roles;
 		$scope.permissions = permissions;
 
@@ -61,7 +63,7 @@ angular.module('app.ontdekJouwTalent')
 		 * @name edit
 		 * @methodOf app.ontdekJouwTalent.controller:RightsAndRolesController
 		 * @description
-		 * Used in generic tableView.html to edit row content
+		 * Used in generic tableView.html to assign rights to a role
 		 *
 		 */
 		$scope.edit = function(id){
@@ -69,6 +71,15 @@ angular.module('app.ontdekJouwTalent')
 		}
 
 
+		// SAVE
+		/**
+		 * @ngdoc method
+		 * @name save
+		 * @methodOf app.ontdekJouwTalent.controller:RightsAndRolesController
+		 * @description
+		 * Used in generic tableView.html to save rights and roles
+		 *
+		 */
 		$scope.save = function(rolesWithAllPermissions){
 			UserManagementService.updateRolesAndPermissions(rolesWithAllPermissions)
 			.then(
@@ -91,9 +102,11 @@ angular.module('app.ontdekJouwTalent')
 		 * The roles array is updated with a new role
 		 */
 		$scope.addRole = function(data){
-			UserManagementService.addRole()
+			// ADD A ROLE VIA API
+			APIService.call(AppConfig.API_ENDPOINTS.settings.userManagement.addRole,{roles:[AppConfig.APPCONSTANTS_SETTINGS_USERMANAGEMENT_ROLE]})
 			.then(
 				function(data){
+					// GET ROLE AND RIGHTS WITH NEW ROLE
 					$state.go('settings.userManagement.rechtenEnRollen',{},{reload:true});
 				}
 			);
@@ -107,19 +120,19 @@ angular.module('app.ontdekJouwTalent')
 		 * @description Called when user deletes a role.
 		 */
 		$scope.deleteRole = function(id){
-			UserManagementService.deleteRole(id)
+			APIService.call(AppConfig.API_ENDPOINTS.settings.userManagement.deleteRole,{roleId:id})
 			.then(
 				function(successResponse){
-					// REMOVE ROLE FROM ROLESWITHALLPERMISSIONS
+					// DELETE ROLE FROM ARRAY ROLESWITHALLPERMISSIONS
 					var allRoles = [];
 					allRoles = $scope.rolesWithAllPermissions.filter(function(role,index,allRoles){
 						if(role.id != id){
 							return role;
 						}
 					});
+					// UPDATE MODEL (AND VIEW)
 					$scope.rolesWithAllPermissions = allRoles;
 					roles = allRoles;
-					console.log(successResponse);
 				}
 			);
 		}

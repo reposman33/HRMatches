@@ -25,20 +25,20 @@ angular.module('app.ontdekJouwTalent')
 				"title": "Jobdomains",
 				"columns": [{
 					"visible": true,
-					"columnName": AppConfig.API_ENDPOINTS.settings.userManagement.jobdomains.columnNames.displayName,
+					"columnName": AppConfig.API_ENDPOINTS.settings.userManagement.jobdomain.columnNames.displayName,
 					"header_visible": false,
 					"header_text": "",
 					"cell_editable": false
 				},{
 					"visible": false,
-					"columnName": AppConfig.API_ENDPOINTS.settings.userManagement.jobdomains.columnNames.id,
+					"columnName": AppConfig.API_ENDPOINTS.settings.userManagement.jobdomain.columnNames.id,
 					"header_visible": false,
 					"header_text": "",
 					"cell_editable": false
 				}
 					,{
 						"visible": false,
-						"columnName": AppConfig.API_ENDPOINTS.settings.userManagement.jobdomains.columnNames.id,
+						"columnName": AppConfig.API_ENDPOINTS.settings.userManagement.jobdomain.columnNames.id,
 						"header_visible": false,
 						"header_text": "",
 						"cell_editable": false
@@ -75,18 +75,26 @@ angular.module('app.ontdekJouwTalent')
 		 */
 		//TODO trackdata aanroepen
 		$scope.delete = function(id){
-			UserManagementService.deleteJobdomain('jobdomains','DELETE',{jobDomainId:id})
+			APIService.call(
+				{
+					endpoint:AppConfig.API_ENDPOINTS.settings.userManagement.jobdomain.endpoint,
+					method:'DELETE'
+				},
+				{
+					jobDomainId:id
+				}
+			)
 			.then(
 				function(successResponse){
-					// NO STATE CORRESPONDS TO THIS ACTION, CALL TRACKDATA MANUALLY
 					APIService.trackData('deleteJobdomain')
-					.then(
-						function(){
-						// REFRESH JOBDOMAIN LIST
-						$state.go('settings.userManagement.jobdomains',{},{reload:true});
-					})
+
 				}
-			);
+			)
+			.then(
+				function(){
+					$state.go('settings.userManagement.jobdomains',{},{reload:true});
+				}
+			)
 		}
 
 		// EDIT
@@ -123,21 +131,27 @@ angular.module('app.ontdekJouwTalent')
 		 * @description Called when user edits a jobdomain and clicks 'Save'.
 		 */
 		$scope.saveJobdomain = function(jobdomain){
-			UserManagementService.saveJobdomain(
-				AppConfig.API_ENDPOINTS.settings.userManagement.jobdomains.endpoint,
-				jobdomain.id.length > 1 ? 'PUT' : 'POST',
-				{jobdomains:[jobdomain]}
+			var method = jobdomain.id.length > 1 ? 'PUT' : 'POST';
+			APIService.call(
+				{
+					endpoint:AppConfig.API_ENDPOINTS.settings.userManagement.jobdomain.endpoint,
+					method:method
+				},
+				{
+					jobdomains:[jobdomain]
+				}
 			)
 			.then(
 				function(successResponse){
 					APIService.trackData('saveJobdomain')
-					.then(
-						function(){
-							$state.go('settings.userManagement.jobdomains',{},{reload:true});
-						}
-					)
+
 				}
-			);
+			)
+			.then(
+				function(){
+					$state.go('settings.userManagement.jobdomains',{},{reload:true});
+				}
+			)
 		}
 		
 	}]

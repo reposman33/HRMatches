@@ -10,54 +10,6 @@ angular.module('app.ontdekJouwTalent')
 	function(APIService,AppConfig,SessionService){
 		return{
 
-			// ========== RIGHTS AND ROLES ==========
-			// PERMISSION
-			/**
-			 * @ngdoc method
-			 * @name permissions
-			 * @methodOf app.ontdekJouwTalent.service:UserManagementService
-			 * @parameters {Integer} id id of permission to retrieve
-			 * @description Called from state 'settings.userManagement.rechtenEnRollen'
-			 */
-			permission: function(data){
-				return APIService.permissions()
-				.then(
-					function(successResponse){
-						return successResponse;
-					}
-				)
-			}
-
-			// ROLE
-			/**
-			 * @ngdoc method
-			 * @name role
-			 * @methodOf app.ontdekJouwTalent.service:UserManagementService
-			 * @parameters {Integer} id id of role to retrieve
-			 * @description Called from states 'settings.userManagement.rechtenEnRollen',settings.userManagement.detailTeam
-			 */
-			,role: function(id){
-				return APIService.role(id)
-				.then(
-					function(successResponse){
-						return successResponse;
-					}
-					,function(errorResponse){
-						return errorResponse;
-					}
-				)
-			}
-
-			// dummydata voor settings - userManagement
-			,requestLocalJSON:  function(data){
-				return APIService.requestLocalJSON(data)
-				.then(
-					function(succesResponse){
-						return succesResponse;
-					}
-				)
-			}
-
 			// UPDATEROLESANDPERMISSIONS
 			/**
 			 * @ngdoc method
@@ -66,7 +18,7 @@ angular.module('app.ontdekJouwTalent')
 			 * @parameters {Array} rolesWithAllPermissions array with roles and permissions to update
 			 * @description Called from  RightsAndRolesController $scope.save
 			 */
-			,updateRolesAndPermissions: function(rolesWithAllPermissions){
+			updateRolesAndPermissions: function(rolesWithAllPermissions){
 				var roles = [];
 				var currentRole = {};
 
@@ -87,7 +39,7 @@ angular.module('app.ontdekJouwTalent')
 					roles.push(currentRole);
 				});
 
-				return APIService.updateRolesAndPermissions(roles)
+				return APIService.call(AppConfig.API_ENDPOINTS.settings.userManagement.updateRolesAndPermissions,{roles:roles})
 				.then(
 					function(succesResponse){
 						return succesResponse;
@@ -95,108 +47,6 @@ angular.module('app.ontdekJouwTalent')
 				)
 			}
 
-			// ADDROLE
-			/**
-			 * @ngdoc method
-			 * @name addRole
-			 * @methodOf app.ontdekJouwTalent.service:UserManagementService
-			 * @parameters
-			 * @description Called from RightsAndRolesController $scope.addRole
-			 */
-			,addRole: function(){
-				var role = AppConfig.APPCONSTANTS_SETTINGS_USERMANAGEMENT_ROLE;
-				role.token = SessionService.getCurrentUserToken();
-
-				return APIService.addRole([role])
-				.then(
-					function(succesResponse){
-						return succesResponse;
-					}
-				)
-			}
-
-			,deleteRole: function(id){
-				return APIService.deleteRole({roleId:id});
-			}
-
-
-			// ========== TEAMS ==========
-			// listview
-
-/*
-			,team: function(data){
-				return APIService.team(data)
-			}
-*/
-
-			,addTeam: function(){
-				var team = AppConfig.APPCONSTANTS_SETTINGS_USERMANAGEMENT_TEAM;
-				team.token = SessionService.getCurrentUserToken();
-
-				return APIService.addTeam({teams:[team]})
-				.then(
-					function(succesResponse){
-						return succesResponse;
-					}
-				)
-			}
-
-			,deleteTeam: function(id){
-				return APIService.deleteTeam({teamId:id});
-			}
-
-			,saveTeam: function(team){
-				return APIService.saveTeam({teams:[team],domainOwnerId:team.domainOwnerId});
-			}
-			// detailView
-
-
-			// ========== USERS ==========
-
-
-			// ========== JOBDOMAINS ==========
-			
-			// JOBDOMAINS
-			/**
-				* @ngdoc method
-				* @name jobdomain
-				* @methodOf app.ontdekJouwTalent.service:UserManagementService
-				* @parameters {String} jobDomainId optional
-				* @description Called from state 'settings.userManagement.jobdomains'
-			**/
-			,jobdomain: function(jobDomainId) {
-				return APIService.jobdomain(jobDomainId);
-			}
-
-			,getCultures: function(API_endpoint,API_method){
-				return APIService.get({endpoint:API_endpoint,method:API_method});
-			}
-
-			,getMatchingconfigurations: function(API_endpoint,API_method){
-				return APIService.get({endpoint:API_endpoint,method:API_method});
-			}
-
-			,saveJobdomain: function(API_endpoint,API_method,data){
-				return APIService.request({
-					API:{
-						endpoint:API_endpoint,
-						method:API_method
-					},
-					data:data
-					}
-				);
-			}
-
-			,deleteJobdomain: function(API_endpoint,API_method,data){
-				return APIService.request({
-						API:{
-							endpoint:API_endpoint,
-							method:API_method
-						},
-						data:data
-					}
-				);
-			}
 		}
 	}
 ]);

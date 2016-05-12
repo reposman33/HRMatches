@@ -7,8 +7,8 @@
  * */
 angular.module('app.ontdekJouwTalent')
 .controller('TeamsController',
-	['$scope','$state','APIService','AppConfig','data','UserManagementService',
-	function($scope,$state,APIService,AppConfig,data,UserManagementService) {
+	['$scope','$state','APIService','AppConfig','data','UserManagementService','SessionService',
+	function($scope,$state,APIService,AppConfig,data,UserManagementService,SessionService) {
 		<!--text to display when user clicks 'Delete' button for a team-->
 		$scope.selectedOption = 30;
 		$scope.data = data;
@@ -37,7 +37,7 @@ angular.module('app.ontdekJouwTalent')
 				}
 			}
 		}
-		$scope.confirmationText = $scope.TranslationService.getText('SETTINGS_CONFIRMATION');
+		$scope.deleteConfirmationText = $scope.TranslationService.getText('SETTINGS_CONFIRMATION');
 
 		// ========== TEAM LISTVIEW METHODS ==========
 		// ADDTEAM
@@ -61,7 +61,7 @@ angular.module('app.ontdekJouwTalent')
 		 */
 		//TODO trackdata aanroepen
 		$scope.delete = function(id){
-			UserManagementService.deleteTeam(id)
+			APIService.call(AppConfig.API_ENDPOINTS.settings.userManagement.deleteTeam,{teamId:id})
 			.then(
 				function(successResponse){
 					// NO STATE CORRESPONDS TO THIS ACTION, CALL TRACKDATA MANUALLY
@@ -110,17 +110,18 @@ angular.module('app.ontdekJouwTalent')
 		 * @description Called when user edits a team and clicks 'Save'.
 		 */
 		$scope.saveTeam = function(team){
-			UserManagementService.saveTeam(team)
+			APIService.call(AppConfig.API_ENDPOINTS.settings.userManagement.addTeam,{teams:team,token:SessionService.getCurrentUserToken()})
 			.then(
 				function(successResponse){
-					APIService.trackData('saveTeam')
-					.then(
-						function(){
-							$state.go('settings.userManagement.listTeams',{},{reload:true});
-						}
-					)
+					return APIService.trackData('saveTeam')
 				}
-			);
+			)
+			.then(
+				function(){
+					$state.go('settings.userManagement.listTeams',{},{reload:true});
+				}
+			)
+
 		}
 
 		// DELETETEAMMEMBER

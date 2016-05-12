@@ -2,17 +2,28 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="530532aa-8ff9-4b00-95fe-5e20c8d1eeac" name="Default" comment="Menumodule: omschrijven, datastructuur bedenken etc;&#10;Code vereenvoudigen – APIService direct aanroepen vanuit state;&#10;Directive compareTo in addUser gaf errors - verwijderd;">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Docs/menu module.docx" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/wwwroot/app/shared/menus/dummyMenuData.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/wwwroot/app/components/login/AuthService.js" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/wwwroot/app/components/login/services/AuthService.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/wwwroot/app/shared/constants/Api_endpoints.js" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/wwwroot/app/components/joblist/controllers/JoblistController.js" afterPath="$PROJECT_DIR$/wwwroot/app/components/joblist/JoblistController.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/wwwroot/app/components/joblist/services/JoblistService.js" afterPath="$PROJECT_DIR$/wwwroot/app/components/joblist/JoblistService.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/wwwroot/app/components/login/controllers/AuthenticationController.js" afterPath="$PROJECT_DIR$/wwwroot/app/components/login/AuthenticationController.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/wwwroot/app/components/register/controllers/RegisterController.js" afterPath="$PROJECT_DIR$/wwwroot/app/components/register/RegisterController.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/wwwroot/app/components/translation/controllers/TranslationController.js" afterPath="$PROJECT_DIR$/wwwroot/app/components/translation/TranslationController.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/wwwroot/app/components/translation/services/TranslationService.js" afterPath="$PROJECT_DIR$/wwwroot/app/components/translation/TranslationService.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Docs/ToDo.docx" afterPath="$PROJECT_DIR$/Docs/ToDo.docx" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/app.js" afterPath="$PROJECT_DIR$/wwwroot/app/app.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/register/views/register.html" afterPath="$PROJECT_DIR$/wwwroot/app/components/register/views/register.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/UserManagementService.js" afterPath="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/UserManagementService.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/jobdomains/controller.js" afterPath="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/jobdomains/controller.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/jobdomains/views/detailView.html" afterPath="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/jobdomains/views/detailView.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/rechtenEnRollen/RightsAndRolesController.js" afterPath="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/rechtenEnRollen/RightsAndRolesController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/teams/TeamsController.js" afterPath="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/teams/TeamsController.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/users/UsersController.js" afterPath="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/users/UsersController.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/users/views/detailView.html" afterPath="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/users/views/detailView.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/shared/directives.js" afterPath="$PROJECT_DIR$/wwwroot/app/shared/directives.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/shared/menus/menuService.js" afterPath="$PROJECT_DIR$/wwwroot/app/shared/menus/menuService.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/shared/services/APIService.js" afterPath="$PROJECT_DIR$/wwwroot/app/shared/services/APIService.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/index.html" afterPath="$PROJECT_DIR$/wwwroot/index.html" />
     </list>
     <ignored path="OntdekJouwTalent.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -35,103 +46,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="dummyData.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/dummyData.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="container.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/views/container.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="146" selection-start-line="12" selection-start-column="146" selection-end-line="12" selection-end-column="146" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="menuService.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wwwroot/app/shared/menus/menuService.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="5" selection-start-line="10" selection-start-column="5" selection-end-line="10" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dummyMenuData.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wwwroot/app/shared/menus/dummyMenuData.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/wwwroot/app/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
-              <caret line="493" column="44" selection-start-line="493" selection-start-column="44" selection-end-line="493" selection-end-column="44" />
-              <folding>
-                <element signature="e#2356#6891#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wwwroot/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="26" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="detailView.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/users/views/detailView.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="262">
-              <caret line="90" column="8" selection-start-line="90" selection-start-column="8" selection-end-line="90" selection-end-column="8" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UserManagementService.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/UserManagementService.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="166" column="13" selection-start-line="166" selection-start-column="13" selection-end-line="166" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UsersController.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/users/UsersController.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="186">
-              <caret line="38" column="4" selection-start-line="38" selection-start-column="4" selection-end-line="38" selection-end-column="4" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="APIService.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wwwroot/app/shared/services/APIService.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="356">
-              <caret line="300" column="4" selection-start-line="300" selection-start-column="4" selection-end-line="300" selection-end-column="4" />
+            <state relative-caret-position="4109">
+              <caret line="526" column="17" selection-start-line="526" selection-start-column="17" selection-end-line="526" selection-end-column="17" />
               <folding />
             </state>
           </provider>
@@ -161,17 +80,11 @@
       <list>
         <option value="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/views/userManagementContainer.html" />
         <option value="$PROJECT_DIR$/wwwroot/app/shared/views/prompt.html" />
-        <option value="$PROJECT_DIR$/wwwroot/app/components/joblist/services/JoblistService.js" />
-        <option value="$PROJECT_DIR$/wwwroot/app/components/translation/services/TranslationService.js" />
         <option value="$PROJECT_DIR$/wwwroot/app/shared/views/message.html" />
         <option value="$PROJECT_DIR$/wwwroot/node_modules/angular-confirm/angular-confirm.js" />
-        <option value="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/rechtenEnRollen/RightsAndRolesController.js" />
-        <option value="$PROJECT_DIR$/wwwroot/app/components/login/services/AuthService.js" />
         <option value="$PROJECT_DIR$/wwwroot/app/components/login/views/login.html" />
         <option value="$PROJECT_DIR$/wwwroot/app/components/login/views/2stepAuthentication.html" />
-        <option value="$PROJECT_DIR$/wwwroot/app/components/register/controllers/RegisterController.js" />
         <option value="$PROJECT_DIR$/wwwroot/app/components/login/views/forgotPassword.html" />
-        <option value="$PROJECT_DIR$/wwwroot/app/components/register/views/register.html" />
         <option value="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/rechtenEnRollen/views/listView.html" />
         <option value="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/teams/views/listView.html" />
         <option value="$PROJECT_DIR$/wwwroot/app/components/settings/views/container.html" />
@@ -190,33 +103,40 @@
         <option value="$PROJECT_DIR$/wwwroot/assets/style/Bootstrap/js/bootstrap-select.min.js" />
         <option value="$PROJECT_DIR$/wwwroot/assets/style/jquery-ui.min.css" />
         <option value="$PROJECT_DIR$/wwwroot/app/shared/views/tableView.html" />
-        <option value="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/teams/TeamsController.js" />
         <option value="$PROJECT_DIR$/wwwroot/app/components/translation/views/editTranslation.html" />
         <option value="$PROJECT_DIR$/wwwroot/app/components/translation/controllers/TranslationController.js" />
-        <option value="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/teams/views/detailView.html" />
-        <option value="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/jobdomains/controller.js" />
-        <option value="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/jobdomains/views/detailView.html" />
         <option value="$PROJECT_DIR$/wwwroot/app/components/login/views/userProfiles.html" />
         <option value="$PROJECT_DIR$/wwwroot/app/components/navigation/views/navigation.html" />
-        <option value="$PROJECT_DIR$/wwwroot/app/components/login/controllers/AuthenticationController.js" />
         <option value="$PROJECT_DIR$/wwwroot/app/components/navigation/NavigationController.js" />
         <option value="$PROJECT_DIR$/wwwroot/app/components/settings/dummyData.json" />
-        <option value="$PROJECT_DIR$/wwwroot/app/app.js" />
-        <option value="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/users/UsersController.js" />
-        <option value="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/UserManagementService.js" />
-        <option value="$PROJECT_DIR$/wwwroot/index.html" />
         <option value="$PROJECT_DIR$/wwwroot/app/shared/directives.js" />
         <option value="$PROJECT_DIR$/wwwroot/app/shared/menus/menuService.js" />
         <option value="$PROJECT_DIR$/wwwroot/app/shared/menus/dummyMenuData.js" />
-        <option value="$PROJECT_DIR$/wwwroot/app/shared/services/APIService.js" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/users/UsersController.js" />
         <option value="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/users/views/detailView.html" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/teams/views/detailView.html" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/jobdomains/views/detailView.html" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/jobdomains/controller.js" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/register/views/register.html" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/register/controllers/RegisterController.js" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/teams/TeamsController.js" />
+        <option value="$PROJECT_DIR$/wwwroot/app/app.js" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/rechtenEnRollen/RightsAndRolesController.js" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/UserManagementService.js" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/login/services/AuthService.js" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/translation/services/TranslationService.js" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/joblist/services/JoblistService.js" />
+        <option value="$PROJECT_DIR$/wwwroot/app/shared/services/APIService.js" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/login/controllers/AuthenticationController.js" />
+        <option value="$PROJECT_DIR$/wwwroot/index.html" />
       </list>
     </option>
   </component>
-  <component name="JsBuildToolGruntFileManager" detection-done="true" />
-  <component name="JsBuildToolPackageJson" detection-done="true" />
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
   <component name="JsGulpfileManager">
     <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
@@ -229,10 +149,10 @@
     <treeState />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="99" />
-    <option name="y" value="10" />
-    <option name="width" value="1428" />
-    <option name="height" value="980" />
+    <option name="x" value="1" />
+    <option name="y" value="1" />
+    <option name="width" value="1678" />
+    <option name="height" value="1018" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -242,16 +162,70 @@
             <id />
           </State>
           <State>
+            <id>Bitwise operation issuesJava</id>
+          </State>
+          <State>
+            <id>Bitwise operation issuesJavaScript</id>
+          </State>
+          <State>
+            <id>Class metricsJava</id>
+          </State>
+          <State>
+            <id>Class structureJava</id>
+          </State>
+          <State>
+            <id>Code style issuesJava</id>
+          </State>
+          <State>
+            <id>Control FlowGroovy</id>
+          </State>
+          <State>
+            <id>Control flow issuesJava</id>
+          </State>
+          <State>
+            <id>Control flow issuesJavaScript</id>
+          </State>
+          <State>
+            <id>Data flow issuesJava</id>
+          </State>
+          <State>
             <id>GeneralJavaScript</id>
           </State>
           <State>
             <id>Groovy</id>
           </State>
           <State>
+            <id>ImportsJava</id>
+          </State>
+          <State>
+            <id>JUnit issuesJava</id>
+          </State>
+          <State>
+            <id>Java</id>
+          </State>
+          <State>
             <id>JavaScript</id>
           </State>
           <State>
+            <id>JavaScript function metricsJavaScript</id>
+          </State>
+          <State>
+            <id>Method MetricsGroovy</id>
+          </State>
+          <State>
+            <id>Method metricsJava</id>
+          </State>
+          <State>
+            <id>Numeric issuesJava</id>
+          </State>
+          <State>
             <id>Potentially confusing code constructsGroovy</id>
+          </State>
+          <State>
+            <id>Potentially confusing code constructsJavaScript</id>
+          </State>
+          <State>
+            <id>Probable bugsJava</id>
           </State>
           <State>
             <id>Threading issuesGroovy</id>
@@ -259,7 +233,7 @@
         </expanded-state>
         <selected-state>
           <State>
-            <id>AngularJS</id>
+            <id>CoffeeScript</id>
           </State>
         </selected-state>
       </profile-state>
@@ -290,6 +264,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -304,7 +280,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="OntdekJouwTalent" />
+              <option name="myItemId" value="ontdekJouwTalent" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -314,7 +290,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="OntdekJouwTalent" />
+              <option name="myItemId" value="ontdekJouwTalent" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -328,25 +304,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="OntdekJouwTalent" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="wwwroot" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="OntdekJouwTalent" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="OntdekJouwTalent" />
+              <option name="myItemId" value="ontdekJouwTalent" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -357,10 +315,6 @@
               <option name="myItemId" value="app" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="shared" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -368,7 +322,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="OntdekJouwTalent" />
+              <option name="myItemId" value="ontdekJouwTalent" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -383,8 +337,30 @@
               <option name="myItemId" value="shared" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+          </PATH>
+          <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="menus" />
+              <option name="myItemId" value="OntdekJouwTalent" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ontdekJouwTalent" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wwwroot" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="components" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vacaturegids" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -394,18 +370,174 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="OntdekJouwTalent" />
+              <option name="myItemId" value="ontdekJouwTalent" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Docs" />
+              <option name="myItemId" value="wwwroot" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="components" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="translation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OntdekJouwTalent" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ontdekJouwTalent" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wwwroot" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="components" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="settings" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OntdekJouwTalent" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ontdekJouwTalent" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wwwroot" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="components" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="settings" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="userManagement" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OntdekJouwTalent" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ontdekJouwTalent" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wwwroot" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="components" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="settings" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="userManagement" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="users" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OntdekJouwTalent" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ontdekJouwTalent" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wwwroot" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="components" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="settings" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="userManagement" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="teams" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OntdekJouwTalent" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ontdekJouwTalent" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wwwroot" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="components" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -427,28 +559,28 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="904" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
-    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.JavaScript" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
     <property name="js-jscs-nodeInterpreter" value="C:\Program Files\nodejs\node.exe" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/wwwroot/app/shared/services" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/wwwroot/app/components/translation" />
     <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/wwwroot/app/components/PaaS/translations/views/keysList.html" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="nodejs_interpreter_path" value="C:\Program Files (x86)\nodejs\node" />
     <property name="js.eslint.eslintPackage" value="" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\www\ontdekJouwTalent\wwwroot\app\components\translation" />
+      <recent name="C:\www\ontdekJouwTalent\wwwroot\app\components\register" />
+      <recent name="C:\www\ontdekJouwTalent\wwwroot\app\components\login" />
+      <recent name="C:\www\ontdekJouwTalent\wwwroot\app\components\joblist" />
+      <recent name="C:\www\ontdekJouwTalent\wwwroot\app\shared\services" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\data\www\OntdekJouwTalent\wwwroot\app\components\settings\userManagement\users" />
       <recent name="C:\data\www\OntdekJouwTalent\wwwroot\assets\img" />
       <recent name="I:\www\ontdekJouwTalent\wwwroot\app\components\settings\userManagement\teams" />
       <recent name="C:\data\www\OntdekJouwTalent\wwwroot\app\shared\views" />
-      <recent name="C:\data\www\OntdekJouwTalent\wwwroot\app\components\settings\userManagement" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\www\ontdekJouwTalent\wwwroot\app\shared\services" />
-      <recent name="C:\data\www\OntdekJouwTalent\wwwroot\app\components\settings\userManagement\users\views" />
-      <recent name="C:\data\www\OntdekJouwTalent\wwwroot\app\components\settings\userManagement\rechtenEnRollen" />
-      <recent name="C:\data\www\OntdekJouwTalent\wwwroot\app\components\settings\userManagement\teams" />
       <recent name="C:\data\www\OntdekJouwTalent\wwwroot\app\components\settings\userManagement" />
     </key>
   </component>
@@ -542,22 +674,6 @@
       </option>
       <option name="moduleName" value="" />
       <option name="trusted" value="true" />
-      <method />
-    </configuration>
-    <configuration default="true" type="GradleRunConfiguration" factoryName="Gradle">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list />
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
       <method />
     </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
@@ -798,6 +914,9 @@
       <workItem from="1462779966777" duration="28103000" />
       <workItem from="1462867599310" duration="12211000" />
       <workItem from="1462886442576" duration="14119000" />
+      <workItem from="1463055582624" duration="1119000" />
+      <workItem from="1463056824137" duration="1160000" />
+      <workItem from="1463058014636" duration="24688000" />
     </task>
     <task id="LOCAL-00001" summary="Listview: Kolommen dynamisch - afhankelijk van API response; data kolomnamen voor uitlezen data generiek maken; enable-disable row editing ,enable-disable cell editing.">
       <created>1459354329432</created>
@@ -978,7 +1097,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="659585000" />
+    <option name="totallyTimeSpent" value="686552000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -990,11 +1109,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="99" y="10" width="1428" height="980" extended-state="0" />
+    <frame x="1" y="1" width="1678" height="1018" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32873562" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32413793" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3294621" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1002,18 +1120,19 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2358357" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3218391" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23794809" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33860046" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32413793" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32873562" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1090,52 +1209,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/shared/directives/select.js" />
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/login/directives/compareTo.js" />
-    <entry file="file://$PROJECT_DIR$/wwwroot/node_modules/angular-password/angular-password.min.js" />
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/teams/___detailViewData.json" />
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/users/views/listView.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="629">
-          <caret line="62" column="22" selection-start-line="62" selection-start-column="22" selection-end-line="62" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.tern-project">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/Gruntfile.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/login/views/resetPassword.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="731">
-          <caret line="43" column="12" selection-start-line="43" selection-start-column="12" selection-end-line="43" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/HRMatches.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/login/directives/loginAdvertorial.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="3" selection-start-line="9" selection-start-column="3" selection-end-line="9" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/views/userManagementContainer.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -1145,13 +1218,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/jobdomains/listViewData.json" />
     <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/teams/___listViewData.json" />
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/UserManagementController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="20" column="136" selection-start-line="20" selection-start-column="102" selection-end-line="20" selection-end-column="136" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/wwwroot/app/shared/services/_APIService.js" />
     <entry file="file://$PROJECT_DIR$/wwwroot/assets/style/Bootstrap/css/bootstrap-select.min.css">
       <provider selected="true" editor-type-id="text-editor">
@@ -1178,9 +1244,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
           <caret line="3" column="20086" selection-start-line="3" selection-start-column="20086" selection-end-line="3" selection-end-column="20086" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1212,52 +1275,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/jobdomains/views/listView.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="62" selection-start-line="14" selection-start-column="62" selection-end-line="14" selection-end-column="62" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/teams/views/listView.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="57" selection-start-line="14" selection-start-column="50" selection-end-line="14" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/wwwroot/app/components/translation/views/editTranslation.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/translation/services/TranslationService.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/translation/controllers/TranslationController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/shared/views/tableView.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="27" column="50" selection-start-line="27" selection-start-column="50" selection-end-line="27" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/teams/TeamsController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2482">
-          <caret line="146" column="30" selection-start-line="146" selection-start-column="17" selection-end-line="146" selection-end-column="30" />
         </state>
       </provider>
     </entry>
@@ -1268,28 +1289,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/teams/views/detailView.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="43" column="99" selection-start-line="43" selection-start-column="99" selection-end-line="43" selection-end-column="99" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/jobdomains/controller.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
-          <caret line="114" column="4" selection-start-line="114" selection-start-column="4" selection-end-line="114" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/jobdomains/views/detailView.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="714">
-          <caret line="112" column="6" selection-start-line="112" selection-start-column="6" selection-end-line="112" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/wwwroot/app/shared/services/SessionService.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
@@ -1297,33 +1296,32 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/navigation/views/navigation.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="20" selection-start-line="11" selection-start-column="20" selection-end-line="11" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/login/controllers/AuthenticationController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="351">
-          <caret line="149" column="18" selection-start-line="149" selection-start-column="18" selection-end-line="149" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/wwwroot/app/components/navigation/NavigationController.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
           <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/dummyData.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/login/views/userProfiles.html">
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/shared/directives.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="31" column="58" selection-start-line="31" selection-start-column="58" selection-end-line="31" selection-end-column="58" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/shared/menus/dummyMenuData.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1336,6 +1334,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/shared/constants/Api_endpoints.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="202">
+          <caret line="108" column="13" selection-start-line="108" selection-start-column="13" selection-end-line="108" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/rechtenEnRollen/views/listView.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-306">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/users/UsersController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/users/views/listView.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="693">
+          <caret line="62" column="22" selection-start-line="62" selection-start-column="22" selection-end-line="62" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/views/container.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
@@ -1344,84 +1374,212 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/dummyData.json">
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/users/views/detailView.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
+        <state relative-caret-position="497">
+          <caret line="80" column="103" selection-start-line="80" selection-start-column="103" selection-end-line="80" selection-end-column="136" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/shared/views/tableView.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="659">
+          <caret line="44" column="121" selection-start-line="44" selection-start-column="99" selection-end-line="44" selection-end-column="121" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/teams/views/detailView.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="523">
+          <caret line="99" column="42" selection-start-line="99" selection-start-column="38" selection-end-line="99" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/teams/views/listView.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="57" selection-start-line="14" selection-start-column="50" selection-end-line="14" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/jobdomains/views/listView.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="62" selection-start-line="14" selection-start-column="62" selection-end-line="14" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/UserManagementController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="202">
+          <caret line="20" column="125" selection-start-line="20" selection-start-column="125" selection-end-line="20" selection-end-column="125" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/jobdomains/views/detailView.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="676">
+          <caret line="106" column="124" selection-start-line="106" selection-start-column="124" selection-end-line="106" selection-end-column="124" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/jobdomains/controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="770">
+          <caret line="95" column="17" selection-start-line="95" selection-start-column="17" selection-end-line="95" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/navigation/views/navigation.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="20" selection-start-line="11" selection-start-column="20" selection-end-line="11" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/register/RegisterController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="685">
+          <caret line="62" column="0" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/register/views/register.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="628">
+          <caret line="79" column="82" selection-start-line="79" selection-start-column="74" selection-end-line="79" selection-end-column="82" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/login/views/forgotPassword.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-259">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/app.js">
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/teams/TeamsController.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="493" column="44" selection-start-line="493" selection-start-column="44" selection-end-line="493" selection-end-column="44" />
-          <folding>
-            <element signature="e#2356#6891#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="1099">
+          <caret line="167" column="34" selection-start-line="167" selection-start-column="34" selection-end-line="167" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/rechtenEnRollen/RightsAndRolesController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/UserManagementService.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="166" column="13" selection-start-line="166" selection-start-column="13" selection-end-line="166" selection-end-column="13" />
+        <state relative-caret-position="504">
+          <caret line="48" column="0" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/index.html">
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/translation/TranslationController.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="26" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+        <state relative-caret-position="317">
+          <caret line="54" column="31" selection-start-line="54" selection-start-column="31" selection-end-line="54" selection-end-column="31" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/shared/directives.js">
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/translation/TranslationService.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/shared/menus/dummyMenuData.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="453">
+          <caret line="52" column="0" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/wwwroot/app/shared/menus/menuService.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="5" selection-start-line="10" selection-start-column="5" selection-end-line="10" selection-end-column="5" />
+        <state relative-caret-position="85">
+          <caret line="5" column="4" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/users/UsersController.js">
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/login/AuthService.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
-          <caret line="38" column="4" selection-start-line="38" selection-start-column="4" selection-end-line="38" selection-end-column="4" />
+        <state relative-caret-position="51">
+          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/login/views/userProfiles.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="515">
+          <caret line="31" column="58" selection-start-line="31" selection-start-column="58" selection-end-line="31" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/login/views/login.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="441">
+          <caret line="41" column="139" selection-start-line="41" selection-start-column="122" selection-end-line="41" selection-end-column="139" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/wwwroot/app/shared/services/APIService.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="356">
-          <caret line="300" column="4" selection-start-line="300" selection-start-column="4" selection-end-line="300" selection-end-column="4" />
+        <state relative-caret-position="2669">
+          <caret line="157" column="29" selection-start-line="157" selection-start-column="13" selection-end-line="157" selection-end-column="29" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/users/views/detailView.html">
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/joblist/JoblistService.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="262">
-          <caret line="90" column="8" selection-start-line="90" selection-start-column="8" selection-end-line="90" selection-end-column="8" />
+        <state relative-caret-position="544">
+          <caret line="32" column="70" selection-start-line="32" selection-start-column="70" selection-end-line="32" selection-end-column="70" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/login/AuthenticationController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-51">
+          <caret line="9" column="37" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="22">
+          <caret line="24" column="25" selection-start-line="24" selection-start-column="25" selection-end-line="24" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4109">
+          <caret line="526" column="17" selection-start-line="526" selection-start-column="17" selection-end-line="526" selection-end-column="17" />
           <folding />
         </state>
       </provider>

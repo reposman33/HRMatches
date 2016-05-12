@@ -7,8 +7,8 @@
  * */
 angular.module('app.ontdekJouwTalent')
 .controller('UsersController',
-	['$scope','$state','data','UserManagementService','APIService',
-	function($scope,$state,data,UserManagementService,APIService) {
+	['$scope','$state','AppConfig','data','UserManagementService','APIService',
+	function($scope,$state,AppConfig,data,UserManagementService,APIService) {
 
 		$scope.data = data; // REFERRED TO IN LISTVIEW
 		$scope.newUser = data; // REFERRED TO IN DETAILVIEW
@@ -20,19 +20,18 @@ angular.module('app.ontdekJouwTalent')
 		 * @ngdoc method
 		 * @name saveUser
 		 * @methodOf app.ontdekJouwTalent.controller:UsersController
-		 * @description Called when a user is added.
+		 * @description Called from 'Add user' screen when a user is added.
 		 */
 		$scope.saveUser = function(newUser){
-			APIService.addUser({person:newUser})
+			APIService.call(AppConfig.API_ENDPOINTS.settings.userManagement.addUser,{person:newUser})
 			.then(
 				function(successResponse) {
-					// NO STATE CORRESPONDS TO THIS ACTION, CALL TRACKDATA MANUALLY
 					APIService.trackData('saveUser');
 				}
 			)
 			.then(
 				function(){
-					// REFRESH TEAM LIST
+					// REFRESH USER LISTVIEW
 					$state.go('settings.userManagement.listUsers');
 				}
 			)
@@ -47,16 +46,15 @@ angular.module('app.ontdekJouwTalent')
 		 * @description Called when user deletes a user from listView.
 		 */
 		$scope.deleteUser = function(id){
-			APIService.deleteUser({personId:id})
+			APIService.call(AppConfig.API_ENDPOINTS.settings.userManagement.deleteUser,{personId:id})
 			.then(
 				function(successResponse){
-					// NO STATE CORRESPONDS TO THIS ACTION, CALL TRACKDATA MANUALLY
 					APIService.trackData('deleteUser')
 				}
 			)
 			.then(
 				function(){
-				// REFRESH TEAM LIST
+				// REFRESH USER LISTVIEW
 				$state.go('settings.userManagement.listUsers',{},{reload:true});
 			})
 		}

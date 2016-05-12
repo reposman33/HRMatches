@@ -59,7 +59,6 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 		'translation': {			// ===== LEGENDA =====
 			endpoint: 'translation'	// endpoint to use for call to API
 			,method: 'GET'			// http method to use
-			,addToken: false		// whether to add or not a user token (supplied at login) to the API call
 			,columnNames: {         // reference to columnames so we use different columnames in same shared view
 				'displayName':'displayName'
 				,'id':'id'
@@ -72,19 +71,15 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 		,'updateTranslation': {
 			endpoint: 'updateTranslation'
 			,method: 'POST'
-			,addToken: true
 		}
 		,'joblist': {
 			endpoint: 'jobs'
 			,method: 'GET'
-			,addToken: true
-			,parameters: []
 		}
 		,'trackdata': {
 			endpoint: 'trackdata'
 			,method: 'POST'
-			,addToken: false
-			, parameters: { // the parameters property is not implemented yet for other Api calls
+			,parameters: { // the parameters property is not implemented yet for other Api calls
 				'trackingData': {
 					'token': '' // value injected later
 					,'state': '' // value injected later
@@ -117,50 +112,44 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 			}
 		}
 		,'settings': {
-			'userManagement': {
-				'users': {
+			endpoint: 'settings'
+			,method: 'GET'
+			,userManagement: {
+				users: {
 					endpoint: 'users'
 					,method: 'GET'
-					,addToken: true
 				}
-				,'addUser': {
+				,addUser: {
 					endpoint: 'users'
 					, method: 'POST'
-					, addToken: true
 				}
 				,'deleteUser': {
 					endpoint: 'users'
 					,method: 'DELETE'
-					,addToken: true
 				}
 				,'invited': {
 					endpoint: 'userManagement-invited'
 					,method: 'GET'
-					,addToken: true
 				}
 				,'roles': {
 					endpoint: 'role'
 					,method: 'GET'
-					,addToken: true
 				}
 				,'permissions': {
 					endpoint: 'permission'
 					,method: 'GET'
-					,addToken: true
 				}
 				,'teams': {
 					endpoint: 'teams'
 					,method: 'GET'
-					,addToken: true
 					,columnNames: {
 						'displayName':'displayName'
 						,'id':'id'
 					}
 				}
-				,'jobdomains': { //vacaturePool
+				,'jobdomain': { //vacaturePool
 					endpoint: 'jobdomains',
 					method: 'GET',
-					addToken: true,
 					columnNames: {
 						displayName: 'displayName',
 						id: 'id',
@@ -173,74 +162,60 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 				,'updateRolesAndPermissions': {
 					endpoint: 'role'
 					,method: 'PUT'
-					,addToken: true
 				}
 				,'addRole': {
 					endpoint: 'role'
 					,method: 'POST'
-					,addToken: true
 				}
 				,'deleteRole': {
 					endpoint: 'role'
 					,method: 'DELETE'
-					,addToken: true
 				}
 				,'addTeam': {
 					endpoint: 'teams'
 					,method: 'POST'
-					,addToken: true
 				}
 				,'deleteTeam': {
 					endpoint: 'teams'
 					,method: 'DELETE'
-					,addToken: true
 				}
 				,'deleteTeamMember':{
 					endpoint: 'teams'
 					,method: 'DELETE'
-					,addToken: true
 				}
 			}
 		}
 		,'authenticate': {
 			endpoint: 'authenticate'
 			,method: 'POST'
-			,addToken: false
 		}
 		,'login': {
 			endpoint: 'login'
 			,method: 'POST'
-			,addToken: false
 		}
 		,'logout': {
 			endpoint: 'logout'
 			,method: 'POST'
-			,addToken: false
 		}
 		,'forgotPassword': {
 			endpoint: 'forgotpassword'
 			,method: 'POST'
-			,addToken: false
 		}
 		,'resetPassword': {
 			endpoint: 'resetpassword'
 			,method: 'POST'
-			,addToken: false
 		}
 		,'validateSecretKey': {
 			endpoint: 'validate_secretkey'
 			,method: 'POST'
-			,addToken: false
 		}
 		,'cultures': {
 			endpoint: 'cultures'
 			,method: 'GET'
-			,addToken: true
 		}
 		,'matchingconfigurations': {
 			endpoint: 'matchingconfigurations'
 			,method: 'GET'
-			,addToken: true
 		}
 	}
 }) //END constant
@@ -252,7 +227,7 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 	$rootScope.SessionService = SessionService; // used in index.html to display navigationbar when user is logged in.
 
 	// RETRIEVE TRANSLATION
-	TranslationService.load()
+	TranslationService.load(AppConfig.API_ENDPOINTS.translation)
 	.then(
 		function(successResponse){
 			console.log('Translation loaded');
@@ -288,6 +263,13 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 
 }) // END run
 .config(['$stateProvider','$urlRouterProvider','AppConfig',function($stateProvider,$urlRouterProvider,AppConfig) {
+
+/*
+*
+* ONLY STATES THAT CORRESPOND TO APPLICATION VIEWS (ALSO REFERRED TO AS 'PAGES') ARE LISTED HERE. SINCE NO VIEW EXISTS FOR
+* E.G. THE 'ADD' ACTION IN USERMANAGEMENT - RIGHTS AND ROLES LISTVIEW THERE IS NO CORRESPONDING STATE
+*
+* */
 	$urlRouterProvider
 	.otherwise(function(){
 		return '/login';
@@ -385,8 +367,13 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 		 */
 		.state('logout', {
 			url: '/logout'
-			,onEnter: ['AuthService',function(AuthService){
-				AuthService.logout();
+			,onEnter: ['APIService','SessionService',function(APIService,SessionService){
+				APIService.call(AppConfig.API_ENDPOINTS.logout,{tokens:SessionService.getCurrentUserToken()})
+				.finally(
+					function(errorResponse){
+						SessionService.removeCurrentUser();
+					}
+				)
 			}]
 			,views: {
 				'body@': {
@@ -413,7 +400,7 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 			url: '/editTranslation'
 			,resolve: {
 				translation: ['TranslationService', function (TranslationService) {
-					return TranslationService.load();
+					return TranslationService.load(AppConfig.API_ENDPOINTS.translation);
 				}]
 				,data: ['translation', function (translation) {
 					return {
@@ -454,8 +441,8 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 		.state('settings', {
 			url: '/settings'
 			,resolve: {
-				settingsData: ['UserManagementService', function (UserManagementService) {
-					return UserManagementService.requestLocalJSON({
+				settingsData: ['APIService','UserManagementService', function (APIService,UserManagementService) {
+					return APIService.requestLocalJSON({
 						method: 'GET'
 						,url: '/app/components/settings/dummyData.json'
 					})
@@ -490,11 +477,8 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 				domainName: undefined
 			}
 			,resolve: {
-				data: ['$stateParams','APIService','UserManagementService',function($stateParams,APIService,UserManagementService){
-					return APIService.call({
-						API: AppConfig.API_ENDPOINTS.settings.userManagement.users,
-						data:{domainName:$stateParams.domainName}
-					});
+				data: ['$stateParams','APIService',function($stateParams,APIService){
+					return APIService.call(AppConfig.API_ENDPOINTS.settings.userManagement.users,{domainName:$stateParams.domainName});
 				}]
 			}
 			,views:{
@@ -509,7 +493,8 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 			url:'/addUser'
 			,resolve: {
 				data: function(){
-					// return the user template defined earlier
+					// return the user template
+					// SHOULD COME FROM API
 					return angular.copy(AppConfig.APPCONSTANTS_SETTINGS_USERMANAGEMENT_USER);
 				}
 			}
@@ -528,11 +513,17 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 		.state('settings.userManagement.rechtenEnRollen', {
 			url: '/rechtenEnRollen'
 			,resolve: {
-				roles: ['UserManagementService', function (UserManagementService) {
-					return UserManagementService.role();
+				roles: ['APIService', function (APIService) {
+					return APIService.call(AppConfig.API_ENDPOINTS.settings.userManagement.roles);
 				}]
-				,permissions: ['UserManagementService', function (UserManagementService){
-					return UserManagementService.permission();
+				,permissions: ['APIService', function (APIService){
+					return APIService.call(AppConfig.API_ENDPOINTS.settings.userManagement.permissions);
+				}]
+				,data: ['roles','permissions', function(roles,permissions) {
+					return {
+						roles: roles,
+						permissions: permissions
+					}
 				}]
 			}
 			,views: {
@@ -548,7 +539,7 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 			url: '/listTeams'
 			,resolve: {
 				teams: ['APIService', function(APIService) {
-					return APIService.team();
+					return APIService.call(AppConfig.API_ENDPOINTS.settings.userManagement.teams);
 				}]
 				,data: ['teams', function(teams) {
 					return {
@@ -570,22 +561,22 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 		.state('settings.userManagement.detailTeam', {
 			url: '/detailTeam'
 			,params: {
-				id: null
+				id: undefined
 			}
 			,resolve: {
-				roles: ['UserManagementService', function (UserManagementService) {
-					return UserManagementService.role();
+				roles: ['APIService', function (APIService) {
+					return APIService.call(AppConfig.API_ENDPOINTS.settings.userManagement.roles);
 				}]
 				,team: ['$stateParams','APIService', function($stateParams,APIService) {
 					if($stateParams.id){
-						return APIService.team({teamId:$stateParams.id})
+						return APIService.call(AppConfig.API_ENDPOINTS.settings.userManagement.teams,{teamId:$stateParams.id})
 					}
 					else{
 						return angular.copy(AppConfig.APPCONSTANTS_SETTINGS_USERMANAGEMENT_TEAM);
 					}
 				}]
-				,users: ['UserManagementService', function(UserManagementService) {
-					return UserManagementService.user();
+				,users: ['APIService', function(APIService) {
+					return APIService.call(AppConfig.API_ENDPOINTS.settings.userManagement.users);
 				}]
 				,data: ['roles','team','users', function(roles,team,users) {
 					return {
@@ -607,10 +598,10 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 		})
 	// ---------- SETTINGS.USERMANAGEMENT.VACATUREPOOL (JOBDOMAINS) ----------
 		.state('settings.userManagement.jobdomains', {
-			url:'/jobDomain',
+			url:'/jobDomains',
 			resolve: {
-				jobDomains: ['UserManagementService', function(UserManagementService) {
-					return UserManagementService.jobdomain();
+				jobDomains: ['APIService', function(APIService) {
+					return APIService.call(AppConfig.API_ENDPOINTS.settings.userManagement.jobdomain);
 				}]
 				,data: ['jobDomains', function(jobDomains) {
 					return {
@@ -628,29 +619,32 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 				}
 			}
 		})
+		// NEW JOBDOMAIN / EDIT JOBDOMAIN
 		.state('settings.userManagement.jobdomain', {
 			url: '/addJobdomain'
 				,params: {
 					id: undefined
 				}
 			,resolve: {
-				jobdomain: ['$stateParams','AppConfig','UserManagementService', function($stateParams,AppConfig,UserManagementService) {
-					return $stateParams.id != undefined? UserManagementService.jobdomain($stateParams.id) : AppConfig.APPCONSTANTS_SETTINGS_USERMANAGEMENT_JOBDOMAIN;
+				jobdomain: ['$stateParams','AppConfig','APIService', function($stateParams,AppConfig,APIService) {
+					return $stateParams.id != undefined
+						? APIService.call(AppConfig.API_ENDPOINTS.settings.userManagement.jobdomain,{jobDomainId:$stateParams.id})
+						: angular.copy(AppConfig.APPCONSTANTS_SETTINGS_USERMANAGEMENT_JOBDOMAIN);
 				}]
-				,cultures: ['UserManagementService', function(UserManagementService) {
-					return UserManagementService.getCultures(AppConfig.API_ENDPOINTS.cultures.endpoint,'GET');
+				,cultures: ['APIService', function(APIService) {
+					return APIService.call(AppConfig.API_ENDPOINTS.cultures);
 				}]
-				,matchingconfigurations: ['UserManagementService', function(UserManagementService) {
-					return UserManagementService.getMatchingconfigurations(AppConfig.API_ENDPOINTS.matchingconfigurations.endpoint,'GET');
+				,matchingconfigurations: ['APIService', function(APIService) {
+					return APIService.call(AppConfig.API_ENDPOINTS.matchingconfigurations);
 				}]
-				,jobDomains: ['UserManagementService', function(UserManagementService) {
-					return UserManagementService.jobdomain();
+				,jobDomains: ['APIService', function(APIService) {
+					return APIService.call(AppConfig.API_ENDPOINTS.settings.userManagement.jobdomain);
 				}]
 				,teams: ['APIService', function(APIService) {
-					return APIService.team();
+					return APIService.call(AppConfig.API_ENDPOINTS.settings.userManagement.teams);
 				}]
-				,data: ['$stateParams','jobdomain','cultures','matchingconfigurations','jobDomains','teams','UserManagementService',
-						function($stateParams,jobdomain,cultures,matchingconfigurations,jobDomains,teams,UserManagementService) {
+				,data: ['jobdomain','cultures','matchingconfigurations','jobDomains','teams',
+						function(jobdomain,cultures,matchingconfigurations,jobDomains,teams) {
 							return {
 								detailView:{
 									jobDomains:jobDomains,
