@@ -32,12 +32,11 @@ angular.module('app.ontdekJouwTalent')
 						qpDelimiter = '&';
 					}
 				});
-				payload=''; // DONT SEND REQUEST BODY
 				// APPEND TOKEN
 				url += token === '' ? '' : (qpDelimiter + 'token=' + token);
+				payload=''; // DON'T SEND DATA IN BODY FOR GET REQUEST
 			}
 			else if((API.method == 'PUT' || API.method == 'POST')){
-				//SEND DATA IN BODY
 				if(token != ''){
 					url += (qpDelimiter + 'token=' + token);
 				}

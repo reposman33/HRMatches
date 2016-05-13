@@ -110,7 +110,7 @@ angular.module('app.ontdekJouwTalent')
 		 * @description Called when user edits a team and clicks 'Save'.
 		 */
 		$scope.saveTeam = function(team){
-			APIService.call(AppConfig.API_ENDPOINTS.settings.userManagement.addTeam,{teams:team,token:SessionService.getCurrentUserToken()})
+			APIService.call(AppConfig.API_ENDPOINTS.settings.userManagement.addTeam,{teams:[team]})
 			.then(
 				function(successResponse){
 					return APIService.trackData('saveTeam')
