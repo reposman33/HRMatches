@@ -7,10 +7,10 @@
  * */
 angular.module('app.ontdekJouwTalent')
 .controller('SettingsController',
-	['$scope','settingsData',
-    function($scope,settingsData) {
+	['$scope','menu',
+    function($scope,menu) {
 
-		// DUMMY DATA HERE
-        $scope.settingsData = settingsData;
+        $scope.menu = menu;
+
     }
 ])

@@ -6,9 +6,10 @@
 <div>
     <uib-tabset class="nav nav-tabs h10" active="activeTab">
         <uib-tab
-            ng-repeat="t in tabs"
-            heading="{{t.heading}}"
-            select="go(t.route)"></uib-tab>
+            ng-repeat="tab in tabs"
+            heading="{{TranslationService.getText(tab.displayName)}}"
+            select="url(tab.url)"
+        ></uib-tab>
     </uib-tabset>
 
     <div ui-view="tabContent"></div>

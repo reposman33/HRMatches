@@ -8,9 +8,15 @@
  * */
 angular.module('app.ontdekJouwTalent')
 .controller('NavigationController',
-	['$scope','SessionService',
-		function($scope,SessionService){
+	['$scope','SessionService','MenuService',
+		function($scope,SessionService,MenuService){
 
+			MenuService.getMenu('TopNav')
+			.then(
+				function(successResponse){
+					$scope.menus = successResponse;
+				}
+			)
 		}
 	]
 )

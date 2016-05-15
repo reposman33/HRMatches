@@ -2,28 +2,28 @@
  * @ngdoc controller
  * @name app.ontdekJouwTalent.controller:UserManagementController
  * @description This controller contains functionality for usermanagement under 'Settings'
- * @requires $scope,$state,AppConfig,settingsData,data,UserManagementService,SessionService
- * Referring states: 'settings.userManagement','settings.userManagement.rechtenEnRollen','settings.userManagement.listTeams
+ * @requires $scope,$state,UserManagementService
+ * Referring states: 'settings.userManagement','settings.usermanagement.rightsAndRoles','settings.userManagement.teams
  * */
 angular.module('app.ontdekJouwTalent')
 .controller('UserManagementController',
-	['$scope','$state','AppConfig','settingsData','data','UserManagementService','SessionService',
-	function($scope,$state,AppConfig,settingsData,data,UserManagementService,SessionService) {
-		$scope.data = data;
-		$scope.AppConfig = AppConfig;
-
+	['$location','$scope','$state','menu','UserManagementService',
+	function($location,$scope,$state,menu,UserManagementService) {
+		$scope.tabs = [];
 		/* TABS DATA */
-		$scope.tabs = [
-			{ heading: settingsData.settings.setting.userManagement.page.tabTitles.users, route:"settings.userManagement.listUsers" },
-			{ heading: settingsData.settings.setting.userManagement.page.tabTitles.invited, route:"settings.userManagement.uitgenodigd"},
-			{ heading: settingsData.settings.setting.userManagement.page.tabTitles.rightsAndRoles, route:"settings.userManagement.rechtenEnRollen"},
-			{ heading: settingsData.settings.setting.userManagement.page.tabTitles.teams, route:"settings.userManagement.listTeams"},
-			{ heading: settingsData.settings.setting.userManagement.page.tabTitles.jobdomains, route:"settings.userManagement.jobdomains"}
-		];
+		for(var i=0; i<menu.length; i++){
+			$scope.tabs.push(
+				{
+					title: menu[i].title,
+					url: menu[i].url,
+					displayName: menu[i].displayName
+				}
+			);
+		}
 
 		// FIND ACTIVE TAB THAT CORRESPONDS TO CURRENT STATE
 		$scope.activeTab = $scope.tabs.findIndex(function(el,ind,arr){
-			if(el.route == $state.$current.name){
+			if(el.url== $state.current.url){
 				return ind;
 			}
 		})
@@ -57,9 +57,9 @@ angular.module('app.ontdekJouwTalent')
 			$state.go(route);
 		};
 
-		/*========== GEBRUIKERS ==========*/
-		/*========== UITGENODIGD ==========*/
-		/*========== RECHTEN EN ROLLEN ==========*/
+		$scope.url = function(url) {
+			$location.url(url);
+		}
 
 		// ASSIGNRIGHT
 		/**
@@ -75,9 +75,5 @@ angular.module('app.ontdekJouwTalent')
 			UserManagementService.assignRight(data);
 		}
 
-		/*========== TEAMS ==========*/
-
-
-		/*========== VACATURE POOL==========*/
 	}]
 );

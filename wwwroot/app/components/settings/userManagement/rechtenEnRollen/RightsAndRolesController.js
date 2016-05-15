@@ -3,7 +3,7 @@
  * @name app.ontdekJouwTalent.controller:RightsAndRolesController
  * @description This controller contains functionality for usermanagement RightsAndRoles
  * @requires $scope,roles,permissions
- * Referring states: settings.userManagement.rechtenEnRollen
+ * Referring states: settings.usermanagement.rightsAndRoles
  * */
 angular.module('app.ontdekJouwTalent')
 .controller('RightsAndRolesController',
@@ -107,7 +107,7 @@ angular.module('app.ontdekJouwTalent')
 			.then(
 				function(data){
 					// GET ROLE AND RIGHTS WITH NEW ROLE
-					$state.go('settings.userManagement.rechtenEnRollen',{},{reload:true});
+					$state.go('settings.usermanagement.rightsAndRoles',{},{reload:true});
 				}
 			);
 		}

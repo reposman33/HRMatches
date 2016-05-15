@@ -2,13 +2,13 @@
  * @ngdoc controller
  * @name app.ontdekJouwTalent.controller:JobdomainsController
  * @description This controller contains functionality for Jobdomains under 'Settings-Usermanagement '
- * @requires $scope,$state,AppConfig,settingsData,data,UserManagementService,SessionService
+ * @requires $scope,$state,AOIService, AppConfig,data,SessionService
  * Referring states:'settings.userManagement.jobdomains
  * */
 angular.module('app.ontdekJouwTalent')
 .controller('JobdomainsController',
-	['$scope','$state','APIService','AppConfig','data','SessionService','UserManagementService',
-	function($scope,$state,APIService,AppConfig,data,SessionService,UserManagementService) {
+	['$scope','$state','APIService','AppConfig','data','SessionService',
+	function($scope,$state,APIService,AppConfig,data,SessionService) {
 		$scope.selectedOption = 30;
 		$scope.data = data;
 

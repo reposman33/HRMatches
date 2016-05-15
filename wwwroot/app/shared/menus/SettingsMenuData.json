@@ -1,0 +1,68 @@
+[{
+	"id": 1,
+	"displayName": "SETTINGS_MY_ACCOUNT",
+	"url": "/settings/myaccount",
+	"title": "SETTINGS_MY_ACCOUNT_DESCRIPTION"
+}, {
+	"id": 2,
+	"displayName": "SETTINGS_MY_COMPANY",
+	"url": "/settings/mycompany",
+	"title": "SETTINGS_MY_COMPANY_DESCRIPTION"
+}, {
+	"id": 3,
+	"displayName": "SETTINGS_USERMANAGEMENT",
+	"url": "/settings/userManagement",
+	"title": "SETTINGS_USERMANAGEMENT_DESCRIPTION",
+	"items": [
+		{
+			"id": 1,
+			"displayName": "SETTINGS_USERS",
+			"url": "/settings/userManagement/users",
+			"title": "SETTINGS_USERS_DESCRIPTION"
+		},
+		{
+			"id": 2,
+			"displayName": "SETTINGS_INVITED",
+			"url": "/settings/userManagement/invited",
+			"title": "SETTINGS_INVITED_DESCRIPTION"
+		},
+		{
+			"id": 3,
+			"displayName": "SETTINGS_ROLES_AND_PERMISSIONS",
+			"url": "/settings/userManagement/rightsAndRoles",
+			"title": "SETTINGS_ROLES_AND_PERMISSIONS_DESCRIPTION"
+		},
+		{
+			"id": 4,
+			"displayName": "SETTINGS_TEAMS",
+			"url": "/settings/userManagement/teams",
+			"title": "SETTINGS_TEAMS_DESCRIPTION"
+		},
+		{
+			"id": 5,
+			"displayName": "SETTINGS_JOBS",
+			"url": "/settings/userManagement/jobDomains",
+			"title": "SETTINGS_JOBS_DESCRIPTION"
+		}
+	]
+}, {
+	"id": 4,
+	"displayName": "SETTINGS_TAGMANAGEMENT",
+	"url": "/settings/tagmanagement",
+	"title": "SETTINGS_TAGMANAGEMENT_DESCRIPTION"
+}, {
+	"id": 5,
+	"displayName": "SETTINGS_DOCTEMPLATES",
+	"url": "/settings/doctemplates",
+	"title": "SETTINGS_DOCTEMPLATES_DESCRIPTION"
+}, {
+	"id": 6,
+	"displayName": "SETTINGS_REFERENCES",
+	"url": "/settings/references",
+	"title": "SETTINGS_REFERENCES_DESCRIPTION"
+}, {
+	"id": 7,
+	"displayName": "SETTINGS_MATCHING",
+	"url": "/settings/matching",
+	"title": "SETTINGS_MATCHING_DESCRIPTION"
+}]

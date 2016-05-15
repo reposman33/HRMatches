@@ -1,62 +1,53 @@
-angular.module('.ontdekJouwTalent')
-service('MenuService',['ApiService',function(ApiService){
-    // constructor area, do here one-time initialisations
-    var menuData = {};
+angular.module('app.ontdekJouwTalent')
+.service('MenuService',['$rootScope','APIService','SessionService',function($rootScope,APIService,SessionService){
+	// constructor area, do here one-time initialisations
 
-    ApiService.getMenu(token,context)
-    .then(
-        function(successResponse){
-            menuData = successResponse.data;
-        }
-    )
+	/*
+	* when Api /menu is ready, replace 'requestLocalJSON()' with call below
+	* ApiService.getMenu(SessionService.getCurrentUserToken(),'topNav')
+	*
+	* */
 
-    var generateMenu = function(entity){
+	function getMenu(context){
 
-    }
+		// when Api /menu  is implemented call looks like this for menus in context of top navigation bar:
+		// return APIService.call({endpoint: 'menu',method:'GET'},{context:context})
+		
+		switch(context){
+			case 'TopNav':
+				url = '/app/shared/menus/TopNavMenuData.json';
+				break;
+			
+			case 'Settings':
+				url = '/app/shared/menus/SettingsMenuData.json';
+				break;
+		}
+		return APIService.requestLocalJSON({url:url})
+			.then(
+				function(successResponse){
+						return successResponse;
+				}
+			)
+		}
 
-    return {
+	function retrieveSubMenuByParentUrl(menu,parentUrl){
+		var result = [];
+		menu.map(
+			function(currentMenu,index,menu){
+				if(currentMenu.url === parentUrl){
+					result = currentMenu.items;
+					return;
+				}
+			}
+		)
+		return result;
+	}
 
-    }
+	return {
+		getMenu:getMenu,
 
-    /*
-    * menudata voor Settings linker menu
-    *
-    * /*
-     [{
-     "id": 1,
-     "displayName":"SETTINGS_MY_ACCOUNT",
-     "action":"settings.myaccount",
-     "title":"SETTINGS_MY_ACCOUNT_DESCRIPTION"
-     },{
-     "id": 1,
-     "displayName":"SETTINGS_MY_COMPANY",
-     "action":"settings.mycompany",
-     "title":"SETTINGS_MY_COMPANY_DESCRIPTION"
-     },{
-     "id": 1,
-     "displayName":"SETTINGS_USERMANAGEMENT",
-     "action":"settings.usermanagement",
-     "title":"SETTINGS_USERMANAGEMENT_DESCRIPTION"
-     },{
-     "id": 1,
-     "displayName":"SETTINGS_TAGMANAGEMENT",
-     "action":"settings.tagmanagement",
-     "title":"SETTINGS_TAGMANAGEMENT_DESCRIPTION"
-     },{
-     "id": 1,
-     "displayName":"SETTINGS_DOCTEMPLATES",
-     "action":"settings.doctemplates",
-     "title":"SETTINGS_DOCTEMPLATES_DESCRIPTION"
-     },{
-     "id": 1,
-     "displayName":"SETTINGS_REFERENCES",
-     "action":"settings.references",
-     "title":"SETTINGS_REFERENCES_DESCRIPTION"
-     },{
-     "id": 1,
-     "displayName":"SETTINGS_MATCHING",
-     "action":"settings.matching",
-     "title":"SETTINGS_MATCHING_DESCRIPTION"
-     }]
-     */
+		retrieveSubMenuByParentUrl: retrieveSubMenuByParentUrl
+
+	}
+
 }])

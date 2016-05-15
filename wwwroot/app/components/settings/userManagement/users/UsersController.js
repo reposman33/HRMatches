@@ -3,7 +3,7 @@
  * @name app.ontdekJouwTalent.controller:UsersController
  * @description This controller contains functionality for Users under 'Settings-Usermanagement '
  * @requires $scope
- * Referring states:'settings.userManagement.listUsers'
+ * Referring states:'settings.userManagement.users'
  * */
 angular.module('app.ontdekJouwTalent')
 .controller('UsersController',
@@ -32,7 +32,7 @@ angular.module('app.ontdekJouwTalent')
 			.then(
 				function(){
 					// REFRESH USER LISTVIEW
-					$state.go('settings.userManagement.listUsers');
+					$state.go('settings.userManagement.users');
 				}
 			)
 		}
@@ -55,7 +55,7 @@ angular.module('app.ontdekJouwTalent')
 			.then(
 				function(){
 				// REFRESH USER LISTVIEW
-				$state.go('settings.userManagement.listUsers',{},{reload:true});
+				$state.go('settings.userManagement.users',{},{reload:true});
 			})
 		}
 	}]

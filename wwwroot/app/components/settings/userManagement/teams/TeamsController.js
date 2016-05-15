@@ -2,8 +2,8 @@
  * @ngdoc controller
  * @name app.ontdekJouwTalent.controller:TeamsController
  * @description This controller contains functionality for Teams under 'Settings-Usermanagement '
- * @requires $scope,$state,AppConfig,settingsData,data,UserManagementService,SessionService
- * Referring states:'settings.userManagement.listTeams
+ * @requires $scope,$state,APIService,AppConfig,data,UserManagementService,SessionService
+ * Referring states:'settings.userManagement.teams
  * */
 angular.module('app.ontdekJouwTalent')
 .controller('TeamsController',
@@ -69,7 +69,7 @@ angular.module('app.ontdekJouwTalent')
 					.then(
 						function(){
 						// REFRESH TEAM LIST
-						$state.go('settings.userManagement.listTeams',{},{reload:true});
+						$state.go('settings.userManagement.teams',{},{reload:true});
 					})
 				}
 			);
@@ -98,7 +98,7 @@ angular.module('app.ontdekJouwTalent')
 		 * @description Called when user cancels the teams detailswindow and is redirected to teams listView.
 		 */
 		$scope.cancel = function(){
-			$state.go('settings.userManagement.listTeams',{},{reload:true})
+			$state.go('settings.userManagement.teams',{},{reload:true})
 		}
 
 		// SAVETEAM
@@ -118,7 +118,7 @@ angular.module('app.ontdekJouwTalent')
 			)
 			.then(
 				function(){
-					$state.go('settings.userManagement.listTeams',{},{reload:true});
+					$state.go('settings.userManagement.teams',{},{reload:true});
 				}
 			)
 

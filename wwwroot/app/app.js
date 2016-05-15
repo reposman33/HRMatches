@@ -6,7 +6,7 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 	,APPCONSTANTS_NAVIGATION_CURRENTDOMAIN: document.location.protocol + '://' + document.location.hostname
 	,APPCONSTANTS_RESOURCES_URIS:{
 		DOCUMENTATION: document.location.protocol + '//' + document.location.hostname + '/documentation'
-	}
+	} //
 	,APPCONSTANTS_PROTOCOL: location.protocol
 	,APPCONSTANTS_FILELOCATIONS_VIEWS: {
 		NAVIGATIONBAR: '/app/components/navigation/views/navigation.html'
@@ -20,8 +20,9 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 	,APPCONSTANTS_NAVIGATION_ENTRYPOINT: 'editTranslation'
 	,APPCONSTANTS_NAVIGATION_REDIRECT: {
 		NOTAUTHENTICATED:'login' // redirect hiernaartoe als niet ingelogd
-		,SETTINGS:'settings.userManagement.rechtenEnRollen'
+		,SETTINGS:'settings.userManagement.rightsAndRoles'
 	}
+
 	// ENTITIES TEMPLATES - these templates are used for different entities (e.g. user, team) to define the default values for properties
 	,APPCONSTANTS_SETTINGS_USERMANAGEMENT_ROLE: { // TEMPLATE FOR SETTINGS-USERMANAAGEMENT-RIGHTS_AND_ROLES: ADD NEW ROLE
 		id: 0
@@ -54,6 +55,7 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 		,password: undefined // IMPORTANT FOR PASSWORD MATCH CHECK
 		,passwordConfirm: undefined //IMPORTANT FOR PASSWORD MATCH CHECK
 	}
+
 	// API CONFIGURATION temporary struct to define endpoints, methods etc for API calls
 	,API_ENDPOINTS: {
 		'translation': {			// ===== LEGENDA =====
@@ -79,21 +81,7 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 		,'trackdata': {
 			endpoint: 'trackdata'
 			,method: 'POST'
-			,parameters: { // the parameters property is not implemented yet for other Api calls
-				'trackingData': {
-					'token': '' // value injected later
-					,'state': '' // value injected later
-					,'protocol': location.protocol
-					,'hostname': location.hostname //hostname van website
-					,'href': location.href // url (=incl protocol,port,hostname,querystring)
-					,'appVersion': navigator.appVersion //browser versie
-					,'language': navigator.language //browser taal
-					,'platform': navigator.platform //voor welk plaform is de browser
-					,'userAgent': navigator.userAgent //user agent
-					,'screenSize': screen.width + '*' + screen.height //breedte*hoogte van scherm
-					,'colorDepth': screen.colorDepth + '' //kleuren in bits/pixels
-				}
-			}
+			,parameters: {}
 		},'registration': {
 			endpoint: 'registration'
 			,method: 'POST'
@@ -225,7 +213,6 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 	$rootScope.$state = $state; // use to go directly to state in view
 	$rootScope.TranslationService = TranslationService; // used to display texts in view
 	$rootScope.SessionService = SessionService; // used in index.html to display navigationbar when user is logged in.
-
 	// RETRIEVE TRANSLATION
 	TranslationService.load(AppConfig.API_ENDPOINTS.translation)
 	.then(
@@ -441,11 +428,8 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 		.state('settings', {
 			url: '/settings'
 			,resolve: {
-				settingsData: ['APIService','UserManagementService', function (APIService,UserManagementService) {
-					return APIService.requestLocalJSON({
-						method: 'GET'
-						,url: '/app/components/settings/dummyData.json'
-					})
+				menu: ['MenuService','UserManagementService', function (MenuService,UserManagementService) {
+					return MenuService.getMenu('Settings');
 				}]
 			}
 			,views: {
@@ -459,9 +443,11 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 		.state('settings.userManagement', {
 			url: '/userManagement'
 			,resolve: {
-				data: function(){
-					return {}; // later invullen
-				}
+				menu: ['menu','MenuService',
+					function(menu,MenuService){
+						return MenuService.retrieveSubMenuByParentUrl(menu,'/settings/userManagement');
+					}
+				]
 			}
 			,views: {
 				'setting@settings': {
@@ -471,8 +457,8 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 			}
 		})
 		// ---------- SETTINGS.USERMANAGEMENT.USERS----------
-		.state('settings.userManagement.listUsers', {
-			url:'/listUsers'
+		.state('settings.userManagement.users', {
+			url:'/users'
 			,params: {
 				domainName: undefined
 			}
@@ -505,13 +491,13 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 				}
 			}
 		})
-		// ---------- SETTINGS.USERMANAGEMENT.UITGENODIGD----------
-		.state('settings.userManagement.uitgenodigd', {
-			url:'/uitgenodigd'
+		// ---------- SETTINGS.USERMANAGEMENT.INVITED----------
+		.state('settings.userManagement.invited', {
+			url:'/invited'
 		})
 		// ---------- SETTINGS.USERMANAGEMENT.RECHTEN EN ROLLEN----------
-		.state('settings.userManagement.rechtenEnRollen', {
-			url: '/rechtenEnRollen'
+		.state('settings.userManagement.rightsAndRoles', {
+			url: '/rightsAndRoles'
 			,resolve: {
 				roles: ['APIService', function (APIService) {
 					return APIService.call(AppConfig.API_ENDPOINTS.settings.userManagement.roles);
@@ -535,8 +521,8 @@ angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.rout
 		})
 		// ---------- SETTINGS.USERMANAGEMENT.TEAMS ----------
 		// LIST
-		.state('settings.userManagement.listTeams', {
-			url: '/listTeams'
+		.state('settings.userManagement.teams', {
+			url: '/teams'
 			,resolve: {
 				teams: ['APIService', function(APIService) {
 					return APIService.call(AppConfig.API_ENDPOINTS.settings.userManagement.teams);
