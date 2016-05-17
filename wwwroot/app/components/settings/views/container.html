@@ -7,13 +7,12 @@
 		</div>
 
 		<div class="list-group h10">
-			<a href="menu[0].url" class="list-group-item "><i class="fa fa-user fa-fw"></i>{{TranslationService.getText(menu[0].displayName)}}</a>
-			<a href="menu[1].url" class="list-group-item"><i class="fa fa-building-o fa-fw "></i>{{TranslationService.getText(menu[1].displayName)}}</a>
-			<a href="menu[2].url" class="list-group-item active"><i class="fa fa-users fa-fw"></i>{{TranslationService.getText(menu[2].displayName)}}</a>
-			<a href="menu[3].url" class="list-group-item"><i class="fa fa-tags  fa-fw "></i>{{TranslationService.getText(menu[3].displayName)}}</a>
-			<a href="menu[4].url" class="list-group-item"><i class="fa fa-files-o fa-fw "></i>{{TranslationService.getText(menu[4].displayName)}}</a>
-			<a href="menu[5].url" class="list-group-item"><i class="fa fa-th fa-fw "></i>{{TranslationService.getText(menu[5].displayName)}}</a>
-			<a href="menu[6].url" class="list-group-item"><i class="fa fa-tasks  fa-fw"></i>{{TranslationService.getText(menu[6].displayName)}}</a>
+			<a href="menu[0].url"
+			   class="list-group-item"
+			ng-repeat="currentMenu in menu">
+			<i ng-class="styles[currentMenu.url]"></i> <!--styles defined in wwwroot/app/components/settings/SettingsController.js-->
+				{{TranslationService.getText(currentMenu.displayName)}}
+			</a>
 		</div>
 	</div>
 
