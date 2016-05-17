@@ -7,7 +7,7 @@
 		</div>
 
 		<div class="list-group h10">
-			<a href="menu[0].url"
+			<a ng-href="{{menu[0].url}}"
 			   class="list-group-item"
 			ng-repeat="currentMenu in menu">
 			<i ng-class="styles[currentMenu.url]"></i> <!--styles defined in wwwroot/app/components/settings/SettingsController.js-->
