@@ -40,9 +40,9 @@
 		},
 		{
 			"id": 5,
-			"displayName": "SETTINGS_JOBS",
+			"displayName": "SETTINGS_JOBDOMAINS",
 			"url": "/settings/userManagement/jobDomains",
-			"title": "SETTINGS_JOBS_DESCRIPTION"
+			"title": "SETTINGS_JOBDOMAINS_DESCRIPTION"
 		}
 	]
 }, {

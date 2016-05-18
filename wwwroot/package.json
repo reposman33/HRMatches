@@ -22,6 +22,7 @@
     "angular-messages": "^1.5.0",
     "angular-ui-router-uib-modal": "0.0.6",
     "grunt": "^1.0.1",
-    "grunt-ngdocs": "^0.2.9"
+    "grunt-ngdocs": "^0.2.9",
+    "ui-select": "^0.17.1"
   }
 }

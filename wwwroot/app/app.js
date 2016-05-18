@@ -1,4 +1,11 @@
-angular.module('app.ontdekJouwTalent',['angular-storage','ui.bootstrap','ui.router','ui.router.modal','xeditable','angular-confirm'])
+angular.module('app.ontdekJouwTalent',
+	['angular-storage',
+	'ui.bootstrap',
+	'ui.router',
+	'ui.router.modal',
+	'xeditable',
+	'angular-confirm',
+	'ui.select'])
 .constant('AppConfig',{
 	// APPLICATION DEFINED VALUES
 	APPCONSTANTS_HOSTNAME: location.hostname

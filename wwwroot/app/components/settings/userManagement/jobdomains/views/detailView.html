@@ -81,18 +81,24 @@
 					</div>
 
 					<div class="col-md-8">
-						<select
-							name="jobdomainTeamId"
-							multiple
-							class="form-control"
+
+						<ui-select
 							ng-model="data.detailView.jobDomain.teams"
-							ng-options="team.id as team[AppConfig.API_ENDPOINTS.settings.userManagement.teams.columnNames.displayName] for team in data.detailView.teams"
-						>
-							<option value="">{{TranslationService.getText('SETTINGS_JOBDOMAIN_NONE')}}</option>
-						</select>
+							multiple
+							placeholder="Hello world!!!"
+							theme="select2"
+							style="width:100%;"
+							>
+							<ui-select-match>
+								<span ng-bind="$select.selected[$index].displayName"></span>
+							</ui-select-match>
+							<ui-select-choices repeat="team in (data.detailView.teams | filter: $select.search) track by team.id">
+								<span ng-bind="team.displayName"></span>
+							</ui-select-choices>
+						</ui-select>
+
 					</div>
 				</div>
-
 				<div class="row form-group">
 					<div class="col-md-4 pull-right">
 						<button
