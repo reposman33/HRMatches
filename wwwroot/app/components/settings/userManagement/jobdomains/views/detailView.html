@@ -84,16 +84,18 @@
 
 						<ui-select
 							ng-model="data.detailView.jobDomain.teams"
-							multiple
-							placeholder="Hello world!!!"
 							theme="select2"
-							style="width:100%;"
-							>
-							<ui-select-match>
+							multiple
+							style="width:100%;">
+							<ui-select-match placeholder="{{TranslationService.getText('SETTINGS_JOBDOMAIN_NONE')}}">
 								<span ng-bind="$select.selected[$index].displayName"></span>
 							</ui-select-match>
-							<ui-select-choices repeat="team in (data.detailView.teams | filter: $select.search) track by team.id">
-								<span ng-bind="team.displayName"></span>
+							<ui-select-choices
+								repeat="team in (data.detailView.teams | filter: $select.search) track by team.id">
+								<div ng-bind="$select.selected[$index].displayName"></div>
+								<small>
+									<span ng-bind="team.displayName"></span>
+								</small>
 							</ui-select-choices>
 						</ui-select>
 
