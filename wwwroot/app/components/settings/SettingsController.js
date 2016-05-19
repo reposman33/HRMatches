@@ -10,8 +10,8 @@ angular.module('app.ontdekJouwTalent')
 	['$scope','menu',
     function($scope,menu) {
 		$scope.styles = {
-			'/settings/myaccount': 'fa fa-user fa-fw',
-			'/settings/mycompany': 'fa fa-building-o fa-fw',
+			'/settings/account': 'fa fa-user fa-fw',
+			'/settings/company': 'fa fa-building-o fa-fw',
 			'/settings/userManagement': 'fa fa-users fa-fw',
 			'/settings/tagmanagement': 'fa fa-tags fa-fw',
 			'/settings/doctemplates': 'fa fa-files-o fa-fw',
@@ -21,5 +21,6 @@ angular.module('app.ontdekJouwTalent')
 
         $scope.menu = menu;
 
+		
     }
 ])

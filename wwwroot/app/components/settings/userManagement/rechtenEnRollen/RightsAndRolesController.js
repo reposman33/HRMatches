@@ -107,7 +107,7 @@ angular.module('app.ontdekJouwTalent')
 			.then(
 				function(data){
 					// GET ROLE AND RIGHTS WITH NEW ROLE
-					$state.go('settings.usermanagement.rightsAndRoles',{},{reload:true});
+					$state.go('settings.userManagement.rightsAndRoles',{},{reload:true});
 				}
 			);
 		}

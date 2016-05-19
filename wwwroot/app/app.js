@@ -6,6 +6,14 @@ angular.module('app.ontdekJouwTalent',
 	'xeditable',
 	'angular-confirm',
 	'ui.select'])
+
+/*
+ * 			=============================================
+ * 			============= C O N S T A N T S =============
+ *			=============================================
+ *
+ * */
+
 .constant('AppConfig',{
 	// APPLICATION DEFINED VALUES
 	APPCONSTANTS_HOSTNAME: location.hostname
@@ -24,13 +32,17 @@ angular.module('app.ontdekJouwTalent',
 	// TEMP CONSTANTS TO BE DEFINED BY BACK END
 	,APPCONSTANTS_API_URL: 'http://api-development.hrmatches.com'
 	,APPCONSTANTS_PUBLICSTATES: "login,login.forgotPassword,login.userProfiles,login.resetPassword,login.register" // exclusively public states
-	,APPCONSTANTS_NAVIGATION_ENTRYPOINT: 'editTranslation'
+	,APPCONSTANTS_NAVIGATION_ENTRYPOINT: 'settings.account'
 	,APPCONSTANTS_NAVIGATION_REDIRECT: {
 		NOTAUTHENTICATED:'login' // redirect hiernaartoe als niet ingelogd
 		,SETTINGS:'settings.userManagement.rightsAndRoles'
+		,SETTINGS_ACCOUNT: 'settings.account.person'
 	}
-
-	// ENTITIES TEMPLATES - these templates are used for different entities (e.g. user, team) to define the default values for properties
+	/*
+	 * 			=============================================
+	 * 			============= T E M P L A T E S  ============
+	 *			=============================================
+	 * */
 	,APPCONSTANTS_SETTINGS_USERMANAGEMENT_ROLE: { // TEMPLATE FOR SETTINGS-USERMANAAGEMENT-RIGHTS_AND_ROLES: ADD NEW ROLE
 		id: 0
 		,systemName: 'New Role'
@@ -62,8 +74,11 @@ angular.module('app.ontdekJouwTalent',
 		,password: undefined // IMPORTANT FOR PASSWORD MATCH CHECK
 		,passwordConfirm: undefined //IMPORTANT FOR PASSWORD MATCH CHECK
 	}
-
-	// API CONFIGURATION temporary struct to define endpoints, methods etc for API calls
+	/*
+	 * 			=============================================
+	 * 			============= A P I   E N D P O I N T S  ====
+	 *			=============================================
+	 * */
 	,API_ENDPOINTS: {
 		'translation': {			// ===== LEGENDA =====
 			endpoint: 'translation'	// endpoint to use for call to API
@@ -76,6 +91,10 @@ angular.module('app.ontdekJouwTalent',
 				language: 'nl_NL'
 				,languageKey: ''
 			}
+		}
+		,'language': {
+			endpoint: 'language'
+			,method: 'GET'
 		}
 		,'updateTranslation': {
 			endpoint: 'updateTranslation'
@@ -213,7 +232,12 @@ angular.module('app.ontdekJouwTalent',
 			,method: 'GET'
 		}
 	}
-}) //END constant
+})
+/*
+ * 			=============================================
+ * 			============= I N I T I A L I Z A T I O N ===
+ *			=============================================
+ * */
 .run(function($rootScope,$state,APIService,AppConfig,AuthService,TranslationService,SessionService){
 	// perform any site-wide initialisation here
 	$rootScope.AppConfig = AppConfig; // use to access constants in views
@@ -228,6 +252,11 @@ angular.module('app.ontdekJouwTalent',
 		}
 	);
 
+	/*
+	 * 			=============================================
+	 * 			============= L O G I N   C H E C K  ========
+	 *			=============================================
+	 * */
 	$rootScope.$on('$stateChangeStart',function(event, toState, toParams, fromState, fromParams, options){
 		var currentUser = SessionService.getCurrentUser();
 		$rootScope.fromStateName = fromState.name;
@@ -259,9 +288,9 @@ angular.module('app.ontdekJouwTalent',
 .config(['$stateProvider','$urlRouterProvider','AppConfig',function($stateProvider,$urlRouterProvider,AppConfig) {
 
 /*
-*
-* ONLY STATES THAT CORRESPOND TO APPLICATION VIEWS (ALSO REFERRED TO AS 'PAGES') ARE LISTED HERE. SINCE NO VIEW EXISTS FOR
-* E.G. THE 'ADD' ACTION IN USERMANAGEMENT - RIGHTS AND ROLES LISTVIEW THERE IS NO CORRESPONDING STATE
+* 			=============================================
+* 			============= R E D I R E C T S =============
+*			=============================================
 *
 * */
 	$urlRouterProvider
@@ -270,8 +299,19 @@ angular.module('app.ontdekJouwTalent',
 	}) // REDIRECT
 	.when('/settings',function($state){
 		$state.go(AppConfig.APPCONSTANTS_NAVIGATION_REDIRECT.SETTINGS);
+	})
+	.when('/settings/userManagement',function($state){
+		$state.go(AppConfig.APPCONSTANTS_NAVIGATION_REDIRECT.SETTINGS);
+	})
+	.when('/settings/account',function($state){
+		$state.go(AppConfig.APPCONSTANTS_NAVIGATION_REDIRECT.SETTINGS_ACCOUNT);
 	});
-
+	/*
+	 * 			=============================================
+	 * 			============= S T A T E S ===================
+	 *			=============================================
+	 *
+	 * */
 	$stateProvider
 		.state('message', {
 			url: '/message/'
@@ -435,17 +475,78 @@ angular.module('app.ontdekJouwTalent',
 		.state('settings', {
 			url: '/settings'
 			,resolve: {
-				menu: ['MenuService','UserManagementService', function (MenuService,UserManagementService) {
+				menu: ['MenuService', function (MenuService) {
 					return MenuService.getMenu('Settings');
 				}]
 			}
 			,views: {
 				'body@': {
-					templateUrl: '/app/components/settings/views/container.html'
+					templateUrl: '/app/components/settings/views/tabpanel.html'
 					,controller: 'SettingsController'
 				}
 			}
 		})
+		// ---------- SETTINGS.MY ACCOUNT----------
+		.state('settings.account', {
+			url: '/account'
+			,resolve: {
+				menu: ['menu','MenuService', function (menu,MenuService) {
+					return MenuService.retrieveSubMenuByParentUrl(menu,'/settings/account');
+				}],
+				data: ['menu',function (menu) {
+					return {menu:menu};
+				}]
+			}
+			,views: {
+				'setting@settings': {
+					templateUrl: '/app/components/settings/account/views/tabpanel.html'
+					,controller: 'AccountController'
+				}
+			}
+		})
+		.state('settings.account.person', {
+			url: '/person',
+			resolve: {
+				person: ['UserManagementService',function(UserManagementService) {
+					return UserManagementService.getPerson();
+				}],
+				languages: ['APIService',function(APIService) {
+					return APIService.call(AppConfig.API_ENDPOINTS.language);
+				}],
+				data: ['menu','person','languages',function(menu,person,languages){
+					return {
+						menu: menu,
+						person: person,
+						languages: languages
+					};
+				}]
+			}
+			,views: {
+				'tabContent@settings.account': {
+					templateUrl: '/app/components/settings/account/views/person.html'
+					,controller: 'AccountController'
+				}
+			}
+		})
+		.state('settings.account.password', {
+			url: '/password'
+			,views: {
+				'tabContent@settings.account': {
+					templateUrl: '/app/components/settings/account/views/password.html'
+					,controller: 'AccountController'
+				}
+			}
+		})
+		.state('settings.account.delete', {
+			url: '/delete'
+			,views: {
+				'tabContent@settings.account': {
+					templateUrl: '/app/components/settings/account/views/deleteAccount.html'
+					,controller: 'AccountController'
+				}
+			}
+		})
+			//deleteAccount.html
 		// ---------- SETTINGS.USERMANAGEMENT ----------
 		.state('settings.userManagement', {
 			url: '/userManagement'
@@ -458,7 +559,7 @@ angular.module('app.ontdekJouwTalent',
 			}
 			,views: {
 				'setting@settings': {
-					templateUrl: '/app/components/settings/userManagement/views/userManagementContainer.html'
+					templateUrl: '/app/components/settings/userManagement/views/tabpanel.html'
 					,controller: 'UserManagementController'
 				}
 			}

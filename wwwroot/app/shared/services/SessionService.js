@@ -3,12 +3,12 @@ angular.module('app.ontdekJouwTalent')
 	var service = this,
 		currentUser = null;
 	
-	// USER MANAGEMENT
 	service.setCurrentUser = function(user){
 		user.loginTime = new Date();
 		store.set('currentUser',user);
 	}
 
+	// GET USER DATA
 	service.getCurrentUser = function(){
 		return currentUser = store.get('currentUser');
 	}
@@ -43,6 +43,11 @@ angular.module('app.ontdekJouwTalent')
 		var currentUser = store.get('currentUser');
 		var userProfile = currentUser.userProfile.domainName + ' (' + currentUser.userProfile.domainOwner + ') ' + currentUser.userProfile.website
 		return userProfile;
+	}
+
+	service.getCurrentUserPersonId = function(){
+		var currentUser = store.get('currentUser');
+		return currentUser.userProfile.personId;
 	}
 
 	// STORE MISC SESSION DATA

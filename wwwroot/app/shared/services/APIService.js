@@ -8,8 +8,6 @@
 angular.module('app.ontdekJouwTalent')
 .service('APIService',['$http','$rootScope','$state','AppConfig','SessionService',
 	function($http,$rootScope,$state,AppConfig,SessionService) {
-
-
 		// REQUEST
 		/**
 		 * @ngdoc method

@@ -47,6 +47,9 @@ angular.module('app.ontdekJouwTalent')
 				)
 			}
 
+			,getPerson: function(){
+				return APIService.call(AppConfig.API_ENDPOINTS.settings.userManagement.users,{personId:SessionService.getCurrentUserPersonId()})
+			}
 		}
 	}
 ]);

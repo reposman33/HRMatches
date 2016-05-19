@@ -15,11 +15,11 @@ angular.module('app.ontdekJouwTalent')
 		
 		switch(context){
 			case 'TopNav':
-				url = '/app/shared/menus/TopNavMenuData.json';
+				url = '/JsonData/TopNavMenuData.json';
 				break;
 			
 			case 'Settings':
-				url = '/app/shared/menus/SettingsMenuData.json';
+				url = '/JsonData/SettingsMenuData.json';
 				break;
 		}
 		return APIService.requestLocalJSON({url:url})

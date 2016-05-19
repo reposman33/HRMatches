@@ -1,0 +1,77 @@
+<!-- Settings-Account-Person -->
+<!--TODO: Settings - Account Person tab implementren-->
+<div role="tabpanel" class="tab-pane active margin_top_2" id="usersettings">
+
+	<div class="well bg-white padding_bottom_0">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="row">
+
+					<div class="col-md-3 form-group h9">
+						<label for="InputFirstName">Naam</label>
+					</div>
+
+					<div class="col-md-9 form-group">
+						<div class="row">
+							<div class="col-md-4">
+								<input type="text" name="FirstName" class="form-control" id="InputFirstName" placeholder="Voornaam" ng-model="data.person.firstName">
+							</div>
+							<div class="col-md-3">
+								<input name="InfixName" type="text" class="form-control" id="InputInfixName" placeholder="Tussenvoegsels" ng-model="data.person.infix">
+							</div>
+							<div class="col-md-5">
+								<input name="LastName" type="text" class="form-control" id="InputLastName" placeholder="Achternaam" ng-model="data.person.lastName">
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-12 form-group">
+						<div class="row">
+							<div class="col-md-3 h9">
+								<label for="PhoneNumber">Telefoonnummer</label>
+							</div>
+							<div class="col-md-9">
+								<input name="PhoneNumber" type="text" class="form-control" id="InputPhoneNumber" placeholder="Telefoonnummer" ng-model="data.person.phoneNumber">
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-12 form-group">
+						<div class="row">
+							<div class="col-md-3 h9">
+								<label for="Email">Emailadres</label>
+							</div>
+							<div class="col-md-9">
+								<input name="Email" type="text" class="form-control" id="InputEmail" placeholder="Emailadres" ng-model="data.person.emailaddress">
+							</div>
+						</div>
+					</div>
+
+
+
+					<div class="col-md-12 form-group">
+						<div class="row">
+							<div class="col-md-3 h9">
+								<label for="Language">Taal</label>
+							</div>
+
+							<div class="col-md-9">
+								<select
+									class="form-control"
+									name="Language"
+									ng-model="data.person.language"
+									ng-options="thisLanguage.id as thisLanguage[data.person.language + '_DisplayName'] for thisLanguage in data.languages"
+								>
+									<option value="">{{TranslationService.getText('LANGUAGE_SELECT')}}</option>
+								</select>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+
+		</div>
+	</div>
+</div>

@@ -1,12 +1,27 @@
 [{
 	"id": 1,
-	"displayName": "SETTINGS_MY_ACCOUNT",
-	"url": "/settings/myaccount",
-	"title": "SETTINGS_MY_ACCOUNT_DESCRIPTION"
+	"displayName": "SETTINGS_ACCOUNT",
+	"url": "/settings/account",
+	"title": "SETTINGS_ACCOUNT_DESCRIPTION",
+	"items": [{
+		"id": 1,
+		"displayName": "SETTINGS_PERSON",
+		"url": "/settings/account/person",
+		"title": "SETTINGS_PERSON_DESCRIPTION"
+
+	},{	"id": 2,
+		"displayName": "SETTINGS_PASSWORD",
+		"url": "/settings/account/password",
+		"title": "SETTINGS_PASSWORD_DESCRIPTION"
+	},{	"id": 3,
+		"displayName": "SETTINGS_ACCOUNT",
+		"url": "/settings/account/delete",
+		"title": "SETTINGS_ACCOUNT_DESCRIPTION"
+	}]
 }, {
 	"id": 2,
 	"displayName": "SETTINGS_MY_COMPANY",
-	"url": "/settings/mycompany",
+	"url": "/settings/company",
 	"title": "SETTINGS_MY_COMPANY_DESCRIPTION"
 }, {
 	"id": 3,

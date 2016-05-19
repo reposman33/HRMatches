@@ -1,0 +1,23 @@
+<div class="col-md-3">
+	<div class="well settings-menu">
+		<div class="row">
+			<div class="col-md-12 h4">
+				<i class="fa fa-cogs"></i>{{TranslationService.getText('SETTINGS_TITLE')}}
+			</div>
+		</div>
+
+		<div class="list-group h10">
+			<a ng-repeat="currentMenu in menu"
+			   ng-href="#{{currentMenu.url}}"
+			   class="list-group-item"
+			>
+			<!--styles defined in wwwroot/app/components/settings/SettingsController.js-->
+			<i ng-class="styles[currentMenu.url]"></i>
+				{{TranslationService.getText(currentMenu.displayName)}}
+			</a>
+		</div>
+	</div>
+
+</div>
+
+<div class="col-md-9" ui-view="setting"></div>

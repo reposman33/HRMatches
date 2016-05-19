@@ -21,10 +21,12 @@ angular.module('app.ontdekJouwTalent')
 			);
 		}
 
-		// FIND ACTIVE TAB THAT CORRESPONDS TO CURRENT STATE
-		$scope.activeTab = $scope.tabs.findIndex(function(el,ind,arr){
-			if(el.url== $state.current.url){
-				return ind;
+		// FIND TAB THAT CORRESPONDS TO CURRENT STATE
+		$scope.tabs.findIndex(function(el,ind,arr){
+			//el.url == full url: '/setting/userManagement', $state.current.url = relative url: '/userManagement'
+			//translate full url to state ion order 2 compare with @state.current.name
+			if(el.url.replace(/\//g,'.').substring(1) == $state.current.name){
+				$scope.activeTab = ind;
 			}
 		})
 		/*END TABS DATA */
