@@ -1,36 +1,32 @@
 <!-- Settings-Account-Delete -->
-<div class="well bg-white padding_bottom_0">
-	<div class="row">
-		<div class="col-md-12">
+<div role="tabpanel" class="tab-pane margin_top_2 active" id="deletesettings">
 
-			<div class="h4">
-				Account verwijderen
-			</div>
-			<div class="h10 form-group">
-				Weet je zeker dat je je account wilt verwijderen? Jouw gegevens worden definitief verwijderd.
-			</div>
+	<div class="well bg-white padding_bottom_0">
+		<div class="row">
+			<div class="col-md-12">
 
-			<script>
-				$(document).ready(function() {
-					$('a[data-confirm]').click(function(ev) {
-						var href = $(this).attr('href');
-						if (!$('#dataConfirmModal').length) {
-							$('body').append('<div id="dataConfirmModal" class="modal" role="dialog" aria-labelledby="dataConfirmLabel" aria-hidden="true"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">Ã—</button><h3 id="dataConfirmLabel">Please Confirm</h3></div><div class="modal-body"></div><div class="modal-footer"><button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button><a class="btn btn-primary" id="dataConfirmOK">OK</a></div></div>');
-						}
-						$('#dataConfirmModal').find('.modal-body').text($(this).attr('data-confirm'));
-						$('#dataConfirmOK').attr('href', href);
-						$('#dataConfirmModal').modal({show:true});
-						return false;
-					});
-				});
-			</script>
+				<div class="h4">
+					{{TranslationService.getText('SETTINGS_DELETE_ACCOUNT')}}
+				</div>
+				<div class="h10 form-group">
+					{{TranslationService.getText('SETTINGS_DELETE_ACCOUNT_DESCRIPTION')}}
+				</div>
 
-			<div class="row">
-				<div class="col-md-12  form-group h9 ">
-					<button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#myAccountRemoval"> <i class="fa fa-times"></i>Account verwijderen</button>
+				<div class="row">
+					<div class="col-md-12  form-group h9 ">
+						<button type="button"
+						        class="btn btn-danger pull-right"
+						        data-toggle="modal"
+						        data-target="#myAccountRemoval"
+								ng-click="deleteAccount(data.id)"
+								confirm="{{TranslationService.getText('SETTINGS_CONFIRM_DELETE_ACCOUNT')}}"
+								>
+							<i class="fa fa-times"></i>
+							{{TranslationService.getText('SETTINGS_DELETE_ACCOUNT')}}
+						</button>
+					</div>
 				</div>
 			</div>
-
 		</div>
 	</div>
 </div>

@@ -39,9 +39,9 @@ angular.module('app.ontdekJouwTalent',
 		,SETTINGS_ACCOUNT: 'settings.account.person'
 	}
 	/*
-	 * 			=============================================
-	 * 			============= T E M P L A T E S  ============
-	 *			=============================================
+	 * 		=============================================
+	 * 		============= T E M P L A T E S  ============
+	 *		=============================================
 	 * */
 	,APPCONSTANTS_SETTINGS_USERMANAGEMENT_ROLE: { // TEMPLATE FOR SETTINGS-USERMANAAGEMENT-RIGHTS_AND_ROLES: ADD NEW ROLE
 		id: 0
@@ -75,9 +75,9 @@ angular.module('app.ontdekJouwTalent',
 		,passwordConfirm: undefined //IMPORTANT FOR PASSWORD MATCH CHECK
 	}
 	/*
-	 * 			=============================================
-	 * 			============= A P I   E N D P O I N T S  ====
-	 *			=============================================
+	 * 		=============================================
+	 * 		============= A P I   E N D P O I N T S  ====
+	 *		=============================================
 	 * */
 	,API_ENDPOINTS: {
 		'translation': {			// ===== LEGENDA =====
@@ -128,12 +128,28 @@ angular.module('app.ontdekJouwTalent',
 		,'settings': {
 			endpoint: 'settings'
 			,method: 'GET'
+			,account: {
+				endpoint: 'account'
+				,method: 'GET'
+			}
+			,updateAccount: {
+				endpoint: 'account'
+				,method: 'PUT'
+			}
+			,addAccount: {
+				endpoint: 'account'
+				,method: 'POST'
+			}
+			,deleteAccount: {
+				endpoint: 'account'
+				,method: 'DELETE'
+			}
 			,userManagement: {
-				users: {
+				'users': {
 					endpoint: 'users'
 					,method: 'GET'
 				}
-				,addUser: {
+				,'addUser': {
 					endpoint: 'users'
 					, method: 'POST'
 				}
@@ -251,11 +267,10 @@ angular.module('app.ontdekJouwTalent',
 			console.log('Translation loaded');
 		}
 	);
-
 	/*
-	 * 			=============================================
-	 * 			============= L O G I N   C H E C K  ========
-	 *			=============================================
+	 *		=============================================
+	 * 		============= L O G I N   C H E C K  ========
+	 *		=============================================
 	 * */
 	$rootScope.$on('$stateChangeStart',function(event, toState, toParams, fromState, fromParams, options){
 		var currentUser = SessionService.getCurrentUser();
@@ -307,9 +322,9 @@ angular.module('app.ontdekJouwTalent',
 		$state.go(AppConfig.APPCONSTANTS_NAVIGATION_REDIRECT.SETTINGS_ACCOUNT);
 	});
 	/*
-	 * 			=============================================
-	 * 			============= S T A T E S ===================
-	 *			=============================================
+	 * 		=============================================
+	 * 		============= S T A T E S ===================
+	 *		=============================================
 	 *
 	 * */
 	$stateProvider
@@ -493,6 +508,9 @@ angular.module('app.ontdekJouwTalent',
 				menu: ['menu','MenuService', function (menu,MenuService) {
 					return MenuService.retrieveSubMenuByParentUrl(menu,'/settings/account');
 				}],
+				account: ['UserManagementService',function(UserManagementService) {
+					return UserManagementService.account();
+				}],
 				data: ['menu',function (menu) {
 					return {menu:menu};
 				}]
@@ -507,16 +525,13 @@ angular.module('app.ontdekJouwTalent',
 		.state('settings.account.person', {
 			url: '/person',
 			resolve: {
-				person: ['UserManagementService',function(UserManagementService) {
-					return UserManagementService.getPerson();
-				}],
 				languages: ['APIService',function(APIService) {
 					return APIService.call(AppConfig.API_ENDPOINTS.language);
 				}],
-				data: ['menu','person','languages',function(menu,person,languages){
+				data: ['menu','account','languages',function(menu,account,languages){
 					return {
 						menu: menu,
-						person: person,
+						account: account,
 						languages: languages
 					};
 				}]
@@ -530,6 +545,13 @@ angular.module('app.ontdekJouwTalent',
 		})
 		.state('settings.account.password', {
 			url: '/password'
+			,resolve: {
+				data: ['account',function(account){
+					return {
+						account: account
+					};
+				}]
+			}
 			,views: {
 				'tabContent@settings.account': {
 					templateUrl: '/app/components/settings/account/views/password.html'
@@ -539,6 +561,13 @@ angular.module('app.ontdekJouwTalent',
 		})
 		.state('settings.account.delete', {
 			url: '/delete'
+			,resolve: {
+				data: ['account', function (account) {
+					return {
+						id: account.id
+					};
+				}]
+			}
 			,views: {
 				'tabContent@settings.account': {
 					templateUrl: '/app/components/settings/account/views/deleteAccount.html'
@@ -546,7 +575,6 @@ angular.module('app.ontdekJouwTalent',
 				}
 			}
 		})
-			//deleteAccount.html
 		// ---------- SETTINGS.USERMANAGEMENT ----------
 		.state('settings.userManagement', {
 			url: '/userManagement'

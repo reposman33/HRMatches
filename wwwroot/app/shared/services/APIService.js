@@ -6,8 +6,8 @@
  * Dependencies: $http,AppConfig,SessionService<br />
  * */
 angular.module('app.ontdekJouwTalent')
-.service('APIService',['$http','$rootScope','$state','AppConfig','SessionService',
-	function($http,$rootScope,$state,AppConfig,SessionService) {
+.service('APIService',['$http','$q','$rootScope','$state','AppConfig','SessionService',
+	function($http,$q,$rootScope,$state,AppConfig,SessionService) {
 		// REQUEST
 		/**
 		 * @ngdoc method
@@ -44,46 +44,46 @@ angular.module('app.ontdekJouwTalent')
 				,url: url
 				,data: payload
 			})
-				.then(
-					// API CALL SUCCESSFUL (200 OK)
-					function(successResponse){
-						return successResponse.data;
-					}
-					// API CALL RETURNS NON-200 ERROR
-					,function(errorResponse){
-						$rootScope.error = {status:errorResponse.status,statusText:errorResponse.statusText};
-						var message = {message:'Er is een fout opgetreden: ' + errorResponse.status +' (' + errorResponse.statusText + ')'};
-						switch(errorResponse.status){
-							case 500:{ // server error
-								$state.go('message',message);
-								return errorResponse;
-							}
-							case 501:{ // login error
-								$state.go('message',message);
-								return errorResponse;
-							}
-							case 401:{ //niet authenticated
-								SessionService.removeCurrentUser(); //LOGOUT
-								$state.go(AppConfig.APPCONSTANTS_NAVIGATION_REDIRECT.NOTAUTHENTICATED);
-								return errorResponse;
-							}
-							case 403:{ // niet geauthoriseerd
-								$state.go('message',message);
-								return errorResponse;
-							}
-							default: {
-								$state.go('message',{message:'Er is een onbekende fout opgetreden'});
-								return errorResponse;
-							}
+			.then(
+				// API CALL SUCCESSFUL (200 OK)
+				function(successResponse){
+					return successResponse.data;
+				}
+				// API CALL RETURNS NON-200 ERROR
+				,function(errorResponse){
+					$rootScope.error = {status:errorResponse.status,statusText:errorResponse.statusText};
+					var message = {message:'Er is een fout opgetreden: ' + errorResponse.status +' (' + errorResponse.statusText + ')'};
+					switch(errorResponse.status){
+						case 500:{ // server error
+							$state.go('message',message);
+							break;
+						}
+						case 501:{ // login error
+							$state.go('message',message);
+							break;
+						}
+						case 401:{ //niet authenticated
+							SessionService.removeCurrentUser(); //LOGOUT
+							$state.go(AppConfig.APPCONSTANTS_NAVIGATION_REDIRECT.NOTAUTHENTICATED);
+							break;
+						}
+						case 403:{ // niet geauthoriseerd
+							$state.go('message',message);
+							break;
+						}
+						default: {
+							$state.go('message',{message:'Er is een onbekende fout opgetreden'});
+							break;
 						}
 					}
-				)
-				.catch(
-					function(errorResponse){
-						console.log('clientvariables NOT logged for state \'',toStateName,'\'');
-					}
-				);
-
+					return $q.reject(errorResponse.data);
+				}
+			)
+			.catch(
+				function(errorResponse){
+					console.log('clientvariables NOT logged for state \'',toStateName,'\': ',errorResponse);
+				}
+			);
 		}
 
 

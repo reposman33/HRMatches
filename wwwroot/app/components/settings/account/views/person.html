@@ -1,6 +1,7 @@
 <!-- Settings-Account-Person -->
+
 <!--TODO: Settings - Account Person tab implementren-->
-<div role="tabpanel" class="tab-pane active margin_top_2" id="usersettings">
+<div role="tabpanel" class="tab-pane margin_top_2" id="usersettings">
 
 	<div class="well bg-white padding_bottom_0">
 		<div class="row">
@@ -8,19 +9,19 @@
 				<div class="row">
 
 					<div class="col-md-3 form-group h9">
-						<label for="InputFirstName">Naam</label>
+						<label for="InputFirstName">{{TranslationService.getText('SETTINGS_NAME')}}</label>
 					</div>
 
 					<div class="col-md-9 form-group">
 						<div class="row">
 							<div class="col-md-4">
-								<input type="text" name="FirstName" class="form-control" id="InputFirstName" placeholder="Voornaam" ng-model="data.person.firstName">
+								<input type="text" name="FirstName" class="form-control" id="InputFirstName" placeholder="{{TranslationService.getText('SETTINGS_FIRSTNAME')}}" ng-model="data.account.firstName">
 							</div>
 							<div class="col-md-3">
-								<input name="InfixName" type="text" class="form-control" id="InputInfixName" placeholder="Tussenvoegsels" ng-model="data.person.infix">
+								<input name="InfixName" type="text" class="form-control" id="InputInfixName" placeholder="{{TranslationService.getText('SETTINGS_INFIX')}}" ng-model="data.account.infix">
 							</div>
 							<div class="col-md-5">
-								<input name="LastName" type="text" class="form-control" id="InputLastName" placeholder="Achternaam" ng-model="data.person.lastName">
+								<input name="LastName" type="text" class="form-control" id="InputLastName" placeholder="{{TranslationService.getText('SETTINGS_LASTNAME')}}" ng-model="data.account.lastName">
 							</div>
 						</div>
 					</div>
@@ -28,10 +29,10 @@
 					<div class="col-md-12 form-group">
 						<div class="row">
 							<div class="col-md-3 h9">
-								<label for="PhoneNumber">Telefoonnummer</label>
+								<label for="PhoneNumber">{{TranslationService.getText('SETTINGS_PHONENUMBER')}}</label>
 							</div>
 							<div class="col-md-9">
-								<input name="PhoneNumber" type="text" class="form-control" id="InputPhoneNumber" placeholder="Telefoonnummer" ng-model="data.person.phoneNumber">
+								<input name="PhoneNumber" type="text" class="form-control" id="InputPhoneNumber" placeholder="{{TranslationService.getText('SETTINGS_PHONENUMBER')}}" ng-model="data.account.phoneNumber">
 							</div>
 						</div>
 					</div>
@@ -39,39 +40,45 @@
 					<div class="col-md-12 form-group">
 						<div class="row">
 							<div class="col-md-3 h9">
-								<label for="Email">Emailadres</label>
+								<label for="Email">{{TranslationService.getText('SETTINGS_EMAIL')}}</label>
 							</div>
 							<div class="col-md-9">
-								<input name="Email" type="text" class="form-control" id="InputEmail" placeholder="Emailadres" ng-model="data.person.emailaddress">
+								<input name="Email" type="text" class="form-control" id="InputEmail" placeholder="{{TranslationService.getText('SETTINGS_EMAILADDRESS')}}" ng-model="data.account.emailaddress">
 							</div>
 						</div>
 					</div>
 
-
-
 					<div class="col-md-12 form-group">
 						<div class="row">
 							<div class="col-md-3 h9">
-								<label for="Language">Taal</label>
+								<label for="Language">{{TranslationService.getText('SETTINGS_LANGUAGE')}}</label>
 							</div>
 
 							<div class="col-md-9">
 								<select
 									class="form-control"
-									name="Language"
-									ng-model="data.person.language"
-									ng-options="thisLanguage.id as thisLanguage[data.person.language + '_DisplayName'] for thisLanguage in data.languages"
+									name="language"
+									ng-model="data.account.language"
+									ng-options="thisLanguage.name as thisLanguage[data.account.language + '_DisplayName'].split(' ')[0] for thisLanguage in data.languages"
 								>
 									<option value="">{{TranslationService.getText('LANGUAGE_SELECT')}}</option>
 								</select>
 							</div>
 						</div>
 					</div>
-
 				</div>
 			</div>
+		</div>
+	</div>
+</div>
 
-
+<div class="row">
+	<div class="col-md-12">
+		<div class="form-group">
+			<button type="button"
+			        class="btn btn-success pull-right"
+			        ng-click="updateAccount(data.account)"
+			>{{TranslationService.getText('SETTINGS_SAVE')}}</button>
 		</div>
 	</div>
 </div>
