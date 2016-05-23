@@ -128,12 +128,12 @@ angular.module('app.ontdekJouwTalent')
 		 * @name saveTeam
 		 * @methodOf app.ontdekJouwTalent.controller:TeamsController
 		 * @parameters {uuid} id id of team to save
-		 * @description Called when user edits a jobdomain and clicks 'Save'.
+		 * @description Called when user EDITS an existing jobdomain (PUT) or ADDS a new jobDomain (POST).
 		 */
 		$scope.saveJobdomain = function(jobdomain){
 			APIService.call({
 					endpoint:AppConfig.API_ENDPOINTS.settings.userManagement.jobdomain.endpoint,
-					method:jobdomain.id.length > 1 ? 'PUT' : 'POST'
+					method:jobdomain.id.length > 1 ? 'PUT' : 'POST' // add or edit a jobDomain
 				},{
 					jobdomains:[jobdomain]
 				}
