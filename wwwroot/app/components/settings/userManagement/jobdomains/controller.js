@@ -54,14 +54,14 @@ angular.module('app.ontdekJouwTalent')
 		}
 
 		// ========== JOBDOMAIN LISTVIEW METHODS ==========
-		// ADDJOBDOMAIN
+		// editJobdomain
 		/**
 		 * @ngdoc method
-		 * @name addJobdomain
+		 * @name editJobdomain
 		 * @methodOf app.ontdekJouwTalent.controller:JobdomainsController
 		 * @description Called when user adds a jobdomain.
 		 */
-		$scope.addJobdomain = function(){
+		$scope.editJobdomain = function(){
 			$state.go('settings.userManagement.jobdomain');
 		}
 
@@ -92,7 +92,7 @@ angular.module('app.ontdekJouwTalent')
 			)
 			.then(
 				function(){
-					$state.go('settings.userManagement.jobdomains',{},{reload:true});
+					$state.go('settings.userManagement.jobdomains');
 				}
 			)
 		}
@@ -131,13 +131,10 @@ angular.module('app.ontdekJouwTalent')
 		 * @description Called when user edits a jobdomain and clicks 'Save'.
 		 */
 		$scope.saveJobdomain = function(jobdomain){
-			var method = jobdomain.id.length > 1 ? 'PUT' : 'POST';
-			APIService.call(
-				{
+			APIService.call({
 					endpoint:AppConfig.API_ENDPOINTS.settings.userManagement.jobdomain.endpoint,
-					method:method
-				},
-				{
+					method:jobdomain.id.length > 1 ? 'PUT' : 'POST'
+				},{
 					jobdomains:[jobdomain]
 				}
 			)
@@ -149,7 +146,7 @@ angular.module('app.ontdekJouwTalent')
 			)
 			.then(
 				function(){
-					$state.go('settings.userManagement.jobdomains',{},{reload:true});
+					$state.go('settings.userManagement.jobdomains');
 				}
 			)
 		}
