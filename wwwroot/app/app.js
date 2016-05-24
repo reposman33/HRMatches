@@ -5,22 +5,24 @@ angular.module('app.ontdekJouwTalent',
 	'ui.router.modal',
 	'xeditable',
 	'angular-confirm',
-	'ui.select'])
-
+	'ui.select',
+	'ngSanitize'
+	]
+)
 /*
  * 			=============================================
  * 			============= C O N S T A N T S =============
  *			=============================================
  *
  * */
-
 .constant('AppConfig',{
 	// APPLICATION DEFINED VALUES
 	APPCONSTANTS_HOSTNAME: location.hostname
 	,APPCONSTANTS_ISLOCAL: "127.0.0.1,ontdekjouwtalent.local".indexOf(location.hostname) != -1
 	,APPCONSTANTS_NAVIGATION_CURRENTDOMAIN: document.location.protocol + '://' + document.location.hostname
 	,APPCONSTANTS_RESOURCES_URIS:{
-		DOCUMENTATION: document.location.protocol + '//' + document.location.hostname + '/documentation'
+		DOCUMENTATION: document.location.protocol + '//' + document.location.hostname + '/documentation',
+		IMAGES: '/assets/img/'
 	} //
 	,APPCONSTANTS_PROTOCOL: location.protocol
 	,APPCONSTANTS_FILELOCATIONS_VIEWS: {
@@ -92,6 +94,10 @@ angular.module('app.ontdekJouwTalent',
 				,languageKey: ''
 			}
 		}
+		,'country': {
+			endpoint: 'country'
+			,method: 'GET'
+		}
 		,'language': {
 			endpoint: 'language'
 			,method: 'GET'
@@ -100,7 +106,7 @@ angular.module('app.ontdekJouwTalent',
 			endpoint: 'updateTranslation'
 			,method: 'POST'
 		}
-		,'joblist': {
+		,'jobs': {
 			endpoint: 'jobs'
 			,method: 'GET'
 		}
@@ -251,8 +257,9 @@ angular.module('app.ontdekJouwTalent',
 })
 /*
  * 			=============================================
- * 			============= I N I T I A L I Z A T I O N ===
+ * 			===== R U N - I N I T I A L I Z A T I O N ===
  *			=============================================
+ *			
  * */
 .run(function($rootScope,$state,APIService,AppConfig,AuthService,TranslationService,SessionService){
 	// perform any site-wide initialisation here
@@ -271,6 +278,7 @@ angular.module('app.ontdekJouwTalent',
 	 *		=============================================
 	 * 		============= L O G I N   C H E C K  ========
 	 *		=============================================
+	 *		
 	 * */
 	$rootScope.$on('$stateChangeStart',function(event, toState, toParams, fromState, fromParams, options){
 		var currentUser = SessionService.getCurrentUser();
@@ -468,19 +476,28 @@ angular.module('app.ontdekJouwTalent',
 			}
 		})
 		/*
-		 * ========= JOBLIST =========
+		 * ========= JOBS =========
 		 */
-		.state('joblist', {
-			url: '/joblist'
+		.state('jobs', {
+			url: '/jobs'
 			,resolve: {
-				data: ['JoblistService', function (JoblistService) {
-					return JoblistService.load();
+				countries: ['APIService',function(APIService){
+					return APIService.call(AppConfig.API_ENDPOINTS.country);
+				}]
+				,jobs: ['JobsService', function (JobsService) {
+					return JobsService.load();
+				}]
+				,data: ['jobs','countries', function (jobs,countries) {
+					return {
+						jobs: jobs,
+						countries: countries
+					}
 				}]
 			}
 			, views: {
 				'body': {
-					templateUrl: '/app/components/joblist/views/jobs.html'
-					,controller: 'JoblistController'
+					templateUrl: '/app/components/Jobs/views/listView.html'
+					,controller: 'JobsController'
 				}
 			}
 		})
@@ -522,6 +539,7 @@ angular.module('app.ontdekJouwTalent',
 				}
 			}
 		})
+
 		.state('settings.account.person', {
 			url: '/person',
 			resolve: {
@@ -572,6 +590,37 @@ angular.module('app.ontdekJouwTalent',
 				'tabContent@settings.account': {
 					templateUrl: '/app/components/settings/account/views/deleteAccount.html'
 					,controller: 'AccountController'
+				}
+			}
+		})
+		// ---------- SETTINGS.COMPANY----------
+		.state('settings.company', {
+			url: '/company'
+			,views: {
+				'setting@settings': {
+					templateUrl: '/app/components/settings/company/views/company.html'
+					,controller: 'CompanyController'
+				}
+			}
+		})
+		.state('settings.company.edit', {
+			url: '/edit'
+			,params: {
+				id: null
+			}
+			,views: {
+				'setting@settings': {
+					templateUrl: '/app/components/settings/company/views/editCompany.html'
+					,controller: 'CompanyController'
+				}
+			}
+		})
+		.state('settings.company.edit.culture', {
+			url: '/culture'
+			,views: {
+				'setting@settings': {
+					templateUrl: '/app/components/settings/company/views/companyCulture.html'
+					,controller: 'CompanyController'
 				}
 			}
 		})
@@ -743,7 +792,7 @@ angular.module('app.ontdekJouwTalent',
 		})
 		// NEW JOBDOMAIN / EDIT JOBDOMAIN
 		.state('settings.userManagement.jobdomain', {
-			url: '/addJobdomain'
+			url: '/editJobdomain'
 				,params: {
 					id: undefined
 				}

@@ -6,7 +6,7 @@
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-left h8">
 				<li ng-repeat="menu in menus">
-					<a ng-href="menu.url">{{TranslationService.getText(menu.displayName)}}</a>
+					<a ng-href="{{menu.url}}">{{TranslationService.getText(menu.displayName)}}</a>
 				</li>
 			</ul>
 

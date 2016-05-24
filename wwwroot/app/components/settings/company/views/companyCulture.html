@@ -1,0 +1,95 @@
+<div class="row title-container">
+	<div class="col-md-12 h3" ng-bind="TranslationService.getText('SETTINGS_MY_COMPANY')"></div>
+</div>
+
+
+<div class="well bg-white">
+	<div class="row">
+
+
+		<div class="col-md-12 ">
+			<div class="h4">{{TranslationService.getText('SETTINGS_CULTURE_PROPERTIES')}}</div>
+			<div class="well teamsettings">
+
+
+				<div class="row form-group">
+					<div class="col-md-4">
+						<label for="">{{TranslationService.getText('SETTINGS_CULTURE_NAME')}}</label>
+					</div>
+
+					<div class="col-md-8">
+						<input type="text" placeholder="{{TranslationService.getText('SETTINGS_CULTURE_NAME')}}" class="form-control" value="Cultuur 3" name="cultureName">
+					</div>
+				</div>
+
+
+				<div class="row form-group">
+					<div class="col-md-4">
+						<label for="">{{TranslationService.getText('Innovatief')}}</label>
+					</div>
+
+					<div class="col-md-2">
+						<input type="text" placeholder="{{TranslationService.getText('Score')}}" class="form-control" value="9" name="ADHO_score">
+					</div>
+				</div>
+
+				<div class="row form-group">
+					<div class="col-md-4">
+						<label for="">{{TranslationService.getText('Productief')}}</label>
+					</div>
+
+					<div class="col-md-2">
+						<input type="text" placeholder="{{TranslationService.getText('Score')}}" class="form-control" value="7" name="MRKT_score">
+					</div>
+				</div>
+
+				<div class="row form-group">
+					<div class="col-md-4">
+						<label for="">{{TranslationService.getText('Regels en procedures')}}</label>
+					</div>
+
+					<div class="col-md-2">
+						<input type="text" placeholder="{{TranslationService.getText('Score')}}" class="form-control" value="2" name="HCHY_score">
+					</div>
+				</div>
+
+				<div class="row form-group">
+					<div class="col-md-4">
+						<label for="">{{TranslationService.getText('Collegiaal')}}</label>
+					</div>
+
+					<div class="col-md-2">
+						<input type="text" placeholder="{{TranslationService.getText('Score')}}" class="form-control" value="4" name="FAML_score">
+					</div>
+				</div>
+
+
+				<div class="row form-group">
+					<div class="col-md-4">
+						<label>{{TranslationService.getText('Standaard cultuur')}}</label>
+					</div>
+					<div class="col-md-2">
+						<input type="checkbox" value="1" name="companyDefault">
+					</div>
+				</div>
+
+				<div class="row form-group">
+					<div class="col-md-2 pull-right">
+						<button ng-click="saveCulture('culture')" class="btn btn-success pull-right" type="submit">
+							{{TranslationService.getText('SETTINGS_SAVE')}}
+						</button>
+					</div>
+
+					<div class="col-md-2 pull-right">
+						<button ng-click="$state.go('settings.company.edit',{id:'company.id'})" class="btn btn-danger pull-right" type="submit">
+							{{TranslationService.getText('SETTINGS_CANCEL')}}
+						</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+
+	</div>
+</div>

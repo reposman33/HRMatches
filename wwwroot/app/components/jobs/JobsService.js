@@ -1,11 +1,11 @@
 /**
  * @ngdoc		service
- * @name		app.ontdekJouwTalent.service:JoblistService
+ * @name		app.ontdekJouwTalent.service:JobsService
  * @description	This service contains functionality for Jobs (Vacatures)
  * @requires:	$http,AppConfig,SessionService
  * */
 angular.module('app.ontdekJouwTalent')
-	.factory('JoblistService',['APIService','AppConfig',function(APIService,AppConfig){
+	.factory('JobsService',['APIService','AppConfig',function(APIService,AppConfig){
 		return{
 			_viewConfig: {},
 			_isLoaded: false,
@@ -19,7 +19,7 @@ angular.module('app.ontdekJouwTalent')
 			/**
 			 * @ngdoc			method
 			 * @name			load
-			 * @methodOf		app.ontdekJouwTalent.service:JoblistService
+			 * @methodOf		app.ontdekJouwTalent.service:JobsService
 			 * @description		Loads jobs (vacatures) for listView
 			 * @returns {Array}	The list of jobs to display
 			 */
@@ -30,7 +30,7 @@ angular.module('app.ontdekJouwTalent')
 					return this.getData();
 				}
 
-				return APIService.call(AppConfig.API_ENDPOINTS.joblist)
+				return APIService.call(AppConfig.API_ENDPOINTS.jobs)
 				.then(
 					function(successResponse){
 						self.cacheResponse(successResponse);
@@ -43,7 +43,7 @@ angular.module('app.ontdekJouwTalent')
 			/**
 			 * @ngdoc			method
 			 * @name			cacheResponse
-			 * @methodOf		app.ontdekJouwTalent.service:JoblistService
+			 * @methodOf		app.ontdekJouwTalent.service:JobsService
 			 * @description		caches a lsit of jobs 
 			 */
 			cacheResponse: function(successResponse){
@@ -57,7 +57,7 @@ angular.module('app.ontdekJouwTalent')
 			/**
 			 * @ngdoc			method
 			 * @name			getJob
-			 * @methodOf		app.ontdekJouwTalent.service:JoblistService
+			 * @methodOf		app.ontdekJouwTalent.service:JobsService
 			 * @description		returns job specified by id
 			 * @returns	{Object} a job
 			 */

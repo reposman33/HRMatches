@@ -88,20 +88,18 @@
 							multiple
 							style="width:100%;">
 							<ui-select-match placeholder="{{TranslationService.getText('SETTINGS_JOBDOMAIN_NONE')}}">
-								<span ng-bind="$select.selected[$index].displayName"></span>
+								<span ng-bind="$item.displayName"></span>
 							</ui-select-match>
 							<ui-select-choices
-								repeat="team in (data.detailView.teams | filter: $select.search) track by team.id">
-								<div ng-bind="$select.selected[$index].displayName"></div>
-								<small>
-									<span ng-bind="team.displayName"></span>
-								</small>
+								repeat="team.id as team in data.detailView.teams | filter: $select.search">
+								<div ng-bind="team.displayName | highlight: $select.search"></div>
 							</ui-select-choices>
 						</ui-select>
 
 					</div>
 				</div>
 				<div class="row form-group">
+
 					<div class="col-md-4 pull-right">
 						<button
 							type="button"
@@ -111,7 +109,7 @@
 						</button>
 					</div>
 
-					<div class="col-md-4 pull-right">
+					<div>
 						<button type="button" class="btn btn-danger pull-right" ng-click="$state.go('settings.userManagement.jobdomains')">{{TranslationService.getText('')}} Annuleren </button>
 					</div>
 				</div>

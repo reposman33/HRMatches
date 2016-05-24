@@ -14,7 +14,10 @@ angular.module('app.ontdekJouwTalent')
 			MenuService.getMenu('TopNav')
 			.then(
 				function(successResponse){
-					$scope.menus = successResponse;
+					$scope.menus = successResponse.map(function(menu,ind,menus){
+						menu.url = '#' + menu.url;
+						return menu;
+					});
 				}
 			)
 		}

@@ -1,21 +1,21 @@
 [{
 	"id": 1,
 	"displayName": "TOPBAR_DASHBOARD",
-	"url": "/settings.myaccount",
+	"url": "/dashboard",
 	"title": "TOPBAR_DASHBOARD_DESCRIPTION"
 }, {
 	"id": 2,
 	"displayName": "TOPBAR_MY_JOBS",
-	"url": "/settings.mycompany",
+	"url": "/jobs",
 	"title": "TOPBAR_MY_JOBS_DESCRIPTION"
 }, {
 	"id": 3,
 	"displayName": "TOPBAR_CANDIDATES",
-	"url": "/settings.usermanagement",
+	"url": "/candidates",
 	"title": "TOPBAR_CANDIDATES_DESCRIPTION"
 }, {
 	"id": 4,
 	"displayName": "TOPBAR_STATISTICS",
-	"url": "/settings.tagmanagement",
+	"url": "/statistics",
 	"title": "TOPBAR_STATISTICS_DESCRIPTION"
 }]

@@ -23,6 +23,12 @@ angular.module('app.ontdekJouwTalent')
 			var qpDelimiter = '/?';
 
 			if((API.method == 'GET' || API.method == 'DELETE')){
+				if(token!==''){
+					// APPEND TOKEN
+					url += (qpDelimiter + 'token=' + token);
+					qpDelimiter = '&';
+				}
+				// url += token !== '' ? '/' + token) : ''; wellicht later als Taffy API gewijzigd is.
 				// APPEND QUERY PARAMETERS TO URL
 				angular.forEach(payload,function(value,key){
 					if(!(key==undefined || key==null)){
@@ -30,8 +36,6 @@ angular.module('app.ontdekJouwTalent')
 						qpDelimiter = '&';
 					}
 				});
-				// APPEND TOKEN
-				url += token === '' ? '' : (qpDelimiter + 'token=' + token);
 				payload=''; // DON'T SEND DATA IN BODY FOR GET REQUEST
 			}
 			else if((API.method == 'PUT' || API.method == 'POST')){
@@ -81,7 +85,7 @@ angular.module('app.ontdekJouwTalent')
 			)
 			.catch(
 				function(errorResponse){
-					console.log('clientvariables NOT logged for state \'',toStateName,'\': ',errorResponse);
+					console.log(errorResponse);
 				}
 			);
 		}
@@ -110,6 +114,9 @@ angular.module('app.ontdekJouwTalent')
 		 * and once for 'parent.child' even if only defined in the child's onEnter() callBack
 		 * */
 		this.trackData = function(toStateName){
+			if(AppConfig.APPCONSTANTS_ISLOCAL){
+				return;
+			}
 			// ASSIGN DYNAMIC VALUES TO THE CLIENTVARIABLES
 			var trackingData = {
 				token: SessionService.getCurrentUserToken()

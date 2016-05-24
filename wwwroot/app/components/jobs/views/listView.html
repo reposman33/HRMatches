@@ -1,0 +1,159 @@
+<div class="container jobs-overview">
+	<!-- vacancies -->
+
+
+	<div class="row title-container text-center margin_bottom_20">
+		<div class="col-md-12 h3">
+			{{TranslationService.getText('JOBOVERVIEW_TITLE')}}
+		</div>
+	</div>
+
+
+
+	<!-- tabs -->
+	<div class="row">
+		<div class="tab-holder" role="tabpanel">
+
+			<!-- Nav tabs -->
+
+
+			<!-- Tab panes -->
+			<div class="tab-content form-group">
+				<div id="jobs_matches" class="tab-pane active margin_top_2" role="tabpanel">
+
+						<div class="well bg-white padding_bottom_0">
+							<div class="row">
+
+								<div class="col-md-12 jobs-matches-container">
+
+
+									<div class="row candidates-filters">
+
+										<div class="col-md-2">
+											<div class="form-group">
+												<label for="">{{TranslationService.getText('JOB_ORGANISATION')}}</label>
+												<select class="form-control"
+													ng-model="job.organisation"
+													ng-options="job.id as job.organisation for job in data.jobs">
+													<option value="">-&nbsp;{{TranslationService.getText('JOB_SELECT_ORGANISATION')}}&nbsp;-</option>
+												</select>
+											</div>
+										</div>
+
+										<div class="col-md-2">
+											<div class="form-group">
+												<label for="">{{TranslationService.getText('JOB_COUNTRY')}}</label>
+												<select class="form-control"
+													ng-model="job.country"
+													ng-options="country.id as country.countryName for country in countries">
+													<option value="">-&nbsp;{{TranslationService.getText('JOB_SELECT_COUNTRY')}}&nbsp;-</option>
+												</select>
+											</div>
+										</div>
+
+										<div class="col-md-2">
+											<div class="form-group">
+												<label for="">{{TranslationService.getText('JOB_REFERENCECODE')}}</label>
+												<select name="referenceCode" class="form-control">
+													<option value="">-&nbsp;{{TranslationService.getText('JOB_SELECT_REFERENCECODE')}}&nbsp;-</option>
+												</select>
+											</div>
+										</div>
+
+										<div class="col-md-6">
+											<div class="row search-field">
+												<div class="col-md-8">
+													<label for=""> &nbsp;</label>
+													<input type="text" placeholder="{{TranslationService.getText('JOB_SEARCH')}}" name="jobName" id="search" class="form-control">
+												</div>
+												<div class="col-md-4">
+													<label for=""> &nbsp;</label>
+													<span class="input-group-btn">
+														<button type="submit" class="btn btn-default h9 gtm-joboverview-search"><i class="fa fa-search blue"></i>{{TranslationService.getText('JOB_SEARCH')}}</button>
+													</span>
+												</div>
+											</div>
+										</div>
+
+									</div>
+
+									<hr>
+
+									<div class="well well-sm bg-white jobs-matches-well"
+										ng-repeat="job in data.jobs"
+										>
+										<div class="row">
+
+											<div class="col-md-11">
+												<div class="row">
+													<div class="col-md-12">
+														<div class="h7 jobs-job-title">
+														<a ng-sref="jobs.detail">
+															{{job.name}}
+														</a></div>
+													</div>
+												</div>
+
+												<div class="row">
+													<div class="col-md-12">
+
+														<div class="row">
+
+															<div class="col-md-4">
+																<div class="row">
+																	<div class="col-md-12">
+																		<div class="h10 jobs-company-title">{{job.organisation}}, {{job.organisation}}</div>
+																		<div class="h10 jobs-education-title">{{job.hours}}</div>
+
+																		<div class="h9 jobs-score ">
+																			{{TranslationService.getText('JOB_SCORE')}}:<span class="low h4">??? %</span> </div>
+																	</div>
+																</div>
+															</div>
+
+															<div class="col-md-8">
+																<div class="h10">
+																<p><em ng-bind-html="job.description"></em></p>
+																</div>
+															</div>
+														</div>
+
+													</div>
+												</div>
+											</div>
+
+											<div class="col-md-1 job-buttons">
+												<div aria-label="..." role="group" class="btn-group-vertical">
+
+													<button title="" data-container="body" data-placement="top" data-toggle="tooltip"
+														ng-click="jobs.detail"
+														class="btn btn-primary h9 gtm-joboverview-viewjob" type="button"
+														name="{{job.name}}"
+														data-original-title="Vacature bekijken">
+														<i class="fa fa-eye white"></i>
+													</button>
+													<button title="" data-container="body" data-placement="top" data-toggle="tooltip"
+														ng-click="jobs.match"
+														class="btn btn-default h9 gtm-joboverview-viewjob" type="button"
+														name="{{job.name}}"
+														data-original-title="Mijn match bekijken">
+														<i class="glyphicon glyphicon-ok"></i>
+													</button>
+
+												</div>
+											</div>
+
+										</div>
+									</div>	<!-- end match 1 -->
+
+
+								</div>
+							</div>
+						</div>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+</div>
