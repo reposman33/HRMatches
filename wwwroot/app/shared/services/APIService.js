@@ -31,7 +31,7 @@ angular.module('app.ontdekJouwTalent')
 				// url += token !== '' ? '/' + token) : ''; wellicht later als Taffy API gewijzigd is.
 				// APPEND QUERY PARAMETERS TO URL
 				angular.forEach(payload,function(value,key){
-					if(!(key==undefined || key==null)){
+					if(!(value==undefined || value==null)){
 						url += (qpDelimiter + key + '=' + value);
 						qpDelimiter = '&';
 					}
@@ -58,18 +58,16 @@ angular.module('app.ontdekJouwTalent')
 					$rootScope.error = {status:errorResponse.status,statusText:errorResponse.statusText};
 					var message = {message:'Er is een fout opgetreden: ' + errorResponse.status +' (' + errorResponse.statusText + ')'};
 					switch(errorResponse.status){
-						case 500: // server error
-							$state.go('message',message);
-							break;
-
-						case 501: // login error
-							$state.go('message',message);
-							break;
-
 						case 401: //niet authenticated
 						case 403: // niet geauthoriseerd
 							SessionService.removeCurrentUser(); //LOGOUT
 							$state.go(AppConfig.APPCONSTANTS_NAVIGATION_REDIRECT.NOTAUTHENTICATED);
+							break;
+
+						case 404: // Not Found
+						case 500: // server error
+						case 501: // login error
+							$state.go('message',message);
 							break;
 
 						default:

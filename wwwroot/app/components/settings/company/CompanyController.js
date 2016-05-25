@@ -1,27 +1,37 @@
 angular.module('app.ontdekJouwTalent')
-.controller('CompanyController',['$scope','AppConfig','APIService','data',function($scope,AppConfig,APIService,data){
+.controller('CompanyController',['$scope','$state','AppConfig','APIService','data',function($scope,$state,AppConfig,APIService,data){
 
 	$scope.data = data;
-
-
 
 	$scope.saveCompany = function(company){
 		APIService.call({endpoint: AppConfig.API_ENDPOINTS.settings.companyInfo.endpoint,method:'PUT'},{companyinfo:company})
 		.then(
 			function(successResponse){
-				console.log(successResponse);
+				$state.reload($state.current.name);
 			}
 		)
 	}
 	
 	
 	$scope.deleteCulture= function(id){
-		// delete culture
+		APIService.call({endpoint: AppConfig.API_ENDPOINTS.settings.culture.endpoint,method:'DELETE'},{cultureId:id}
+		.then(
+				function(successResponse){
+					$state.reload($state.current.name);
+				}
+			)
+		)
 	}
 
 	$scope.saveCulture = function(culture){
 		if('culture.id' !=''){
-			// edit culture (PUT)
+			APIService.call({endpoint: AppConfig.API_ENDPOINTS.settings.culture.endpoint,method:'POST'},{culture:culture}
+				.then(
+					function(successResponse){
+						$state.reload($state.current.name);
+						}
+				)
+			)
 		}
 		else{
 			// save culture (POST)

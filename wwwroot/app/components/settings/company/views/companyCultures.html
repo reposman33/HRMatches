@@ -1,0 +1,76 @@
+<div class="row title-container">
+	<div class="col-md-12 h3" ng-bind="TranslationService.getText('SETTINGS_MY_COMPANY')"></div>
+</div>
+
+<div class="well bg-white">
+	<div class="row">
+
+		<div class="col-md-12 ">
+			<div class="h4">{{TranslationService.getText('SETTINGS_CULTURES')}}</div>
+
+			<div class="well">
+
+				<div class="row">
+					<div class="col-md-12">
+						<button class="btn btn-primary btn-block"
+							type="button"
+							 ng-click="$state.go('settings.company.edit.culture')"
+						>
+							<i class="fa fa-plus margin_right_10"></i>
+							{{TranslationService.getText('SETTINGS_ADD_CULTURE')}}
+						</button>
+					</div>
+				</div>
+
+				<div class="row"><div class="col-md-12"><hr></div></div>
+
+				<div class="well well-sm bg-white teams_box"
+					ng-repeat="culture in data.cultures"
+				>
+					<div class="row">
+						<div class="col-md-7">
+							<div class="h9 teams_text" ng-bind="culture.displayName"></div>
+						</div>
+
+						<div class="col-md-5 right_text">
+							<div role="group" class="btn-group btn-group-sm">
+								<button data-placement="top"
+									data-toggle="tooltip"
+									class="btn btn-default"
+									ng-click="$state.go('settings.company.culture.edit',{id:culture.id})"
+									type="button"
+								>
+									<i class="fa yellow fa-pencil "></i>
+								</button>
+								<button data-placement="top"
+									data-toggle="tooltip"
+									class="btn btn-default"
+									ng-click="deleteCulture(culture.id)"
+									confirm="{{TranslationService.getText('SETTINGS_CONFIRMATION')}}"
+									type="button" >
+									<i class="fa red fa-remove"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row form-group">
+ 					<div class="col-md-2 pull-right">
+					</div>
+
+					<div class="col-md-2 pull-right">
+						<button class="btn btn-danger pull-right"
+						        type="submit"
+						        ng-click="$state.go('^')"
+						>
+							{{TranslationService.getText('SETTINGS_CANCEL')}}
+						</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+</div>
