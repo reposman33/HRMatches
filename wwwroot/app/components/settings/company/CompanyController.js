@@ -1,6 +1,10 @@
 angular.module('app.ontdekJouwTalent')
-.controller('CompanyController',['$scope',function($scope){
+.controller('CompanyController',['$scope','data',function($scope,data){
 
+	$scope.data = data;
+
+
+	
 	$scope.deleteCulture= function(id){
 		// delete culture
 	}

@@ -134,21 +134,29 @@ angular.module('app.ontdekJouwTalent',
 		,'settings': {
 			endpoint: 'settings'
 			,method: 'GET'
-			,account: {
+			,'account': {
 				endpoint: 'account'
 				,method: 'GET'
 			}
-			,updateAccount: {
+			,'updateAccount': {
 				endpoint: 'account'
 				,method: 'PUT'
 			}
-			,addAccount: {
+			,'addAccount': {
 				endpoint: 'account'
 				,method: 'POST'
 			}
-			,deleteAccount: {
+			,'deleteAccount': {
 				endpoint: 'account'
 				,method: 'DELETE'
+			}
+			,'companyInfo': {
+				endpoint: 'companyinfo'
+				,method: 'GET'
+			}
+			,'branche': {
+				endpoint: 'branche'
+				,method: 'GET'
 			}
 			,userManagement: {
 				'users': {
@@ -596,6 +604,24 @@ angular.module('app.ontdekJouwTalent',
 		// ---------- SETTINGS.COMPANY----------
 		.state('settings.company', {
 			url: '/company'
+			,resolve: {
+				company: ['APIService',function(APIService){
+					return APIService.call(AppConfig.API_ENDPOINTS.settings.companyInfo)
+				}]
+				,countries: ['APIService',function(APIService){
+					return APIService.call(AppConfig.API_ENDPOINTS.country);
+				}]
+				,branches: ['APIService',function(APIService){
+					return APIService.call(AppConfig.API_ENDPOINTS.settings.branche);
+				}]
+				,data: ['company','countries','branches',function(company,countries,branches){
+					return {
+						company: company,
+						countries: countries,
+						branches: branches
+					}
+				}]
+			}
 			,views: {
 				'setting@settings': {
 					templateUrl: '/app/components/settings/company/views/company.html'
