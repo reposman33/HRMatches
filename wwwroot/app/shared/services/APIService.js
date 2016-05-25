@@ -58,29 +58,25 @@ angular.module('app.ontdekJouwTalent')
 					$rootScope.error = {status:errorResponse.status,statusText:errorResponse.statusText};
 					var message = {message:'Er is een fout opgetreden: ' + errorResponse.status +' (' + errorResponse.statusText + ')'};
 					switch(errorResponse.status){
-						case 500:{ // server error
+						case 500: // server error
 							$state.go('message',message);
 							break;
-						}
-						case 501:{ // login error
+
+						case 501: // login error
 							$state.go('message',message);
 							break;
-						}
-						case 401:{ //niet authenticated
+
+						case 401: //niet authenticated
+						case 403: // niet geauthoriseerd
 							SessionService.removeCurrentUser(); //LOGOUT
 							$state.go(AppConfig.APPCONSTANTS_NAVIGATION_REDIRECT.NOTAUTHENTICATED);
 							break;
-						}
-						case 403:{ // niet geauthoriseerd
-							$state.go('message',message);
-							break;
-						}
-						default: {
+
+						default:
 							$state.go('message',{message:'Er is een onbekende fout opgetreden'});
 							break;
-						}
 					}
-					return $q.reject(errorResponse.data);
+					//return $q.reject(errorResponse.data);
 				}
 			)
 			.catch(
