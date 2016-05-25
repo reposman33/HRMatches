@@ -32,13 +32,12 @@ angular.module('app.ontdekJouwTalent')
 			$scope.profiles = [];
 
 			if(user.username.length && user.password.length){
-				APIService.call(AppConfig.API_ENDPOINTS.authenticate,
-				{
-					username: user.username,
-					password: user.password
-				})
+				APIService.call(AppConfig.API_ENDPOINTS.authenticate,{username: user.username,password: user.password})
+
 				.then(
+
 					// SUCCESS (STATUS:200)
+
 					function(successResponse){
 						// AUTHENTICATE SUCCESS
 						$scope.profiles = successResponse.profiles;
@@ -63,7 +62,9 @@ angular.module('app.ontdekJouwTalent')
 							login(successResponse.profiles[0].domainId);
 						}
 					}
+
 					// ERROR (status:501)
+
 					,function(errorResponse){
 						$scope.loginFeedbackText = TranslationService.getText('LOGIN_ERROR');
 					}

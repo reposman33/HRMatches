@@ -43,13 +43,16 @@ angular.module('app.ontdekJouwTalent')
 					url += (qpDelimiter + 'token=' + token);
 				}
 			}
+
 			return $http({
 				method:API.method
 				,url: url
 				,data: payload
 			})
 			.then(
+
 				// API CALL SUCCESSFUL (200 OK)
+
 				function(successResponse){
 					return successResponse.data;
 				}
@@ -65,23 +68,16 @@ angular.module('app.ontdekJouwTalent')
 							break;
 
 						case 404: // Not Found
-						case 500: // server error
 						case 501: // login error
-							$state.go('message',message);
-							break;
+						case 500: // server error
+							return $q.reject(errorResponse);
 
 						default:
 							$state.go('message',{message:'Er is een onbekende fout opgetreden'});
 							break;
 					}
-					//return $q.reject(errorResponse.data);
 				}
 			)
-			.catch(
-				function(errorResponse){
-					console.log(errorResponse);
-				}
-			);
 		}
 
 
