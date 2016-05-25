@@ -2,6 +2,9 @@
 	<div class="col-md-12 h3" ng-bind="TranslationService.getText('SETTINGS_MY_COMPANY')"></div>
 </div>
 
+<pre>
+	{{data | json}}
+</pre>
 
 <div class="well bg-white">
 	<div class="row">
@@ -81,7 +84,7 @@
 					</div>
 
 					<div class="col-md-2 pull-right">
-						<button ng-click="$state.go('settings.company.edit',{id:'company.id'})" class="btn btn-danger pull-right" type="submit">
+						<button ng-click="$state.go('^',{id:'company.id'})" class="btn btn-danger pull-right" type="submit">
 							{{TranslationService.getText('SETTINGS_CANCEL')}}
 						</button>
 					</div>
@@ -89,7 +92,5 @@
 
 			</div>
 		</div>
-
-
 	</div>
 </div>

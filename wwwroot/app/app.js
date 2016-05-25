@@ -629,20 +629,40 @@ angular.module('app.ontdekJouwTalent',
 				}
 			}
 		})
-		.state('settings.company.edit', {
-			url: '/edit'
-			,params: {
-				id: null
+		.state('settings.company.culture', {
+			url: '/culture'
+			,resolve: {
+				cultures: ['APIService',function(APIService){
+					return APIService.call(AppConfig.API_ENDPOINTS.cultures);
+				}]
+				,data: ['cultures',function(cultures){
+					return {
+						cultures: cultures
+					}
+				}]
 			}
 			,views: {
 				'setting@settings': {
-					templateUrl: '/app/components/settings/company/views/editCompany.html'
+					templateUrl: '/app/components/settings/company/views/companyCultures.html'
 					,controller: 'CompanyController'
 				}
 			}
 		})
-		.state('settings.company.edit.culture', {
-			url: '/culture'
+		.state('settings.company.culture.edit', {
+			url: '/edit'
+			,params: {
+				id : null
+			}
+			,resolve: {
+				culture: ['$stateParams','APIService',function($stateParams,APIService){
+					return APIService.call(AppConfig.API_ENDPOINTS.cultures,{cultureId:$stateParams.id});
+				}]
+				,data: ['culture',function(culture){
+					return {
+						culture: culture
+					}
+				}]
+			}
 			,views: {
 				'setting@settings': {
 					templateUrl: '/app/components/settings/company/views/companyCulture.html'
