@@ -27,7 +27,7 @@
 
 				<div class="row form-group">
 					<div class="col-md-4">
-						<label for="GFFREFGER">{{TranslationService.getText('Innovatief')}}</label>
+						<label for="GFFREFGER" ng-bind="data.culture.displayNameADHO"></label>
 					</div>
 
 					<div class="col-md-2">
@@ -42,7 +42,7 @@
 
 				<div class="row form-group">
 					<div class="col-md-4">
-						<label for="TRGREFEWEFW">{{TranslationService.getText('Productief')}}</label>
+						<label for="TRGREFEWEFW" ng-bind="data.culture.displayNameMRKT"></label>
 					</div>
 
 					<div class="col-md-2">
@@ -57,7 +57,7 @@
 
 				<div class="row form-group">
 					<div class="col-md-4">
-						<label for="GRFEWGTR">{{TranslationService.getText('Regels en procedures')}}</label>
+						<label for="GRFEWGTR" ng-bind="data.culture.displayNameHCHY"></label>
 					</div>
 
 					<div class="col-md-2">
@@ -72,7 +72,7 @@
 
 				<div class="row form-group">
 					<div class="col-md-4">
-						<label for="UYHT">{{TranslationService.getText('Collegiaal')}}</label>
+						<label for="UYHT" ng-bind="data.culture.displayNameFAML"></label>
 					</div>
 
 					<div class="col-md-2">
@@ -88,7 +88,7 @@
 
 				<div class="row form-group">
 					<div class="col-md-4">
-						<label for="GTGRE">{{TranslationService.getText('Standaard cultuur')}}</label>
+						<label for="GTGRE" ng-bind="data.culture.displayNameDFLT">></label>
 					</div>
 					<div class="col-md-2">
 						<input type="checkbox"
