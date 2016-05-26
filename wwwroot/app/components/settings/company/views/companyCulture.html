@@ -33,7 +33,7 @@
 					<div class="col-md-2">
 						<input type="text"
 						    id="GFFREFGER"
-							placeholder="{{TranslationService.getText('')}}"
+							placeholder="{{TranslationService.getText('SETTINGS_CULTURE_SCORE')}}"
 							class="form-control"
 							ng-model="data.culture.ADHO"
 						>
@@ -48,7 +48,7 @@
 					<div class="col-md-2">
 						<input type="text"
 							id="TRGREFEWEFW"
-							placeholder="{{TranslationService.getText('Score')}}"
+							placeholder="{{TranslationService.getText('SETTINGS_CULTURE_SCORE')}}"
 							class="form-control"
 							ng-model="data.culture.MRKT"
 						>
@@ -63,7 +63,7 @@
 					<div class="col-md-2">
 						<input type="text"
 					       id="GRFEWGTR"
-							placeholder="{{TranslationService.getText('Score')}}"
+							placeholder="{{TranslationService.getText('SETTINGS_CULTURE_SCORE')}}"
 							class="form-control"
 							ng-model="data.culture.HCHY"
 						>
@@ -78,7 +78,7 @@
 					<div class="col-md-2">
 						<input type="text"
 							id="UYHT"
-							placeholder="{{TranslationService.getText('Score')}}"
+							placeholder="{{TranslationService.getText('SETTINGS_CULTURE_SCORE')}}"
 							class="form-control"
 							ng-model="data.culture.FAML"
 						>
@@ -93,6 +93,8 @@
 					<div class="col-md-2">
 						<input type="checkbox"
 							id="GTGRE"
+							ng-true-value="1"
+							ng-false-value="0"
 						    ng-model="data.culture.companyDefault"
 						>
 					</div>
@@ -116,7 +118,6 @@
 						</button>
 					</div>
 				</div>
-
 			</div>
 		</div>
 	</div>

@@ -76,6 +76,22 @@ angular.module('app.ontdekJouwTalent',
 		,password: undefined // IMPORTANT FOR PASSWORD MATCH CHECK
 		,passwordConfirm: undefined //IMPORTANT FOR PASSWORD MATCH CHECK
 	}
+	,APPCONSTANTS_SETTINGS_USERMANAGEMENT_COMPANY_CULTURE: {
+		name: "",
+		id: "",
+		displayNameFAML: "Collegiaal",
+		companyDefault: 0,
+		displayNameMRKT: "Productief",
+		MRKT: "",
+		created: "",
+		ADHO: "",
+		displayName: "",
+		displayNameADHO: "Innovatief",
+		displayNameHCHY: "Regels en procedures",
+		FAML: "",
+		updated: "",
+		HCHY: "",
+		}
 	/*
 	 * 		=============================================
 	 * 		============= A P I   E N D P O I N T S  ====
@@ -156,6 +172,10 @@ angular.module('app.ontdekJouwTalent',
 			}
 			,'branche': {
 				endpoint: 'branche'
+				,method: 'GET'
+			}
+			,'cultures': {
+				endpoint: 'cultures'
 				,method: 'GET'
 			}
 			,userManagement: {
@@ -252,10 +272,6 @@ angular.module('app.ontdekJouwTalent',
 		,'validateSecretKey': {
 			endpoint: 'validate_secretkey'
 			,method: 'POST'
-		}
-		,'cultures': {
-			endpoint: 'cultures'
-			,method: 'GET'
 		}
 		,'matchingconfigurations': {
 			endpoint: 'matchingconfigurations'
@@ -633,7 +649,7 @@ angular.module('app.ontdekJouwTalent',
 			url: '/culture'
 			,resolve: {
 				cultures: ['APIService',function(APIService){
-					return APIService.call(AppConfig.API_ENDPOINTS.cultures);
+					return APIService.call(AppConfig.API_ENDPOINTS.settings.cultures);
 				}]
 				,data: ['cultures',function(cultures){
 					return {
@@ -655,7 +671,11 @@ angular.module('app.ontdekJouwTalent',
 			}
 			,resolve: {
 				culture: ['$stateParams','APIService',function($stateParams,APIService){
-					return APIService.call(AppConfig.API_ENDPOINTS.cultures,{cultureId:$stateParams.id});
+					if($stateParams.id == null){
+						// NEW CULTURE - RETURN EMPTY TEMPLATE
+						return AppConfig.APPCONSTANTS_SETTINGS_USERMANAGEMENT_COMPANY_CULTURE;
+					}
+					return APIService.call(AppConfig.API_ENDPOINTS.settings.cultures,{cultureId:$stateParams.id});
 				}]
 				,data: ['culture',function(culture){
 					return {
@@ -849,7 +869,7 @@ angular.module('app.ontdekJouwTalent',
 						: angular.copy(AppConfig.APPCONSTANTS_SETTINGS_USERMANAGEMENT_JOBDOMAIN);
 				}]
 				,cultures: ['APIService', function(APIService) {
-					return APIService.call(AppConfig.API_ENDPOINTS.cultures);
+					return APIService.call(AppConfig.API_ENDPOINTS.settings.cultures);
 				}]
 				,matchingconfigurations: ['APIService', function(APIService) {
 					return APIService.call(AppConfig.API_ENDPOINTS.matchingconfigurations);
