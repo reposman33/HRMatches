@@ -6,7 +6,9 @@ angular.module('app.ontdekJouwTalent',
 	'xeditable',
 	'angular-confirm',
 	'ui.select',
-	'ngSanitize'
+	'ngSanitize',
+	'angular-growl',
+	'ngAnimate'
 	]
 )
 /*
@@ -332,14 +334,20 @@ angular.module('app.ontdekJouwTalent',
 	});
 
 }) // END run
-.config(['$stateProvider','$urlRouterProvider','AppConfig',function($stateProvider,$urlRouterProvider,AppConfig) {
+.config(['$stateProvider','$urlRouterProvider','AppConfig','growlProvider',function($stateProvider,$urlRouterProvider,AppConfig,growlProvider) {
 
-/*
-* 			=============================================
-* 			============= R E D I R E C T S =============
-*			=============================================
-*
-* */
+	growlProvider
+	.globalTimeToLive(4000)
+	.globalDisableCountDown(true)
+	.globalPosition('top-center');
+
+
+	/*
+	* 			=============================================
+	* 			============= R E D I R E C T S =============
+	*			=============================================
+	*
+	* */
 	$urlRouterProvider
 	.otherwise(function(){
 		return '/login';

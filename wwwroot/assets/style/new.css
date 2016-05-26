@@ -4613,3 +4613,25 @@ button.ui-button::-moz-focus-inner {
 .google-visualization-table-table>tbody{border-bottom:1px #fff solid;margin:0px}
 
 .gapi-analytics-data-chart .gapi-analytics-data-chart-styles-table-th{border-bottom: 1px solid #ddd !important;}
+
+
+/*----------------- Growl notification classes -------------------------*/
+
+/*
+ from http://janstevens.github.io/angular-growl-2/.
+ Modifications
+*/
+
+.growl-container > .growl-item.ng-enter {
+	-webkit-animation:1s slideInLeft;
+	-moz-animation:1s slideInLeft;
+	-o-animation:1s slideInLeft;
+	animation: slideInLeft 1s;
+	transition-property: none;
+}
+.growl-container > .growl-item.ng-leave {
+	-webkit-animation:2s slideOutLeft;
+	-moz-animation:2s slideOutLeft;
+	-o-animation:2s slideOutLeft;
+	animation: slideOutLeft 2s;
+}

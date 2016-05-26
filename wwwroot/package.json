@@ -18,7 +18,9 @@
   },
   "devDependencies": {
     "angular-animate": "^1.5.2",
+    "angular-aria": "^1.5.5",
     "angular-confirm": "^1.2.3",
+    "angular-growl-v2": "^0.7.5",
     "angular-messages": "^1.5.0",
     "angular-sanitize": "^1.5.5",
     "angular-ui-router-uib-modal": "0.0.6",
