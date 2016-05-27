@@ -48,7 +48,7 @@ angular.module('app.ontdekJouwTalent')
 		 * @description Called when user adds a team.
 		 */
 		$scope.addTeam = function(){
-			$state.go('settings.userManagement.detailTeam');
+			$state.go('settings.userManagement.teams.detail');
 		}
 
 		// DELETE
@@ -85,7 +85,7 @@ angular.module('app.ontdekJouwTalent')
 		 */
 		//TODO trackdata aanroepen
 		$scope.edit = function(id){
-			$state.go('settings.userManagement.detailTeam',{id:id})
+			$state.go('settings.userManagement.teams.detail',{id:id})
 		}
 
 

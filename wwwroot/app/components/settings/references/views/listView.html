@@ -1,0 +1,113 @@
+<!-- Settings - references-->
+<div role="tabpanel">
+	<div class="tab-content">
+		<div class="well bg-white">
+			<div class="row">
+				<div class="col-md-14">
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							<h3>{{TranslationService.getText('SETTINGS_REFERENCE_TITLE')}}</h3>
+						</div>
+						<div class="panel-body">
+							<div class="col-md-12">
+
+								<div class="well bg-white">
+									<div class="well">
+										<div class="row">
+											<div class="col-md-12">
+												<div class="well well bg-white">
+													<div class="row">
+														<div class="col-md-4 form-group h9">
+															<label>{{TranslationService.getText('SETTINGS_ADD_NEW_REFERENCE')}}</label>
+														</div>
+
+														<div class="col-md-6 form-group">
+															<input type="text"
+																class="form-control"
+																placeholder="{{TranslationService.getText('SETTINGS_REFERENCE_NAME')}}"
+																ng-value="reference.DISPLAYNAME">
+														</div>
+														<div class="col-md-2 text-right">
+															<div class="btn-group btn-group-sm" role="group" aria-label="...">
+																<button class="btn btn-default"
+																ng-click="save(data.listview.reference)">
+																<i class=""></i>{{TranslationService.getText('SETTINGS_SAVE')}}</button>
+															</div>
+														</div>
+
+													</div>
+												</div>
+
+												<div class="department">
+<!--START LOOP OVER REFERENCES -->
+													<div class="well well-sm bg-white email_template_box"
+													     ng-repeat="reference in data.references">
+														<div class="row">
+															<div class="col-md-10">
+																<div class="h9 email_template_text">{{reference.displayName}}</div>
+															</div>
+
+															<div class="col-md-2">
+																<div class="btn-group btn-group-sm" role="group" aria-label="...">
+																	<button type="button"
+																		class="btn btn-default btn-save-1"
+																		ng-click="showEditRow=!showEditRow"> <!--display edit row below -->
+																		<i class="fa fa-pencil yellow"></i>
+																	</button>
+																	<button type="button"
+																		class="btn btn-default"
+																		confirm="{{TranslationService.getText('SETTINGS_CONFIRMATION')}}"
+																		ng-click="delete(reference.id)">
+																		<i class="fa red fa-remove"></i>
+																	</button>
+																</div>
+															</div>
+														</div>
+<!-- START HIDDEN EDIT ROW -->
+<!--														<div class="animated slideInDown" ng-show="showEditRow">-->
+															<div class="row animated slideInDown" ng-show="showEditRow">
+																<div class="col-md-4 form-group h9">
+																	<label>{{TranslationService.getText('SETTINGS_EDIT_JOBDOMAIN')}}</label>
+																</div>
+
+																<div class="col-md-5 form-group">
+																	<input type="text"
+																		class="form-control"
+																		ng-model="reference.displayName">
+																</div>
+																<div class="col-md-3">
+																	<div class="btn-group btn-group-sm" role="group" aria-label="...">
+																		<button type="submit"
+																			class="btn btn-default"
+																			ng-click="save(reference)">
+																			<i class=""></i>
+																			{{TranslationService.getText('SETTINGS_SAVE')}}
+																		</button>
+																		<button type="button"
+																			class="btn btn-default btn-cancel-1"
+																			ng-click=""> <!--display edit row below -->
+																			<i class=""></i>
+																			{{TranslationService.getText('SETTINGS_CANCEL')}}
+																		</button>
+																	</div>
+																</div>
+															</div>
+<!--														</div>-->
+<!-- END HIDDEN EDIT ROW -->
+													</div>
+<!--STOP LOOP OVER REFERENCES -->
+												</div>
+
+											</div>
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

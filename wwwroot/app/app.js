@@ -182,7 +182,7 @@ angular.module('app.ontdekJouwTalent',
 				endpoint: 'cultures'
 				,method: 'GET'
 			}
-			,userManagement: {
+			,'userManagement': {
 				'users': {
 					endpoint: 'users'
 					,method: 'GET'
@@ -251,6 +251,11 @@ angular.module('app.ontdekJouwTalent',
 					endpoint: 'teams'
 					,method: 'DELETE'
 				}
+			}
+			,'references': {
+				endpoint: 'references'
+				,method: 'GET'
+
 			}
 		}
 		,'authenticate': {
@@ -595,6 +600,7 @@ angular.module('app.ontdekJouwTalent',
 				}
 			}
 		})
+
 		.state('settings.account.password', {
 			url: '/password'
 			,resolve: {
@@ -611,6 +617,7 @@ angular.module('app.ontdekJouwTalent',
 				}
 			}
 		})
+
 		.state('settings.account.delete', {
 			url: '/delete'
 			,resolve: {
@@ -655,6 +662,7 @@ angular.module('app.ontdekJouwTalent',
 				}
 			}
 		})
+
 		.state('settings.company.culture', {
 			url: '/culture'
 			,resolve: {
@@ -674,6 +682,7 @@ angular.module('app.ontdekJouwTalent',
 				}
 			}
 		})
+
 		.state('settings.company.culture.edit', {
 			url: '/edit'
 			,params: {
@@ -717,7 +726,7 @@ angular.module('app.ontdekJouwTalent',
 				}
 			}
 		})
-		// ---------- SETTINGS.USERMANAGEMENT.USERS----------
+
 		.state('settings.userManagement.users', {
 			url:'/users'
 			,params: {
@@ -735,7 +744,7 @@ angular.module('app.ontdekJouwTalent',
 				}
 			}
 		})
-		// ---------- SETTINGS.USERMANAGEMENT.addUser----------
+
 		.state('settings.userManagement.addUser', {
 			url:'/addUser'
 			,resolve: {
@@ -752,11 +761,11 @@ angular.module('app.ontdekJouwTalent',
 				}
 			}
 		})
-		// ---------- SETTINGS.USERMANAGEMENT.INVITED----------
+
 		.state('settings.userManagement.invited', {
 			url:'/invited'
 		})
-		// ---------- SETTINGS.USERMANAGEMENT.RECHTEN EN ROLLEN----------
+
 		.state('settings.userManagement.rightsAndRoles', {
 			url: '/rightsAndRoles'
 			,resolve: {
@@ -780,8 +789,7 @@ angular.module('app.ontdekJouwTalent',
 				}
 			}
 		})
-		// ---------- SETTINGS.USERMANAGEMENT.TEAMS ----------
-		// LIST
+
 		.state('settings.userManagement.teams', {
 			url: '/teams'
 			,resolve: {
@@ -804,9 +812,9 @@ angular.module('app.ontdekJouwTalent',
 				}
 			}
 		})
-		// DETAIL
-		.state('settings.userManagement.detailTeam', {
-			url: '/detailTeam'
+
+		.state('settings.userManagement.teams.detail', {
+			url: '/detail'
 			,params: {
 				id: undefined
 			}
@@ -843,7 +851,7 @@ angular.module('app.ontdekJouwTalent',
 				}
 			}
 		})
-	// ---------- SETTINGS.USERMANAGEMENT.VACATUREPOOL (JOBDOMAINS) ----------
+
 		.state('settings.userManagement.jobdomains', {
 			url:'/jobDomains',
 			resolve: {
@@ -866,7 +874,7 @@ angular.module('app.ontdekJouwTalent',
 				}
 			}
 		})
-		// NEW JOBDOMAIN / EDIT JOBDOMAIN
+
 		.state('settings.userManagement.jobdomain', {
 			url: '/editJobdomain'
 				,params: {
@@ -910,6 +918,26 @@ angular.module('app.ontdekJouwTalent',
 					,templateUrl: '/app/components/settings/userManagement/jobdomains/views/detailView.html'
 				}
 			}
-		}
-	)
+		})
+		// ---------- SETTINGS REFERENCES ----------
+		.state('settings.references', {
+			url: '/references'
+			,resolve: {
+				references: ['APIService', function(APIService) {
+					return APIService.call(AppConfig.API_ENDPOINTS.settings.references);
+				}]
+				,data: ['references', function(references) {
+					return {
+						references: references
+					}
+				}]
+			}
+			,views: {
+				'setting@settings': {
+					controller: 'ReferencesController'
+					,templateUrl: '/app/components/settings/references/views/listView.html'
+				}
+			}
+		})
+
 }]);
