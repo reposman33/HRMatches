@@ -28,6 +28,7 @@ angular.module('app.ontdekJouwTalent')
 		return currentUser.username;
 	}
 
+	// THIS IS THE CLIENT SIDE LOGOUT ACTION
 	service.removeCurrentUser = function(){
 		store.remove('currentUser');
 	}

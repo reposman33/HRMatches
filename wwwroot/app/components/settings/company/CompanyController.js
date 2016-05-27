@@ -1,6 +1,6 @@
 angular.module('app.ontdekJouwTalent')
-.controller('CompanyController',['$scope','$state','AppConfig','APIService','data','growl','SessionService',
-function($scope,$state,AppConfig,APIService,data,growl,SessionService){
+.controller('CompanyController',['$scope','$state','AppConfig','APIService','data','SessionService',
+function($scope,$state,AppConfig,APIService,data,SessionService){
 
 	$scope.data = data;
 
@@ -8,7 +8,6 @@ function($scope,$state,AppConfig,APIService,data,growl,SessionService){
 		APIService.call({endpoint: AppConfig.API_ENDPOINTS.settings.companyInfo.endpoint,method:'PUT'},{companyinfo:company})
 		.then(
 			function(successResponse){
-				growl.success('De bedrijfsinfo is gewijzigd!!',{title:'Success!'});
 				$state.reload($state.current.name);
 			}
 		)
@@ -27,11 +26,6 @@ function($scope,$state,AppConfig,APIService,data,growl,SessionService){
 	$scope.saveCulture = function(culture){
 		var method = (culture.id == undefined || culture.id == null || culture.id =='') ? 'POST' : 'PUT';
 		APIService.call({endpoint: AppConfig.API_ENDPOINTS.settings.cultures.endpoint,method:method},{culture:culture})
-		.then(
-			function(){
-				return growl.success('De cultuur is gewijzigd!!',{title:'Success!'});
-			}
-		)
 		.then(
 			function(successResponse){
 				return $state.go('settings.company.culture',null,{reload:true});

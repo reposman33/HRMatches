@@ -6,8 +6,8 @@
  * Dependencies: $http,AppConfig,SessionService<br />
  * */
 angular.module('app.ontdekJouwTalent')
-.service('APIService',['$http','$q','$rootScope','$state','AppConfig','SessionService',
-	function($http,$q,$rootScope,$state,AppConfig,SessionService) {
+.service('APIService',['$http','$q','$rootScope','$state','AppConfig','growl','SessionService',
+	function($http,$q,$rootScope,$state,AppConfig,growl,SessionService) {
 		// REQUEST
 		/**
 		 * @ngdoc method
@@ -50,16 +50,41 @@ angular.module('app.ontdekJouwTalent')
 				,data: payload
 			})
 			.then(
-
 				// API CALL SUCCESSFUL (200 OK)
-
 				function(successResponse){
 					return successResponse.data;
 				}
 				// API CALL RETURNS NON-200 ERROR
 				,function(errorResponse){
+					return $q.reject(errorResponse);
+				}
+			)
+		}
+
+
+		this.call = function(API,data){
+			return this.request(API,data)
+			.then(
+				function(successResponse){
+					if(AppConfig.APPCONSTANTS_NONOTIFICATION.indexOf(API.endpoint) == -1){
+						switch(API.method){
+							case 'DELETE':
+								growl.success('',{title:''});
+								break;
+							case 'POST':
+								growl.success('',{title:''});
+								break;
+							case 'PUT':
+								growl.success('',{title:''});
+								break;
+						}
+					}
+					return successResponse;
+				},
+				function(errorResponse){
 					$rootScope.error = {status:errorResponse.status,statusText:errorResponse.statusText};
 					var message = {message:'Er is een fout opgetreden: ' + errorResponse.status +' (' + errorResponse.statusText + ')'};
+
 					switch(errorResponse.status){
 						case 401: //niet authenticated
 						case 403: // niet geauthoriseerd
@@ -68,21 +93,18 @@ angular.module('app.ontdekJouwTalent')
 							break;
 
 						case 404: // Not Found
-						case 501: // login error
 						case 500: // server error
-							return $q.reject(errorResponse);
-
+							growl.error(errorResponse,{title:''});
+							break;
+						case 501: // login error - handled by AuthenticationController. Propagate rejected promise
+							break;
 						default:
 							$state.go('message',{message:'Er is een onbekende fout opgetreden'});
 							break;
 					}
+					return $q.reject(errorResponse);
 				}
 			)
-		}
-
-
-		this.call = function(API,data){
-			return this.request(API,data);
 		}
 
 		// ========== LOGIN ==========

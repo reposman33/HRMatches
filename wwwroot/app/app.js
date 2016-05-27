@@ -32,6 +32,8 @@ angular.module('app.ontdekJouwTalent',
 		,TABLEVIEW: '/app/shared/views/tableView.html'
 	}
 	,APPCONSTANTS_DEVICEID: ''
+	//DONT SHOW NOTIFICATIN TO END USER AFTER ANY OF THESE API ENDPOINT CALLS
+	,APPCONSTANTS_NONOTIFICATION: 'authenticate,login,logout,registration,forgotpassword,resetPassword,validateSecretKey,trackdata'
 
 	// TEMP CONSTANTS TO BE DEFINED BY BACK END
 	,APPCONSTANTS_API_URL: 'http://api-development.hrmatches.com'
