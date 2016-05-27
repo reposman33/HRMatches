@@ -35,7 +35,7 @@
 										<div class="input-group ">
 											<input type="text" value="{{role.systemName}}" title="{{role.created}}" ng-model="role.systemName">
 											<a class="fa fa-times-circle"
-											   confirm="Really delete role '{{role.systemName}}'?"
+											   confirm="{{Translation.getText('SETTINGS_CONFIRMATION')}}'?"
 											   ng-click="deleteRole(role.id)"
 											   title="{{TranslationService.getText('SETTINGS_DELETE_ROLE')}}"></a>
 										</div>
