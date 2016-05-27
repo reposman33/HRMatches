@@ -9,7 +9,7 @@
 		<div class="list-group h10">
 			<a ng-repeat="currentMenu in menu"
 			   ng-href="#{{currentMenu.url}}"
-			   class="list-group-item"
+			   ng-class="{'active':$state.href($state.current.name).indexOf(currentMenu.url)>-1,'list-group-item':true}"
 			>
 			<!--styles defined in wwwroot/app/components/settings/SettingsController.js-->
 			<i ng-class="styles[currentMenu.url]"></i>
