@@ -16,7 +16,8 @@ angular.module('app.ontdekJouwTalent')
 	}
 
 	$scope.save = function(reference){
-		APIService.call({endpoint:AppConfig.API_ENDPOINTS.settings.references.endpoint,method:'PUT'},{reference:reference});
+		var method = (reference.id != undefined && reference.id.length > 0) ? 'PUT' : 'POST';
+		APIService.call({endpoint:AppConfig.API_ENDPOINTS.settings.references.endpoint,method:method},{reference:reference});
 	}
 	
 }])

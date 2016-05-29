@@ -25,12 +25,12 @@
 															<input type="text"
 																class="form-control"
 																placeholder="{{TranslationService.getText('SETTINGS_REFERENCE_NAME')}}"
-																ng-value="reference.DISPLAYNAME">
+																ng-model="reference.displayName">
 														</div>
 														<div class="col-md-2 text-right">
 															<div class="btn-group btn-group-sm" role="group" aria-label="...">
 																<button class="btn btn-default"
-																ng-click="save(data.listview.reference)">
+																ng-click="save(reference)">
 																<i class=""></i>{{TranslationService.getText('SETTINGS_SAVE')}}</button>
 															</div>
 														</div>
