@@ -34,15 +34,17 @@
 					</ul>
 				</div>
 			</div>
-		</div>
 
-		<div class="modal-footer modal-button">
-			<button
-				type="button"
-				class="btn btn-default"
-				data-dismiss="modal"
-				aria-label="Close"
-				ng-click="login(selectedDomainId)">OK</button>
+			<div class="modal-button">
+
+				<button type="button"
+						class="btn btn-default pull-right"
+						data-dismiss="modal"
+						aria-label="Close"
+						ng-click="login(selectedDomainId)">
+						{{TranslationService.getText('LOGIN_SUBMIT')}}
+				</button>
+			</div>
 		</div>
 	</div>
 </div>
