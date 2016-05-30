@@ -30,5 +30,49 @@ angular.module('app.ontdekJouwTalent')
 		)
 	}
 
+	$scope.applySet = function(id){
+		$scope.$evalAsync(
+			function(){
+				APIService.call(AppConfig.API_ENDPOINTS.matchingconfigurations,{matchingId:id})
+				.then(
+					function(successResponse){
+					/* populate scope variables with retrieved data */
+					$scope.educationPassed = successResponse.educationPassed;
+					$scope.experienceLevelBelowZero = successResponse.experienceLevelBelowZero;
+					$scope.educationLevelExponent = successResponse.educationLevelExponent;
+					$scope.experienceSubAreaWeight = successResponse.experienceSubAreaWeight;
+					$scope.experienceWeight = successResponse.experienceWeight;
+					$scope.languageWeight = successResponse.languageWeight;
+					$scope.traitsExponent = successResponse.traitsExponent;
+					$scope.educationWeight = successResponse.educationWeight;
+
+					$scope.deleted = successResponse.deleted;
+					$scope.skillWeight = successResponse.skillWeight;
+					$scope.experienceLevelWeight = successResponse.experienceLevelWeight;
+					$scope.languageExponent = successResponse.languageExponent;
+
+					$scope.educationAreaWeight = successResponse.educationAreaWeight;
+					$scope.competenceExponent = successResponse.competenceExponent;
+					$scope.experienceAreaWeight = successResponse.experienceAreaWeight;
+					$scope.created = successResponse.created;
+					$scope.experienceLevelAboveZero = successResponse.experienceLevelAboveZero;
+
+					$scope.competenceWeight = successResponse.competenceWeight;
+					$scope.skillExponent = successResponse.skillExponent;
+					$scope.educationNotPassed = successResponse.educationNotPassed;
+					$scope.updated = successResponse.updated;
+					$scope.generalSkillWeight = successResponse.generalSkillWeight;
+					$scope.knowledgeWeight = successResponse.knowledgeWeight;
+					$scope.personalityWeight = successResponse.personalityWeight;
+					$scope.traitsBase = successResponse.traitsBase;
+					$scope.traitsWeight = successResponse.traitsWeight;
+					$scope.domainOwnerId = successResponse.domainOwnerId;
+					$scope.educationLevelWeight = successResponse.educationLevelWeight;
+					}
+				)
+		}
+	)
+}
+
 
 }])

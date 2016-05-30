@@ -96,7 +96,7 @@ angular.module('app.ontdekJouwTalent',
 		updated: "",
 		HCHY: "",
 		}
-	,APPCONSTANTS_SETTINGS_USERMANAGEMENT_MATCHINGCONFIGURATIONS: {
+	,APPCONSTANTS_SETTINGS_USERMANAGEMENT_MATCHINGCONFIGURATION: {
 		educationPassed: 0,
 		experienceLevelBelowZero: 0,
 		educationLevelExponent: 0,
@@ -1005,11 +1005,12 @@ angular.module('app.ontdekJouwTalent',
 				if($stateParams.id != null){
 					return APIService.call(AppConfig.API_ENDPOINTS.matchingconfigurations,{matchingId:$stateParams.id});
 				}
-				return AppConfig.APPCONSTANTS_SETTINGS_USERMANAGEMENT_MATCHINGCONFIGURATIONS;
+				return angular.copy(AppConfig.APPCONSTANTS_SETTINGS_USERMANAGEMENT_MATCHINGCONFIGURATION);
 			}]
-			,'data': ['matchingconfiguration',function(matchingconfiguration){
+			,'data': ['matchingconfiguration','matchingconfigurations',function(matchingconfiguration,matchingconfigurations){
 				return {
-					detailView:matchingconfiguration
+					detailView:matchingconfiguration,
+					listView: matchingconfigurations
 				}
 			}]
 		}

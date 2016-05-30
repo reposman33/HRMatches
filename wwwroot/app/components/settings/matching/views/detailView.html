@@ -47,9 +47,12 @@
 							<label class="h9 settings-title">{{TranslationService.getText('SETTINGS_MATCHING_SET')}}</label>
 						</div>
 						<div class="col-md-3">
-<!-- >>>> ng-repeat >>> -->
-							<select class="form-control input-sm h10">
-								<option>- SET 1 -</option>
+							<select class="form-control input-sm h10"
+							        ng-model="config.id"
+									ng-options="config.id as config.displayName for config in data.listView"
+							        ng-change="applySet(config.id)"
+							>
+								<option value="" ng-bind="' -- ' + TranslationService.getText('SETTINGS_MATCHING_SET') + ' -- '"></option>
 							</select>
 						</div>
 					</div>
