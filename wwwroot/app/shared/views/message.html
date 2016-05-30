@@ -13,9 +13,7 @@
 			</button>
 		</div>
 
-		<div class="modal-body">
-			{{TranslationService.getText(message)}}
-		</div>
+		<div class="modal-body" ng-bind-html="TranslationService.getText(message)"></div>
 
 		<div class="modal-footer">
 		</div>
