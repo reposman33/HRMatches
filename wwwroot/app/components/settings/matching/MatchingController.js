@@ -36,43 +36,43 @@ angular.module('app.ontdekJouwTalent')
 				APIService.call(AppConfig.API_ENDPOINTS.matchingconfigurations,{matchingId:id})
 				.then(
 					function(successResponse){
-					/* populate scope variables with retrieved data */
-					$scope.educationPassed = successResponse.educationPassed;
-					$scope.experienceLevelBelowZero = successResponse.experienceLevelBelowZero;
-					$scope.educationLevelExponent = successResponse.educationLevelExponent;
-					$scope.experienceSubAreaWeight = successResponse.experienceSubAreaWeight;
-					$scope.experienceWeight = successResponse.experienceWeight;
-					$scope.languageWeight = successResponse.languageWeight;
-					$scope.traitsExponent = successResponse.traitsExponent;
-					$scope.educationWeight = successResponse.educationWeight;
+						/* populate scope variables with retrieved data */
+						$scope.data.detailView.educationPassed = successResponse.educationPassed;
+						$scope.data.detailView.experienceLevelBelowZero = successResponse.experienceLevelBelowZero;
+						$scope.data.detailView.educationLevelExponent = successResponse.educationLevelExponent;
+						$scope.data.detailView.experienceSubAreaWeight = successResponse.experienceSubAreaWeight;
+						$scope.data.detailView.experienceWeight = successResponse.experienceWeight;
+						$scope.data.detailView.languageWeight = successResponse.languageWeight;
+						$scope.data.detailView.traitsExponent = successResponse.traitsExponent;
+						$scope.data.detailView.educationWeight = successResponse.educationWeight;
 
-					$scope.deleted = successResponse.deleted;
-					$scope.skillWeight = successResponse.skillWeight;
-					$scope.experienceLevelWeight = successResponse.experienceLevelWeight;
-					$scope.languageExponent = successResponse.languageExponent;
+						$scope.data.detailView.deleted = successResponse.deleted;
+						$scope.data.detailView.skillWeight = successResponse.skillWeight;
+						$scope.data.detailView.experienceLevelWeight = successResponse.experienceLevelWeight;
+						$scope.data.detailView.languageExponent = successResponse.languageExponent;
 
-					$scope.educationAreaWeight = successResponse.educationAreaWeight;
-					$scope.competenceExponent = successResponse.competenceExponent;
-					$scope.experienceAreaWeight = successResponse.experienceAreaWeight;
-					$scope.created = successResponse.created;
-					$scope.experienceLevelAboveZero = successResponse.experienceLevelAboveZero;
+						$scope.data.detailView.educationAreaWeight = successResponse.educationAreaWeight;
+						$scope.data.detailView.competenceExponent = successResponse.competenceExponent;
+						$scope.data.detailView.experienceAreaWeight = successResponse.experienceAreaWeight;
+						$scope.data.detailView.created = successResponse.created;
+						$scope.data.detailView.experienceLevelAboveZero = successResponse.experienceLevelAboveZero;
 
-					$scope.competenceWeight = successResponse.competenceWeight;
-					$scope.skillExponent = successResponse.skillExponent;
-					$scope.educationNotPassed = successResponse.educationNotPassed;
-					$scope.updated = successResponse.updated;
-					$scope.generalSkillWeight = successResponse.generalSkillWeight;
-					$scope.knowledgeWeight = successResponse.knowledgeWeight;
-					$scope.personalityWeight = successResponse.personalityWeight;
-					$scope.traitsBase = successResponse.traitsBase;
-					$scope.traitsWeight = successResponse.traitsWeight;
-					$scope.domainOwnerId = successResponse.domainOwnerId;
-					$scope.educationLevelWeight = successResponse.educationLevelWeight;
+						$scope.data.detailView.competenceWeight = successResponse.competenceWeight;
+						$scope.data.detailView.skillExponent = successResponse.skillExponent;
+						$scope.data.detailView.educationNotPassed = successResponse.educationNotPassed;
+						$scope.data.detailView.updated = successResponse.updated;
+						$scope.data.detailView.generalSkillWeight = successResponse.generalSkillWeight;
+						$scope.data.detailView.knowledgeWeight = successResponse.knowledgeWeight;
+						$scope.data.detailView.personalityWeight = successResponse.personalityWeight;
+						$scope.data.detailView.traitsBase = successResponse.traitsBase;
+						$scope.data.detailView.traitsWeight = successResponse.traitsWeight;
+						$scope.data.detailView.domainOwnerId = successResponse.domainOwnerId;
+						$scope.data.detailView.educationLevelWeight = successResponse.educationLevelWeight;
 					}
 				)
-		}
-	)
-}
+			}
+		)
+	}
 
 
 }])
