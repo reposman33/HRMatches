@@ -5,16 +5,18 @@
     <option name="SCOPE_TYPE" value="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="530532aa-8ff9-4b00-95fe-5e20c8d1eeac" name="Default" comment="Multiple select met Angular ui-router (https://github.com/angular-ui/ui-select/wiki). Nog placeholder en icon aan input field toevoegen">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Docs/ToDo.docx" afterPath="$PROJECT_DIR$/Docs/ToDo.docx" />
+    <list default="true" id="530532aa-8ff9-4b00-95fe-5e20c8d1eeac" name="Default" comment="    REload">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/wwwroot/app/components/settings/matching/MatchingController.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/wwwroot/app/components/settings/matching/views/detailView.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/wwwroot/app/components/settings/matching/views/listView.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/app.js" afterPath="$PROJECT_DIR$/wwwroot/app/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/settings/account/AccountController.js" afterPath="$PROJECT_DIR$/wwwroot/app/components/settings/account/AccountController.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/settings/account/views/deleteAccount.html" afterPath="$PROJECT_DIR$/wwwroot/app/components/settings/account/views/deleteAccount.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/settings/account/views/password.html" afterPath="$PROJECT_DIR$/wwwroot/app/components/settings/account/views/password.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/settings/account/views/person.html" afterPath="$PROJECT_DIR$/wwwroot/app/components/settings/account/views/person.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/UserManagementService.js" afterPath="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/UserManagementService.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/settings/account/views/tabpanel.html" afterPath="$PROJECT_DIR$/wwwroot/app/components/settings/account/views/tabpanel.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/settings/references/ReferencesController.js" afterPath="$PROJECT_DIR$/wwwroot/app/components/settings/references/ReferencesController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/settings/references/views/listView.html" afterPath="$PROJECT_DIR$/wwwroot/app/components/settings/references/views/listView.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/views/tabpanel.html" afterPath="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/views/tabpanel.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/shared/services/APIService.js" afterPath="$PROJECT_DIR$/wwwroot/app/shared/services/APIService.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/index.html" afterPath="$PROJECT_DIR$/wwwroot/index.html" />
     </list>
     <ignored path="OntdekJouwTalent.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -40,8 +42,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/wwwroot/app/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="297">
-              <caret line="416" column="16" selection-start-line="416" selection-start-column="16" selection-end-line="416" selection-end-column="22" />
+            <state relative-caret-position="122">
+              <caret line="978" column="29" selection-start-line="978" selection-start-column="12" selection-end-line="978" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -50,18 +52,40 @@
       <file leaf-file-name="APIService.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/wwwroot/app/shared/services/APIService.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="595">
-              <caret line="62" column="0" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
+            <state relative-caret-position="493">
+              <caret line="104" column="0" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
+              <folding>
+                <marker date="1464613393234" expanded="true" signature="4285:5786" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MatchingController.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/matching/MatchingController.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="459">
+              <caret line="27" column="48" selection-start-line="27" selection-start-column="48" selection-end-line="27" selection-end-column="48" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AccountController.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/account/AccountController.js">
+      <file leaf-file-name="listView.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/matching/views/listView.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="717">
-              <caret line="75" column="30" selection-start-line="75" selection-start-column="30" selection-end-line="75" selection-end-column="30" />
+            <state relative-caret-position="136">
+              <caret line="53" column="102" selection-start-line="53" selection-start-column="102" selection-end-line="53" selection-end-column="102" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="detailView.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/matching/views/detailView.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="762">
+              <caret line="215" column="0" selection-start-line="215" selection-start-column="0" selection-end-line="215" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -89,14 +113,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/wwwroot/assets/style/jquery-ui.min.css" />
-        <option value="$PROJECT_DIR$/wwwroot/app/shared/views/tableView.html" />
-        <option value="$PROJECT_DIR$/wwwroot/app/components/translation/views/editTranslation.html" />
-        <option value="$PROJECT_DIR$/wwwroot/app/components/translation/controllers/TranslationController.js" />
-        <option value="$PROJECT_DIR$/wwwroot/app/components/login/views/userProfiles.html" />
-        <option value="$PROJECT_DIR$/wwwroot/app/shared/directives.js" />
-        <option value="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/teams/views/detailView.html" />
-        <option value="$PROJECT_DIR$/wwwroot/app/components/register/views/register.html" />
         <option value="$PROJECT_DIR$/wwwroot/app/components/register/controllers/RegisterController.js" />
         <option value="$PROJECT_DIR$/wwwroot/app/components/login/services/AuthService.js" />
         <option value="$PROJECT_DIR$/wwwroot/app/components/translation/services/TranslationService.js" />
@@ -131,15 +147,23 @@
         <option value="$PROJECT_DIR$/wwwroot/node_modules/ui-select/src/selectize/select-multiple.tpl.html" />
         <option value="$PROJECT_DIR$/wwwroot/node_modules/ui-select/dist/select.js" />
         <option value="$PROJECT_DIR$/wwwroot/node_modules/ui-select/dist/select.min.js" />
-        <option value="$PROJECT_DIR$/wwwroot/index.html" />
         <option value="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/jobdomains/views/detailView.html" />
         <option value="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/UserManagementService.js" />
-        <option value="$PROJECT_DIR$/wwwroot/app/app.js" />
         <option value="$PROJECT_DIR$/wwwroot/app/components/settings/account/views/password.html" />
         <option value="$PROJECT_DIR$/wwwroot/app/components/settings/account/views/deleteAccount.html" />
         <option value="$PROJECT_DIR$/wwwroot/app/components/settings/account/views/person.html" />
-        <option value="$PROJECT_DIR$/wwwroot/app/shared/services/APIService.js" />
         <option value="$PROJECT_DIR$/wwwroot/app/components/settings/account/AccountController.js" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/settings/references/ReferencesController.js" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/views/tabpanel.html" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/settings/references/views/listView.html" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/settings/account/views/tabpanel.html" />
+        <option value="$PROJECT_DIR$/wwwroot/index.html" />
+        <option value="$PROJECT_DIR$/wwwroot/app/app.js" />
+        <option value="$PROJECT_DIR$/wwwroot/app/shared/views/message.html" />
+        <option value="$PROJECT_DIR$/wwwroot/app/shared/services/APIService.js" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/settings/matching/views/listView.html" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/settings/matching/views/detailView.html" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/settings/matching/MatchingController.js" />
       </list>
     </option>
   </component>
@@ -160,9 +184,9 @@
     <treeState />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="227" />
+    <option name="x" value="39" />
     <option name="y" value="22" />
-    <option name="width" value="1227" />
+    <option name="width" value="1585" />
     <option name="height" value="980" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
@@ -275,9 +299,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -296,8 +317,65 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OntdekJouwTalent" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OntdekJouwTalent" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wwwroot" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OntdekJouwTalent" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OntdekJouwTalent" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wwwroot" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OntdekJouwTalent" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OntdekJouwTalent" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wwwroot" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shared" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -329,19 +407,19 @@
     <property name="jsx.switch.disabled" value="true" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\data\www\OntdekJouwTalent\wwwroot\node_modules\ui-select\dist" />
-      <recent name="C:\data\www\OntdekJouwTalent\wwwroot\node_modules\angular-bootstrap-select" />
-      <recent name="C:\data\www\OntdekJouwTalent\wwwroot\node_modules" />
-      <recent name="C:\data\www\OntdekJouwTalent\wwwroot" />
-      <recent name="C:\www\ontdekJouwTalent\wwwroot\app\shared\menus" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\www\ontdekJouwTalent\wwwroot\app\components\translation" />
       <recent name="C:\www\ontdekJouwTalent\wwwroot\app\components\register" />
       <recent name="C:\www\ontdekJouwTalent\wwwroot\app\components\login" />
       <recent name="C:\www\ontdekJouwTalent\wwwroot\app\components\joblist" />
       <recent name="C:\www\ontdekJouwTalent\wwwroot\app\shared\services" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\data\www\OntdekJouwTalent\wwwroot\node_modules\ui-select\dist" />
+      <recent name="C:\data\www\OntdekJouwTalent\wwwroot\node_modules\angular-bootstrap-select" />
+      <recent name="C:\data\www\OntdekJouwTalent\wwwroot\node_modules" />
+      <recent name="C:\data\www\OntdekJouwTalent\wwwroot" />
+      <recent name="C:\www\ontdekJouwTalent\wwwroot\app\shared\menus" />
     </key>
   </component>
   <component name="RunManager">
@@ -700,7 +778,8 @@
       <workItem from="1463558968831" duration="22295000" />
       <workItem from="1463673954379" duration="20000" />
       <workItem from="1463674088783" duration="690000" />
-      <workItem from="1463733839373" duration="22356000" />
+      <workItem from="1463733839373" duration="22441000" />
+      <workItem from="1464594622619" duration="20399000" />
     </task>
     <task id="LOCAL-00001" summary="Listview: Kolommen dynamisch - afhankelijk van API response; data kolomnamen voor uitlezen data generiek maken; enable-disable row editing ,enable-disable cell editing.">
       <created>1459354329432</created>
@@ -912,11 +991,32 @@
       <option name="project" value="LOCAL" />
       <updated>1463494285865</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="Settings Account: tabs Wachtwoord (wijzig wachtwoord) en Account (verwijder account) maken. Bij mislukte authenticatie wordt er nu weer een melding vertoond.">
+      <created>1463759506720</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1463759506720</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Reload references na Save of Delete actie.">
+      <created>1464595786163</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1464595786163</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Toon html in message window">
+      <created>1464616684759</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1464616684759</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="790163000" />
+    <option name="totallyTimeSpent" value="810647000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -928,19 +1028,19 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="227" y="22" width="1227" height="980" extended-state="0" />
+    <frame x="39" y="22" width="1585" height="980" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32873562" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3294621" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32873562" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3278302" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27592117" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33793104" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21114755" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33766234" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
@@ -992,9 +1092,6 @@
     <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <confirmMoveToFailedCommit value="1" />
-    <MESSAGE value="Settings-Instellingen-Gebruikersbeheer: standaard tab selectie wordt genegeerd: ok&#10;Authenticatie: bij meerdere userprofiles worden tokens niet uit de localStorage (SessionService) verwijderd: ok&#10;Teams-detailView: Api response;&#10;Login: modal window voor userprofiles&#10;" />
-    <MESSAGE value="Authenticate + login herschrijven;&#10;Refactoren code + niet-gebruikte code verwijderen;&#10;Modals: sluiten met ‘x’ en ‘OK’ buttons.&#10;" />
-    <MESSAGE value="Login: modal window voor login childstates (‘login.userprofiles’ etc): Fixed met https://www.npmjs.com/package/angular-ui-router-uib-modal." />
     <MESSAGE value="Added files behorende bij vorige commit: (Login: modal window voor login childstates (‘login.userprofiles’ etc): Fixed met https://www.npmjs.com/package/angular-ui-router-uib-modal.)" />
     <MESSAGE value="Rechten en Rollen: matrix window tonen; Rechten en Rollen: (gewijzigde) permissies opslaan&#10;" />
     <MESSAGE value="Rechten en Rollen: toevoegen, permissies wijzigen; nieuwe rol toevoegen" />
@@ -1017,7 +1114,10 @@
     <MESSAGE value="Settings menu links: de waarde voor href werd niet getoond." />
     <MESSAGE value="Settings menu links: prefix '#' url toevoegen (bijv '#/settings/myaccount')." />
     <MESSAGE value="Multiple select met Angular ui-router (https://github.com/angular-ui/ui-select/wiki). Nog placeholder en icon aan input field toevoegen" />
-    <option name="LAST_COMMIT_MESSAGE" value="Multiple select met Angular ui-router (https://github.com/angular-ui/ui-select/wiki). Nog placeholder en icon aan input field toevoegen" />
+    <MESSAGE value="Settings Account: tabs Wachtwoord (wijzig wachtwoord) en Account (verwijder account) maken. Bij mislukte authenticatie wordt er nu weer een melding vertoond." />
+    <MESSAGE value="Reload references na Save of Delete actie." />
+    <MESSAGE value="Toon html in message window" />
+    <option name="LAST_COMMIT_MESSAGE" value="Toon html in message window" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1030,49 +1130,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/shared/menus/TopNavMenuData.json" />
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/navigation/NavigationController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="31" selection-start-line="13" selection-start-column="31" selection-end-line="13" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/documentation/partials/api/app.ontdekJouwTalent.controller.UserManagementController.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="116" selection-start-line="8" selection-start-column="116" selection-end-line="8" selection-end-column="116" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/rechtenEnRollen/RightsAndRolesController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="109" column="40" selection-start-line="109" selection-start-column="40" selection-end-line="109" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/navigation/views/navigation.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="21" column="33" selection-start-line="21" selection-start-column="33" selection-end-line="21" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/teams/TeamsController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="120" column="40" selection-start-line="120" selection-start-column="40" selection-end-line="120" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/users/UsersController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="670">
-          <caret line="57" column="27" selection-start-line="57" selection-start-column="27" selection-end-line="57" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/__dummyData.json" />
     <entry file="file://$PROJECT_DIR$/.project">
       <provider selected="true" editor-type-id="text-editor">
@@ -1153,7 +1210,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
           <caret line="10" column="27" selection-start-line="10" selection-start-column="27" selection-end-line="10" selection-end-column="27" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1237,9 +1293,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
           <caret line="92" column="46" selection-start-line="92" selection-start-column="46" selection-end-line="92" selection-end-column="46" />
-          <folding>
-            <element signature="n#style#0;n#ui-select#0;n#div#1;n#div#4;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1247,12 +1300,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="781">
           <caret line="937" column="0" selection-start-line="937" selection-start-column="0" selection-end-line="937" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <marker date="1463578731781" expanded="true" signature="80342:80353" ph="..." />
-            <marker date="1463578731781" expanded="true" signature="80864:80882" ph="..." />
-            <marker date="1463578731781" expanded="true" signature="85723:85735" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1260,15 +1307,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="510">
           <caret line="42" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/account/views/tabpanel.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1276,15 +1314,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="615">
           <caret line="49" column="20" selection-start-line="49" selection-start-column="20" selection-end-line="49" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="24" column="63" selection-start-line="24" selection-start-column="54" selection-end-line="24" selection-end-column="63" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1292,14 +1321,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="142">
           <caret line="67" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/account/views/deleteAccount.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1316,15 +1337,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="629">
           <caret line="37" column="4" selection-start-line="37" selection-start-column="4" selection-end-line="37" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/shared/services/APIService.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="595">
-          <caret line="62" column="0" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1336,18 +1348,108 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/app.js">
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/account/AccountController.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="416" column="16" selection-start-line="416" selection-start-column="16" selection-end-line="416" selection-end-column="22" />
+        <state relative-caret-position="908">
+          <caret line="75" column="30" selection-start-line="75" selection-start-column="30" selection-end-line="75" selection-end-column="30" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/account/AccountController.js">
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/references/views/listView.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="717">
-          <caret line="75" column="30" selection-start-line="75" selection-start-column="30" selection-end-line="75" selection-end-column="30" />
+        <state relative-caret-position="34">
+          <caret line="2" column="28" selection-start-line="2" selection-start-column="16" selection-end-line="2" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/userManagement/views/tabpanel.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/account/views/tabpanel.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="561">
+          <caret line="75" column="40" selection-start-line="75" selection-start-column="40" selection-end-line="75" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/references/ReferencesController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/shared/views/message.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="122">
+          <caret line="978" column="29" selection-start-line="978" selection-start-column="12" selection-end-line="978" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/shared/services/APIService.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="104" column="0" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
+          <folding>
+            <marker date="1464613393234" expanded="true" signature="4285:5786" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/account/views/deleteAccount.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/matching/views/listView.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="53" column="102" selection-start-line="53" selection-start-column="102" selection-end-line="53" selection-end-column="102" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/matching/views/detailView.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="762">
+          <caret line="215" column="0" selection-start-line="215" selection-start-column="0" selection-end-line="215" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/settings/matching/MatchingController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="27" column="48" selection-start-line="27" selection-start-column="48" selection-end-line="27" selection-end-column="48" />
           <folding />
         </state>
       </provider>

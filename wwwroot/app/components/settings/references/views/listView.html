@@ -1,116 +1,106 @@
 <!-- Settings - references-->
-<div role="tabpanel">
-	<div class="tab-content">
-		<div class="well bg-white">
-			<div class="row">
-				<div class="col-md-14">
-					<div class="panel panel-info">
-						<div class="panel-heading">
-							<h3>{{TranslationService.getText('SETTINGS_REFERENCE_TITLE')}}</h3>
-						</div>
-						<div class="panel-body">
-							<div class="col-md-12">
+<div class="row title-container">
+	<div class="col-md-12 h3">
+		{{TranslationService.getText('SETTINGS_REFERENCE_TITLE')}}
+	</div>
+	<div class="panel-body">
+		<div class="col-md-12">
 
-								<div class="well bg-white">
-									<div class="well">
-										<div class="row">
-											<div class="col-md-12">
-												<div class="well well bg-white">
-													<div class="row">
-														<div class="col-md-4 form-group h9">
-															<label>{{TranslationService.getText('SETTINGS_ADD_NEW_REFERENCE')}}</label>
-														</div>
+			<div class="well bg-white">
+				<div class="well">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="well well bg-white">
+								<div class="row">
+									<div class="col-md-4 form-group h9">
+										<label>{{TranslationService.getText('SETTINGS_ADD_NEW_REFERENCE')}}</label>
+									</div>
 
-														<div class="col-md-6 form-group">
-															<input type="text"
-																class="form-control"
-																placeholder="{{TranslationService.getText('SETTINGS_REFERENCE_NAME')}}"
-																ng-model="reference.displayName">
-														</div>
-														<div class="col-md-2 text-right">
-															<div class="btn-group btn-group-sm" role="group" aria-label="...">
-																<button class="btn btn-default"
-																ng-click="save(reference)">
-																<i class=""></i>{{TranslationService.getText('SETTINGS_SAVE')}}</button>
-															</div>
-														</div>
-
-													</div>
-												</div>
-
-												<div class="department"
-												     ng-repeat="reference in data.references">
-													<div class="well well-sm bg-white email_template_box">
-														<div class="row">
-
-															<div class="col-md-10">
-																<div class="h9 email_template_text">{{reference.displayName}}</div>
-															</div>
-
-															<div class="col-md-2">
-																<div class="btn-group btn-group-sm" role="group" aria-label="...">
-																	<!--TRIGGER ROW ANIMATION-->
-																	<button type="button"
-																		class="btn btn-default btn-save-1"
-																		 slide-toggle="#row_{{$index}}">
-																		<i class="fa fa-pencil yellow"></i>
-																	</button>
-																	<button type="button"
-																		class="btn btn-default"
-																		confirm="{{TranslationService.getText('SETTINGS_CONFIRMATION')}}"
-																		ng-click="delete(reference.id)">
-																		<i class="fa red fa-remove"></i>
-																	</button>
-																</div>
-															</div>
-
-														</div>
-
-														<div id="row_{{$index}}" class="slideable" duration="0.5s" easing="ease-in" style="height: 0px;">
-															<div class="row">
-
-																<div class="col-md-4 form-group h9">
-																	<label>{{TranslationService.getText('SETTINGS_EDIT_JOBDOMAIN')}}</label>
-																</div>
-
-																<div class="col-md-5 form-group">
-																	<input type="text"
-																	       class="form-control"
-																	       ng-model="reference.displayName">
-																</div>
-																<div class="col-md-3">
-																	<div class="btn-group btn-group-sm" role="group" aria-label="...">
-																		<button type="submit"
-																		        class="btn btn-default"
-																		        ng-click="save(reference)">
-																			<i class=""></i>
-																			{{TranslationService.getText('SETTINGS_SAVE')}}
-																		</button>
-																		<button type="button"
-																		        class="btn btn-default btn-cancel-1"
-																		        ng-click=""> <!--display edit row below -->
-																			<i class=""></i>
-																			{{TranslationService.getText('SETTINGS_CANCEL')}}
-																		</button>
-																	</div>
-																</div>
-
-															</div>
-														</div>
-
-													</div>
-												</div>
-
-											</div>
+									<div class="col-md-6 form-group">
+										<input type="text"
+											class="form-control"
+											placeholder="{{TranslationService.getText('SETTINGS_REFERENCE_NAME')}}"
+											ng-model="reference.displayName">
+									</div>
+									<div class="col-md-2 text-right">
+										<div class="btn-group btn-group-sm" role="group" aria-label="...">
+											<button class="btn btn-default"
+											ng-click="save(reference)">
+											<i class=""></i>{{TranslationService.getText('SETTINGS_SAVE')}}</button>
 										</div>
 									</div>
-								</div>
 
+								</div>
 							</div>
+
+							<div class="department"
+							     ng-repeat="reference in data.references">
+								<div class="well well-sm bg-white email_template_box">
+									<div class="row">
+
+										<div class="col-md-10">
+											<div class="h9 email_template_text">{{reference.displayName}}</div>
+										</div>
+
+										<div class="col-md-2">
+											<div class="btn-group btn-group-sm" role="group" aria-label="...">
+												<!--TRIGGER ROW ANIMATION-->
+												<button type="button"
+													class="btn btn-default btn-save-1"
+													 slide-toggle="#row_{{$index}}">
+													<i class="fa fa-pencil yellow"></i>
+												</button>
+												<button type="button"
+													class="btn btn-default"
+													confirm="{{TranslationService.getText('SETTINGS_CONFIRMATION')}}"
+													ng-click="delete(reference.id)">
+													<i class="fa red fa-remove"></i>
+												</button>
+											</div>
+										</div>
+
+									</div>
+
+									<div id="row_{{$index}}" class="slideable" duration="0.5s" easing="ease-in" style="height: 0px;">
+										<div class="row">
+
+											<div class="col-md-4 form-group h9">
+												<label>{{TranslationService.getText('SETTINGS_EDIT_JOBDOMAIN')}}</label>
+											</div>
+
+											<div class="col-md-5 form-group">
+												<input type="text"
+												       class="form-control"
+												       ng-model="reference.displayName">
+											</div>
+											<div class="col-md-3">
+												<div class="btn-group btn-group-sm" role="group" aria-label="...">
+													<button type="submit"
+													        class="btn btn-default"
+													        ng-click="save(reference)">
+														<i class=""></i>
+														{{TranslationService.getText('SETTINGS_SAVE')}}
+													</button>
+													<button type="button"
+													        class="btn btn-default btn-cancel-1"
+													        ng-click=""> <!--display edit row below -->
+														<i class=""></i>
+														{{TranslationService.getText('SETTINGS_CANCEL')}}
+													</button>
+												</div>
+											</div>
+
+										</div>
+									</div>
+
+								</div>
+							</div>
+
 						</div>
 					</div>
 				</div>
 			</div>
+
 		</div>
 	</div>
 </div>

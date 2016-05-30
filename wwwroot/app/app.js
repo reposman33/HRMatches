@@ -96,6 +96,39 @@ angular.module('app.ontdekJouwTalent',
 		updated: "",
 		HCHY: "",
 		}
+	,APPCONSTANTS_SETTINGS_USERMANAGEMENT_MATCHINGCONFIGURATIONS: {
+		educationPassed: 0,
+		experienceLevelBelowZero: 0,
+		educationLevelExponent: 0,
+		experienceSubAreaWeight: 0,
+		experienceWeight: 0,
+		languageWeight: 0,
+		traitsExponent: 0,
+		educationWeight: 0,
+		id: "",
+		deleted: "",
+		skillWeight: 0,
+		experienceLevelWeight: 0,
+		languageExponent: 0,
+		name: "Nieuw",
+		educationAreaWeight: 0,
+		competenceExponent: 0,
+		experienceAreaWeight: 0,
+		created: "",
+		experienceLevelAboveZero: 0,
+		displayName: "New",
+		competenceWeight: 0,
+		skillExponent: 0,
+		educationNotPassed: 0,
+		updated: "",
+		generalSkillWeight: 0,
+		knowledgeWeight: 0,
+		personalityWeight: 0,
+		traitsBase: 0,
+		traitsWeight: 0,
+		domainOwnerId: "",
+		educationLevelWeight: 0
+	}
 	/*
 	 * 		=============================================
 	 * 		============= A P I   E N D P O I N T S  ====
@@ -255,7 +288,10 @@ angular.module('app.ontdekJouwTalent',
 			,'references': {
 				endpoint: 'references'
 				,method: 'GET'
-
+			}
+			,'matchingconfigurations': {
+				endpoint: 'matchingconfigurations'
+				,method: 'GET'
 			}
 		}
 		,'authenticate': {
@@ -939,5 +975,49 @@ angular.module('app.ontdekJouwTalent',
 				}
 			}
 		})
-
+	// ---------- SETTINGS MATCHING----------
+	.state('settings.matching',{
+		url:'/matching'
+		,resolve: {
+			'matchingconfigurations': ['APIService',function(APIService){
+				return APIService.call(AppConfig.API_ENDPOINTS.matchingconfigurations);
+			}]
+			,'data': ['matchingconfigurations',function(matchingconfigurations){
+				return {
+					listView:matchingconfigurations
+				}
+			}]
+		}
+		,views: {
+			'setting@settings': {
+				controller: 'MatchingController',
+				templateUrl: '/app/components/settings/matching/views/listView.html'
+			}
+		}
+	})
+	.state('settings.matching.detail',{
+		url: '/detail'
+		,params: {
+			id: null
+		}
+		,resolve: {
+			'matchingconfiguration': ['$stateParams','APIService',function($stateParams,APIService){
+				if($stateParams.id != null){
+					return APIService.call(AppConfig.API_ENDPOINTS.matchingconfigurations,{matchingId:$stateParams.id});
+				}
+				return AppConfig.APPCONSTANTS_SETTINGS_USERMANAGEMENT_MATCHINGCONFIGURATIONS;
+			}]
+			,'data': ['matchingconfiguration',function(matchingconfiguration){
+				return {
+					detailView:matchingconfiguration
+				}
+			}]
+		}
+		,views: {
+			'setting@settings':{
+				controller: 'MatchingController'
+				,templateUrl: '/app/components/settings/matching/views/detailView.html'
+			}
+		}
+	})
 }]);

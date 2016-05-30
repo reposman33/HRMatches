@@ -1,0 +1,91 @@
+<div class="row title-container">
+	<div class="col-md-12 h3">
+		{{TranslationService.getText('SETTINGS_MATCHING')}}
+	</div>
+</div>
+
+<div role="tabpanel">
+
+	<!-- Nav tabs -->
+	<ul class="nav nav-tabs h10" role="tablist" id="settings-tab-nav">
+		<li role="presentation"
+		    class="active">
+			<a ui-sref="{{$state.current.name}}"
+			   aria-controls="rightsrolessettings"
+			   role="tab"
+				   data-toggle="tab">{{TranslationService.getText('SETTINGS_MATCHING')}}
+			</a>
+		</li>
+	</ul>
+
+	<!-- Tab panes -->
+	<div class="tab-content">
+
+		<!-- rights and roles settings -->
+		<div role="tabpanel" class="tab-pane active margin_top_2" id="rightsrolessettings">
+			<div class="well bg-white settings-matching">
+
+				<div class="row margin_bottom_20">
+					<div class="col-md-12 matchengine-table">
+
+						<div class="well">
+
+							<div class="row">
+								<div class="col-md-12">
+									<button type="submit"
+									        class="btn btn-primary btn-block"
+									        ng-click="$state.go('settings.matching.detail')">
+										<i class="fa fa-plus margin_right_10"></i>{{TranslationService.getText('SETTINGS_ADD_MATCHING')}}
+									</button>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-12"><hr></div>
+							</div>
+
+
+							<div class="well well-sm bg-white teams_box"
+								ng-repeat="matchingConfiguration in data.listView">
+
+								<div class="row">
+
+									<div class="col-md-7">
+										<div class="h9 teams_text">{{matchingConfiguration.displayName}}</div>
+									</div>
+
+									<div class="col-md-5 right_text">
+										<div class="btn-group btn-group-sm" role="group" aria-label="...">
+											<button type="button"
+											        ng-click="$state.go('settings.matching.detail',{id:matchingConfiguration.id})"
+											        class="btn btn-default"
+											        data-toggle="tooltip"
+											        data-placement="top"
+											        title=""
+											        data-original-title="{{TranslationService.getText('SETTINGS_EDIT')}}">
+												<i class="fa yellow fa-pencil "></i>
+											</button><!---->
+											<button type="button"
+											        confirm="{{TranslationService.getText('SETTINGS_CONFIRMATION')}} ({{matchingConfiguration.displayName}})"
+											        ng-click="delete(matchingConfiguration.id)"
+											        class="btn btn-default"
+											        data-toggle="tooltip"
+											        data-placement="top"
+											        title=""
+											        data-original-title="{{TranslationService.getText('SETTINGS_DELETE')}}">
+												<i class="fa red fa-remove"></i>
+											</button>
+										</div>
+									</div>
+
+								</div>
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

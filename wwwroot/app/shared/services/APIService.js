@@ -95,14 +95,15 @@ angular.module('app.ontdekJouwTalent')
 						case 404: // Not Found
 						case 500: // server error
 							growl.error(errorResponse,{title:''});
+							return $q.reject(errorResponse);
 							break;
 						case 501: // login error - handled by AuthenticationController. Propagate rejected promise
 							break;
 						default:
-							$state.go('message',{message:'Er is een onbekende fout opgetreden'});
+							$state.go('message',{message:'Er is een onbekende fout opgetreden <br/><br/> errorResponse.status: ' + errorResponse.status + ',<br/> errorResponse.statusText: \'' + errorResponse.statusText + '\''});
+							return $q.reject(errorResponse);
 							break;
 					}
-					return $q.reject(errorResponse);
 				}
 			)
 		}

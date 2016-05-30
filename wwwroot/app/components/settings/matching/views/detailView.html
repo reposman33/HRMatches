@@ -1,0 +1,217 @@
+<div class="row title-container">
+	<div class="col-md-12 h3">
+		{{TranslationService.getText('SETTINGS_ACCOUNT')}}
+	</div>
+</div>
+
+<div role="tabpanel">
+
+	<!-- Nav tabs -->
+	<ul class="nav nav-tabs h10" role="tablist" id="settings-tab-nav">
+		<li role="presentation"
+		    class="active">
+			<a ui-sref="{{$state.current.name}}"
+			   aria-controls="rightsrolessettings"
+			   role="tab"
+			   data-toggle="tab">{{TranslationService.getText('SETTINGS_MATCHING')}}
+			</a>
+		</li>
+	</ul>
+
+	<!-- Tab panes -->
+	<div class="tab-content">
+
+		<!-- rights and roles settings -->
+		<div role="tabpanel" class="tab-pane active margin_top_2" id="rightsrolessettings">
+			<form name="form" action="index.cfm?module=matching" method="post" _lpchecked="1">
+				<div class="well bg-white settings-matching">
+
+					<div class="row">
+						<div class="col-md-12">
+							<div class="h4">{{TranslationService.getText('SETTINGS_MATCHING_PROPERTIES')}}</div>
+							<div class="h10">{{TranslationService.getText('SETTINGS_MATCHING_DESCRIPTION')}}</div>
+						</div>
+					</div>
+
+					<hr>
+
+					<div class="row">
+						<div class="col-md-2">
+							<label class="h9 settings-title">{{TranslationService.getText('SETTINGS_MATCHING_NAME')}}</label>
+						</div>
+						<div class="col-md-4">
+							<input type="text" class="form-control" name="matchingConfigurationName" placeholder="{{TranslationService.getText('SETTINGS_MATCHING_NAME')}}" ng-model="data.detailView.displayName">
+						</div>
+
+						<div class="col-md-3">
+							<label class="h9 settings-title">{{TranslationService.getText('SETTINGS_MATCHING_SET')}}</label>
+						</div>
+						<div class="col-md-3">
+<!-- >>>> ng-repeat >>> -->
+							<select class="form-control input-sm h10">
+								<option>- SET 1 -</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="row margin_bottom_20">
+						<div class="col-md-12 matchengine-table">
+							<div class="table-responsive">
+								<table class="table table-bordered">
+									<thead>
+									<tr class="">
+										<th class=""></th>
+										<th class="centered_text table-title h4">{{TranslationService.getText('SETTINGS_MATCHING_WEIGHT')}}</th>
+										<th class="centered_text table-title h4">{{TranslationService.getText('SETTINGS_MATCHING_EXPONENT')}}</th>
+										<th class="centered_text table-title h4">{{TranslationService.getText('SETTINGS_MATCHING_OTHER')}}</th>
+									</tr>
+									</thead>
+									<tbody>
+									<!-- KNOWLEDGE -->
+									<tr>
+										<th scope="row" class="table-title h4 ">{{TranslationService.getText('SETTINGS_MATCHING_KNOWLEDGE')}}</th>
+										<td><input type="text" class="form-control" name="knowledgeWeight" placeholder="X" ng-model="data.detailView.knowledgeWeight"></td>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td>
+									</tr>
+									<tr>
+										<th scope="row" class="table-subtitle h9 ">{{TranslationService.getText('SETTINGS_MATCHING_EDUCATION')}}</th>
+										<td><input type="text" class="form-control" name="educationWeight" placeholder="X" ng-model="data.detailView.educationWeight"></td>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td>
+									</tr>
+									<tr>
+										<th scope="row" class="table-subtitle1 h10">{{TranslationService.getText('SETTINGS_MATCHING_EDUCATIONLEVEL')}}</th>
+										<td><input type="text" class="form-control" name="educationLevelWeight" placeholder="X" ng-model="data.detailView.educationLevelWeight"></td>
+										<td><input type="text" class="form-control" name="educationLevelExponent" placeholder="X" ng-model="data.detailView.educationLevelExponent"></td>
+										<td>&nbsp;</td>
+									</tr>
+									<tr>
+										<th scope="row" class="table-subtitle1 h10">{{TranslationService.getText('SETTINGS_MATCHING_EDUCATIONAREA')}}</th>
+										<td><input type="text" class="form-control" name="educationAreaWeight" placeholder="X" ng-model="data.detailView.educationAreaWeight"></td>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td>
+									</tr>
+									<tr>
+										<th scope="row" class="table-subtitle1 h10">{{TranslationService.getText('SETTINGS_GRADUATED_YES')}}</th>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td>
+										<td><input type="text" class="form-control" name="educationPassed" placeholder="X" ng-model="data.detailView.educationPassed"></td>
+									</tr>
+									<tr>
+										<th scope="row" class="table-subtitle1 h10">{{TranslationService.getText('SETTINGS_GRADUATED_NO')}}</th>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td>
+										<td><input type="text" class="form-control" name="educationNotPassed" placeholder="X" ng-model="data.detailView.educationNotPassed"></td>
+									</tr>
+									<!-- CAPABILITY -->
+									<tr>
+										<th scope="row" class="table-title h4">{{TranslationService.getText('SETTINGS_MATCHING_OVERALL_SKILLS')}}</th>
+										<td><input type="text" class="form-control" name="generalSkillWeight" placeholder="X" ng-model="data.detailView.generalSkillWeight"></td>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td>
+									</tr>
+									<tr>
+										<th scope="row" class="table-subtitle h9 ">{{TranslationService.getText('SETTINGS_MATCHING_EXPERIENCE')}}</th>
+										<td><input type="text" class="form-control" name="experienceWeight" placeholder="X" ng-model="data.detailView.experienceWeight"></td>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td>
+									</tr>
+									<tr>
+										<th scope="row" class="table-subtitle1 h10">{{TranslationService.getText('SETTINGS_MATCHING_FUNCTIONAREA')}}</th>
+										<td><input type="text" class="form-control" name="experienceAreaWeight" placeholder="X" ng-model="data.detailView.experienceAreaWeight"></td>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td>
+									</tr>
+									<tr>
+										<th scope="row" class="table-subtitle1 h10">{{TranslationService.getText('SETTINGS_MATCHING_FUNCTIONSUBAREA')}}</th>
+										<td><input type="text" class="form-control" name="experienceSubAreaWeight" placeholder="X" ng-model="data.detailView.experienceSubAreaWeight"></td>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td>
+									</tr>
+									<tr>
+										<th scope="row" class="table-subtitle1 h10">{{TranslationService.getText('SETTINGS_MATCHING_EXPERIENCELEVEL')}}</th>
+										<td><input type="text" class="form-control" name="experienceLevelWeight" placeholder="X" ng-model="data.detailView.experienceLevelWeight"></td>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td>
+									</tr>
+									<tr>
+										<th scope="row" class="table-subtitle1 h10">{{TranslationService.getText('SETTINGS_MATCHING_EXPERIENCELEVEL')}} &lt; 0 </th>
+										<td>&nbsp;</td>
+										<td><input type="text" class="form-control" name="experienceLevelBelowZero" placeholder="X" ng-model="data.detailView.experienceLevelBelowZero"></td>
+										<td>&nbsp;</td>
+									</tr>
+									<tr>
+										<th scope="row" class="table-subtitle1 h10">{{TranslationService.getText('SETTINGS_MATCHING_EXPERIENCELEVEL')}}&gt; 0</th>
+										<td>&nbsp;</td>
+										<td><input type="text" class="form-control" name="experienceLevelAboveZero" placeholder="X" ng-model="data.detailView.experienceLevelAboveZero"></td>
+										<td>&nbsp;</td>
+									</tr>
+									<tr>
+										<th scope="row" class="table-subtitle h9 ">{{TranslationService.getText('SETTINGS_MATCHING_SKILLS')}}</th>
+										<td><input type="text" class="form-control" name="skillWeight" placeholder="X" ng-model="data.detailView.skillWeight"></td>
+										<td><input type="text" class="form-control" name="skillExponent" placeholder="X" ng-model="data.detailView.skillExponent"></td>
+										<td>&nbsp;</td>
+									</tr>
+									<tr>
+										<th scope="row" class="table-subtitle h9 ">{{TranslationService.getText('SETTINGS_MATCHING_LANGUAGES')}}</th>
+										<td><input type="text" class="form-control" name="languageWeight" placeholder="X" ng-model="data.detailView.languageWeight"></td>
+										<td><input type="text" class="form-control" name="languageExponent" placeholder="X" ng-model="data.detailView.languageExponent"></td>
+										<td>&nbsp;</td>
+									</tr>
+									<!-- CHARACTER -->
+									<tr>
+										<th scope="row" class="table-title h4">{{TranslationService.getText('SETTINGS_MATCHING_PERSONALITY')}}</th>
+										<td><input type="text" class="form-control" name="personalityWeight" placeholder="X" ng-model="data.detailView.personalityWeight"></td>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td>
+									</tr>
+									<tr>
+										<th scope="row" class="table-subtitle h9 ">{{TranslationService.getText('SETTINGS_MATCHING_TRAITS')}}</th>
+										<td><input type="text" class="form-control" name="traitsWeight" placeholder="X" ng-model="data.detailView.traitsWeight"></td>
+										<td><input type="text" class="form-control" name="traitsExponent" placeholder="X" ng-model="data.detailView.traitsExponent"></td>
+										<td>&nbsp;</td>
+									</tr>
+									<tr>
+										<th scope="row" class="table-subtitle1 h10">{{TranslationService.getText('SETTINGS_MATCHING_BASE')}}</th>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td>
+										<td><input type="text" class="form-control" name="traitsBase" placeholder="X" ng-model="data.detailView.traitsBase"></td>
+									</tr>
+									<tr>
+										<th scope="row" class="table-subtitle h9 ">{{TranslationService.getText('SETTINGS_MATCHING_COMPETENCES')}}</th>
+										<td><input type="text" class="form-control" name="competenceWeight" placeholder="X" ng-model="data.detailView.competenceWeight"></td>
+										<td><input type="text" class="form-control" name="competenceExponent" placeholder="X" ng-model="data.detailView.competenceExponent"></td>
+										<td>&nbsp;</td>
+									</tr>
+									</tbody>
+
+								</table>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-offset-8 col-md-2">
+							<button type="button"
+							        class="btn btn-danger pull-right"
+							        ng-click="$state.go('^')">
+								{{TranslationService.getText('SETTINGS_CANCEL')}}
+							</button>
+						</div>
+						<div class="col-md-2">
+							<button type="button"
+							        class="btn btn-success pull-right"
+							        ng-click="save(data.detailView)">
+								{{TranslationService.getText('SETTINGS_SAVE')}}
+							</button>
+						</div>
+					</div>
+
+				</div>
+			</form>
+		</div>
+
+	</div>
+
+</div>
