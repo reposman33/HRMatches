@@ -33,6 +33,7 @@
 											<div class="form-group">
 												<label for="">{{TranslationService.getText('JOB_ORGANISATION')}}</label>
 												<select class="form-control"
+												    ng-change="jobFilter={'id':job.organisation}"
 													ng-model="job.organisation"
 													ng-options="job.id as job.organisation for job in data.jobs">
 													<option value="">-&nbsp;{{TranslationService.getText('JOB_SELECT_ORGANISATION')}}&nbsp;-</option>
@@ -44,6 +45,7 @@
 											<div class="form-group">
 												<label for="">{{TranslationService.getText('JOB_COUNTRY')}}</label>
 												<select class="form-control"
+												    ng-change="jobFilter={'country':country.countryName}"
 													ng-model="job.country"
 													ng-options="country.id as country.countryName for country in countries">
 													<option value="">-&nbsp;{{TranslationService.getText('JOB_SELECT_COUNTRY')}}&nbsp;-</option>
@@ -64,7 +66,11 @@
 											<div class="row search-field">
 												<div class="col-md-8">
 													<label for=""> &nbsp;</label>
-													<input type="text" placeholder="{{TranslationService.getText('JOB_SEARCH')}}" name="jobName" id="search" class="form-control">
+													<input type="text"
+													       placeholder="{{TranslationService.getText('JOB_SEARCH')}}"
+													       class="form-control"
+															ng-model="searchQuery"
+													>
 												</div>
 												<div class="col-md-4">
 													<label for=""> &nbsp;</label>
@@ -80,7 +86,7 @@
 									<hr>
 
 									<div class="well well-sm bg-white jobs-matches-well"
-										ng-repeat="job in data.jobs"
+										ng-repeat="job in data.jobs | filter:jobFilter | filter:{description:searchQuery}"
 										>
 										<div class="row">
 
@@ -102,7 +108,7 @@
 															<div class="col-md-4">
 																<div class="row">
 																	<div class="col-md-12">
-																		<div class="h10 jobs-company-title">{{job.organisation}}, {{job.organisation}}</div>
+																		<div class="h10 jobs-company-title">{{job.organisation}}</div>
 																		<div class="h10 jobs-education-title">{{job.hours}}</div>
 
 																		<div class="h9 jobs-score ">
