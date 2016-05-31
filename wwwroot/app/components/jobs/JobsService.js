@@ -23,14 +23,14 @@ angular.module('app.ontdekJouwTalent')
 			 * @description		Loads jobs (vacatures) for listView
 			 * @returns {Array}	The list of jobs to display
 			 */
-			load: function(){
+			load: function(id){
 				var self = this;
 
-				if(self._isLoaded){
+				if(self._isLoaded && id==undefined){
 					return this.getData();
 				}
 
-				return APIService.call(AppConfig.API_ENDPOINTS.jobs)
+				return APIService.call(AppConfig.API_ENDPOINTS.jobs,{jobId:id})
 				.then(
 					function(successResponse){
 						self.cacheResponse(successResponse);

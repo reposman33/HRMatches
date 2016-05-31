@@ -544,7 +544,7 @@ angular.module('app.ontdekJouwTalent',
 				}]
 			}
 			,views: {
-				'body': {
+				'body@': {
 					templateUrl: '/app/components/translation/views/editTranslation.html'
 					,controller: 'TranslationController'
 				}
@@ -574,8 +574,33 @@ angular.module('app.ontdekJouwTalent',
 				}]
 			}
 			, views: {
-				'body': {
+				'body@': {
 					templateUrl: '/app/components/Jobs/views/listView.html'
+					,controller: 'JobsController'
+				}
+			}
+		})
+		/*
+		* -------- jobs detail ----------
+		*/
+		.state('jobs.detail', {
+			url: '/detail'
+			,params: {
+				id: null
+			}
+			,resolve: {
+				job: ['$stateParams','JobsService', function ($stateParams,JobsService) {
+					return JobsService.load($stateParams.id);
+				}]
+				,data: ['job', function (job) {
+					return {
+						job: job
+					}
+				}]
+			}
+			,views: {
+				'body@': {
+					templateUrl: '/app/components/Jobs/views/detailView.html'
 					,controller: 'JobsController'
 				}
 			}

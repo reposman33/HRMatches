@@ -1,4 +1,5 @@
 <div class="container jobs-overview">
+
 	<!-- vacancies -->
 	<div class="row title-container text-center margin_bottom_20">
 		<div class="col-md-12 h3">
@@ -132,26 +133,25 @@
 											<div class="col-md-1 job-buttons">
 												<div aria-label="..." role="group" class="btn-group-vertical">
 
-													<button title="" data-container="body" data-placement="top" data-toggle="tooltip"
-														ng-click="jobs.detail"
-														class="btn btn-primary h9 gtm-joboverview-viewjob" type="button"
-														name="{{job.name}}"
-														data-original-title="Vacature bekijken">
-														<i class="fa fa-eye white"></i>
+													<button ng-click="$state.go('jobs.detail',{id:job.id})"
+													        class="btn btn-primary h9 gtm-joboverview-viewjob"
+															type="button"
+															title="{{TranslationService.getText('JOB_VIEW_JOB')}}">
+															<i class="fa fa-eye white"></i>
 													</button>
-													<button title="" data-container="body" data-placement="top" data-toggle="tooltip"
-														ng-click="jobs.match"
-														class="btn btn-default h9 gtm-joboverview-viewjob" type="button"
-														name="{{job.name}}"
-														data-original-title="Mijn match bekijken">
-														<i class="glyphicon glyphicon-ok"></i>
+													<button ng-click="jobs.match"
+															class="btn btn-default h9 gtm-joboverview-viewjob"
+															type="button"
+															name="{{job.name}}"
+															title="{{TranslationService.getText('JOB_VIEW_MY_MATCH')}}">
+															<i class="glyphicon glyphicon-ok"></i>
 													</button>
 
 												</div>
 											</div>
 
 										</div>
-									</div>	<!-- end match 1 -->
+									</div>
 
 
 								</div>
