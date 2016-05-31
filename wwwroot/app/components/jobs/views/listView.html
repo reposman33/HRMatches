@@ -1,21 +1,14 @@
 <div class="container jobs-overview">
 	<!-- vacancies -->
-
-
 	<div class="row title-container text-center margin_bottom_20">
 		<div class="col-md-12 h3">
 			{{TranslationService.getText('JOBOVERVIEW_TITLE')}}
 		</div>
 	</div>
 
-
-
 	<!-- tabs -->
 	<div class="row">
 		<div class="tab-holder" role="tabpanel">
-
-			<!-- Nav tabs -->
-
 
 			<!-- Tab panes -->
 			<div class="tab-content form-group">
@@ -26,14 +19,13 @@
 
 								<div class="col-md-12 jobs-matches-container">
 
-
 									<div class="row candidates-filters">
 
 										<div class="col-md-2">
 											<div class="form-group">
 												<label for="">{{TranslationService.getText('JOB_ORGANISATION')}}</label>
 												<select class="form-control"
-												    ng-change="jobFilter={'id':job.organisation}"
+												    ng-change="organisationFilter = {'id':job.organisation}"
 													ng-model="job.organisation"
 													ng-options="job.id as job.organisation for job in data.jobs">
 													<option value="">-&nbsp;{{TranslationService.getText('JOB_SELECT_ORGANISATION')}}&nbsp;-</option>
@@ -45,9 +37,9 @@
 											<div class="form-group">
 												<label for="">{{TranslationService.getText('JOB_COUNTRY')}}</label>
 												<select class="form-control"
-												    ng-change="jobFilter={'country':country.countryName}"
+												    ng-change="countryFilter = {'countryId':job.country}"
 													ng-model="job.country"
-													ng-options="country.id as country.countryName for country in countries">
+													ng-options="country.id as country.countryName for country in data.countries">
 													<option value="">-&nbsp;{{TranslationService.getText('JOB_SELECT_COUNTRY')}}&nbsp;-</option>
 												</select>
 											</div>
@@ -56,7 +48,11 @@
 										<div class="col-md-2">
 											<div class="form-group">
 												<label for="">{{TranslationService.getText('JOB_REFERENCECODE')}}</label>
-												<select name="referenceCode" class="form-control">
+												<select class="form-control"
+												        ng-change="referenceFilter = {'referenceCode':job.referenceCode}"
+												        ng-model="job.referenceCode"
+												        ng-options="reference.id as reference.displayName for reference in data.references">
+													>
 													<option value="">-&nbsp;{{TranslationService.getText('JOB_SELECT_REFERENCECODE')}}&nbsp;-</option>
 												</select>
 											</div>
@@ -67,15 +63,21 @@
 												<div class="col-md-8">
 													<label for=""> &nbsp;</label>
 													<input type="text"
-													       placeholder="{{TranslationService.getText('JOB_SEARCH')}}"
-													       class="form-control"
-															ng-model="searchQuery"
+														placeholder="{{TranslationService.getText('JOB_SEARCH')}}"
+														class="form-control"
+														ng-model="searchQuery"
+														ng-change="descriptionFilter = {'description':searchQuery}"
 													>
 												</div>
 												<div class="col-md-4">
 													<label for=""> &nbsp;</label>
 													<span class="input-group-btn">
-														<button type="submit" class="btn btn-default h9 gtm-joboverview-search"><i class="fa fa-search blue"></i>{{TranslationService.getText('JOB_SEARCH')}}</button>
+														<button type="reset"
+															class="btn btn-default h9 gtm-joboverview-search"
+															ng-click="resetJobFilters()">
+															<i class="fa fa-search blue"></i>
+															{{TranslationService.getText('JOBOVERVIEW_RESET_FILTERS')}}
+														</button>
 													</span>
 												</div>
 											</div>
@@ -84,9 +86,8 @@
 									</div>
 
 									<hr>
-
 									<div class="well well-sm bg-white jobs-matches-well"
-										ng-repeat="job in data.jobs | filter:jobFilter | filter:{description:searchQuery}"
+										ng-repeat="job in data.jobs | filter:organisationFilter | filter:countryFilter | filter:referenceFilter | filter:descriptionFilter"
 										>
 										<div class="row">
 

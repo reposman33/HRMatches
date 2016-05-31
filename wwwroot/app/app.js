@@ -49,12 +49,12 @@ angular.module('app.ontdekJouwTalent',
 	 * 		============= T E M P L A T E S  ============
 	 *		=============================================
 	 * */
-	,APPCONSTANTS_SETTINGS_USERMANAGEMENT_ROLE: { // TEMPLATE FOR SETTINGS-USERMANAAGEMENT-RIGHTS_AND_ROLES: ADD NEW ROLE
+	,APPCONSTANTS_SETTINGS_USERMANAGEMENT_ROLE: { // DEFAULT TEMPLATE FOR SETTINGS-USERMANAAGEMENT-RIGHTS_AND_ROLES: ADD NEW ROLE
 		id: 0
 		,systemName: 'New Role'
 		,token:''
 	}
-	,APPCONSTANTS_SETTINGS_USERMANAGEMENT_TEAM: { // TEMPLATE FOR SETTINGS-USERMANAAGEMENT-TEAM: ADD NEW TEAM
+	,APPCONSTANTS_SETTINGS_USERMANAGEMENT_TEAM: { // DEFAULT TEMPLATE FOR SETTINGS-USERMANAAGEMENT-TEAM: ADD NEW TEAM
 		id: 0
 		,displayName: 'New Team'
 		,domainOwnerId: 0
@@ -116,7 +116,7 @@ angular.module('app.ontdekJouwTalent',
 		experienceAreaWeight: 0,
 		created: "",
 		experienceLevelAboveZero: 0,
-		displayName: "New",
+		displayName: "Nieuw",
 		competenceWeight: 0,
 		skillExponent: 0,
 		educationNotPassed: 0,
@@ -559,13 +559,17 @@ angular.module('app.ontdekJouwTalent',
 				countries: ['APIService',function(APIService){
 					return APIService.call(AppConfig.API_ENDPOINTS.country);
 				}]
+				,references: ['APIService', function(APIService) {
+					return APIService.call(AppConfig.API_ENDPOINTS.settings.references);
+				}]
 				,jobs: ['JobsService', function (JobsService) {
 					return JobsService.load();
 				}]
-				,data: ['jobs','countries', function (jobs,countries) {
+				,data: ['countries','references','jobs', function (countries,references,jobs) {
 					return {
-						jobs: jobs,
-						countries: countries
+						countries: countries,
+						references: references,
+						jobs: jobs
 					}
 				}]
 			}

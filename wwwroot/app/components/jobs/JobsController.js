@@ -21,13 +21,41 @@ angular.module('app.ontdekJouwTalent')
 				 itemsPerPage:15
 			 }
 		 }
-		$scope.data = {};
-		$scope.countries = data.countries;
+		$scope.data = data;
 		$scope.viewConfig = data.configuration;
 		$scope.totalItems = data.length;
 		$scope.currentPage = 1;
+		$scope.jobFilters = [];
 
-		// PAGINATE
+		 // retrieve all countryIds from jobs
+		 var countryIds = data.jobs.map(
+			 function(job,index,jobs){
+				 return job.countryId;
+		 });
+			// filter countries by jobs
+		 var countries = data.countries.filter(
+			 function(country,index,countries){
+				 return this.countryIds.indexOf(country.id) > -1;
+			 },
+			 {'countryIds':countryIds}
+		 )
+		 $scope.data.countries = countries;
+
+		 // retrieve all referenceCodes from jobs
+		 var referenceCodes = data.jobs.map(
+			 function(job,index,jobs){
+				 return job.referenceCode;
+			 });
+		 // filter references by jobs
+		 var references = data.references.filter(
+			 function(reference,index,references){
+				 return this.referenceCodes.indexOf(reference.id) > -1;
+			 },
+			 {'referenceCodes':referenceCodes}
+		 )
+		 $scope.data.references = references;
+
+		 // PAGINATE
 		/**
 		 * @ngdoc method
 		 * @name paginate
@@ -40,6 +68,8 @@ angular.module('app.ontdekJouwTalent')
 		}
 
 		$scope.paginate($scope.currentPage);
+
+
 
 		// UPDATE
 		/**
@@ -60,4 +90,27 @@ angular.module('app.ontdekJouwTalent')
 				}
 			);
 		}
+
+		 $scope.filterJobs = function(filterKey,filterValue){
+			 // remove filter with same filterKey
+			 $scope.jobFilters = $scope.jobFilters.filter(function(filter){
+				 return filter[filterKey] == undefined;
+			 })
+			 // add filterKey
+			 var newFilter = {};
+			 newFilter[filterKey] = filterValue;
+			 $scope.jobFilters.push(newFilter);
+		 }
+
+		 $scope.resetJobFilters = function() {
+			$scope.organisationFilter =
+			$scope.countryFilter =
+			$scope.referenceFilter =
+			$scope.descriptionFilter = {};
+			//reset selects
+			$scope.job.organisation = '';
+			$scope.job.country = '';
+			$scope.job.reference = '';
+			$scope.searchQuery = '';
+		 }
 }]);
