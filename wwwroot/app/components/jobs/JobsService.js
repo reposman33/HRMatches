@@ -81,12 +81,22 @@ angular.module('app.ontdekJouwTalent')
 
 			update : function(data){
 				return APIService.updateJob(data)
-					.then(
-						function(successResponse){
-							return successResponse;
-						}
-					)
+				.then(
+					function(successResponse){
+						return successResponse;
+					}
+				)
+			},
+
+			loadMatch: function(id){
+				return APIService.call(AppConfig.API_ENDPOINTS.match,{matchId:id})
+				.then(
+					function(successResponse){
+						return successResponse;
+					}
+				);
 			}
 		}
+
 	}]
 )
