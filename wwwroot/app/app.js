@@ -28,7 +28,7 @@ angular.module('app.ontdekJouwTalent',
 	} //
 	,APPCONSTANTS_PROTOCOL: location.protocol
 	,APPCONSTANTS_FILELOCATIONS_VIEWS: {
-		NAVIGATIONBAR: '/app/components/navigation/views/navigation.html'
+		NAVIGATIONBAR: '/app/navigation/views/navigation.html'
 		,TABLEVIEW: '/app/shared/views/tableView.html'
 	}
 	,APPCONSTANTS_DEVICEID: ''
@@ -293,6 +293,10 @@ angular.module('app.ontdekJouwTalent',
 				endpoint: 'matchingconfigurations'
 				,method: 'GET'
 			}
+			,'educationtype': {
+				endpoint: 'educationtype'
+				,method: 'GET'
+			}
 		}
 		,'authenticate': {
 			endpoint: 'authenticate'
@@ -320,6 +324,10 @@ angular.module('app.ontdekJouwTalent',
 		}
 		,'matchingconfigurations': {
 			endpoint: 'matchingconfigurations'
+			,method: 'GET'
+		},
+		'activityLog': {
+			endpoint: 'activityLog'
 			,method: 'GET'
 		}
 	}
@@ -350,6 +358,8 @@ angular.module('app.ontdekJouwTalent',
 	 *		
 	 * */
 	$rootScope.$on('$stateChangeStart',function(event, toState, toParams, fromState, fromParams, options){
+
+		$rootScope.refreshCount = $rootScope.refreshCount == undefined ? 0 : $rootScope.refreshCount + 1;
 		var currentUser = SessionService.getCurrentUser();
 		$rootScope.fromStateName = fromState.name;
 		if(!currentUser){ // USER NOT LOGGED IN
@@ -376,6 +386,8 @@ angular.module('app.ontdekJouwTalent',
 		console.error('$stateChangeError from ' + fromState.name + ' to ' + toState.name, ':', error);
 	});
 
+ // disable F5... maybe?
+ // http://angular-ui.github.io/ui-router/site/#/api/ui.router.router.$urlRouterProvider
 }) // END run
 .config(['$stateProvider','$urlRouterProvider','AppConfig','growlProvider',function($stateProvider,$urlRouterProvider,AppConfig,growlProvider) {
 
@@ -440,7 +452,7 @@ angular.module('app.ontdekJouwTalent',
 			url: '/login'
 			,views: {
 				'body': {
-					templateUrl: '/app/components/login/views/login.html'
+					templateUrl: '/app/login/views/login.html'
 					,controller: 'AuthenticationController'
 				}
 			}
@@ -451,7 +463,7 @@ angular.module('app.ontdekJouwTalent',
 		.state('login.userProfiles', {
 			url: '/userProfiles'
 			,modal: true
-			,templateUrl: '/app/components/login/views/userProfiles.html'
+			,templateUrl: '/app/login/views/userProfiles.html'
 		})
 		/*
 		 * ---------- forgotpassword ----------
@@ -459,14 +471,14 @@ angular.module('app.ontdekJouwTalent',
 		.state('login.forgotPassword', {
 			url: '/forgotPassword'
 			,modal: true
-			,templateUrl: '/app/components/login/views/forgotPassword.html'
+			,templateUrl: '/app/login/views/forgotPassword.html'
 		})
 		/*
 		 * ---------- resetpassword ----------
 		 */ // called via url in mail
 		.state('login.resetPassword', {
 			url: '/resetPassword/:key'
-			,templateUrl: '/app/components/login/views/resetPassword.html'
+			,templateUrl: '/app/login/views/resetPassword.html'
 			,resolve: {
 				validateResponse: function ($stateParams, AuthService) {
 					return AuthService.validateSecretKey($stateParams.key);
@@ -484,15 +496,15 @@ angular.module('app.ontdekJouwTalent',
 		.state('login.2StepAuthentication', {
 			url: '2StepAuthentication'
 			,modal: true
-			,templateUrl: '/app/components/login/views/2stepAuthentication.html'
+			,templateUrl: '/app/login/views/2stepAuthentication.html'
 		})
 		/*
-		 * ---------- register ----------
+		 * ========== REGISTER ==========
 		 */
 		.state('login.register', {
 			url: '/register'
 			,modal: true
-			,templateUrl: '/app/components/register/views/register.html'
+			,templateUrl: '/app/register/views/register.html'
 		})
 		/*
 		 * ========= LOGOUT =========
@@ -509,19 +521,8 @@ angular.module('app.ontdekJouwTalent',
 			}]
 			,views: {
 				'body@': {
-					templateUrl: '/app/components/login/views/logout.html'
+					templateUrl: '/app/login/views/logout.html'
 					,controller: 'AuthenticationController'
-				}
-			}
-		})
-		/*
-		 * ========= VACATUREGIDS =========
-		 */
-		.state('vacaturegids', {
-			url: '/vacaturegids'
-			,views: {
-				'body@': {
-					templateUrl: '/app/components/vacaturegids/views/vacaturegids.html'
 				}
 			}
 		})
@@ -545,13 +546,41 @@ angular.module('app.ontdekJouwTalent',
 			}
 			,views: {
 				'body@': {
-					templateUrl: '/app/components/translation/views/editTranslation.html'
+					templateUrl: '/app/translation/views/editTranslation.html'
 					,controller: 'TranslationController'
 				}
 			}
 		})
 		/*
-		 * ========= JOBS =========
+		 * ========= DASHBOARD =========
+		 */
+		.state('dashboard',{
+			url: '/dashboard'
+			,resolve: {
+				activityLog: ['APIService',function(APIService){
+					APIService.call(AppConfig.API_ENDPOINTS.activityLog)
+					.then(
+						function(successResponse){
+							return successResponse;
+						}
+					)
+				}]
+				,data: ['activityLog',function (activityLog) {
+					return {
+						activityLog: activityLog
+					}
+				}]
+			}
+			, views: {
+				'body@': {
+					templateUrl: '/app/dashboard/views/listView.html'
+					,controller: 'DashboardController'
+				}
+			}
+			})
+
+		/*
+		 * ========= VACATUREGIDS =========
 		 */
 		.state('jobs', {
 			url: '/jobs'
@@ -575,7 +604,7 @@ angular.module('app.ontdekJouwTalent',
 			}
 			, views: {
 				'body@': {
-					templateUrl: '/app/components/Jobs/views/listView.html'
+					templateUrl: '/app/Jobs/views/listView.html'
 					,controller: 'JobsController'
 				}
 			}
@@ -586,21 +615,74 @@ angular.module('app.ontdekJouwTalent',
 		.state('jobs.detail', {
 			url: '/detail'
 			,params: {
-				id: null
+				id: null,
+				countryId: null
 			}
 			,resolve: {
 				job: ['$stateParams','JobsService', function ($stateParams,JobsService) {
 					return JobsService.load($stateParams.id);
 				}]
-				,data: ['job', function (job) {
+				,data: ['countries','job', function (countries,job) {
 					return {
 						job: job
+						,countries: countries
 					}
 				}]
 			}
 			,views: {
 				'body@': {
-					templateUrl: '/app/components/Jobs/views/detailView.html'
+					templateUrl: '/app/Jobs/views/detailView.html'
+					,controller: 'JobsController'
+				}
+			}
+		})
+		/*
+		 * -------- jobs match ----------
+		 */
+		.state('jobs.detail.match',{
+			url: '/match'
+			,resolve: {
+				match: ['$stateParams','JobsService', function ($stateParams,JobsService) {
+/*					// uncomment this when Api endpoint is ready
+					return APIService.call(AppConfig.API_ENDPOINTS.match,{id:id})
+					.then(
+						function(successResponse){
+							return successResponse;
+						}
+					);
+*/
+					return {};
+				}],
+				referenceDisplayName: ['APIService','job', function(APIService,job) {
+					return APIService.call(AppConfig.API_ENDPOINTS.settings.references,{id:job.referenceCode})
+					.then(
+						function(successResponse){
+							return successResponse.displayName;
+						}
+					)
+				}]
+				,educationType: ['APIService','job', function (APIService,job) {
+					return APIService.call(AppConfig.API_ENDPOINTS.settings.educationtype,{id:job.educationTypeId})
+					.then(
+						function(successResponse){
+							return successResponse;
+						}
+					)
+				}]
+				,data: ['job','match','referenceDisplayName','educationType', function (job,match,referenceDisplayName,educationType) {
+					return {
+  						match: {
+							job: job,
+							match: match,
+							referenceDisplayName: referenceDisplayName,
+							educationType: educationType
+						}
+					}
+				}]
+			}
+			,views: {
+				'body@': {
+					templateUrl: '/app/Jobs/views/matchView.html'
 					,controller: 'JobsController'
 				}
 			}
@@ -617,7 +699,7 @@ angular.module('app.ontdekJouwTalent',
 			}
 			,views: {
 				'body@': {
-					templateUrl: '/app/components/settings/views/tabpanel.html'
+					templateUrl: '/app/settings/views/tabpanel.html'
 					,controller: 'SettingsController'
 				}
 			}
@@ -638,7 +720,7 @@ angular.module('app.ontdekJouwTalent',
 			}
 			,views: {
 				'setting@settings': {
-					templateUrl: '/app/components/settings/account/views/tabpanel.html'
+					templateUrl: '/app/settings/account/views/tabpanel.html'
 					,controller: 'AccountController'
 				}
 			}
@@ -660,7 +742,7 @@ angular.module('app.ontdekJouwTalent',
 			}
 			,views: {
 				'tabContent@settings.account': {
-					templateUrl: '/app/components/settings/account/views/person.html'
+					templateUrl: '/app/settings/account/views/person.html'
 					,controller: 'AccountController'
 				}
 			}
@@ -677,7 +759,7 @@ angular.module('app.ontdekJouwTalent',
 			}
 			,views: {
 				'tabContent@settings.account': {
-					templateUrl: '/app/components/settings/account/views/password.html'
+					templateUrl: '/app/settings/account/views/password.html'
 					,controller: 'AccountController'
 				}
 			}
@@ -694,7 +776,7 @@ angular.module('app.ontdekJouwTalent',
 			}
 			,views: {
 				'tabContent@settings.account': {
-					templateUrl: '/app/components/settings/account/views/deleteAccount.html'
+					templateUrl: '/app/settings/account/views/deleteAccount.html'
 					,controller: 'AccountController'
 				}
 			}
@@ -722,7 +804,7 @@ angular.module('app.ontdekJouwTalent',
 			}
 			,views: {
 				'setting@settings': {
-					templateUrl: '/app/components/settings/company/views/company.html'
+					templateUrl: '/app/settings/company/views/company.html'
 					,controller: 'CompanyController'
 				}
 			}
@@ -742,7 +824,7 @@ angular.module('app.ontdekJouwTalent',
 			}
 			,views: {
 				'setting@settings': {
-					templateUrl: '/app/components/settings/company/views/companyCultures.html'
+					templateUrl: '/app/settings/company/views/companyCultures.html'
 					,controller: 'CompanyController'
 				}
 			}
@@ -769,7 +851,7 @@ angular.module('app.ontdekJouwTalent',
 			}
 			,views: {
 				'setting@settings': {
-					templateUrl: '/app/components/settings/company/views/companyCulture.html'
+					templateUrl: '/app/settings/company/views/companyCulture.html'
 					,controller: 'CompanyController'
 				}
 			}
@@ -786,7 +868,7 @@ angular.module('app.ontdekJouwTalent',
 			}
 			,views: {
 				'setting@settings': {
-					templateUrl: '/app/components/settings/userManagement/views/tabpanel.html'
+					templateUrl: '/app/settings/userManagement/views/tabpanel.html'
 					,controller: 'UserManagementController'
 				}
 			}
@@ -805,7 +887,7 @@ angular.module('app.ontdekJouwTalent',
 			,views:{
 				'tabContent@settings.userManagement': {
 					controller: 'UsersController'
-					,templateUrl: '/app/components/settings/userManagement/users/views/listView.html'
+					,templateUrl: '/app/settings/userManagement/users/views/listView.html'
 				}
 			}
 		})
@@ -822,7 +904,7 @@ angular.module('app.ontdekJouwTalent',
 			,views:{
 				'tabContent@settings.userManagement': {
 					controller: 'UsersController'
-					,templateUrl: '/app/components/settings/userManagement/users/views/detailView.html'
+					,templateUrl: '/app/settings/userManagement/users/views/detailView.html'
 				}
 			}
 		})
@@ -850,7 +932,7 @@ angular.module('app.ontdekJouwTalent',
 			,views: {
 				'tabContent@settings.userManagement': {
 					controller: 'RightsAndRolesController'
-					,templateUrl: '/app/components/settings/userManagement/rechtenEnRollen/views/listView.html'
+					,templateUrl: '/app/settings/userManagement/rechtenEnRollen/views/listView.html'
 				}
 			}
 		})
@@ -873,7 +955,7 @@ angular.module('app.ontdekJouwTalent',
 			,views: {
 				'tabContent@settings.userManagement': {
 					controller: 'TeamsController'
-					,templateUrl: '/app/components/settings/userManagement/teams/views/listView.html'
+					,templateUrl: '/app/settings/userManagement/teams/views/listView.html'
 				}
 			}
 		})
@@ -912,7 +994,7 @@ angular.module('app.ontdekJouwTalent',
 			,views: {
 				'tabContent@settings.userManagement': {
 					controller: 'TeamsController'
-					,templateUrl: '/app/components/settings/userManagement/teams/views/detailView.html'
+					,templateUrl: '/app/settings/userManagement/teams/views/detailView.html'
 				}
 			}
 		})
@@ -935,7 +1017,7 @@ angular.module('app.ontdekJouwTalent',
 			,views: {
 				'tabContent@settings.userManagement': {
 					controller: 'JobdomainsController'
-					,templateUrl: '/app/components/settings/userManagement/jobdomains/views/listView.html'
+					,templateUrl: '/app/settings/userManagement/jobdomains/views/listView.html'
 				}
 			}
 		})
@@ -980,7 +1062,7 @@ angular.module('app.ontdekJouwTalent',
 			,views: {
 				'tabContent@settings.userManagement': {
 					controller: 'JobdomainsController'
-					,templateUrl: '/app/components/settings/userManagement/jobdomains/views/detailView.html'
+					,templateUrl: '/app/settings/userManagement/jobdomains/views/detailView.html'
 				}
 			}
 		})
@@ -1000,7 +1082,7 @@ angular.module('app.ontdekJouwTalent',
 			,views: {
 				'setting@settings': {
 					controller: 'ReferencesController'
-					,templateUrl: '/app/components/settings/references/views/listView.html'
+					,templateUrl: '/app/settings/references/views/listView.html'
 				}
 			}
 		})
@@ -1020,7 +1102,7 @@ angular.module('app.ontdekJouwTalent',
 		,views: {
 			'setting@settings': {
 				controller: 'MatchingController',
-				templateUrl: '/app/components/settings/matching/views/listView.html'
+				templateUrl: '/app/settings/matching/views/listView.html'
 			}
 		}
 	})
@@ -1046,7 +1128,7 @@ angular.module('app.ontdekJouwTalent',
 		,views: {
 			'setting@settings':{
 				controller: 'MatchingController'
-				,templateUrl: '/app/components/settings/matching/views/detailView.html'
+				,templateUrl: '/app/settings/matching/views/detailView.html'
 			}
 		}
 	})

@@ -1,0 +1,59 @@
+<form name='loginForm' novalidate>
+	<div hrm-login-advertorial config="{show:true}"></div>
+
+	<div class="col-md-6">
+		<div class="well">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="form-group">
+						<div class="row">
+						</div>
+						<div class="row">
+							<div class="col-md-4 h9">
+								<label for="emailAddress">{{TranslationService.getText('LOGIN_EMAIL')}}</label>
+							</div>
+							<div class="col-md-8 form-group" ng-class="{'has-error': loginForm.j_username.$invalid}">
+								<input type="email" placeholder="Email address" name="username" id="emailAddress" class="form-control" ng-model="user.username">
+							</div>
+						<div class="col-md-4"></div>
+						<div class="col-md-8 alert-error" ng-show="loginForm.username.$invalid">{{TranslationService.getText('LOGIN_EMAILADDRESS_INVALID')}}</div>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-4 h9">
+								<label for="exampleInputFirstname">{{TranslationService.getText('LOGIN_PASSWORD')}}</label>
+							</div>
+							<div class="col-md-8">
+								<input type="password" placeholder="{{TranslationService.getText('LOGIN_PASSWORD')}}" name="password" id="Password" class="form-control" ng-model="user.password" >
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-4"></div>
+
+						<div class="col-md-8">
+							<button class="btn btn-success btn-block pull-right" ng-click="authenticate(user)">{{TranslationService.getText('LOGIN_SUBMIT')}}</button>
+						</div>
+
+						<div class="col-md-4"></div>	
+						<div class="col-md-8 alert" ng-class="{'alert-error':error}" ng-style="{visibility:loginFeedbackText.length}">{{loginFeedbackText}}</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-6">
+							<a ui-sref="login.forgotPassword">{{TranslationService.getText('LOGIN_FORGOT_PASSWORD')}}</a>
+						</div>
+						<div class="col-md-6">
+							<a ui-sref="login.register">{{TranslationService.getText('REGISTER_TITLE')}}</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+<div ui-view></div>

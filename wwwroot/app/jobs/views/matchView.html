@@ -1,0 +1,349 @@
+<div class="row title-container margin_bottom_20">
+	<div class="col-md-12 h3">
+		{{TranslationService.getText('JOBEDITOR_INSTRUCTIONS')}}
+	</div>
+</div>
+
+<div role="tabpanel">
+	<!-- Tab panes -->
+	<div class="tab-content form-group">
+		<!--  Matches -->
+		<div role="tabpanel" class="tab-pane active margin_top_2" id="jobs_matches"> <!-- These class id's are essential for the functionality of the tabs -->
+			<form lpformnum="1">
+				<div class="well bg-white padding_bottom_0">
+					<div class="row">
+
+						<!-- When filters are hidden use the col-md-12 if they are visible use a col-md-9 -->
+						<div class="col-md-12 jobs-matches-container">
+							<!-- match 1 -->
+							<div class="well well-sm bg-white jobs-matches-well">
+								<div class="row">
+
+									<div class="col-md-11">
+										<div class="row">
+											<div class="col-md-12">
+												<div class="h7 jobs-job-title">{{data.match.name}}</div>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col-md-12">
+
+												<div class="row">
+													<div class="col-md-2 jobs-image">
+														<img class="img-thumbnail img_company_logo" alt="" ng-src="{{AppConfig.APPCONSTANTS_RESOURCES_URIS.IMAGES}}placeholder.jpg">
+													</div>
+
+													<div class="col-md-4">
+														<div class="row">
+															<div class="col-md-12">
+																<div class="h10 jobs-company-title"> Ontdekjouwtalent.nl, Eindhoven</div>
+																<div class="h10 jobs-education-title">{{data.match.referenceDisplayName}}, {{formatHours(data.match.job.hours)}} {{TranslationService.getText('JOB_HOURS')}}</div>
+
+
+																<div class="h9 jobs-score ">{{TranslationService.getText('JOB_SCORE')}}: <span class="low h4">{{data.match.job.match}}</span> </div>
+
+
+															</div>
+														</div>
+													</div>
+
+													<div class="col-md-6">
+														<div class="h10 jobs-description-title" style="overflow-y: auto" ng-bind-html="data.match.job.description"></div>
+													</div>
+												</div>
+
+											</div>
+										</div>
+									</div>
+
+									<div class="col-md-1 job-buttons">
+										<div class="btn-group-vertical" role="group" aria-label="...">
+
+											<button type="button"
+												class="btn btn-primary h9"
+												ng-click="$state.go('^')"
+												data-toggle="tooltip"
+												data-placement="top"
+												data-container="body"
+												title="{{TranslationService.getText('JOB_VIEW_JOB')}}"
+												data-original-title="{{TranslationService.getText('JOB_VIEW_JOB')}}">
+											<i class="fa fa-eye white"></i>
+											</button>
+										</div>
+									</div>
+
+								</div>
+							</div>	<!-- end match 1 -->
+
+							<div class="jobs-mymatch-back">
+								<div class="row">
+									<div class="col-md-12">
+										<button type="button"
+											class="btn btn-primary h9"
+											ng-click="$state.go('jobs')">
+											<i class="fa fa-arrow-left"></i>
+											{{TranslationService.getText('JOBOVERVIEW_BACK')}}
+										</button>
+									</div>
+								</div>
+							</div>
+
+							<div class="jobs-mymatch-hard">
+
+								<hr>
+
+								<div class="row">
+									<div class="col-md-12">
+										<div class="h4">{{TranslationService.getText('JOBOVERVIEW_YOUR_MATCH_RESULT')}}</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-12">
+										<table class="table table-bordered h10">
+											<thead>
+											<tr>
+												<th>{{TranslationService.getText('JOBOVERVIEW_MATCH_PART')}}</th>
+												<th>{{TranslationService.getText('JOBOVERVIEW_VACANCY')}}</th>
+												<th>{{TranslationService.getText('JOBOVERVIEW_CANDIDATE')}}</th>
+												<th class="text-center">Score</th>
+											</tr>
+											</thead>
+											<tbody>
+
+											<tr>
+												<td>{{TranslationService.getText('JOBOVERVIEW_EDUCATIONLEVEL')}}</td>
+												<td>{{educationType}}</td>
+												<td></td>
+
+												<td class="bg-yellow table-score"></td>
+											</tr>
+
+											<tr>
+												<td>{{TranslationService.getText('APPLICANT_EDUCATION_AREA')}}</td>
+
+												<td>
+													{Administratie/Secretarieel}
+												</td>
+
+												<td></td>
+
+												<td class="bg-red table-score"></td>
+											</tr>
+
+											<tr>
+												<td>{{TranslationService.getText('JOBOVERVIEW_FUNCTION_AREA')}}</td>
+
+												<td>
+													{Administratie/Secretarieel}
+												</td>
+
+												<td></td>
+
+												<td class="bg-red table-score"></td>
+											</tr>
+
+											<tr>
+												<td>{{TranslationService.getText('JOBOVERVIEW_JOBEXPERIENCE')}}</td>
+												<td>{5-10 jaar}</td>
+
+												<td>
+
+												</td>
+
+												<td class="bg-red table-score"></td>
+											</tr>
+
+											<tr>
+												<td>{{TranslationService.getText('JOBOVERVIEW_SKILLS')}}</td>
+												<td>{Ja}</td>
+												<td>{Nee}</td>
+
+												<td class="bg-red table-score"></td>
+											</tr>
+
+											<tr>
+												<td>{{TranslationService.getText('JOBOVERVIEW_LANGUAGES')}}</td>
+												<td>{Ja}</td>
+												<td>{Nee}</td>
+
+												<td class="bg-red table-score"></td>
+											</tr>
+
+											<tr>
+												<td>{{TranslationService.getText('JOBOVERVIEW_COMPETENCES')}}</td>
+												<td>{Ja}</td>
+												<td>{Nee}</td>
+
+												<td class="bg-red table-score"></td>
+											</tr>
+
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+
+							<div class="jobs-mymatch-legenda">
+
+								<div class="row">
+									<div class="col-md-12">
+										<div class="h9 sub-title">{{TranslationService.getText('JOBOVERVIEW_LEGEND')}}</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-12">
+										<div class="well well-sm bg-white">
+											<div class="row">
+												<div class="col-md-4 h9">
+													<div class=" "><i class="fa fa-square green"></i>{{TranslationService.getText('JOBOVERVIEW_GOOD_MATCH')}}</div>
+												</div>
+												<div class="col-md-4 h9">
+													<div class=" "><i class="fa fa-square yellow"></i>{{TranslationService.getText('JOBOVERVIEW_AVERAGE_MATCH')}}</div>
+												</div>
+												<div class="col-md-4 h9">
+													<div class=" "><i class="fa fa-square red"></i>{{TranslationService.getText('JOBOVERVIEW_BAD_MATCH')}}</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+							</div>
+
+
+							<div class="jobs-mymatch-soft">
+
+								<hr>
+
+								<div class="row">
+									<div class="col-md-12">
+										<div class="h4">{{TranslationService.getText('JOBOVERVIEW_YOUR_COMPETENCE_MATCH')}}</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-12">
+										<div class="well well-sm bg-white assessments-legenda">
+											<div class="row">
+
+												<div class="col-md-4 h10">
+
+													<div class=" extra-spacing-5"><i class="fa fa-exclamation-triangle red"></i>{{TranslationService.getText('JOBOVERVIEW_DISCIPLINE')}}</div>
+
+												</div>
+
+												<div class="col-md-4 h10">
+
+													<div class=" extra-spacing-5"><i class="fa fa-exclamation-triangle red"></i>{{TranslationService.getText('JOBOVERVIEW_FLEXIBILITEIT')}}</div>
+
+												</div>
+
+												<div class="col-md-4 h10">
+
+													<div class=" extra-spacing-5"><i class="fa fa-exclamation-triangle red"></i>{{TranslationService.getText('JOBOVERVIEW_INTEGRITEIT')}}</div>
+
+												</div>
+
+												<div class="col-md-4 h10">
+
+													<div class=" extra-spacing-5"><i class="fa fa-exclamation-triangle red"></i>{{TranslationService.getText('JOBOVERVIEW_OMGAAN_MET_DETAILS')}}</div>
+
+												</div>
+
+												<div class="col-md-4 h10">
+
+													<div class=" extra-spacing-5"><i class="fa fa-exclamation-triangle red"></i>{{TranslationService.getText('JOBOVERVIEW_PLANNEN_EN_ORGANISEREN')}}</div>
+
+												</div>
+
+												<div class="col-md-4 h10">
+
+													<div class=" extra-spacing-5"><i class="fa fa-exclamation-triangle red"></i>{{TranslationService.getText('JOBOVERVIEW_STRESSBESTENDIGHEID')}}</div>
+
+												</div>
+
+
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12 h9">
+
+										<div class="h9 sub-title">Legenda</div>
+										<div class="well well-sm bg-white assessments-legenda">
+											<div class="row">
+												<div class="col-md-4 h9">
+													<div class=" "><i class="fa fa-check green"></i>{{TranslationService.getText('JOBOVERVIEW_LEGEND_HIGH')}}</div>
+												</div>
+												<div class="col-md-4 h9">
+													<div class=" "><i class="fa fa-arrow-up yellow"></i>{{TranslationService.getText('JOBOVERVIEW_LEGEND_AVERAGE')}}</div>
+												</div>
+												<div class="col-md-4 h9">
+													<div class=" "><i class="fa fa-exclamation-triangle red"></i>{{TranslationService.getText('JOBOVERVIEW_LEGEND_LOW')}}</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+							<div class="jobs-mymatch-warning">
+								<hr>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="alert alert-warning">
+											<div class="row">
+												<div class="col-md-9 h6">
+													<strong>{{TranslationService.getText('JOBOVERVIEW_MELDING!')}}</strong>{{TranslationService.getText('JOBOVERVIEW_U_HEEFT_NOG_GEEN_ASSESSMENTS_GEMAAKT._DOE_ONZE_ASSESSMENTS_OM_UW_ARBEIDSKANSEN_TE_VERGROTEN.')}}
+												</div>
+
+												<div class="col-md-3 text-right">
+													<button type="button"
+														class="btn btn-primary h9"
+														ng-click="">{{TranslationService.getText('JOBOVERVIEW_DOE_DE_ASSESSMENTS!')}}
+														<i class="fa fa-arrow-right"></i>
+													</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="jobs-mymatch-tip">
+								<hr>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="alert alert-info">
+											<div class="row">
+												<div class="col-md-9 h6">
+													<strong>{{TranslationService.getText('JOBOVERVIEW_TIP!')}}</strong>{{TranslationService.getText('JOBOVERVIEW_DOE_ONZE_ASESSMENTS_OM_UW_MATCH_TE_VERGROTEN!')}}
+												</div>
+
+												<div class="col-md-3 text-right">
+													<button type="button"
+														class="btn btn-primary h9"
+														ng-click="">
+														{{TranslationService.getText('JOBOVERVIEW_DOE_DE_ASSESSMENTS')}}
+														<i class="fa fa-arrow-right"></i>
+													</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</form>
+		</div> <!-- end matches -->
+
+	</div>
+</div>

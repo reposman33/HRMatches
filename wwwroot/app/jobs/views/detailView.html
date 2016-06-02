@@ -1,0 +1,104 @@
+<div class="container jobs-view-job-container">
+
+	<div class="breadcrumbs-container">
+		<div class="row">
+			<div class="col-sm-12">
+				<a class="gtm-test" href="index.cfm?module=joboverview">{{TranslationService.getText('JOBDETAILS_ALL_JOBS')}}</a>/
+				<a ng-ref="">{{data.job.name}}</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="row title-container">
+		<div class="col-md-12 jobs-overview-title h3">
+
+		</div>
+	</div>
+
+	<div class="well bg-white">
+		<div class="row">
+			<div class="col-md-12 h3">
+				<div class="box" id="job-overview-box">
+
+					<!-- organisation info -->
+					<div class="row job-info">
+
+						<div class="col-md-10">
+							<div class="h4"><a href="index.cfm?module=jobapplication&amp;jobId=E63772A0-1B1F-447D-9B5E-A1F00EE3FA18">Orientatiefunctie: Administratief Medewerker</a></div>
+							<div class="h9">Ontdekjouwtalent.nl</div>
+							<div class="h10">{{data.job.city}} | {{countryName}} | {{formatHours(data.job.hours)}}
+								<formatHours>
+									<data class="job hours"></data>
+								</formatHours> {{TranslationService.getText('JOB_HOURS')}}</div>
+						</div>
+						<div class="col-md-2 right_text">
+							<div class="btn-group-vertical">
+
+								<button
+									hrmjobid="E63772A0-1B1F-447D-9B5E-A1F00EE3FA18"
+									hrmjobtitle="Orientatiefunctie: Administratief Medewerker"
+									type="button"
+									ng-click="$state.go('jobs.detail.match',{id:data.job.id})"
+									class="btn btn-default h9 gtm-joboverview-mymatch">
+									{{TranslationService.getText('JOBDETAILS_MY_MATCH')}}
+								</button>
+
+								<button
+									hrmjobid="E63772A0-1B1F-447D-9B5E-A1F00EE3FA18"
+									hrmjobtitle="Orientatiefunctie: Administratief Medewerker"
+									type="button"
+									ng-click="alert('nog niet geimplementeerd')"
+									class="btn btn-success apply-button gtm-joboverview-apply">
+									{{TranslationService.getText('JOBDETAILS_APPLY')}}
+								</button>
+
+							</div>
+						</div>
+					</div>
+
+					<hr>
+
+					<!-- function info -->
+					<div class="row job-description">
+						<div class="col-md-12">
+							<p class="sm-box-title h4">{{TranslationService.getText('JOBDETAILS_JOBDESCRIPTION')}}</p>
+							<div class="well h10" ng-bind-html="data.job.description"></div>
+						</div>
+					</div><!-- /function info -->
+
+					<!-- function requirements -->
+					<div class="row job-requirements">
+						<div class="col-md-12">
+							<p class="sm-box-title h4">{{TranslationService.getText('JOBDETAILS_TASKS')}}</p>
+							<div class="well h10" ng-bind-html="data.job.tasks"></div>
+						</div>
+					</div><!-- /function tasks -->
+
+					<!-- what do we offer -->
+					<div class="row job-offering">
+						<div class="col-md-12">
+							<p class="sm-box-title h4">{{TranslationService.getText('JOBDETAILS_OFFER')}}</p>
+							<div class="well h10" ng-bind-html="data.job.conditions"></div>
+						</div>
+					</div><!-- /what do we offer -->
+
+					<div class="row ">
+						<div class="col-md-12 text-right">
+
+							<button
+								hrmjobid="E63772A0-1B1F-447D-9B5E-A1F00EE3FA18"
+								hrmjobtitle="Orientatiefunctie: Administratief Medewerker"
+								type="button"
+								onclick="location.href='index.cfm?module=jobapplication&amp;jobId=E63772A0-1B1F-447D-9B5E-A1F00EE3FA18'"
+								class="btn btn-success apply-button gtm-joboverview-apply">
+								{{TranslationService.getText('JOBOVERVIEW_APPLY')}}
+							</button>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>

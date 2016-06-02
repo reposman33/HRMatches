@@ -1,0 +1,178 @@
+<div class="container jobs-overview">
+
+	<!-- vacancies -->
+	<div class="row title-container text-center margin_bottom_20">
+		<div class="col-md-12 h3">
+			{{TranslationService.getText('JOBOVERVIEW_TITLE')}}
+		</div>
+	</div>
+
+	<!-- tabs -->
+	<div class="row">
+		<div class="tab-holder" role="tabpanel">
+
+			<!-- Tab panes -->
+			<div class="tab-content form-group">
+				<div id="jobs_matches" class="tab-pane active margin_top_2" role="tabpanel">
+
+						<div class="well bg-white padding_bottom_0">
+							<div class="row">
+
+								<div class="col-md-12 jobs-matches-container">
+
+									<div class="row candidates-filters">
+
+										<div class="col-md-2">
+											<div class="form-group">
+												<label for="">{{TranslationService.getText('JOB_ORGANISATION')}}</label>
+												<select class="form-control"
+												    ng-change="organisationFilter = {'id':job.organisation}"
+													ng-model="job.organisation"
+													ng-options="job.id as job.organisation for job in data.jobs">
+													<option value="">-&nbsp;{{TranslationService.getText('JOB_SELECT_ORGANISATION')}}&nbsp;-</option>
+												</select>
+											</div>
+										</div>
+
+										<div class="col-md-2">
+											<div class="form-group">
+												<label for="">{{TranslationService.getText('JOB_COUNTRY')}}</label>
+												<select class="form-control"
+												    ng-change="countryFilter = {'countryId':job.country}"
+													ng-model="job.country"
+													ng-options="country.id as country.countryName for country in data.countries">
+													<option value="">-&nbsp;{{TranslationService.getText('JOB_SELECT_COUNTRY')}}&nbsp;-</option>
+												</select>
+											</div>
+										</div>
+
+										<div class="col-md-2">
+											<div class="form-group">
+												<label for="">{{TranslationService.getText('JOB_REFERENCECODE')}}</label>
+												<select class="form-control"
+												        ng-change="referenceFilter = {'referenceCode':job.referenceCode}"
+												        ng-model="job.referenceCode"
+												        ng-options="reference.id as reference.displayName for reference in data.references">
+													>
+													<option value="">-&nbsp;{{TranslationService.getText('JOB_SELECT_REFERENCECODE')}}&nbsp;-</option>
+												</select>
+											</div>
+										</div>
+
+										<div class="col-md-6">
+											<div class="row search-field">
+												<div class="col-md-8">
+													<label for=""> &nbsp;</label>
+													<input type="text"
+														placeholder="{{TranslationService.getText('JOB_SEARCH')}}"
+														class="form-control"
+														ng-model="searchQuery"
+														ng-change="descriptionFilter = {'description':searchQuery}"
+													>
+												</div>
+												<div class="col-md-4">
+													<label for=""> &nbsp;</label>
+													<span class="input-group-btn">
+														<button type="reset"
+															class="btn btn-default h9 gtm-joboverview-search"
+															ng-click="resetJobFilters()">
+															<i class="fa fa-search blue"></i>
+															{{TranslationService.getText('JOBOVERVIEW_RESET_FILTERS')}}
+														</button>
+													</span>
+												</div>
+											</div>
+										</div>
+
+									</div>
+
+									<hr>
+
+									<div class="well well-sm bg-white jobs-matches-well"
+										ng-repeat="job in data.jobs.slice(((currentPage-1) * data.configuration.pagination.itemsPerPage),currentPage * (data.configuration.pagination.itemsPerPage)) | filter:organisationFilter | filter:countryFilter | filter:referenceFilter | filter:descriptionFilter"
+										>
+										<div class="row">
+
+											<div class="col-md-11">
+												<div class="row">
+													<div class="col-md-12">
+														<div class="h7 jobs-job-title">
+														<a ng-sref="jobs.detail">
+															{{job.name}}
+														</a></div>
+													</div>
+												</div>
+
+												<div class="row">
+													<div class="col-md-12">
+
+														<div class="row">
+
+															<div class="col-md-4">
+																<div class="row">
+																	<div class="col-md-12">
+																		<div class="h10 jobs-company-title">{{job.organisation}}, {{job.city}}</div>
+																			<div class="h10 jobs-education-title">{{formatHours(job.hours)}} {{TranslationService.getText('JOB_HOURS')}}</div>
+
+																		<div class="h9 jobs-score ">
+																			{{TranslationService.getText('JOB_SCORE')}}:<span class="low h4">??? %</span> </div>
+																	</div>
+																</div>
+															</div>
+
+															<div class="col-md-8">
+																<div class="h10">
+																<p><em ng-bind-html="job.description"></em></p>
+																</div>
+															</div>
+														</div>
+
+													</div>
+												</div>
+											</div>
+
+											<div class="col-md-1 job-buttons">
+												<div aria-label="..." role="group" class="btn-group-vertical">
+
+													<button ng-click="$state.go('jobs.detail',{id:job.id,countryId:job.countryId})"
+													        class="btn btn-primary h9 gtm-joboverview-viewjob"
+															type="button"
+															title="{{TranslationService.getText('JOB_VIEW_JOB')}}">
+															<i class="fa fa-eye white"></i>
+													</button>
+													<button ng-click="jobs.match"
+															class="btn btn-default h9 gtm-joboverview-viewjob"
+															type="button"
+															name="{{job.name}}"
+															title="{{TranslationService.getText('JOB_VIEW_MY_MATCH')}}">
+															<i class="glyphicon glyphicon-ok"></i>
+													</button>
+
+												</div>
+											</div>
+
+										</div>
+									</div>
+
+									<uib-pagination
+										items-per-page="1"
+										data.configuration.pagination.itemsPerPage
+										total-items="totalItems"
+										ng-model="currentPage"
+										ng-change="pageChanged()"
+										max-size="5"
+										class="pagination-sm"
+										boundary-links="true"
+										rotate="false"
+									></uib-pagination>
+
+								</div>
+							</div>
+						</div>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+</div>

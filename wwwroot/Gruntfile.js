@@ -14,7 +14,7 @@ module.exports = function (grunt) {
 		       ]
 		   },
 		   api: {
-		       src: ['app/components/**/*.js','app/shared/**/*.js'], /* exclude files with '!' */
+		       src: ['app/**/*.js','app/shared/**/*.js'], /* exclude files with '!' */
 		       title: 'Docs'
 		   }
 		},

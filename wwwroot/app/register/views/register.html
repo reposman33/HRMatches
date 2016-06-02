@@ -1,0 +1,88 @@
+<div class="modal col-md-6 center-block" style="overflow-y:hidden" id="profilesModal">
+	<div class="modal-content alert alert-info">
+		<div class="modal-header">
+			<div class="col-md-12 h4 h4-space">
+				<h4>{{TranslationService.getText('LOGIN_REGISTER')}}</h4>
+			</div>
+			<button
+					type="button"
+					class="close"
+					data-dismiss="modal"
+					aria-label="Close"
+					ng-click="$state.go('login')"
+					title="{{TranslationService.getText('LOGIN_CLOSE')}}"
+			><span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+
+		<div class="row" ng-form="registrationForm">
+			<!-- <div class="well bg-white">Registreren</div></div> -->
+
+			<div class="col-md-6 col-md-offset-3">
+				<div class="panel panel-default">
+
+					<div class="panel-body application-login">
+						<div class="row">
+							<div class="col-md-7">
+								<div class="h10">Already have an account?</div>
+							</div>
+
+							<div class="text-center login-btn" ng-click="$state.go('login')">
+							<button type="button" class="btn btn-default">Login</button>
+							</div>
+						</div>
+					</div>
+
+					<div class="panel-body application-registration">
+						<label class="h9">Name</label>
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group">
+									<input type="text" class="form-control" placeholder="Firstname" name="firstname" style="cursor: auto;" ng-model="registrant.firstname">
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">									
+								<input type="text" class="form-control" placeholder="Surname prefix" name="infix" ng-model="registrant.infix">
+							</div>
+						</div>
+						<div class="col-md-4">	
+							<div class="form-group">
+								<input type="text" class="form-control" placeholder="Lastname" name="lastname" ng-model="registrant.lastname">
+							</div>
+						</div>
+					</div>
+
+					<label class="h9">Email address</label>	
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group" ng-class="{'has-error': registrationForm.email.$invalid && !registrationForm.email.$pristine}">
+								<input type="email" name="email" class="form-control" placeholder="Email address" ng-model="registrant.email">
+							</div>
+							<div class="col-md-8 alert-error" ng-show="registrationForm.$invalid">Ongeldig e-mail adres!</div>
+						</div>
+					</div>
+						
+					<label class="h9">Password*</label>	
+					<div class="row">
+						<div class="col-md-12">		
+							<div class="form-group">
+								<input type="password" class="form-control" placeholder="Password" name="password" style="cursor: auto;" ng-model="registrant.password">
+							</div>
+							<div class="form-group">
+								<input type="password" class="form-control" placeholder="Confirm password" name="confirm_password" style="cursor: auto;"ng-model="confirm_password">
+								</div>
+							</div>
+						</div>
+						<label class="h11 footnote-text">Met dit wachtwoord kun je inloggen. </label>
+						<div class="col-md-8 alert" ng-class="{'alert-error':error}" ng-show="registerFeedbackText.length">{{registerFeedbackText}}</div>
+						<div class="panel-footer text-right">
+							<button type="submit" class="btn btn-success" ng-click="register(registrant)">Create an account</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+	
