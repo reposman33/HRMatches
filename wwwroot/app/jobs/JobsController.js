@@ -13,10 +13,10 @@ angular.module('app.ontdekJouwTalent')
 
 		$scope.data = data;
 
-		// INITIALIZEJOBS
+		// INITIALIZELISTVIEW
 		/**
 		 * @ngdoc method
-		 * @name initializeJobs
+		 * @name initializeListView
 		 * @methodOf app.ontdekJouwTalent.controller:JobsController
 		 * @description initialize the jobs listview
 		 */
@@ -26,7 +26,7 @@ angular.module('app.ontdekJouwTalent')
 				,pagination:{
 					enable:true,
 					maxSize:10,
-					itemsPerPage:1
+					itemsPerPage:10
 				}
 			}
 			$scope.viewConfig = data.configuration;
@@ -113,7 +113,7 @@ angular.module('app.ontdekJouwTalent')
 		 * @name update
 		 * @methodOf app.ontdekJouwTalent.controller:JobsController
 		 * @description Calls JobsService.update to update job specified by id [NOT IMPLEMENTED YET]
-		 * @param {Integer} id id of the job to update.
+		 * @param {Object} data the job to update.
 		 */
 		$scope.update = function(data){
 			JobsService.update(data)
@@ -127,17 +127,14 @@ angular.module('app.ontdekJouwTalent')
 			);
 		}
 
-		$scope.filterJobs = function(filterKey,filterValue){
-			// remove filter with same filterKey
-			$scope.jobFilters = $scope.jobFilters.filter(function(filter){
-				 return filter[filterKey] == undefined;
-			 })
-			 // add filterKey
-			 var newFilter = {};
-			 newFilter[filterKey] = filterValue;
-			 $scope.jobFilters.push(newFilter);
-		 }
 
+		// RESETJOBFILTERS
+		/**
+		 * @ngdoc method
+		 * @name resetJobFilters
+		 * @methodOf app.ontdekJouwTalent.controller:JobsController
+		 * @description REet all filters used in te listView of jobs
+		 */
 		$scope.resetJobFilters = function() {
 			$scope.organisationFilter =
 			$scope.countryFilter =
@@ -162,6 +159,13 @@ angular.module('app.ontdekJouwTalent')
 		}
 
 		//format hours from '24,40' to '24 - 40 uren/week'
+		// FORMATHOURS
+		/**
+		 * @ngdoc method
+		 * @name formatHours
+		 * @methodOf app.ontdekJouwTalent.controller:JobsController
+		 * @description Show hours in different format (xxx - yyy)than received from API (xxx,yyy)
+		 */
 		$scope.formatHours = function(hours){
 			var hours = hours.split(',');
 			return hours[0] +' - '+ hours[1];
