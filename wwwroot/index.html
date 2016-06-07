@@ -28,15 +28,35 @@
 	<!-- ANGULAR LIBS -->
 	<script type="text/javascript" src="/node_modules/angular/angular.js"></script>
 
+</head>
+
+<body class="modal-open" ng-app="app.ontdekJouwTalent" ng-cloak>
+	<div growl></div>
+	<div class="row title-container"></div>
+	<div class="header">
+		<ng-include src="AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS.NAVIGATIONBAR" ng-if="SessionService.isLoggedIn()"></ng-include>
+	</div>
+
+	<div class="container margin_bottom_20">
+		<div class="row">
+			<div ui-view="body"></div>
+		</div>
+	</div>
+
+	<div class="footer">
+		<div ui-view="footer"></div>
+	</div>
+
+
 	<!-- ANGULAR UI-SELECT-->
 	<script type="text/javascript" src="/node_modules/ui-select/dist/select.js"></script>
 
 	<script type="text/javascript" src="/node_modules/angular-growl-v2/build/angular-growl.min.js"></script>
 	<script type="text/javascript" src="/node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
 	<script type="text/javascript" src="/node_modules/angular-storage/dist/angular-storage.min.js"></script>
- 	<script type="text/javascript" src="/node_modules/angular-animate/angular-animate.min.js"></script>
+	<script type="text/javascript" src="/node_modules/angular-animate/angular-animate.min.js"></script>
 	<script type="text/javascript" src="/node_modules/angular-sanitize/angular-sanitize.min.js"></script>
- 	<script type="text/javascript" src="/node_modules/angular-xeditable-0.1.11/js/xeditable.min.js"></script>
+	<script type="text/javascript" src="/node_modules/angular-xeditable-0.1.11/js/xeditable.min.js"></script>
 	<script type="text/javascript" src="/node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
 	<script type="text/javascript" src="/node_modules/angular-ui-router-uib-modal/angular-ui-router-uib-modal.js"></script>
 	<script type="text/javascript" src="/node_modules/angular-confirm/angular-confirm.js"></script>
@@ -64,6 +84,9 @@
 	<!-- JOBS -->
 	<script type="text/javascript" src="/app/jobs/JobsController.js"></script>
 	<script type="text/javascript" src="/app/jobs/JobsService.js"></script>
+	<!-- HR VACATURES -->
+	<script type="text/javascript" src="/app/HR_jobs/HRJobsController.js"></script>
+
 	<!--SETTINGS-->
 	<script type="text/javascript" src="/app/settings/SettingsController.js"></script>
 	<script type="text/javascript" src="/app/settings/account/AccountController.js"></script>
@@ -84,24 +107,6 @@
 	<script type="text/javascript" src="/app/shared/services/APIService.js"></script>
 	<script type="text/javascript" src="/app/shared/directives.js"></script>
 	<script type="text/javascript" src="/app/shared/menus/menuService.js"></script>
-</head>
-
-<body class="modal-open" ng-app="app.ontdekJouwTalent" ng-cloak>
-	<div growl></div>
-
-	<div class="header">
-		<ng-include src="AppConfig.APPCONSTANTS_FILELOCATIONS_VIEWS.NAVIGATIONBAR" ng-if="SessionService.isLoggedIn()"></ng-include>
-	</div>
-
-	<div class="container margin_bottom_20">
-		<div class="row">
-			<div ui-view="body"></div>
-		</div>
-	</div>
-
-	<div class="footer">
-		<div ui-view="footer"></div>
-	</div>
 
 </body>
 
