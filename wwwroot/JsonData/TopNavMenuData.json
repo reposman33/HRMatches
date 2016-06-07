@@ -9,6 +9,11 @@
 	"url": "/jobs",
 	"title": "TOPBAR_MY_JOBS_DESCRIPTION"
 }, {
+	"id": 2,
+	"displayName": "HR Vacatures",
+	"url": "/HRvacatures",
+	"title": "TOPBAR_MY_JOBS_DESCRIPTION"
+}, {
 	"id": 3,
 	"displayName": "TOPBAR_CANDIDATES",
 	"url": "/candidates",
