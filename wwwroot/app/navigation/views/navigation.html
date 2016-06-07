@@ -6,20 +6,20 @@
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-left h8">
 				<li ng-repeat="menu in menus">
-					<a ng-href="{{menu.url}}">{{TranslationService.getText(menu.displayName)}}</a>
+					<a ng-href="{{menu.url}}" ng-bind="TranslationService.getText(menu.displayName)"></a>
 				</li>
 			</ul>
 
 			<ul class="nav navbar-nav navbar-right" uib-dropdown is-open="false">
 				<div class="btn-group" uib-dropdown is-open="status.isopen">
 					<button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
-						<div>{{SessionService.getCurrentUserName()}}<span class="caret"></span></div>
-						<span>{{SessionService.getCurrentUserProfile()}}</span>
+						<div ng-bind="SessionService.getCurrentUserName()"><span class="caret"></span></div>
+						<span ng-bind="SessionService.getCurrentUserProfile()"></span>
 					</button>
 					<ul class="dropdown-menu" >
-						<li><a ui-sref="settings"><i class="fa fa-cog"></i>{{TranslationService.getText('TOPBAR_SETTINGS')}}</a></li>
+						<li><a ui-sref="settings"><i class="fa fa-cog"></i><span ng-bind="TranslationService.getText('TOPBAR_SETTINGS')"></span></a></li>
 						<li class="divider"></li>
-						<li><a ui-sref="logout"><i class="fa fa-sign-out"></i>{{TranslationService.getText('TOPBAR_LOGOUT')}}</a></li>
+						<li><a ui-sref="logout"><i class="fa fa-sign-out"></i><span ng-bind="TranslationService.getText('TOPBAR_LOGOUT')"></span></a></li>
 					</ul>
 				</div>
 			</ul>
