@@ -1,10 +1,8 @@
 <div class="container jobs-overview">
 
 	<!-- vacancies -->
-	<div class="row title-container text-center margin_bottom_20">
-		<div class="col-md-12 h3">
-			{{TranslationService.getText('JOBOVERVIEW_TITLE')}}
-		</div>
+	<div class="col-md-12 h3">
+		{{TranslationService.getText('JOBOVERVIEW_TITLE')}}
 	</div>
 
 	<!-- tabs -->
@@ -15,7 +13,7 @@
 			<div class="tab-content form-group">
 				<div id="jobs_matches" class="tab-pane active margin_top_2" role="tabpanel">
 
-						<div class="well bg-white padding_bottom_0">
+						<div>
 							<div class="row">
 
 								<div class="col-md-12 jobs-matches-container">
@@ -155,8 +153,7 @@
 									</div>
 
 									<uib-pagination
-										items-per-page="1"
-										data.configuration.pagination.itemsPerPage
+										items-per-page="data.configuration.pagination.itemsPerPage"
 										total-items="totalItems"
 										ng-model="currentPage"
 										ng-change="pageChanged()"
