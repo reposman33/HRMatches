@@ -28,7 +28,7 @@ angular.module('app.ontdekJouwTalent')
 					maxSize:10,
 					itemsPerPage:5
 				}
-			}
+			};
 			$scope.viewConfig = data.configuration;
 			$scope.totalItems = data.jobs.length;
 			$scope.currentPage = 1;
@@ -47,7 +47,7 @@ angular.module('app.ontdekJouwTalent')
 					return this.countryIds.indexOf(country.id) > -1;
 				},
 				{'countryIds':countryIds}
-			)
+			);
 			$scope.data.countries = countries;
 
 			/* 'AFDELING' SELECT SHOWS ONLY REFERENCES IN JOBS*/
@@ -63,7 +63,7 @@ angular.module('app.ontdekJouwTalent')
 					return this.referenceCodes.indexOf(reference.id) > -1;
 				},
 				{'referenceCodes':referenceCodes}
-			 )
+			 );
 			$scope.data.references = references;
 
 			//$scope.paginate($scope.currentPage);
@@ -101,7 +101,7 @@ angular.module('app.ontdekJouwTalent')
 		  */
 		$scope.paginate = function(newPage){
 			$scope.data.jobs = data.jobs.slice(((newPage-1) * $scope.viewConfig.pagination.itemsPerPage), ((newPage) * $scope.viewConfig.pagination.itemsPerPage))
-		}
+		};
 
 			$scope.pageChanged = function() {
 				console.log('Page changed to: ' + $scope.currentPage);
@@ -125,7 +125,7 @@ angular.module('app.ontdekJouwTalent')
 					console.error('ERROR in updateJob(): ',errorResponse);
 				}
 			);
-		}
+		};
 
 
 		// RESETJOBFILTERS
@@ -145,7 +145,7 @@ angular.module('app.ontdekJouwTalent')
 			$scope.job.country = '';
 			$scope.job.reference = '';
 			$scope.searchQuery = '';
-		}
+		};
 
 		// DO INITIALIZATIONS FOR VIEWS
 		if(data.jobs != undefined){
