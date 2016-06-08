@@ -26,7 +26,7 @@ angular.module('app.ontdekJouwTalent')
 				,pagination:{
 					enable:true,
 					maxSize:10,
-					itemsPerPage:10
+					itemsPerPage:5
 				}
 			}
 			$scope.viewConfig = data.configuration;

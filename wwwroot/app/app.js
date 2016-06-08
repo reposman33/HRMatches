@@ -21,6 +21,7 @@ angular.module('app.ontdekJouwTalent',
 	// APPLICATION DEFINED VALUES
 	APPCONSTANTS_HOSTNAME: location.hostname
 	,APPCONSTANTS_ISLOCAL: "127.0.0.1,ontdekjouwtalent.local".indexOf(location.hostname) != -1
+	,APPCONSTANTS_ISTEST: "ojt.hrmatches.com".indexOf(location.hostname) != -1
 	,APPCONSTANTS_NAVIGATION_CURRENTDOMAIN: document.location.protocol + '://' + document.location.hostname
 	,APPCONSTANTS_RESOURCES_URIS:{
 		DOCUMENTATION: document.location.protocol + '//' + document.location.hostname + '/documentation',

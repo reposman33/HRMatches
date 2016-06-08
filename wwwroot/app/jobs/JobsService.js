@@ -116,6 +116,5 @@ angular.module('app.ontdekJouwTalent')
 				)
 			}
 		}
-
 	}]
 )
