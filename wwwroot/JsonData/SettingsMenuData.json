@@ -8,7 +8,6 @@
 		"displayName": "SETTINGS_PERSON",
 		"url": "/settings/account/person",
 		"title": "SETTINGS_PERSON_DESCRIPTION"
-
 	},{	"id": 2,
 		"displayName": "SETTINGS_PASSWORD",
 		"url": "/settings/account/password",
