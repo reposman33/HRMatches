@@ -37,12 +37,54 @@ traits:
       200:
         body:
           application/json:
+            type: object
+            properties:
+              tokenIsValid: boolean
             example: |
               {
-                tokenIsValid: true
+              "tokenIsValid": true
+              }
+/actionItem:
+  is: [ token_optional ]
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            type: object
+            properties:
+              itemId: string
+            description : an unordered lists of actionitems
+            example: {
+              "data": [
+              {
+                "itemId": "0DDCBBD4-6C62-6D46-AC1475645F5FUG4D",
+                "itemLabel": "Dashboard",
+                "actionUrl": "/dashboard"
+              },{
+                "itemId": "0DDCB5D4-6C62-6D46-AC1475645F55UG4D",
+                "itemLabel": "Kandidaten",
+                "actionUrl": "/candidates"
+              },{
+                "itemId": "0DDCBBD4-6C62-6R46-AC1475645F55UG4D",
+                "itemLabel": "Vacatures",
+                "actionUrl": "/jobs"
+              },{
+                "itemId": "0DDCBBD4-6C62-6D46-AC1465645F55UG4D",
+                "itemLabel": "Statistieken",
+                "actionUrl": "/statistics"
+              },{
+                "itemId": "0DDCBBD4-6C62-6D46-AC1475645F74FF4D",
+                "itemLabel": "Actief",
+                "actionUrl": "/candidates/mostActive"
+              },{
+                "itemId": "0DDCBBD4-6C62-6D46-AC1575645F74FG4D",
+                "itemLabel": "Recent",
+                "actionUrl": "/candidates/recent"
+              }]
               }
 /menu:
-  is: [ token_required ]
+  is: [ token_optional ]
   get:
     description: retrieve menus for application
     queryParameters:
@@ -57,18 +99,61 @@ traits:
       200:
         body:
           Application/json:
-            description: The menu item represents the action that is taken when the user chooses the menuitem. An itemlabel is the text shown to the user.
-            example: |
-              [{
-                "itemId": xxx,
-                "itemLabel": "Menulabel",
-                items: [{
-                  "itemId": xxx,
-                  "itemLabel": "Menulabel"
-                }]
-              }]
+            description: The menu item represents the action that is taken when the user chooses the item. An itemlabel is the text shown to the user.The type of a menuitem can be  "singleItem","compoundItem" or "itemSeparator"
+            example: [
+              {
+                "itemId": "0DDCBBD4-6C62-6D46-AC1475645F74FG4D",
+                "itemLabel": "Dashboard",
+                "parent": "",
+                "orderBy": "natural",
+                "type": "singleItem",
+                "actionUrl": "/dashboard"
+              },{
+                "itemId": "0DDCBBD4-6C62-6D46-AC1475645F74FF4D",
+                "itemLabel": "Vacatures",
+                "parent":"",
+                "orderBy": "natural",
+                "type":"singleItem",
+                "actionUrl": "/jobs"
+              },{
+                "itemId": "0DDCBBD4-6C62-6D46-AC1475645F74FG4D",
+                "itemLabel": "",
+                "parent": "",
+                "orderBy": "natural",
+                "type":itemSeparator,
+                "actionUrl": ""
+              },{
+                "itemId": "0DDCBBD4-6C62-6D46-AC1475645F74FF4D",
+                "itemLabel": "Kandidaten",
+                "parent": "",
+                "orderBy": "natural",
+                "type":"compoundItem",
+                "actionUrl": "/candidates"
+              },{
+                "itemId": "0DDCBBD4-6C62-6D46-AC1475645F74FF4D",
+                "itemLabel": "Actief",
+                "parent": "0DDCBBD4-6C62-6D46-AC1475645F74FF4D",
+                "orderBy": "natural",
+                "type":"singleItem",
+                "actionUrl": "/candidates/mostActive"
+              },{
+                "itemId": "0DDCBBD4-6C62-6D46-AC1575645F74FG4D",
+                "itemLabel": "Recent",
+                "parent": "0DDCBBD4-6C62-6D46-AC1475645F74FF4D",
+                "orderBy": "natural",
+                "type":"singleItem",
+                "actionUrl": "/candidates/recent"
+              },{
+                "itemId": "0DDCBBD4-6C61-6D46-AC1475645F74FG4D",
+                "itemLabel": "Statistieken",
+                "parent": "",
+                "orderBy": "natural",
+                "type": "singleItem",
+                "actionUrl": "/statistics"
+              }
+            ]
   /{node}:
-    description: get a specific menu
+    description: Where in the menu context tree does this menu appear? value "" means there is no parent menu, any other value implies this is a submenu.
     get:
       responses:
         200:
@@ -76,11 +161,12 @@ traits:
             Application/json:
               properties:
                 node:
-                  displayName: node
+                  displayName: Parent node
                   type: string
-                  description: node for which the menu should be returned
+                  default: ""
+                  description: Where in the menu context tree does this menu appear? value "" means there is no parent menu, any other value implies this is a submenu.
+                  example: "0DDCBBD4-6C62-6D46-AC1475645F74FG4D"
                   required: false
-                  example: "xxx" # the nodeId
 /validate_secretkey:
   post:
     body:
