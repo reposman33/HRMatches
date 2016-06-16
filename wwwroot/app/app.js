@@ -38,7 +38,7 @@ angular.module('app.ontdekJouwTalent',
 	// TEMP CONSTANTS TO BE DEFINED BY BACK END
 	,APPCONSTANTS_API_URL: 'http://api-development.hrmatches.com'
 	,APPCONSTANTS_PUBLICSTATES: "login,login.forgotPassword,login.userProfiles,login.resetPassword,login.register" // exclusively public states
-	,APPCONSTANTS_NAVIGATION_ENTRYPOINT: 'settings.account'
+	,APPCONSTANTS_NAVIGATION_ENTRYPOINT: 'vacaturegids'
 	,APPCONSTANTS_NAVIGATION_REDIRECT: {
 		NOTAUTHENTICATED:'login' // redirect hiernaartoe als niet ingelogd
 		,SETTINGS:'settings.userManagement.rightsAndRoles'
