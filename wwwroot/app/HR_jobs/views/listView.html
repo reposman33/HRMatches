@@ -1,0 +1,235 @@
+<div class="col-md-12 h3" ng-bind="TranslationService.getText('TOPBAR_JOBS')">
+</div>
+
+<div class="well">
+	<div class="row">
+		<div class="col-md-10">
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="Vacature zoeken" name="jobName">
+			</div>
+		</div>
+
+		<div class="col-md-2">
+			<button class="btn btn-default" type="submit">Zoeken</button>
+			<button class="btn btn-default" type="submit" onclick="form.jobName.value='';form.referenceCode.value='';">Reset</button>
+		</div>
+	</div>
+	<div class="row">
+
+		<div class="col-md-2">
+			<input type="checkbox" name="checkJobStatus" value="0"> Draft
+		</div>
+
+		<div class="col-md-2">
+			<input type="checkbox" name="checkJobStatus" value="1" checked=""> Open
+		</div>
+
+		<div class="col-md-2">
+			<input type="checkbox" name="checkJobStatus" value="2" checked=""> Selectiefase
+		</div>
+
+		<div class="col-md-2">
+			<input type="checkbox" name="checkJobStatus" value="3"> Ingetrokken
+		</div>
+
+		<div class="col-md-2">
+			<input type="checkbox" name="checkJobStatus" value="4"> Gesloten
+		</div>
+
+	</div>
+</div>
+
+
+<div class="well well-sm bg-white myjobs-well">
+	<div class="row">
+		<div class="col-md-12">
+
+			<div class="well myjobs-main-well"> <!-- job 1 -->
+				<div class="row">
+
+					<div class="col-md-4 myjobs-status-info" role="group">
+
+						<div class="well well-sm bg-white">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="h9">Business intelligence consultant</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="h10">Amsterdam, Nederland</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-8">
+									<div class="h10">Geplaatst: 14-04-16</div>
+								</div>
+								<div class="col-md-4">
+									<div class="h10">Marketing</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="h10">Totaal sollicitanten: 2</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+
+
+					<div class="col-md-2 myjobs-status-options">
+
+						<div class="status-options btn-group">
+
+							<a class="btn dropdown-toggle btn-success h11 " data-toggle="dropdown" href="#">
+								Open
+								<span class="caret"></span>
+							</a>
+
+							<ul class="dropdown-menu">
+								<li><a href="?module=jobeditor&amp;jobId=B1772B18-A68F-4655-89D3-C6130C260E9A&amp;jobStatus=0">Draft</a></li>
+								<li><a href="?module=jobeditor&amp;jobId=B1772B18-A68F-4655-89D3-C6130C260E9A&amp;jobStatus=1">Open</a></li>
+								<li><a href="?module=jobeditor&amp;jobId=B1772B18-A68F-4655-89D3-C6130C260E9A&amp;jobStatus=2">Selectiefase</a></li>
+								<li><a href="?module=jobeditor&amp;jobId=B1772B18-A68F-4655-89D3-C6130C260E9A&amp;jobStatus=3">Ingetrokken</a></li>
+								<li><a href="?module=jobeditor&amp;jobId=B1772B18-A68F-4655-89D3-C6130C260E9A&amp;jobStatus=4">Gesloten</a></li>
+							</ul>
+
+						</div>
+
+						<div class="publish-options">
+							<div class="well well-sm bg-white h11"><i class="fa fa-circle green"></i>Gepubliceerd</div>
+						</div>
+						<div class="action-options btn-group">
+
+							<button class="btn btn-default" type="button" data-toggle="tooltip" data-placement="top" title="" onclick="location.href='index.cfm?module=jobeditor&amp;view=editor&amp;jobId=B1772B18-A68F-4655-89D3-C6130C260E9A'" data-original-title=""><i class="fa fa-pencil yellow"></i></button>
+
+
+							<button class="btn btn-default" type="button" data-toggle="tooltip" data-placement="top" title="" onclick="location.href='index.cfm?module=applicant&amp;jobId=B1772B18-A68F-4655-89D3-C6130C260E9A'" data-original-title=""><i class="fa fa-eye blue"></i></button>
+						</div>
+					</div>
+
+					<div class="col-md-6 myjobs-status-container">
+						<div class="btn-group myjobs-status-group">
+
+
+
+
+							<button type="button" class="btn btn-default status-info" onclick="location.href='index.cfm?module=applicant&amp;jobId=B1772B18-A68F-4655-89D3-C6130C260E9A&amp;jobAppStatus=1'"> <div class="h9">2</div> <div class="h11 status-text">NIEUW</div></button>
+
+							<button type="button" class="btn btn-default status-info" onclick="location.href='index.cfm?module=applicant&amp;jobId=B1772B18-A68F-4655-89D3-C6130C260E9A&amp;jobAppStatus=2'"> <div class="h9">0</div> <div class="h11 status-text">BEOORDELING</div></button>
+
+							<button type="button" class="btn btn-default status-info" onclick="location.href='index.cfm?module=applicant&amp;jobId=B1772B18-A68F-4655-89D3-C6130C260E9A&amp;jobAppStatus=3'"> <div class="h9">0</div> <div class="h11 status-text">INTERVIEW</div></button>
+
+							<button type="button" class="btn btn-default status-info" onclick="location.href='index.cfm?module=applicant&amp;jobId=B1772B18-A68F-4655-89D3-C6130C260E9A&amp;jobAppStatus=4'"> <div class="h9">0</div> <div class="h11 status-text">AANBIEDING</div></button>
+
+							<button type="button" class="btn btn-default status-info" onclick="location.href='index.cfm?module=applicant&amp;jobId=B1772B18-A68F-4655-89D3-C6130C260E9A&amp;jobAppStatus=5'"> <div class="h9">0</div> <div class="h11 status-text">AANGENOMEN</div></button>
+
+							<button type="button" class="btn btn-default status-info" onclick="location.href='index.cfm?module=applicant&amp;jobId=B1772B18-A68F-4655-89D3-C6130C260E9A&amp;jobAppStatus=6'"> <div class="h9">0</div> <div class="h11 status-text">AFWIJZEN</div></button>
+
+							<button type="button" class="btn btn-default status-info" onclick="location.href='index.cfm?module=applicant&amp;jobId=B1772B18-A68F-4655-89D3-C6130C260E9A&amp;jobAppStatus=7'"> <div class="h9">0</div> <div class="h11 status-text">AFGEWEZEN </div></button>
+
+
+						</div>
+					</div>
+
+				</div>
+			</div> <!-- end job 1 -->
+
+			<div class="well myjobs-main-well"> <!-- job 1 -->
+				<div class="row">
+
+					<div class="col-md-4 myjobs-status-info" role="group">
+
+						<div class="well well-sm bg-white">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="h9">jhkgghjgkjb jh jul</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="h10">Amsterdam, Nederland</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-8">
+									<div class="h10">Geplaatst: 18-02-16</div>
+								</div>
+								<div class="col-md-4">
+									<div class="h10"></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="h10">Totaal sollicitanten: 1</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+
+
+					<div class="col-md-2 myjobs-status-options">
+
+						<div class="status-options btn-group">
+
+							<a class="btn dropdown-toggle btn-success h11 " data-toggle="dropdown" href="#">
+								Open
+								<span class="caret"></span>
+							</a>
+
+							<ul class="dropdown-menu">
+								<li><a href="?module=jobeditor&amp;jobId=236CFD01-CB96-4DDE-818A-78985619E1DF&amp;jobStatus=0">Draft</a></li>
+								<li><a href="?module=jobeditor&amp;jobId=236CFD01-CB96-4DDE-818A-78985619E1DF&amp;jobStatus=1">Open</a></li>
+								<li><a href="?module=jobeditor&amp;jobId=236CFD01-CB96-4DDE-818A-78985619E1DF&amp;jobStatus=2">Selectiefase</a></li>
+								<li><a href="?module=jobeditor&amp;jobId=236CFD01-CB96-4DDE-818A-78985619E1DF&amp;jobStatus=3">Ingetrokken</a></li>
+								<li><a href="?module=jobeditor&amp;jobId=236CFD01-CB96-4DDE-818A-78985619E1DF&amp;jobStatus=4">Gesloten</a></li>
+							</ul>
+
+						</div>
+
+						<div class="publish-options">
+							<div class="well well-sm bg-white h11"><i class="fa fa-circle green"></i>Gepubliceerd</div>
+						</div>
+						<div class="action-options btn-group">
+
+							<button class="btn btn-default" type="button" data-toggle="tooltip" data-placement="top" title="" onclick="location.href='index.cfm?module=jobeditor&amp;view=editor&amp;jobId=236CFD01-CB96-4DDE-818A-78985619E1DF'" data-original-title=""><i class="fa fa-pencil yellow"></i></button>
+
+
+							<button class="btn btn-default" type="button" data-toggle="tooltip" data-placement="top" title="" onclick="location.href='index.cfm?module=applicant&amp;jobId=236CFD01-CB96-4DDE-818A-78985619E1DF'" data-original-title=""><i class="fa fa-eye blue"></i></button>
+						</div>
+					</div>
+
+					<div class="col-md-6 myjobs-status-container">
+						<div class="btn-group myjobs-status-group">
+
+
+
+
+							<button type="button" class="btn btn-default status-info" onclick="location.href='index.cfm?module=applicant&amp;jobId=236CFD01-CB96-4DDE-818A-78985619E1DF&amp;jobAppStatus=1'"> <div class="h9">1</div> <div class="h11 status-text">NIEUW</div></button>
+
+							<button type="button" class="btn btn-default status-info" onclick="location.href='index.cfm?module=applicant&amp;jobId=236CFD01-CB96-4DDE-818A-78985619E1DF&amp;jobAppStatus=2'"> <div class="h9">0</div> <div class="h11 status-text">BEOORDELING</div></button>
+
+							<button type="button" class="btn btn-default status-info" onclick="location.href='index.cfm?module=applicant&amp;jobId=236CFD01-CB96-4DDE-818A-78985619E1DF&amp;jobAppStatus=3'"> <div class="h9">0</div> <div class="h11 status-text">INTERVIEW</div></button>
+
+							<button type="button" class="btn btn-default status-info" onclick="location.href='index.cfm?module=applicant&amp;jobId=236CFD01-CB96-4DDE-818A-78985619E1DF&amp;jobAppStatus=4'"> <div class="h9">0</div> <div class="h11 status-text">AANBIEDING</div></button>
+
+							<button type="button" class="btn btn-default status-info" onclick="location.href='index.cfm?module=applicant&amp;jobId=236CFD01-CB96-4DDE-818A-78985619E1DF&amp;jobAppStatus=5'"> <div class="h9">0</div> <div class="h11 status-text">AANGENOMEN</div></button>
+
+							<button type="button" class="btn btn-default status-info" onclick="location.href='index.cfm?module=applicant&amp;jobId=236CFD01-CB96-4DDE-818A-78985619E1DF&amp;jobAppStatus=6'"> <div class="h9">0</div> <div class="h11 status-text">AFWIJZEN</div></button>
+
+							<button type="button" class="btn btn-default status-info" onclick="location.href='index.cfm?module=applicant&amp;jobId=236CFD01-CB96-4DDE-818A-78985619E1DF&amp;jobAppStatus=7'"> <div class="h9">0</div> <div class="h11 status-text">AFGEWEZEN </div></button>
+
+
+						</div>
+					</div>
+
+				</div>
+			</div> <!-- end job 1 -->
+
+		</div>
+	</div>
+</div>

@@ -21,6 +21,7 @@ angular.module('app.ontdekJouwTalent',
 	// APPLICATION DEFINED VALUES
 	APPCONSTANTS_HOSTNAME: location.hostname
 	,APPCONSTANTS_ISLOCAL: "127.0.0.1,ontdekjouwtalent.local".indexOf(location.hostname) != -1
+	,APPCONSTANTS_ISTEST: "ojt.hrmatches.com".indexOf(location.hostname) != -1
 	,APPCONSTANTS_NAVIGATION_CURRENTDOMAIN: document.location.protocol + '://' + document.location.hostname
 	,APPCONSTANTS_RESOURCES_URIS:{
 		DOCUMENTATION: document.location.protocol + '//' + document.location.hostname + '/documentation',
@@ -558,12 +559,7 @@ angular.module('app.ontdekJouwTalent',
 			url: '/dashboard'
 			,resolve: {
 				activityLog: ['APIService',function(APIService){
-					APIService.call(AppConfig.API_ENDPOINTS.activityLog)
-					.then(
-						function(successResponse){
-							return successResponse;
-						}
-					)
+					return APIService.call(AppConfig.API_ENDPOINTS.activityLog)
 				}]
 				,data: ['activityLog',function (activityLog) {
 					return {
@@ -583,7 +579,10 @@ angular.module('app.ontdekJouwTalent',
 		 * ========= VACATUREGIDS =========
 		 */
 		.state('jobs', {
-			url: '/jobs'
+			url: '/jobs',
+			params: {
+				id: null
+			}
 			,resolve: {
 				countries: ['APIService',function(APIService){
 					return APIService.call(AppConfig.API_ENDPOINTS.country);
@@ -591,14 +590,14 @@ angular.module('app.ontdekJouwTalent',
 				,references: ['APIService', function(APIService) {
 					return APIService.call(AppConfig.API_ENDPOINTS.settings.references);
 				}]
-				,jobs: ['JobsService', function (JobsService) {
-					return JobsService.load();
+				,jobs: ['$stateParams','APIService','JobsService', function ($stateParams,APIService,JobsService) {
+					return JobsService.load($stateParams.id);
 				}]
 				,data: ['countries','references','jobs', function (countries,references,jobs) {
 					return {
 						countries: countries,
 						references: references,
-						jobs: jobs
+						jobs: angular.isArray(jobs) ? jobs : [jobs]
 					}
 				}]
 			}
@@ -1129,6 +1128,20 @@ angular.module('app.ontdekJouwTalent',
 			'setting@settings':{
 				controller: 'MatchingController'
 				,templateUrl: '/app/settings/matching/views/detailView.html'
+			}
+		}
+	})
+	.state('HRvacatures',{
+		url:'/HRvacatures',
+		resolve: {
+			'data': ['APIService',function(APIService){
+				return {}; //APIService.call(ApiConfig.API_ENDPOINTS.vacatures);
+			}]
+		},
+		views: {
+			'body@': {
+				templateUrl: '/app/HR_jobs/views/listView.html',
+				controller: 'HRJobsController'
 			}
 		}
 	})

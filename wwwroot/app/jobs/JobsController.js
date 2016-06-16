@@ -13,10 +13,10 @@ angular.module('app.ontdekJouwTalent')
 
 		$scope.data = data;
 
-		// INITIALIZEJOBS
+		// INITIALIZELISTVIEW
 		/**
 		 * @ngdoc method
-		 * @name initializeJobs
+		 * @name initializeListView
 		 * @methodOf app.ontdekJouwTalent.controller:JobsController
 		 * @description initialize the jobs listview
 		 */
@@ -26,9 +26,9 @@ angular.module('app.ontdekJouwTalent')
 				,pagination:{
 					enable:true,
 					maxSize:10,
-					itemsPerPage:1
+					itemsPerPage:5
 				}
-			}
+			};
 			$scope.viewConfig = data.configuration;
 			$scope.totalItems = data.jobs.length;
 			$scope.currentPage = 1;
@@ -47,7 +47,7 @@ angular.module('app.ontdekJouwTalent')
 					return this.countryIds.indexOf(country.id) > -1;
 				},
 				{'countryIds':countryIds}
-			)
+			);
 			$scope.data.countries = countries;
 
 			/* 'AFDELING' SELECT SHOWS ONLY REFERENCES IN JOBS*/
@@ -63,7 +63,7 @@ angular.module('app.ontdekJouwTalent')
 					return this.referenceCodes.indexOf(reference.id) > -1;
 				},
 				{'referenceCodes':referenceCodes}
-			 )
+			 );
 			$scope.data.references = references;
 
 			//$scope.paginate($scope.currentPage);
@@ -101,7 +101,7 @@ angular.module('app.ontdekJouwTalent')
 		  */
 		$scope.paginate = function(newPage){
 			$scope.data.jobs = data.jobs.slice(((newPage-1) * $scope.viewConfig.pagination.itemsPerPage), ((newPage) * $scope.viewConfig.pagination.itemsPerPage))
-		}
+		};
 
 			$scope.pageChanged = function() {
 				console.log('Page changed to: ' + $scope.currentPage);
@@ -113,7 +113,7 @@ angular.module('app.ontdekJouwTalent')
 		 * @name update
 		 * @methodOf app.ontdekJouwTalent.controller:JobsController
 		 * @description Calls JobsService.update to update job specified by id [NOT IMPLEMENTED YET]
-		 * @param {Integer} id id of the job to update.
+		 * @param {Object} data the job to update.
 		 */
 		$scope.update = function(data){
 			JobsService.update(data)
@@ -125,19 +125,16 @@ angular.module('app.ontdekJouwTalent')
 					console.error('ERROR in updateJob(): ',errorResponse);
 				}
 			);
-		}
+		};
 
-		$scope.filterJobs = function(filterKey,filterValue){
-			// remove filter with same filterKey
-			$scope.jobFilters = $scope.jobFilters.filter(function(filter){
-				 return filter[filterKey] == undefined;
-			 })
-			 // add filterKey
-			 var newFilter = {};
-			 newFilter[filterKey] = filterValue;
-			 $scope.jobFilters.push(newFilter);
-		 }
 
+		// RESETJOBFILTERS
+		/**
+		 * @ngdoc method
+		 * @name resetJobFilters
+		 * @methodOf app.ontdekJouwTalent.controller:JobsController
+		 * @description REet all filters used in te listView of jobs
+		 */
 		$scope.resetJobFilters = function() {
 			$scope.organisationFilter =
 			$scope.countryFilter =
@@ -148,7 +145,7 @@ angular.module('app.ontdekJouwTalent')
 			$scope.job.country = '';
 			$scope.job.reference = '';
 			$scope.searchQuery = '';
-		}
+		};
 
 		// DO INITIALIZATIONS FOR VIEWS
 		if(data.jobs != undefined){
@@ -162,6 +159,13 @@ angular.module('app.ontdekJouwTalent')
 		}
 
 		//format hours from '24,40' to '24 - 40 uren/week'
+		// FORMATHOURS
+		/**
+		 * @ngdoc method
+		 * @name formatHours
+		 * @methodOf app.ontdekJouwTalent.controller:JobsController
+		 * @description Show hours in different format (xxx - yyy)than received from API (xxx,yyy)
+		 */
 		$scope.formatHours = function(hours){
 			var hours = hours.split(',');
 			return hours[0] +' - '+ hours[1];
