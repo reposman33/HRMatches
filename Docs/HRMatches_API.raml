@@ -6,7 +6,6 @@ traits:
  token_required:
     queryParameters:
       token:
-        displayName: token
         type: string
         description: The server-generated token issued to the user after a successful login
         example: E27B40D6-6C62-6D46-AC144BDF0E9A1D68
@@ -16,7 +15,6 @@ traits:
  token_optional:
     queryParameters:
       token:
-        displayName: token
         type: string
         description: The server-generated token issued to the user after a successful login
         example: E27B40D6-6C62-6D46-AC144BDF0E9A1D68
@@ -43,6 +41,7 @@ traits:
               value: {
                   "tokenIsValid": true
                 }
+
 /actionItem:
   is: [ token_optional ]
   get:
@@ -56,15 +55,12 @@ traits:
               object:
                 properties:
                   itemId:
-                    displayName: itemId
                     type: string
                     description: the item id
                   itemLabel:
-                    displayName: itemLabel
                     type: string
                     description: the item human readable label
                   actionUrl:
-                    displayName: actionUrl
                     type: string
                     description: the action (a http request) to execute when chosen
             example:
@@ -94,20 +90,19 @@ traits:
                 "itemLabel": "Recent",
                 "actionUrl": "/candidates/recent"
               }]
+
 /menu:
   is: [ token_optional ]
   get:
     description: retrieve menus for application
     queryParameters:
       depth:
-        displayName: depth
         type: number
         default: 0
         description: how many levels should the menu at maximum contain? 0 = no submenus, 1 = max 1 submenu etc
         example: 2
         required: false
       node:
-        displayName: Node
         type: string
         default: ""
         description: What is the menu's parent?
@@ -122,22 +117,16 @@ traits:
               object:
                 properties:
                   itemId:
-                    displayName: itemId
                     type: string
                   itemLabel:
-                    displayName: itemLabel
                     type: string
                   parent:
-                    displayName: parent
                     type: string
                   orderBy:
-                    displayName: orderBy
                     type: string
                   type:
-                    displayName: type
                     type: string
                   actionUrl:
-                    displayName: actionUrl
                     type: string
             examples:
               singleLevel:
@@ -221,102 +210,80 @@ traits:
         200:
           body:
             Application/json:
+              type: object
               properties:
                 node:
-                  displayName: Parent node
                   type: string
                   default: ""
                   description: Where in the menu context tree does this menu appear? value "" means there is no parent menu, any other value implies this is a submenu.
                   example: "0DDCBBD4-6C62-6D46-AC1475645F74FG4D"
                   required: true
+
 /validate_secretkey:
   post:
     body:
       application/json:
         properties:
           secretkey:
-            displayName: secretkey
             type: string
             description: Secret key validates the user who requested resetpassword
             example: E27B40D6-6C62-6D46-AC144BDF0E9A1D68
             required: true
             minLength: 35
             maxLength: 35
-/vacancy:
-  get:
-    queryParameters:
-      id:
-        displayName: id
-        type: string
-        description: sd
-        example: ss
-        required: false
+
 /users:
   get:
     is: [ token_required ]
-    queryParameters:
-      personId:
-        displayName: personId
-        required: false
     responses:
       200:
         body:
           application/json:
             type: array
-            facets:
-              objects:
-                properties:
-                  firstName: string
-                  infix: string
-                  id: string
-                  emailaddress: string
-                  lastName: string
-                  examples:
-                    array: |
-                        [{
-                          "firstName": "John",
-                          "infix": "",
-                          "id": "605a0302-cc33-449a-ac50-5ef26e3e3330",
-                          "emailaddress": "john@doe.nl",
-                          "lastName": "Doe"
-                          },{
-                          "firstName": "May",
-                          "infix": "",
-                          "id": "605a0302-cd33-449a-aj50-5ef26e3e5230",
-                          "emailaddress": "may@doe.nl",
-                          "lastName": "Doe"
-                         },{
-                         "firstName": "Will",
-                         "infix": "",
-                         "id": "605a0312-ch33-449a-ac50-5efd6e3e3330",
-                         "emailaddress": "will@doe.nl",
-                         "lastName": "Doe"
-                         },{
-                         "firstName": "Cat",
-                         "infix": "",
-                         "id": "605a0302-ck33-449a-ac50-5ef26e3e5230",
-                         "emailaddress": "cat@doe.nl",
-                         "lastName": "Doe"
-                         }]
-                    singleton: |
-                          {
-                          "firstName": "John",
-                          "infix": "",
-                          "id": "605a0302-cc33-449a-ac50-5ef26e3e3330",
-                          "emailaddress": "john@doe.nl",
-                          "lastName": "Doe"
-                          }
+            items:
+              type: object
+              properties:
+                firstName: string
+                infix: string
+                id: string
+                emailaddress: string
+                lastName: string
+            example:
+              [{
+                "firstName": "John",
+                "infix": "",
+                "id": "605a0302-cc33-449a-ac50-5ef26e3e3330",
+                "emailaddress": "john@doe.nl",
+                "lastName": "Doe"
+                },{
+                "firstName": "May",
+                "infix": "",
+                "id": "605a0302-cd33-449a-aj50-5ef26e3e5230",
+                "emailaddress": "may@doe.nl",
+                "lastName": "Doe"
+               },{
+               "firstName": "Will",
+               "infix": "",
+               "id": "605a0312-ch33-449a-ac50-5efd6e3e3330",
+               "emailaddress": "will@doe.nl",
+               "lastName": "Doe"
+               },{
+               "firstName": "Cat",
+               "infix": "",
+               "id": "605a0302-ck33-449a-ac50-5ef26e3e5230",
+               "emailaddress": "cat@doe.nl",
+               "lastName": "Doe"
+               }
+              ]
   post:
     is: [ token_required ]
     body:
       application/json:
         properties:
           person:
-            displayName: person
             required: true
             type: string
           token:
-            displayName: token
             required: true
             type: string
             example: |
@@ -328,22 +295,41 @@ traits:
    is: [ token_required ]
    queryParameters:
       teamId:
-        displayName: teamId
         required: false
       personId:
-        displayName: personId
         required: true
-/translationCategory:
-  get:
-    is: [token_required]
+  /{personId}:
+    get:
+      queryParameters:
+        personId:
+          required: true
+          type: string
+      responses:
+        200:
+          body:
+            application/json:
+              type: object
+              properties:
+                firstName: string
+                infix: string
+                id: string
+                emailaddress: string
+                lastName: string
+              example:
+                {
+                  "firstName": "John",
+                  "infix": "",
+                  "id": "605a0302-cc33-449a-ac50-5ef26e3e3330",
+                  "emailaddress": "john@doe.nl",
+                  "lastName": "Doe"
+                  }
+
 /translation:
   get:
     queryParameters:
       language:
-        displayName: language
         required: false
       languageKey:
-        displayName: languageKey
         required: false
     responses:
       200:
@@ -374,7 +360,6 @@ traits:
                 facets:
                   objects:
                     properties:
-                      DisplayName: string
                       id: string
                 examples:
                   array: |
@@ -427,13 +412,13 @@ traits:
                         "DisplayName": "Taak",
                         "id": "APPLICANT_ADD_TASK"
                      }]
+
 /trackdata:
   post:
     body:
       application/json:
         properties:
           trackingData:
-            displayName: trackingData
             required: true
             type: object
             description: A collection of browser object properties to identify the client
@@ -465,68 +450,44 @@ traits:
               "colorDepth": "24"
             }
           }
-/test:
-  get:
-    is: [ token_optional ]
-    queryParameters:
-      id:
-        displayName: id
-        required: false
+
 /teams:
   get:
-    queryParameters:
-      teamId:
-        displayName: teamId
-        required: false
     responses:
       200:
         body:
           application/json:
-            #type: array -- not specifying type of response since it varies: no teamId gives array, specifying teamId gives object
-            facets:
-              objects:
-                properties:
-                  displayName: string
-                  id: string
-                  domainOwnerId: string
-                  members:
-                    type: array
-                    required: false # required for singleton
-            examples:
-              array: |
-                [{
-                  "displayName": "Logistics",
-                  "id": "ae6a0c10-682f-44776-77355-03cc6u9bdd7",
-                  "domainOwnerId": "83599755-1855-4f88-9c09-7caf99a6a6b2"
-                  },{
-                  "displayName": "HR",
-                  "id": "b367ed11-7d94-4353-a8c4-489160b747c3",
-                  "domainOwnerId": "83569745-1855-4f88-9c09-7caf9ea6c6b2"
-                  },{
-                  "displayName": "Demo",
-                  "id": "4c387h21-01b8-448e-adff-1b158440d3c8",
-                  "domainOwnerId": "83399755-1855-4f68-9c79-7c9f99h6a6b2"
-                  }]
-              singleton:
-                  {
-                    "members": [],
-                    "displayName": "Demo",
-                    "id": "4c387h21-01b8-448e-adff-1b158440d3c8",
-                    "domainOwnerId": "83399755-1855-4f68-9c79-7c9f99h6a6b2"
-                  }
+            type: array
+            items:
+              properties:
+                displayName: string
+                id: string
+                domainOwnerId: string
+            example:
+              [{
+                "displayName": "Logistics",
+                "id": "ae6a0c10-682f-44776-77355-03cc6u9bdd7",
+                "domainOwnerId": "83599755-1855-4f88-9c09-7caf99a6a6b2"
+                },{
+                "displayName": "HR",
+                "id": "b367ed11-7d94-4353-a8c4-489160b747c3",
+                "domainOwnerId": "83569745-1855-4f88-9c09-7caf9ea6c6b2"
+                },{
+                "displayName": "Demo",
+                "id": "4c387h21-01b8-448e-adff-1b158440d3c8",
+                "domainOwnerId": "83399755-1855-4f68-9c79-7c9f99h6a6b2"
+              }]
   post:
     body:
       application/json:
         properties:
           teams:
-            displayName: teams
             required: true
             type: array
             facets:
               objects:
                 properties:
-                  id: 0
-                  displayName:
+                  id:
                     type: string
                     default: "New Team"
                   token: ""
@@ -562,14 +523,12 @@ traits:
       application/json:
         properties:
           teams:
-            displayName: teams
             required: true
             type: array
             facets:
               objects:
                 properties:
-                  id: 0
-                  displayName:
+                  id:
                     type: string
                     default: "New Team"
                   token: ""
@@ -603,8 +562,22 @@ traits:
   delete:
     queryParameters:
       teamId:
-        displayName: teamId
         required: true
+  /{teamId}:
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              type: object
+              example:
+                {
+                  "members": [],
+                  "displayName": "Demo",
+                  "id": "4c387h21-01b8-448e-adff-1b158440d3c8",
+                  "domainOwnerId": "83399755-1855-4f68-9c79-7c9f99h6a6b2"
+                }
+
 /role:
   is: [token_required]
   get:
@@ -613,23 +586,21 @@ traits:
         body:
           application/json:
             type: array
-            facets:
-              objects:
-                properties:
-                  displayName: string
-                  id: integer
-                  systemName: string
-                  PERMISSIONS:
-                    type: array
-                    facets:
-                      objects:
-                        properties:
-                          displayName:
-                            displayName: displayName
-                            type: string
-                          id: string
-                          permissionName: string
-            example: |
+            items:
+              type: object
+              properties:
+                id: integer
+                systemName: string
+                displayName: string
+                PERMISSIONS:
+                  type: array
+                  facets:
+                    objects:
+                      properties:
+                        displayName: string
+                        id: string
+                        permissionName: string
+            example:
               [{
                 "displayName": "Manager",
                 "PERMISSIONS": [
@@ -709,7 +680,6 @@ traits:
         facets:
           objects:
             properties:
-              displayName: string
               id: string
               systemName: string
               PERMISSIONS:
@@ -717,12 +687,10 @@ traits:
                 facets:
                   objects:
                     properties:
-                      displayName:
-                        displayName: displayName
-                        type: string
+                      displayName: string
                       id: integer
                       permissionName: string
-        example: |
+        example:
           [{
             "displayName": "Manager",
             "PERMISSIONS": [
@@ -793,7 +761,6 @@ traits:
         facets:
           objects:
             properties:
-              displayName: string
               id: string
               systemName: string
               PERMISSIONS:
@@ -801,12 +768,10 @@ traits:
                 facets:
                   objects:
                     properties:
-                      displayName:
-                        displayName: displayName
-                        type: string
+                      displayName: string
                       id: integer
                       permissionName: string
-        example: |
+        example:
           [{
             "displayName": "Manager",
             "PERMISSIONS": [
@@ -882,327 +847,1582 @@ traits:
   delete:
     queryParameters:
       roleId:
-        displayName: roleId
         required: true
+
 /resetpassword:
   post:
     body:
       application/json:
         properties:
           secretkey:
-            displayName: secretkey
             required: true
           passWord:
-            displayName: passWord
             required: true
+
 /registration:
   post:
     body:
       application/json:
         properties:
           personId:
-            displayName: personId
             required: false
           firstName:
-            displayName: firstName
             required: false
           infix:
-            displayName: infix
             required: false
           lastName:
-            displayName: lastName
             required: false
           emailaddress:
-            displayName: emailaddress
             required: false
           username:
-            displayName: username
             required: false
           password:
-            displayName: password
             required: false
           candidateOrigin:
-            displayName: candidateOrigin
             required: false
+
 /references:
+  is: [ token_required ]
   get:
-    is: [ token_required ]
-    queryParameters:
-      id:
-        displayName: id
-        required: false
+    responses:
+      200:
+        body:
+          application/json:
+            type: array
+            items:
+              type: object
+              properties:
+                displayName: string
+                id: string
+            example:
+              [{
+                  "displayName": "H&R",
+                  "id": "231017e4-e689-4460-ba93-2445cfb6906f"
+               },
+               {
+                  "displayName": "Marketing",
+                  "id": "45a2306d-580a-40c5-b776-f7f972a9667b"
+               },
+               {
+                  "displayName": "Sales",
+                  "id": "2b9bd067-7eb4-4222-8707-dac5a84f3d47"
+               },
+               {
+                  "displayName": "Sales",
+                  "id": "e1dd39e2-4941-4f81-8411-f3ae9d04c62a"
+              }]
   post:
-    is: [ token_required ]
     body:
       application/json:
         properties:
           reference:
-            displayName: reference
             required: true
   put:
-    is: [ token_required ]
     queryParameters:
      reference:
-      displayName: reference
       required: true
   delete:
-    is: [ token_required ]
     queryParameters:
      id:
-      displayName: id
       required: true
-/profilestore:
-  post:
-    body:
-      application/json:
-        properties:
-          aData:
-            displayName: aData
-            required: false
-/profile:
-  get:
-    is: [ token_required ]
-  post:
-    body:
-      application/json:
-        properties:
-          aData:
-            displayName: aData
-            required: true
+  /{id}:
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              type: object
+              example:
+                {
+                    "displayName": "H&R",
+                    "id": "231017e4-e689-4460-ba93-2445cfb6906f"
+                 }
+
 /permission:
-  get:
-/matchingconfigurations:
   is: [ token_required ]
   get:
-    queryParameters:
-      matchingId:
-        displayName: matchingId
-        required: false
+    responses:
+      200:
+        body:
+          application/json:
+            type: array
+            items:
+               type: object
+               properties:
+                  DisplayName: string
+                  id: integer
+                  permissionName:  string
+            example:
+              [
+               {
+                  "DisplayName": "Vacature bewerken",
+                  "id": 3,
+                  "permissionName": "CREATE JOB"
+               },{
+                  "DisplayName": "Vacature aanmaken",
+                  "id": 4,
+                  "permissionName": "EDIT JOB"
+               },{
+                  "DisplayName": "Vacature status wijzigen",
+                  "id": 5,
+                  "permissionName": "EDIT JOB STATUS"
+               }
+              ]
+
+/matchingconfigurations:
+  get:
+    is: [ token_required ]
+    responses:
+      200:
+        body:
+          application/json:
+            type: array
+            items:
+              type: object
+              properties:
+                educationPassed: integer
+                experienceLevelBelowZero: integer
+                educationLevelExponent: integer
+                experienceSubAreaWeight: integer
+                experienceWeight: integer
+                languageWeight: integer
+                traitsExponent: number
+                educationWeight: integer
+                id: string
+                deleted: string
+                skillWeight: integer
+                experienceLevelWeight: integer
+                languageExponent: integer
+                name: string
+                educationAreaWeight:  integer
+                competenceExponent: integer
+                experienceAreaWeight: integer
+                created: string
+                experienceLevelAboveZero: integer
+                displayName: string
+                competenceWeight: integer
+                skillExponent: integer
+                educationNotPassed: number
+                updated: string
+                generalSkillWeight: number
+                knowledgeWeight: number
+                personalityWeight: integer
+                traitsBase: integer
+                traitsWeight: number
+                domainOwnerId: string
+                educationLevelWeight: integer
+            example:
+              [{
+               educationPassed: 1,
+               "experienceLevelBelowZero": 1,
+               "educationLevelExponent": 2,
+               "experienceSubAreaWeight": 1,
+               "experienceWeight": 1,
+               "languageWeight": 1,
+               "traitsExponent": 1.5,
+               "educationWeight": 1,
+               "id": "4b5d8270-1203-4d2e-be32-7105bff1f0e0",
+               "deleted": "",
+               "skillWeight": 1,
+               "experienceLevelWeight": 1,
+               "languageExponent": 2,
+               "name": "Basis",
+               "educationAreaWeight": 1,
+               "competenceExponent": 2,
+               "experienceAreaWeight": 1,
+               "created": "December, 10 2015 22:36:12",
+               "experienceLevelAboveZero": 1,
+               "displayName": "Basis",
+               "competenceWeight": 1,
+               "skillExponent": 2,
+               "educationNotPassed": 0.25,
+               "updated": "",
+               "generalSkillWeight": 1,
+               "knowledgeWeight": 1,
+               "personalityWeight": 1,
+               "traitsBase": 6,
+               "traitsWeight": 1.5,
+               "domainOwnerId": "83544755-1455-4f88-9cc9-7caf99a6a6b2",
+               "educationLevelWeight": 1
+            },{
+              "educationPassed": 1,
+              "experienceLevelBelowZero": 1,
+              "educationLevelExponent": 2,
+              "experienceSubAreaWeight": 1,
+              "experienceWeight": 1,
+              "languageWeight": 1,
+              "traitsExponent": 1.5,
+              "educationWeight": 1,
+              "id": "f4aaadd7-d59d-42bc-ba71-fea322ed9cc5",
+              "deleted": "",
+              "skillWeight": 1,
+              "experienceLevelWeight": 1,
+              "languageExponent": 2,
+              "name": "Marc's set",
+              "educationAreaWeight": 1,
+              "competenceExponent": 2,
+              "experienceAreaWeight": 1,
+              "created": "May, 30 2016 15:55:27",
+              "experienceLevelAboveZero": 1,
+              "displayName": "Marc's set",
+              "competenceWeight": 1,
+              "skillExponent": 2,
+              "educationNotPassed": 0.25,
+              "updated": "",
+              "generalSkillWeight": 1,
+              "knowledgeWeight": 1,
+              "personalityWeight": 1,
+              "traitsBase": 6,
+              "traitsWeight": 1,
+              "domainOwnerId": "83599755-1855-4f88-9c09-7caf99a6a6b2",
+              "educationLevelWeight": 1
+           },{
+              "educationPassed": 1,
+              "experienceLevelBelowZero": 1,
+              "educationLevelExponent": 2,
+              "experienceSubAreaWeight": 1,
+              "experienceWeight": 1,
+              "languageWeight": 2,
+              "traitsExponent": 1.5,
+              "educationWeight": 1,
+              "id": "bc06a56a-5f40-4187-aa57-d6d13a325211",
+              "deleted": "",
+              "skillWeight": 2,
+              "experienceLevelWeight": 1,
+              "languageExponent": 2,
+              "name": "test1",
+              "educationAreaWeight": 1,
+              "competenceExponent": 2,
+              "experienceAreaWeight": 1,
+              "created": "December, 14 2015 10:30:42",
+              "experienceLevelAboveZero": 1,
+              "displayName": "test1",
+              "competenceWeight": 1,
+              "skillExponent": 2,
+              "educationNotPassed": 0.25,
+              "updated": "",
+              "generalSkillWeight": 0,
+              "knowledgeWeight": 0,
+              "personalityWeight": 1,
+              "traitsBase": 6,
+              "traitsWeight": 1,
+              "domainOwnerId": "83599755-1755-4f77-9c12-7caf99a6a6b2",
+              "educationLevelWeight": 1
+           }]
   post:
     body:
       application/json:
         properties:
           matchingConfiguration:
-            displayName: matchingConfiguration
             type: object
             required: true
+            properties:
+              educationPassed: integer
+              experienceLevelBelowZero: integer
+              educationLevelExponent: integer
+              experienceSubAreaWeight: integer
+              experienceWeight: integer
+              languageWeight: integer
+              traitsExponent: number
+              educationWeight: integer
+              id: string
+              deleted: string
+              skillWeight: integer
+              experienceLevelWeight: integer
+              languageExponent: integer
+              name: string
+              educationAreaWeight:  integer
+              competenceExponent: integer
+              experienceAreaWeight: integer
+              created: string
+              experienceLevelAboveZero: integer
+              competenceWeight: integer
+              skillExponent: integer
+              educationNotPassed: number
+              updated: string
+              generalSkillWeight: integer
+              knowledgeWeight: integer
+              personalityWeight: integer
+              traitsBase: integer
+              traitsWeight: number
+              domainOwnerId: string
+              educationLevelWeight: integer
+          token: string
   put:
     queryParameters:
       matchingConfiguration:
-        displayName: matchingConfiguration
         type: object
         required: true
+        properties:
+          educationPassed: integer
+          experienceLevelBelowZero: integer
+          educationLevelExponent: integer
+          experienceSubAreaWeight: integer
+          experienceWeight: integer
+          languageWeight: integer
+          traitsExponent: number
+          educationWeight: integer
+          id: string
+          deleted: string
+          skillWeight: integer
+          experienceLevelWeight: integer
+          languageExponent: integer
+          name: string
+          educationAreaWeight:  integer
+          competenceExponent: integer
+          experienceAreaWeight: integer
+          created: string
+          experienceLevelAboveZero: integer
+          competenceWeight: integer
+          skillExponent: integer
+          educationNotPassed: number
+          updated: string
+          generalSkillWeight: integer
+          knowledgeWeight: integer
+          personalityWeight: integer
+          traitsBase: integer
+          traitsWeight: number
+          domainOwnerId: string
+          educationLevelWeight: integer
+      token: string
   delete:
-    queryParameters:
-     matchingId:
-      displayName: matchingId
-      required: true
-/match:
-  get:
     is: [ token_required ]
     queryParameters:
-      jobId:
-        displayName: jobId
-        required: false
+     matchingId:
+      required: true
+  /{matchingId}:
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              type: object
+              properties:
+                educationPassed: integer
+                experienceLevelBelowZero: integer
+                educationLevelExponent: integer
+                experienceSubAreaWeight: integer
+                experienceWeight: integer
+                languageWeight: integer
+                traitsExponent: number
+                educationWeight: integer
+                id: string
+                deleted: string
+                skillWeight: integer
+                experienceLevelWeight: integer
+                languageExponent: integer
+                name: string
+                educationAreaWeight:  integer
+                competenceExponent: integer
+                experienceAreaWeight: integer
+                created: string
+                experienceLevelAboveZero: integer
+                displayName: string
+                competenceWeight: integer
+                skillExponent: integer
+                educationNotPassed: number
+                updated: string
+                generalSkillWeight: integer
+                knowledgeWeight: integer
+                personalityWeight: integer
+                traitsBase: integer
+                traitsWeight: number
+                domainOwnerId: string
+                educationLevelWeight: integer
+              example:
+                {
+                 "educationPassed": 1,
+                 "experienceLevelBelowZero": 1,
+                 "educationLevelExponent": 2,
+                 "experienceSubAreaWeight": 1,
+                 "experienceWeight": 1,
+                 "languageWeight": 1,
+                 "traitsExponent": 1.5,
+                 "educationWeight": 1,
+                 "id": "4b5d8270-1203-4d2e-be44-7105bac1f0e0",
+                 "deleted": "",
+                 "skillWeight": 1,
+                 "experienceLevelWeight": 1,
+                 "languageExponent": 2,
+                 "name": "Basis",
+                 "educationAreaWeight": 1,
+                 "competenceExponent": 2,
+                 "experienceAreaWeight": 1,
+                 "created": "December, 10 2015 22:36:12",
+                 "experienceLevelAboveZero": 1,
+                 "displayName": "Basis",
+                 "competenceWeight": 1,
+                 "skillExponent": 2,
+                 "educationNotPassed": 0.25,
+                 "updated": "",
+                 "generalSkillWeight": 1,
+                 "knowledgeWeight": 1,
+                 "personalityWeight": 1,
+                 "traitsBase": 6,
+                 "traitsWeight": 1.5,
+                 "domainOwnerId": "83599325-1834-4f88-9c09-7ce399a6a6b2",
+                 "educationLevelWeight": 1
+              }
+
 /logout:
-  is: [ token_required ]
   post:
     body:
       application/json:
         properties:
           tokens:
-            displayName: tokens
             required: false
+    responses:
+      200:
+        body:
+          application/json:
+            type: object
+            properties:
+              message: string
+            example: |
+              {
+                 "message": "LOGOUT_OK"
+              }
 /login:
   post:
     body:
       application/json:
         properties:
           username:
-            displayName: username
             required: true
+            type: string
           password:
-            displayName: password
             required: true
+            type: string
           deviceId:
-            displayName: deviceId
             required: false
+            type: string
           domainId:
-            displayName: domainId
             required: true
+            type: string
+        example:
+          {
+              "deviceId": "",
+             "domainId": "6ead3b9b-511d-4976-8179-05f3e24e3231",
+             "username": "demo@hrmatches.com",
+             "password": "Demo2016"
+          }
+    responses:
+      200:
+        body:
+          application/json:
+            type: object
+            properties:
+              message: string
+              token: string
+            example: |
+              {
+                 "message": "LOGIN_OK",
+                 "token": "7FDAA98D-6C62-6D46-AC14847F95F7579F"
+              }
+      404:
+        body:
+          application/json:
+            type: object
+            properties:
+              message: string
+            example: |
+              {
+                 "message": "LOGIN_ERROR"
+              }
 /language:
   get:
-    queryParameters:
-      id:
-        displayName: id
-        required: false
+    is: [token_required]
+    responses:
+      200:
+        body:
+          application/json:
+            type: array
+            items:
+              type: object
+              properties:
+                lv_LV_DisplayName: string
+                name: string
+                en_US_DisplayName: string
+                en_GB_DisplayName: string
+                fallback: integer
+                es_ES_DisplayName: string
+                created: string
+                available: integer
+                de_DE_DisplayName: string
+                nl_NL_DisplayName: string
+                ru_RU_DisplayName: string
+                updated: string
+                id: integer
+                master: number
+                pl_PL_DisplayName: string
+                pt_PT_DisplayName: string
+                verified: number
+                fr_FR_DisplayName: string
+                ISO639x: string
+                code: string
+            example:
+              [{
+                "lv_LV_DisplayName": "Deutsch - Germany",
+                "name": "de_DE",
+                "en_US_DisplayName": "German - Germany",
+                "en_GB_DisplayName": "German - Germany",
+                "fallback": 38,
+                "es_ES_DisplayName": "Deutsch - Germany",
+                "created": "July, 22 2015 14:36:46",
+                "available": 1,
+                "de_DE_DisplayName": "Deutsch - Deutschland",
+                "nl_NL_DisplayName": "Duits - Germany",
+                "ru_RU_DisplayName": "Deutsch - Germany",
+                "updated": "",
+                "id": 65,
+                "master": 0,
+                "pl_PL_DisplayName": "Deutsch - Niemcy",
+                "pt_PT_DisplayName": "Deutsch - Germany",
+                "verified": 0,
+                "fr_FR_DisplayName": "Deutsch - Allemagne",
+                "ISO639x": " ",
+                "code": "0x040"
+              },{
+                "lv_LV_DisplayName": "Deutsch - Germany",
+                "name": "de_DE",
+                "en_US_DisplayName": "German - Germany",
+                "en_GB_DisplayName": "German - Germany",
+                "fallback": 38,
+                "es_ES_DisplayName": "Deutsch - Germany",
+                "created": "July, 22 2015 14:36:46",
+                "available": 1,
+                "de_DE_DisplayName": "Deutsch - Deutschland",
+                "nl_NL_DisplayName": "Duits - Germany",
+                "ru_RU_DisplayName": "Deutsch - Germany",
+                "updated": "",
+                "id": 65,
+                "master": 0,
+                "pl_PL_DisplayName": "Deutsch - Niemcy",
+                "pt_PT_DisplayName": "Deutsch - Germany",
+                "verified": 0,
+                "fr_FR_DisplayName": "Deutsch - Allemagne",
+                "ISO639x": " ",
+                "code": "0x040"
+              },{
+                "lv_LV_DisplayName": "English - United States",
+                "name": "en_US",
+                "en_US_DisplayName": "English - United States",
+                "en_GB_DisplayName": "English - United States",
+                "fallback": 38,
+                "es_ES_DisplayName": "English - United States",
+                "created": "July, 22 2015 14:36:46",
+                "available": 1,
+                "de_DE_DisplayName": "Englisch - Vereinigte Staaten",
+                "nl_NL_DisplayName": "Engels - United States",
+                "ru_RU_DisplayName": "English - United States",
+                "updated": "",
+                "id": 50,
+                "master": 0,
+                "pl_PL_DisplayName": "Angielski - Stany Zjednoczone",
+                "pt_PT_DisplayName": "English - United States",
+                "verified": 0,
+                "fr_FR_DisplayName": "Anglais- États Unis",
+                "ISO639x": "ENU",
+                "code": "0x040"
+             },{
+                "lv_LV_DisplayName": "Spanish - Spain",
+                "name": "es_ES",
+                "en_US_DisplayName": "Spanish - Spain",
+                "en_GB_DisplayName": "Spanish - Spain",
+                "fallback": 38,
+                "es_ES_DisplayName": "Spanish - Spain",
+                "created": "July, 22 2015 14:36:46",
+                "available": 1,
+                "de_DE_DisplayName": "Spanisch",
+                "nl_NL_DisplayName": "Spaans - Spain",
+                "ru_RU_DisplayName": "Spanish - Spain",
+                "updated": "",
+                "id": 120,
+                "master": 0,
+                "pl_PL_DisplayName": "Hiszpański",
+                "pt_PT_DisplayName": "",
+                "verified": 0,
+                "fr_FR_DisplayName": "Espagnol",
+                "ISO639x": " ",
+                "code": "0x0C0"
+              },{
+                "lv_LV_DisplayName": "Français - France",
+                "name": "fr_FR",
+                "en_US_DisplayName": "French - France",
+                "en_GB_DisplayName": "French - France",
+                "fallback": 38,
+                "es_ES_DisplayName": "Français - France",
+                "created": "July, 22 2015 14:36:46",
+                "available": 1,
+                "de_DE_DisplayName": "Französisch - Frankreich",
+                "nl_NL_DisplayName": "Frans - France",
+                "ru_RU_DisplayName": "Français - France",
+                "updated": "",
+                "id": 58,
+                "master": 0,
+                "pl_PL_DisplayName": "Francuski - Francja",
+                "pt_PT_DisplayName": "Français - France",
+                "verified": 0,
+                "fr_FR_DisplayName": "Français - France",
+                "ISO639x": " ",
+                "code": "0x040"
+              },{
+                "lv_LV_DisplayName": "Latvian - Latvia",
+                "name": "lv_LV",
+                "en_US_DisplayName": "Latvian - Latvia",
+                "en_GB_DisplayName": "Latvian - Latvia",
+                "fallback": 38,
+                "es_ES_DisplayName": "Latvian - Latvia",
+                "created": "July, 22 2015 14:36:46",
+                "available": 1,
+                "de_DE_DisplayName": "Lettisch",
+                "nl_NL_DisplayName": "Lets - Latvia",
+                "ru_RU_DisplayName": "Latvian - Latvia",
+                "updated": "",
+                "id": 84,
+                "master": 0,
+                "pl_PL_DisplayName": "łotewski",
+                "pt_PT_DisplayName": "Latvian - Latvia",
+                "verified": 0,
+                "fr_FR_DisplayName": "Letton",
+                "ISO639x": "LVI",
+                "code": "0x042"
+              },{
+                "lv_LV_DisplayName": "Nederlands - Nederland",
+                "name": "nl_NL",
+                "en_US_DisplayName": "Dutch - The Netherlands",
+                "en_GB_DisplayName": "Dutch - The Netherlands",
+                "fallback": 38,
+                "es_ES_DisplayName": "Nederlands - Nederland",
+                "created": "July, 22 2015 14:36:46",
+                "available": 1,
+                "de_DE_DisplayName": "Holländisch - Niederlande",
+                "nl_NL_DisplayName": "Nederlands - Nederland",
+                "ru_RU_DisplayName": "Nederlands - Nederland",
+                "updated": "",
+                "id": 38,
+                "master": 1,
+                "pl_PL_DisplayName": "Nederlands - Holandia",
+                "pt_PT_DisplayName": "Nederlands - Nederland",
+                "verified": 1,
+                "fr_FR_DisplayName": "Néerlandais - Pays-Bas",
+                "ISO639x": " ",
+                "code": "0x041"
+              },{
+                "lv_LV_DisplayName": "Polskie - Poland",
+                "name": "pl_PL",
+                "en_US_DisplayName": "Polish - Poland",
+                "en_GB_DisplayName": "Polish - Poland",
+                "fallback": 38,
+                "es_ES_DisplayName": "Polskie - Poland",
+                "created": "July, 22 2015 14:36:46",
+                "available": 1,
+                "de_DE_DisplayName": "Polnisch - Polen",
+                "nl_NL_DisplayName": "Pools - Poland",
+                "ru_RU_DisplayName": "Polskoe - Poland",
+                "updated": "",
+                "id": 93,
+                "master": 0,
+                "pl_PL_DisplayName": "Polskie - Polska",
+                "pt_PT_DisplayName": "Polskie - Poland",
+                "verified": 0,
+                "fr_FR_DisplayName": "Polskie - Pologne",
+                "ISO639x": "PLK",
+                "code": "0x041"
+              },{
+                "lv_LV_DisplayName": "Portuguese - Portugal ",
+                "name": "pt_PT",
+                "en_US_DisplayName": "Portuguese - Portugal",
+                "en_GB_DisplayName": "Portuguese - Portugal",
+                "fallback": 38,
+                "es_ES_DisplayName": "Portuguese - Portugal ",
+                "created": "July, 22 2015 14:36:46",
+                "available": 1,
+                "de_DE_DisplayName": "Portugiesisch",
+                "nl_NL_DisplayName": "Portugees - Portugal",
+                "ru_RU_DisplayName": "Portuguese - Portugal ",
+                "updated": "",
+                "id": 95,
+                "master": 0,
+                "pl_PL_DisplayName": "Portugalski",
+                "pt_PT_DisplayName": "Portuguese - Portugal ",
+                "verified": 0,
+                "fr_FR_DisplayName": "Portugais",
+                "ISO639x": " ",
+                "code": "0x081"
+              },{
+                "lv_LV_DisplayName": "Russian - Russia",
+                "name": "ru_RU",
+                "en_US_DisplayName": "Russian - Russia",
+                "en_GB_DisplayName": "Russian - Russia",
+                "fallback": 38,
+                "es_ES_DisplayName": "Russian - Russia",
+                "created": "July, 22 2015 14:36:46",
+                "available": 1,
+                "de_DE_DisplayName": "Russisch",
+                "nl_NL_DisplayName": "Russisch - Russia",
+                "ru_RU_DisplayName": "Russian - Russia",
+                "updated": "",
+                "id": 98,
+                "master": 0,
+                "pl_PL_DisplayName": "Rosyjski",
+                "pt_PT_DisplayName": "Russian - Russia",
+                "verified": 0,
+                "fr_FR_DisplayName": "Russe",
+                "ISO639x": "RUS",
+                "code": "0x041"
+              }]
+  /{id}:
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              type: object
+              properties:
+                lv_LV_DisplayName: string
+                name: string
+                en_US_DisplayName: string
+                en_GB_DisplayName: string
+                fallback: integer
+                es_ES_DisplayName: string
+                created: string
+                available: integer
+                de_DE_DisplayName: string
+                nl_NL_DisplayName: string
+                ru_RU_DisplayName: string
+                updated: string
+                id: integer
+                master: number
+                pl_PL_DisplayName: string
+                pt_PT_DisplayName: string
+                verified: number
+                fr_FR_DisplayName: string
+                ISO639x: string
+                code: string
+              example:
+                {
+                  "lv_LV_DisplayName": "Russian - Russia",
+                  "name": "ru_RU",
+                  "en_US_DisplayName": "Russian - Russia",
+                  "en_GB_DisplayName": "Russian - Russia",
+                  "fallback": 38,
+                  "es_ES_DisplayName": "Russian - Russia",
+                  "created": "July, 22 2015 14:36:46",
+                  "available": 1,
+                  "de_DE_DisplayName": "Russisch",
+                  "nl_NL_DisplayName": "Russisch - Russia",
+                  "ru_RU_DisplayName": "Russian - Russia",
+                  "updated": "",
+                  "id": 98,
+                  "master": 0,
+                  "pl_PL_DisplayName": "Rosyjski",
+                  "pt_PT_DisplayName": "Russian - Russia",
+                  "verified": 0,
+                  "fr_FR_DisplayName": "Russe",
+                  "ISO639x": "RUS",
+                  "code": "0x041"
+              }
+
 /jobs:
+  is: [token_required]
   get:
-  is: [ token_optional ]
+    responses:
+      200:
+        body:
+          application/json:
+            type: array
+            facets:
+              objects:
+                properties:
+                  jobDomainId: string
+                  domainOwnerDeleted: string
+                  teamId: string
+                  JobId: string
+                  roleId: integer
+                  jobStatus: integer,
+                  PersonId: string
+                  firstName: string
+                  NumberInStatus: integer
+                  infix: string
+                  domainOwnerName: string
+                  JobApplicationStatusId: integer
+                  jobName: string
+                  domainOwnerId: string
+                  emailaddress: string
+                  lastName: string
+            example:
+                [{
+                    "jobDomainId": "8de47fd3-355f-4912-aa37-6d072e68a943",
+                    "domainOwnerDeleted": "",
+                    "teamId": "4c387f21-01b8-448e-adef-1b17739023c8",
+                    "JobId": "b1772b18-a68f-4655-89d3-c6131c260e9a",
+                    "roleId": 61,
+                    "jobStatus": 1,
+                    "PersonId": "7152db9e-b1af-41ac-aacf-a6a1f4f91170",
+                    "firstName": "Demo",
+                    "NumberInStatus": 2,
+                    "infix": "",
+                    "domainOwnerName": "Demo",
+                    "JobApplicationStatusId": 1,
+                    "jobName": "Business intelligence consultant",
+                    "domainOwnerId": "83599755-1855-4f88-9c09-7caf99a6a6b2",
+                    "emailaddress": "demo@hrmatches.com",
+                    "lastName": "HRMatches"
+                 },{
+                    "jobDomainId": "8de47fd3-355f-4912-aa37-6d072e68a943",
+                    "domainOwnerDeleted": "",
+                    "teamId": "4c387f21-01b8-448e-adef-1b17849023c8",
+                    "JobId": "236cfd01-cb96-4dde-818a-78985619e1df",
+                    "roleId": 61,
+                    "jobStatus": 1,
+                    "PersonId": "7152db9e-b1af-41ac-aacf-a6a1f4f91170",
+                    "firstName": "Demo",
+                    "NumberInStatus": 1,
+                    "infix": "",
+                    "domainOwnerName": "Demo",
+                    "JobApplicationStatusId": 1,
+                    "jobName": "jhkgghjgkjb jh jul",
+                    "domainOwnerId": "83599755-1855-4f88-9c09-7caf99a6a6b2",
+                    "emailaddress": "demo@hrmatches.com",
+                    "lastName": "HRMatches"
+                 }]
+  /{jobId}:
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              type: object
+              properties:
+                jobDomainId: string
+                domainOwnerDeleted: string
+                teamId: string
+                JobId: string
+                roleId: integer
+                jobStatus: integer
+                PersonId: string
+                firstName: string
+                NumberInStatus: integer
+                infix: string
+                domainOwnerName: string
+                JobApplicationStatusId: integer
+                jobName: string
+                domainOwnerId: string
+                emailaddress: string
+                lastName: string
+              example:
+                {
+                "jobDomainId": "8de47fd3-355f-4912-aa37-6d072e68a943",
+                "domainOwnerDeleted": "",
+                "teamId": "4c387f21-01b8-448e-adef-1b17849023c8",
+                "JobId": "236cfd01-cb96-4dde-818a-78985619e1df",
+                "roleId": 61,
+                "jobStatus": 1,
+                "PersonId": "7152db9e-b1af-41ac-aacf-a6a1f4f91170",
+                "firstName": "Demo",
+                "NumberInStatus": 1,
+                "infix": "",
+                "domainOwnerName": "Demo",
+                "JobApplicationStatusId": 1,
+                "jobName": "jhkgghjgkjb jh jul",
+                "domainOwnerId": "83599755-1855-4f88-9c09-7caf99a6a6b2",
+                "emailaddress": "demo@hrmatches.com",
+                "lastName": "HRMatches"
+                }
+
 /jobdomains:
   get:
-    queryParameters:
-      jobDomainId:
-        displayName: jobDomainId
-        required: false
+    responses:
+      200:
+        body:
+          application/json:
+            type: array
+            items:
+              type: object
+              properties:
+                parent: string
+                displayName: string
+                id: string
+                companyCultureId: string
+                matchingId: string
+                domainOwnerId: string
+            example:
+              [{
+                  "parent": "a5758488-8204-4e36-808b-eeb938d8811f",
+                  "displayName": "ICT Mobile",
+                  "id": "d4ec4733-b0a3-4b88-bd56-3d8c99729e41",
+                  "companyCultureId": "",
+                  "matchingId": "",
+                  "domainOwnerId": "83599755-1855-4f88-9c09-7caf99a6a6b2"
+               },{
+                  "parent": "",
+                  "displayName": "Logistics",
+                  "id": "e6dc8cb5-8267-410d-af47-4c08337423d7",
+                  "companyCultureId": "324517b2-9830-45b3-9b18-eee8c48d18a7",
+                  "matchingId": "4b5d8270-1203-4d2e-be32-7105bff1f0e0",
+                  "domainOwnerId": "83599755-1855-4f88-9c09-7caf99a6a6b2"
+               },{
+                  "parent": "",
+                  "displayName": "demo",
+                  "id": "8de47fd3-355f-4912-aa37-6d072e68a943",
+                  "companyCultureId": "eff89f65-3a35-4a7d-9b05-27041e19fadb",
+                  "matchingId": "4b5d8270-1203-4d2e-be32-7105bff1f0e0",
+                  "domainOwnerId": "83599755-1855-4f88-9c09-7caf99a6a6b2"
+               },{
+                  "parent": "",
+                  "displayName": "HR",
+                  "id": "c4f46d47-4059-4dfb-a54a-874d35c5cb8d",
+                  "companyCultureId": "8d6513df-94d0-4be2-bda7-a0945062c94f",
+                  "matchingId": "4b5d8270-1203-4d2e-be32-7105bff1f0e0",
+                  "domainOwnerId": "83599755-1855-4f88-9c09-7caf99a6a6b2"
+               },{
+                  "parent": "",
+                  "displayName": "Marketing",
+                  "id": "417fd32c-ca2e-4e51-9b7c-e0e25df1cabd",
+                  "companyCultureId": "",
+                  "matchingId": "",
+                  "domainOwnerId": "83599755-1855-4f88-9c09-7caf99a6a6b2"
+               },{
+                  "parent": "",
+                  "displayName": "ICT",
+                  "id": "a5758488-8204-4e36-808b-eeb938d8811f",
+                  "companyCultureId": "8d6513df-94d0-4be2-bda7-a0945062c94f",
+                  "matchingId": "bc06a56a-5e40-4187-aa57-d8b13a325211",
+                  "domainOwnerId": "83599755-1855-4f88-9c09-7caf99a6a6b2"
+                 }]
   post:
     body:
       application/json:
         properties:
           jobDomains:
-            displayName: jobDomains
             required: true
+            facets:
+              parent: string
+              id: string
+              companyCultureId: string
+              matchingId: string
+              domainOwnerId: string
   put:
     queryParameters:
       jobDomains:
-        displayName: jobDomains
         required: true
+        facets:
+          parent: string
+          id: string
+          companyCultureId: string
+          matchingId: string
+          domainOwnerId: string
   delete:
     queryParameters:
       jobDomainId:
-        displayName: jobDomainId
         required: true
-/jobapplications:
-  get:
-    is: [ token_required ]
-    queryParameters:
-      id:
-        displayName: id
-        required: false
+
+  /{jobDomainId}:
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              type: object
+              example:
+                {
+                   "parent": "",
+                   "displayName": "Marketing",
+                   "id": "417fd32c-ca2e-4e51-9b7c-e0e25df1cabd",
+                   "companyCultureId": "",
+                   "matchingId": "",
+                   "domainOwnerId": "83599755-1855-4f88-9c09-7caf99a6a6b2"
+                }
+
 /forgotpassword:
   post:
     body:
       application/json:
         properties:
           emailaddress:
-            displayName: emailaddress
             required: true
-          hostName:
-            displayName: hostName
+          hostname:
             required: false
+        example: |
+          {
+           "hostname": "",
+           "emailaddress": ""
+          }
 /educationtype:
   get:
-    queryParameters:
-      id:
-        displayName: id
-        required: false
-/driverlicense:
-  get:
-/documentresponse:
-  get:
-    queryParameters:
-      documentname:
-        displayName: documentname
-        required: false
-/documentparser:
-  post:
-    body:
-      application/json:
-        properties:
-          fileupload:
-            displayName: fileupload
-            required: false
-/cvstore:
-  post:
-    body:
-      application/json:
-        properties:
-          aData:
-            displayName: aData
-            required: false
+    responses:
+      200:
+        body:
+          application/json:
+            type: array
+            items:
+              type: object
+              properties:
+                lv_LV_DisplayName: string
+                description: string
+                en_US_DisplayName: string
+                en_GB_DisplayName: string
+                es_ES_DisplayName: string
+                created: string
+                de_DE_DisplayName: string
+                nl_NL_DisplayName: string
+                otmEducationId: integer
+                ru_RU_DisplayName: string
+                updated: string
+                id: string
+                educationTypeOrder: integer
+                pl_PL_DisplayName: string
+                pt_PT_DisplayName: string
+                fr_FR_DisplayName: string
+                deleted: string
+                educationType: string
+                type: integer
+            example:
+                [{
+                  "lv_LV_DisplayName": "",
+                  "description": "HBO/bachelor",
+                  "en_US_DisplayName": "Bachelor",
+                  "en_GB_DisplayName": "",
+                  "es_ES_DisplayName": "",
+                  "created": "September, 24 2015 10:05:59",
+                  "de_DE_DisplayName": "Bachelor",
+                  "nl_NL_DisplayName": "Bachelor",
+                  "otmEducationId": 6,
+                  "ru_RU_DisplayName": "",
+                  "updated": "",
+                  "id": "03d2f673-6f0f-44d4-b044-1c520b0b2023",
+                  "educationTypeOrder": 3,
+                  "pl_PL_DisplayName": "Licence/Bac+3",
+                  "pt_PT_DisplayName": "",
+                  "fr_FR_DisplayName": "Bachelor",
+                  "deleted": "",
+                  "educationType": "HBO/bachelor",
+                  "type": 1
+               },
+               {
+                  "lv_LV_DisplayName": "",
+                  "description": "WO/Master",
+                  "en_US_DisplayName": "Master ",
+                  "en_GB_DisplayName": "",
+                  "es_ES_DisplayName": "",
+                  "created": "September, 24 2015 10:06:17",
+                  "de_DE_DisplayName": "Master ",
+                  "nl_NL_DisplayName": "Master",
+                  "otmEducationId": 7,
+                  "ru_RU_DisplayName": "",
+                  "updated": "",
+                  "id": "e8cc0a1d-b7d9-44af-8641-215fe76d8a7e",
+                  "educationTypeOrder": 4,
+                  "pl_PL_DisplayName": "Master ",
+                  "pt_PT_DisplayName": "",
+                  "fr_FR_DisplayName": "Master ",
+                  "deleted": "",
+                  "educationType": "WO/Master",
+                  "type": 1
+               },
+               {
+                  "lv_LV_DisplayName": "",
+                  "description": "HAVO",
+                  "en_US_DisplayName": "High school",
+                  "en_GB_DisplayName": "",
+                  "es_ES_DisplayName": "",
+                  "created": "March, 26 2015 16:22:49",
+                  "de_DE_DisplayName": "Haupt-/Realschulabschluss oder gleichwertig",
+                  "nl_NL_DisplayName": "HAVO",
+                  "otmEducationId": 3,
+                  "ru_RU_DisplayName": "",
+                  "updated": "",
+                  "id": "2a5a9712-a5b8-4df8-982a-319c2c39a552",
+                  "educationTypeOrder": 3,
+                  "pl_PL_DisplayName": "Podstawowe",
+                  "pt_PT_DisplayName": "",
+                  "fr_FR_DisplayName": "Enseignement primaire",
+                  "deleted": "March, 26 2015 16:22:49",
+                  "educationType": "HAVO",
+                  "type": 1
+               }]
+  /{id}:
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              type: object
+              example:
+                {
+                   "lv_LV_DisplayName": "",
+                   "description": "HAVO",
+                   "en_US_DisplayName": "High school",
+                   "en_GB_DisplayName": "",
+                   "es_ES_DisplayName": "",
+                   "created": "March, 26 2015 16:22:49",
+                   "de_DE_DisplayName": "Haupt-/Realschulabschluss oder gleichwertig",
+                   "nl_NL_DisplayName": "HAVO",
+                   "otmEducationId": 3,
+                   "ru_RU_DisplayName": "",
+                   "updated": "",
+                   "id": "2a5a9712-a5b8-4df8-982a-319c2c39a552",
+                   "educationTypeOrder": 3,
+                   "pl_PL_DisplayName": "Podstawowe",
+                   "pt_PT_DisplayName": "",
+                   "fr_FR_DisplayName": "Enseignement primaire",
+                   "deleted": "March, 26 2015 16:22:49",
+                   "educationType": "HAVO",
+                   "type": 1
+                }
+
 /cultures:
   is: [ token_required ]
   get:
-    queryParameters:
-      cultureId:
-        displayName: cultureId
-        required: false
+    responses:
+      200:
+        body:
+          application/json:
+            type: array
+            example:
+                [{
+                  "ADHO": 3,
+                  "DisplayName": "Basis cultuur",
+                  "name": "Basis cultuur",
+                  "companyDefault": 0,
+                  "FAML": 0,
+                  "updated": "",
+                  "MRKT": 2,
+                  "id": "eff89f65-3a35-4a7d-9b05-27041e19fadb",
+                  "HCHY": 1,
+                  "created": "December, 03 2015 00:45:38",
+                  "domainOwnerId": "83599755-1855-4f88-9c09-7caf99a6a6b2"
+               },{
+                  "ADHO": 3,
+                  "DisplayName": "Cultuur 1",
+                  "name": "Cultuur 1",
+                  "companyDefault": 1,
+                  "FAML": 7,
+                  "updated": "",
+                  "MRKT": 6,
+                  "id": "8d6513df-94d0-4be2-bda7-a0945062c94f",
+                  "HCHY": 2,
+                  "created": "December, 14 2015 10:29:18",
+                  "domainOwnerId": "83599755-1855-4f88-9c09-7caf99a6a6b2"
+               },{
+                "ADHO": 9,
+                  "DisplayName": "Cultuur 3",
+                  "name": "Cultuur 3",
+                  "companyDefault": 0,
+                  "FAML": 4,
+                  "updated": "",
+                  "MRKT": 7,
+                  "id": "e0783eab-a6ed-4af5-bae4-20bb53c9a98e",
+                  "HCHY": 2,
+                  "created": "December, 14 2015 10:36:47",
+                  "domainOwnerId": "83599755-1855-4f88-9c09-7caf99a6a6b2"
+               }]
   post:
     body:
       application/json:
         properties:
           culture:
-            displayName: culture
+            required: true
+          token:
             required: true
   put:
     queryParameters:
       culture:
-        displayName: culture
         required: true
   delete:
     queryParameters:
       id:
-        displayName: id
         required: true
+  /{cultureId}:
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              type: object
+              example:
+                {
+                 "ADHO": 9,
+                 "DisplayName": "Cultuur 3",
+                 "name": "Cultuur 3",
+                 "companyDefault": 0,
+                 "FAML": 4,
+                 "updated": "",
+                 "MRKT": 7,
+                 "id": "e0783eab-a6ed-4af5-bae4-20bb53c9a98e",
+                 "HCHY": 2,
+                 "created": "December, 14 2015 10:36:47",
+                 "domainOwnerId": "83599755-1855-4f88-9c09-7caf99a6a6b2"
+                }
+
 /country:
   get:
-    queryParameters:
-      id:
-        displayName: id
-        required: false
+    responses:
+      200:
+        body:
+          application/json:
+            type: array
+            example:
+              [{
+                "lv_LV_DisplayName": "",
+                "en_US_DisplayName": "Afghanistan",
+                "en_GB_DisplayName": "Afghanistan",
+                "be_BE_DisplayName": "",
+                "es_ES_DisplayName": "",
+                "created": "July, 21 2015 17:35:35",
+                "de_DE_DisplayName": "Afghanistan",
+                "nl_NL_DisplayName": "Afghanistan",
+                "countryName": "Afghanistan",
+                "ru_RU_DisplayName": "",
+                "updated": "",
+                "id": "AF",
+                "pl_PL_DisplayName": "",
+                "pt_PT_DisplayName": "",
+                "fr_FR_DisplayName": ""
+             },{
+                "lv_LV_DisplayName": "",
+                "en_US_DisplayName": "Åland Islands",
+                "en_GB_DisplayName": "Åland Islands",
+                "be_BE_DisplayName": "",
+                "es_ES_DisplayName": "",
+                "created": "July, 21 2015 17:35:35",
+                "de_DE_DisplayName": "&Aring;land-Inseln",
+                "nl_NL_DisplayName": "Alandeilanden",
+                "countryName": "Alandeilanden",
+                "ru_RU_DisplayName": "",
+                "updated": "",
+                "id": "AX",
+                "pl_PL_DisplayName": "",
+                "pt_PT_DisplayName": "",
+                "fr_FR_DisplayName": ""
+             },{
+                "lv_LV_DisplayName": "",
+                "en_US_DisplayName": "Albania",
+                "en_GB_DisplayName": "Albania",
+                "be_BE_DisplayName": "",
+                "es_ES_DisplayName": "",
+                "created": "July, 21 2015 17:35:35",
+                "de_DE_DisplayName": "Albanien",
+                "nl_NL_DisplayName": "Albanië",
+                "countryName": "Albanië",
+                "ru_RU_DisplayName": "",
+                "updated": "",
+                "id": "AL",
+                "pl_PL_DisplayName": "",
+                "pt_PT_DisplayName": "",
+                "fr_FR_DisplayName":  ""
+             }]
+  /{id}:
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              type: object
+              example:
+                {
+                   "lv_LV_DisplayName": "",
+                   "en_US_DisplayName": "Albania",
+                   "en_GB_DisplayName": "Albania",
+                   "be_BE_DisplayName": "",
+                   "es_ES_DisplayName": "",
+                   "created": "July, 21 2015 17:35:35",
+                   "de_DE_DisplayName": "Albanien",
+                   "nl_NL_DisplayName": "Albanië",
+                   "countryName": "Albanië",
+                   "ru_RU_DisplayName": "",
+                   "updated": "",
+                   "id": "AL",
+                   "pl_PL_DisplayName": "",
+                   "pt_PT_DisplayName": "",
+                   "fr_FR_DisplayName":  ""
+                }
 /companyinfo:
+  is: [token_required]
   get:
-    is: [ token_optional ]
+    responses:
+      200:
+        body:
+          application/json:
+            type: object
+            example:
+              {
+               "countryId": "",
+               "companyAddress": "",
+               "brancheId": "",
+               "companyName": "Demo",
+               "id": "83599755-1855-4f88-9c09-7caf99a6a6b2",
+               "companySize": "",
+               "city": "",
+               "contactName": "",
+               "companyDescription": "",
+               "companyZipcode": "",
+               "contactPhoneNumber": "",
+               "website": "demo.hrmatches.com"
+          }
   put:
-    is: [ token_optional ]
     queryParameters:
       companyinfo:
-        displayName: companyinfo
-        required: false
-/branche:
-  get:
-/authenticatesocial:
-  post:
-    body:
-      application/json:
+        required: true
+        type: object
         properties:
-          username:
-            displayName: username
-            required: false
-          provider:
-            displayName: provider
-            required: false
-          providerId:
-            displayName: providerId
-            required: false
-          deviceId:
-            displayName: deviceId
-            required: false
+          countryId: string
+          companyAddress: string
+          brancheId: string
+          companyName: string
+          id: string
+          companySize: string
+          city: string
+          contactName: string
+          companyDescription: string
+          companyZipcode: string
+          contactPhoneNumber: string
+          website: string
+      token:
+        required: true
+/branche:
+  is: [token_required]
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            type: array
+            example:
+              [{
+                "brancheName": "Accounting en Controlling",
+                "lv_LV_DisplayName": "",
+                "en_US_DisplayName": "Accounting and Auditing Services",
+                "en_GB_DisplayName": "Accounting and Auditing Services",
+                "es_ES_DisplayName": "",
+                "created": "June, 09 2015 15:58:59",
+                "de_DE_DisplayName": "Buchhaltung/Steuer- und Prüfungswesen",
+                "nl_NL_DisplayName": "Accounting en Controlling",
+                "displayName": "Accounting en Controlling",
+                "updated": "",
+                "ru_RU_DisplayName": "",
+                "id": "c420e11b-7b74-4b34-8df6-04317bdefdd3",
+                "pl_PL_DisplayName": "Rachunkowość i controlling",
+                "pt_PT_DisplayName": "",
+                "fr_FR_DisplayName": "Comptabilité et contrôle de gestion"
+             },{
+                "brancheName": "Afval en milieu",
+                "lv_LV_DisplayName": "",
+                "en_US_DisplayName": "Waste Management",
+                "en_GB_DisplayName": "Waste Management",
+                "es_ES_DisplayName": "",
+                "created": "June, 09 2015 15:58:59",
+                "de_DE_DisplayName": "Abfallwirtschaft",
+                "nl_NL_DisplayName": "Afval en milieu",
+                "displayName": "Afval en milieu",
+                "updated": "",
+                "ru_RU_DisplayName": "",
+                "id": "16d5e9d8-345f-48af-a16a-04bb70057162",
+                "pl_PL_DisplayName": "Odpady i środowisko",
+                "pt_PT_DisplayName": "",
+                "fr_FR_DisplayName": "Déchets et environnement"
+             },{
+                "brancheName": "Architectuur / Design",
+                "lv_LV_DisplayName": "",
+                "en_US_DisplayName": "Architectural and Design Services",
+                "en_GB_DisplayName": "Architectural and Design Services",
+                "es_ES_DisplayName": "",
+                "created": "June, 09 2015 15:58:59",
+                "de_DE_DisplayName": "Architektur/Design",
+                "nl_NL_DisplayName": "Architectuur / Design",
+                "displayName": "Architectuur / Design",
+                "updated": "",
+                "ru_RU_DisplayName": "",
+                "id": "dca0ffec-9ab9-4803-a206-099bd8357751",
+                "pl_PL_DisplayName": "Architektura / projektowanie",
+                "pt_PT_DisplayName": "",
+                "fr_FR_DisplayName": "Architecture / Design"
+             }]
 /authenticate:
   post:
     body:
       application/json:
         properties:
           username:
-            displayName: username
             required: true
           password:
-            displayName: password
             required: true
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+              {
+               "message": "LOGIN_OK",
+               "profiles": [
+                  {
+                     "domainOwner": "Demo",
+                     "domainId": "d70695c2-61a4-472e-8342-f2c4d23c8eab",
+                     "firstName": "Demo",
+                     "infix": "",
+                     "domainName": "HR Domain",
+                     "loggedIn": "d70695c2-61a4-472e-8342-f2c4d23c8eaE",
+                     "website": "demo.hrmatches.com",
+                     "lastName": "HRMatches",
+                     "personId": "d70695c2-61a4-472e-8342-f2c4d23g8eab"
+                  },{
+                     "domainOwner": "Demo",
+                     "domainId": "ac06c0de-fa93-4d2b-g3b6-8a8f2a25a9dc",
+                     "firstName": "Demo",
+                     "infix": "",
+                     "domainName": "Site users",
+                     "loggedIn": false,
+                     "website": "demo.hrmatches.com",
+                     "lastName": "HRMatches",
+                     "personId": "ac06c0de-fa93-4h2b-a6b6-8b8f2a25a9dc"
+                  },{
+                     "domainOwner": "UWV",
+                     "domainId": "e43e7b77-4e1b-48ad-a461-856b019fd3e9",
+                     "firstName": "Demo",
+                     "infix": "",
+                     "domainName": "Site users",
+                     "loggedIn": false,
+                     "website": "ontdekjouwtalent.nl",
+                     "lastName": "HRMatches",
+                     "personId": "e43e7b77-4e1b-48ad-a4r1-856b019fd3e9"
+                  }
+               ]
+            }
+
 /activityLog:
   get:
     is: [ token_required ]
-    queryParameters:
-      jobId:
-        displayName: jobId
-        required: false
+    responses:
+      200:
+        body:
+          application/json:
+            type: array
+            example:
+              [{
+                "activity": "",
+                "jobId": "b1462b18-a68f-4335-7684-c6130c260e9a",
+                "jobStatus": "",
+                "created": "May, 23 2016 14:35:47",
+                "activityType": "Applied status",
+                "jobApplicationId": "9c6fbdc3-fi49-4b00-dd51-cc8a07f870a1",
+                "jobApplicationStatus": "NEW",
+                "personId": "b31fe3da-f932-4bdb-b45e-5535cd3082cd2",
+                "firstName": "Eusebio",
+                "infix": "",
+                "jobStatusId": "",
+                "employeeInfix": "",
+                "id": "50ef67cc-5a088-4677-92bf-e467e03343f7",
+                "jobApplicationStatusId": 1,
+                "employeeLastName": "Daniel",
+                "jobName": "Business intelligence consultant",
+                "activityTypeId": 6,
+                "employeeFirstName": "Eusebio",
+                "domainOwnerId": "83599755-1190-4f88-9ca9-7caf99a6a6b2",
+                "lastName": "Daniel"
+             },{
+                "activity": "",
+                "jobId": "236cfd01-cb96-4dda-818a-78984319e1df",
+                "jobStatus": "",
+                "created": "May, 23 2016 14:16:54",
+                "activityType": "Applied status",
+                "jobApplicationId": "8bdb5e92-331b-46cf-8a11-2cbe225d6583",
+                "jobApplicationStatus": "NEW",
+                "personId": "7e6aadb9-e366-41f2-8590-323f2d3332b8",
+                "firstName": "Eusebio",
+                "infix": "",
+                "jobStatusId": "",
+                "employeeInfix": "",
+                "id": "738b898b-6cc8-4a52-bd75-0c67f50e2d27",
+                "jobApplicationStatusId": 1,
+                "employeeLastName": "Daniel",
+                "jobName": "jhkgghjgkjb jh jul",
+                "activityTypeId": 6,
+                "employeeFirstName": "Eusebio",
+                "domainOwnerId": "83596655-1855-2f88-9c09-6caf9326a6b2",
+                "lastName": "Daniel"
+             },{
+                "activity": "",
+                "jobId": "b1772b18-a68f-4635-89d3-c6130f360e9a",
+                "jobStatus": "",
+                "created": "May, 23 2016 14:16:26",
+                "activityType": "Applied status",
+                "jobApplicationId": "5375b2de-d8b5-42d6-86e2-3c9523ba5e36",
+                "jobApplicationStatus": "NEW",
+                "personId": "c02dd930-7a5b-467d-a3d2-c46868a5eeff",
+                "firstName": "Daniel",
+                "infix": "",
+                "jobStatusId": "",
+                "employeeInfix": "",
+                "id": "10f939f1-3e52-42cd-89dd-7b74faeabe24",
+                "jobApplicationStatusId": 1,
+                "employeeLastName": "Eusebio Roque",
+                "jobName": "Business intelligence consultant",
+                "activityTypeId": 6,
+                "employeeFirstName": "Daniel",
+                "domainOwnerId": "83599755-1955-4f48-9c83-7caf99a6a6b2",
+                "lastName": "Eusebio Roque"
+             }]
+  /{jobId}:
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              type: object
+              example:
+                {
+                   "activity": "",
+                   "jobId": "b1772b18-a68f-4635-89d3-c6130f360e9a",
+                   "jobStatus": "",
+                   "created": "May, 23 2016 14:16:26",
+                   "activityType": "Applied status",
+                   "jobApplicationId": "5375b2de-d8b5-42d6-86e2-3c9523ba5e36",
+                   "jobApplicationStatus": "NEW",
+                   "personId": "c02dd930-7a5b-467d-a3d2-c46868a5eeff",
+                   "firstName": "Daniel",
+                   "infix": "",
+                   "jobStatusId": "",
+                   "employeeInfix": "",
+                   "id": "10f939f1-3e52-42cd-89dd-7b74faeabe24",
+                   "jobApplicationStatusId": 1,
+                   "employeeLastName": "Eusebio Roque",
+                   "jobName": "Business intelligence consultant",
+                   "activityTypeId": 6,
+                   "employeeFirstName": "Daniel",
+                   "domainOwnerId": "83599755-1955-4f48-9c83-7caf99a6a6b2",
+                   "lastName": "Eusebio Roque"
+                }
+
 /account:
   get:
     is: [ token_required ]
     queryParameters:
       personId:
-        displayName: personId
         required: true
+    responses:
+      200:
+        body:
+          application/json:
+            type: object
+            example:
+              {
+               "firstName": "demo",
+               "phoneNumber": "",
+               "infix": "",
+               "language": "nl_NL",
+               "id": "7142d9e-b1be-41ac-bbcf-a6a1f4d31170",
+               "emailaddress": "demo@hrmatches.com",
+               "lastName": "HRMatches"
+            }
   delete:
     is: [ token_required ]
     queryParameters:
       personId:
-        displayName: personId
         required: true
   put:
     is: [ token_required ]
     queryParameters:
       person:
-        displayName: person
         type: object
         required: true
