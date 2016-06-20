@@ -23,19 +23,20 @@ angular.module('app.ontdekJouwTalent')
 			var qpDelimiter = '/?';
 
 			if((API.method == 'GET' || API.method == 'DELETE')){
+				// url += token !== '' ? '/' + token) : ''; wellicht later als Taffy API gewijzigd is.
+				// APPEND QUERY PARAMETERS TO URL
+				angular.forEach(payload,function(value,key){
+					if(!(value==undefined || value==null)){
+//						url += '/' + key + '/' + value
+						url += (qpDelimiter + key + '=' + value);
+						qpDelimiter = '&';
+					}
+				});
 				if(token!==''){
 					// APPEND TOKEN
 					url += (qpDelimiter + 'token=' + token);
 					qpDelimiter = '&';
 				}
-				// url += token !== '' ? '/' + token) : ''; wellicht later als Taffy API gewijzigd is.
-				// APPEND QUERY PARAMETERS TO URL
-				angular.forEach(payload,function(value,key){
-					if(!(value==undefined || value==null)){
-						url += (qpDelimiter + key + '=' + value);
-						qpDelimiter = '&';
-					}
-				});
 				payload=''; // DON'T SEND DATA IN BODY FOR GET REQUEST
 			}
 			else if((API.method == 'PUT' || API.method == 'POST')){
