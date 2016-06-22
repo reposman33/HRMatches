@@ -1,9 +1,10 @@
 #%RAML 1.0
-title: HRMatches API
+title: api-development HRMatches API
 version: v0.1
-baseUri: http://api-development.hrmatches.com
+#baseUri: http://api-development.hrmatches.com
+baseUri: https://mocksvc.mulesoft.com/mocks/3895e6bf-5188-4e30-93a2-c2b8d7b027bb
 traits:
- token_required:
+  token_required:
     queryParameters:
       token:
         type: string
@@ -12,7 +13,7 @@ traits:
         required: true
         minLength: 35
         maxLength: 35
- token_optional:
+  token_optional:
     queryParameters:
       token:
         type: string
@@ -21,15 +22,85 @@ traits:
         required: false
         minLength: 35
         maxLength: 35
+  response_delete_ok:
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                "message": "DELETE_OK"
+                }
+  response_post_ok:
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              {
+              "message": "POST_OK"
+              }
+  response_put_ok:
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                "message": "PUT_OK"
+                }
+
+  response_delete_nok:
+      responses:
+        3xx:
+        4xx:
+        5xx:
+          body:
+            application/json:
+              example: |
+                {
+                "message": "DELETE_NOK"
+                }
+  response_get_nok:
+    responses:
+      3xx:
+      4xx:
+      5xx:
+        body:
+          application/json:
+            example: |
+              {
+              "message": "GET_NOK"
+              }
+  response_post_nok:
+      responses:
+        3xx:
+        4xx:
+        5xx:
+          body:
+            application/json:
+              example: |
+                {
+                "message": "POST_NOK"
+                }
+  response_put_nok:
+      responses:
+        3xx:
+        4xx:
+        5xx:
+          body:
+            application/json:
+              example: |
+                {
+                "message": "PUT_NOK"
+                }
+
 
 #################
 # API Endpoints
 #################
 
-#################
-# path parameters are used instead of url query string parameters:
-# /menu/menuId/121243-bfdbfd-44-4543-bfdbfdbfd
-#################
+# validate_token:
 
 /validate_token:
   /{token}:
@@ -46,10 +117,32 @@ traits:
                 value: {
                     "tokenIsValid": true
                   }
+        3xx:
+        4xx:
+        5xx:
+          body:
+            application/json:
+              type: object
+              properties:
+                tokenIsValid: boolean
+              example: |
+                {
+                    "tokenIsValid": false
+                }
+
+# actionItem
 
 /actionItem:
-  is: [ token_optional ]
+  is: [ token_optional,
+    response_delete_nok,
+    response_get_nok,
+    response_post_nok,
+    response_put_nok,
+    response_delete_ok,
+    response_post_ok,
+    response_put_ok ] # this covers all responses except GET 200
   get:
+    is:
     responses:
       200:
         body:
@@ -72,8 +165,7 @@ traits:
                   type: string
                   description: name of actionitem
             example:
-              [
-              {
+              [{
                 "itemId": "0DDCBBD4-6C62-6D46-AC1475645F5FUG4D",
                 "itemLabel": "Dashboard",
                 "actionUrl": "/dashboard",
@@ -104,8 +196,74 @@ traits:
                 "actionUrl": "/candidates/recent",
                 "actionItemIconName": "recentCandidates_icon"
               }]
+  delete:
+    description: delete the specified actionMenuItem by id
+    queryParameters:
+      body:
+        type: string
+        required: true
+  post:
+    description: create a new actionMenuItem
+    body:
+      application/json:
+        type: object
+        properties:
+          itemId:
+            type: string
+            description: the item id
+          itemLabel:
+            type: string
+            description: the item human readable label
+          actionUrl:
+            type: string
+            description: the action (a http request) to execute when chosen
+          actionItemIconName:
+            type: string
+            description: name of actionitem
+        example: |
+          {
+            "itemId": "0DDCBBD4-6C62-6D46-AC1575645F74FG4D",
+            "itemLabel": "Recent",
+            "actionUrl": "/candidates/recent",
+            "actionItemIconName": "recentCandidates_icon"
+          }
+  put:
+    description: edit the resource
+    body:
+      application/json:
+        type: object
+        properties:
+          itemId:
+            type: string
+            description: the item id
+          itemLabel:
+            type: string
+            description: the item human readable label
+          actionUrl:
+            type: string
+            description: the action (a http request) to execute when chosen
+          actionItemIconName:
+            type: string
+            description: name of actionitem
+        example:
+          {
+            "itemId": "0DDCBBD4-6C62-6D46-AC1575645F74FG4D",
+            "itemLabel": "Recent",
+            "actionUrl": "/candidates/recent",
+            "actionItemIconName": "recentCandidates_icon"
+          }
+
+# menu
+
 /menu:
-  is: [ token_optional ]
+  is: [ token_optional,
+    response_delete_nok,
+    response_get_nok,
+    response_post_nok,
+    response_put_nok,
+    response_delete_ok,
+    response_post_ok,
+    response_put_ok ] # this covers all responses except GET 200
   get:
     description: retrieve menus for application
     queryParameters:
@@ -126,24 +284,37 @@ traits:
         body:
           application/json:
             type: array
-            facets:
-              object:
-                properties:
-                  itemId:
-                    type: string
-                  itemLabel:
-                    type: string
-                  parent:
-                    type: string
-                  orderBy:
-                    type: string
-                  type:
-                    type: string
-                  actionUrl:
-                    type: string
-                  menuItemIconName:
-                    type: string
-                    description: name of menuitem
+            items:
+              type: object
+              properties:
+                itemId:
+                  type: string
+                itemLabel:
+                  type: string
+                parent:
+                  type: string
+                orderBy:
+                  description: |
+                    possible values are:
+                    'natural' [type: string] - same order as in db table,
+                    'alphabetic' [type: string] - in ascending order
+                    'custom' [type: integer]- a user provided integer value)
+                  type: string
+                sortOrder:
+                  description: the user-defined sort order of a menu item
+                  type: integer
+                  required: false
+                type:
+                  description: |
+                    a menu item can be single, separator
+                    (a line separating singleitems) or
+                    compound (containing a submenu)
+                  type: string
+                actionUrl:
+                  type: string
+                menuItemIconName:
+                  type: string
+                  description: name of menuitem
             example:
                 [{
                   "itemId": "0DDCBBD4-6C62-6D46-AC1475645F74FG4D",
@@ -205,7 +376,10 @@ traits:
                   "menuItemIconName": "dashboard_icon"
                 }
 
+#validate_secretkey
+
 /validate_secretkey:
+  is: [response_post_ok]
   post:
     body:
       application/json:
@@ -218,13 +392,16 @@ traits:
             minLength: 35
             maxLength: 35
 
+# users
+
 /users:
   get:
-    is: [ token_required ]
-    queryParameters:
-      personId:
-        required: false
-        type: string
+    is: [ token_required,
+      response_delete_nok,
+      response_get_nok,
+      response_post_nok,
+      response_delete_ok,
+      response_post_ok] # this covers all responses except GET 200
     responses:
       200:
         body:
@@ -266,21 +443,31 @@ traits:
                }
               ]
   post:
-    is: [ token_required ]
     body:
       application/json:
         properties:
           person:
-            required: true
-            type: string
+            type: object
+            properties:
+              firstName: string
+              infix: string
+              id: string
+              emailaddress: string
+              lastName: string
           token:
-            required: true
             type: string
-            example: |
-              {
-                person: {},
-                token: ''
-              }
+            required: true
+        example: |
+          {
+           "person": {
+             "firstName": "John",
+             "infix": "",
+             "id": "605a0302-cc33-449a-ac50-5ef26e3e3330",
+              "emailaddress": "john@doe.nl",
+              "lastName": "Doe"
+              },
+           "token": "42E2BC51-6C62-6D46-AC1457446EC4C737"
+          }
   delete:
    is: [ token_required ]
    queryParameters:
@@ -289,7 +476,34 @@ traits:
       personId:
         required: true
 
+  /{personId}:
+    is: [ token_required ]
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              type: object
+              properties:
+                firstName: string
+                infix: string
+                id: string
+                emailaddress: string
+                lastName: string
+              example:
+                {
+                  "firstName": "John",
+                  "infix": "",
+                  "id": "605a0302-cc33-449a-ac50-5ef26e3e3330",
+                  "emailaddress": "john@doe.nl",
+                  "lastName": "Doe"
+                  }
+
+# translation
+
 /translation:
+  is: [ token_optional,
+    response_get_nok ] # this covers all responses except GET 200
   get:
     queryParameters:
       language:
@@ -306,7 +520,7 @@ traits:
                 properties:
                   columns:
                     type: object
-                    facets:
+                    properties:
                       visible: boolean
                       columnName: boolean
                       header_visible: boolean
@@ -377,6 +591,7 @@ traits:
                         "DisplayName": "Taak",
                         "id": "APPLICANT_ADD_TASK"
                      }]
+# trackdata
 
 /trackdata:
   post:
@@ -415,6 +630,8 @@ traits:
               "colorDepth": "24"
             }
           }
+
+# teams
 
 /teams:
   get:
@@ -814,6 +1031,8 @@ traits:
       roleId:
         required: true
 
+# resetpassword
+
 /resetpassword:
   post:
     body:
@@ -823,6 +1042,8 @@ traits:
             required: true
           passWord:
             required: true
+
+# registration
 
 /registration:
   post:
@@ -845,6 +1066,8 @@ traits:
             required: false
           candidateOrigin:
             required: false
+
+# references
 
 /references:
   is: [ token_required ]
@@ -903,6 +1126,8 @@ traits:
                     "id": "231017e4-e689-4460-ba93-2445cfb6906f"
                  }
 
+# permission
+
 /permission:
   is: [ token_required ]
   get:
@@ -933,6 +1158,8 @@ traits:
                   "permissionName": "EDIT JOB STATUS"
                }
               ]
+
+# matchingconfigurations
 
 /matchingconfigurations:
   get:
@@ -1229,6 +1456,8 @@ traits:
                  "educationLevelWeight": 1
               }
 
+# logout
+
 /logout:
   post:
     body:
@@ -1247,6 +1476,9 @@ traits:
               {
                  "message": "LOGOUT_OK"
               }
+
+# login
+
 /login:
   post:
     body:
@@ -1592,6 +1824,7 @@ traits:
 /jobs:
   is: [token_required]
   get:
+    description: List all jobs
     responses:
       200:
         body:
