@@ -634,6 +634,14 @@ traits:
 # teams
 
 /teams:
+  is: [ token_required,
+    response_delete_nok,
+    response_get_nok,
+    response_post_nok,
+    response_put_nok,
+    response_delete_ok,
+    response_post_ok,
+    response_put_ok ] # this covers all responses except GET 200
   get:
     responses:
       200:
@@ -641,6 +649,7 @@ traits:
           application/json:
             type: array
             items:
+              type: object
               properties:
                 displayName: string
                 id: string
@@ -666,28 +675,26 @@ traits:
           teams:
             required: true
             type: array
-            facets:
-              objects:
-                properties:
-                  id:
-                    type: string
-                    default: "New Team"
-                  token: ""
-                  domainOwnerId: 0
-                  members:
-                    type: array
-                    facets:
-                      objects:
-                        properties:
-                          firstName: string
-                          infix: string
-                          roleId: string
-                          lastName: string
-                          personId: string
+            items:
+              properties:
+                id: string
+                displayName: string
+                token: ""
+                domainOwnerId: 0
+                members:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      firstName: string
+                      infix: string
+                      roleId: integer
+                      lastName: string
+                      personId: string
         example:
           {
             "teams": [{
-              "id": 0
+              "id": ""
               ,"displayName": "New Team"
               ,"domainOwnerId": 0
               ,"members": [{
@@ -707,34 +714,32 @@ traits:
           teams:
             required: true
             type: array
-            facets:
-              objects:
-                properties:
-                  id:
-                    type: string
-                    default: "New Team"
-                  token: ""
-                  domainOwnerId: 0
-                  members:
-                    type: array
-                    facets:
-                      objects:
-                        properties:
-                          firstName: string
-                          infix: string
-                          roleId: string
-                          lastName: string
-                          personId: string
-        example:
+            items:
+              properties:
+                id: string
+                displayName: string
+                token: ""
+                domainOwnerId: string
+                members:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      firstName: string
+                      infix: string
+                      roleId: integer
+                      lastName: string
+                      personId: string
+        example: |
           {
             "teams": [{
-              "id": 0
-              ,"displayName": "New Team"
-              ,"domainOwnerId": 0
+              "id": ""
+              ,"displayName": "Team HR"
+              ,"domainOwnerId": ""
               ,"members": [{
                 "firstName": "Jean",
                 "infix": "",
-                "roleId": 30,
+                "roleId": 20,
                 "lastName": "Pieter",
                 "personId": "fbabcb4b-bf44-4ce3-871c-118c1c5d322a"
               }]
@@ -761,7 +766,14 @@ traits:
                 }
 
 /role:
-  is: [token_required]
+  is: [ token_required,
+    response_delete_nok,
+    response_get_nok,
+    response_post_nok,
+    response_put_nok,
+    response_delete_ok,
+    response_post_ok,
+    response_put_ok ] # this covers all responses except GET 200
   get:
     responses:
       200:
@@ -776,12 +788,11 @@ traits:
                 displayName: string
                 PERMISSIONS:
                   type: array
-                  facets:
-                    objects:
-                      properties:
-                        displayName: string
-                        id: string
-                        permissionName: string
+                  items:
+                    properties:
+                      displayName: string
+                      id: integer
+                      permissionName: string
             example:
               [{
                 "displayName": "Manager",
@@ -862,16 +873,17 @@ traits:
         facets:
           objects:
             properties:
-              id: string
+              id: integer
               systemName: string
+              displayName: string
               PERMISSIONS:
                 type: array
-                facets:
-                  objects:
-                    properties:
-                      displayName: string
-                      id: integer
-                      permissionName: string
+                items:
+                  type: object
+                  properties:
+                    displayName: string
+                    id: integer
+                    permissionName: string
         example:
           [{
             "displayName": "Manager",
@@ -940,19 +952,20 @@ traits:
     body:
       application/json:
         type: array
-        facets:
-          objects:
-            properties:
-              id: string
-              systemName: string
-              PERMISSIONS:
-                type: array
-                facets:
-                  objects:
-                    properties:
-                      displayName: string
-                      id: integer
-                      permissionName: string
+        items:
+          type: object
+          properties:
+            id: integer
+            systemName: string
+            displayName: string
+            PERMISSIONS:
+              type: array
+              facets:
+                objects:
+                  properties:
+                    displayName: string
+                    id: integer
+                    permissionName: string
         example:
           [{
             "displayName": "Manager",
@@ -1014,18 +1027,9 @@ traits:
                   "id": 14,
                   "permissionName": "PUBLISH JOB"
                }],
-            "id": 0,
+            "id": 10,
             "systemName": "Manager"
-            }, {
-            "displayName": "Beoordelaar",
-            "PERMISSIONS": [{
-             "displayName": "VIEW JOBS",
-             "id": 21,
-             "permissionName": "VIEW JOBS"
-           }],
-            "id": 30,
-            "systemName": "Beoordelaar"
-          }]
+            }]
   delete:
     queryParameters:
       roleId:
@@ -1039,8 +1043,10 @@ traits:
       application/json:
         properties:
           secretkey:
+            type: string
             required: true
           passWord:
+            type: string
             required: true
 
 # registration
@@ -1070,8 +1076,19 @@ traits:
 # references
 
 /references:
-  is: [ token_required ]
+  is: [ token_required,
+    response_delete_nok,
+    response_get_nok,
+    response_post_nok,
+    response_put_nok,
+    response_delete_ok,
+    response_post_ok,
+    response_put_ok ] # this covers all responses except GET 200
   get:
+    queryParameters:
+      id:
+        type: string
+        required: false
     responses:
       200:
         body:
@@ -1104,15 +1121,44 @@ traits:
       application/json:
         properties:
           reference:
+            type: object
             required: true
+            properties:
+              displayName: string
+              id: string
+          token: string
+        example: |
+          {
+            "reference": {
+              "displayName": "Sales",
+              "id": ""
+              },
+          "token": "E4CB8DB5-6C62-6D46-AC1443232464C278"
+          }
   put:
-    queryParameters:
-     reference:
-      required: true
+    body:
+      application/json:
+        properties:
+          reference:
+            type: object
+            required: true
+            properties:
+              displayName: string
+              id: string
+          token: string
+        example: |
+          {
+            "reference": {
+              "displayName": "Sales",
+              "id": "e1dd39e2-4941-4f81-8411-f3ae9d04c62a"
+              },
+          "token": "E4CB8DB5-6C62-6D46-AC1443232464C278"
+          }
   delete:
     queryParameters:
      id:
-      required: true
+       type: string
+       required: true
   /{id}:
     get:
       responses:
@@ -1120,6 +1166,9 @@ traits:
           body:
             application/json:
               type: object
+              properties:
+                id: string
+                displayName: string
               example:
                 {
                     "displayName": "H&R",
@@ -1129,7 +1178,7 @@ traits:
 # permission
 
 /permission:
-  is: [ token_required ]
+  is: [ token_required,response_get_nok]
   get:
     responses:
       200:
@@ -1162,8 +1211,15 @@ traits:
 # matchingconfigurations
 
 /matchingconfigurations:
+  is: [ token_required,
+    response_delete_nok,
+    response_get_nok,
+    response_post_nok,
+    response_put_nok,
+    response_delete_ok,
+    response_post_ok,
+    response_put_ok ] # this covers all responses except GET 200
   get:
-    is: [ token_required ]
     responses:
       200:
         body:
@@ -1293,8 +1349,8 @@ traits:
               "skillExponent": 2,
               "educationNotPassed": 0.25,
               "updated": "",
-              "generalSkillWeight": 1, #0, --0 = original value, gives syntaxerror 'number is expected'
-              "knowledgeWeight": 1, #0, --0 = original value, gives syntaxerror 'number is expected'
+              "generalSkillWeight": 1,
+              "knowledgeWeight": 1,
               "personalityWeight": 1,
               "traitsBase": 6,
               "traitsWeight": 1,
@@ -1304,6 +1360,7 @@ traits:
   post:
     body:
       application/json:
+        type: object
         properties:
           matchingConfiguration:
             type: object
@@ -1328,6 +1385,7 @@ traits:
               experienceAreaWeight: integer
               created: string
               experienceLevelAboveZero: integer
+              displayName: string
               competenceWeight: integer
               skillExponent: integer
               educationNotPassed: number
@@ -1340,48 +1398,126 @@ traits:
               domainOwnerId: string
               educationLevelWeight: integer
           token: string
+        example: |
+          {
+           "matchingConfiguration": {
+             "educationPassed": 1,
+             "experienceLevelBelowZero": 1,
+             "educationLevelExponent": 2,
+             "experienceSubAreaWeight": 1,
+             "experienceWeight": 1,
+             "languageWeight": 2,
+             "traitsExponent": 1.5,
+             "educationWeight": 1,
+             "id": "",
+             "deleted": "",
+             "skillWeight": 2,
+             "experienceLevelWeight": 1,
+             "languageExponent": 2,
+             "name": "test1",
+             "educationAreaWeight": 1,
+             "competenceExponent": 2,
+             "experienceAreaWeight": 1,
+             "created": "December, 14 2015 10:30:42",
+             "experienceLevelAboveZero": 1,
+             "displayName": "test1",
+             "competenceWeight": 1,
+             "skillExponent": 2,
+             "educationNotPassed": 0.25,
+             "updated": "",
+             "generalSkillWeight": 1,
+             "knowledgeWeight": 1,
+             "personalityWeight": 1,
+             "traitsBase": 6,
+             "traitsWeight": 1,
+             "domainOwnerId": "83599755-1755-4f77-9c12-7caf99a6a6b2",
+             "educationLevelWeight": 1
+             },
+           "token": "83599555-1755-4f77-9c88-7caf99bda6b2"
+          }
   put:
-    queryParameters:
-      matchingConfiguration:
+    body:
+      application/json:
         type: object
-        required: true
         properties:
-          educationPassed: integer
-          experienceLevelBelowZero: integer
-          educationLevelExponent: integer
-          experienceSubAreaWeight: integer
-          experienceWeight: integer
-          languageWeight: integer
-          traitsExponent: number
-          educationWeight: integer
-          id: string
-          deleted: string
-          skillWeight: integer
-          experienceLevelWeight: integer
-          languageExponent: integer
-          name: string
-          educationAreaWeight:  integer
-          competenceExponent: integer
-          experienceAreaWeight: integer
-          created: string
-          experienceLevelAboveZero: integer
-          competenceWeight: integer
-          skillExponent: integer
-          educationNotPassed: number
-          updated: string
-          generalSkillWeight: integer
-          knowledgeWeight: integer
-          personalityWeight: integer
-          traitsBase: integer
-          traitsWeight: number
-          domainOwnerId: string
-          educationLevelWeight: integer
-      token: string
+          matchingConfiguration:
+            type: object
+            required: true
+            properties:
+              educationPassed: integer
+              experienceLevelBelowZero: integer
+              educationLevelExponent: integer
+              experienceSubAreaWeight: integer
+              experienceWeight: integer
+              languageWeight: integer
+              traitsExponent: number
+              educationWeight: integer
+              id: string
+              deleted: string
+              skillWeight: integer
+              experienceLevelWeight: integer
+              languageExponent: integer
+              name: string
+              educationAreaWeight:  integer
+              competenceExponent: integer
+              experienceAreaWeight: integer
+              created: string
+              experienceLevelAboveZero: integer
+              displayName: string
+              competenceWeight: integer
+              skillExponent: integer
+              educationNotPassed: number
+              updated: string
+              generalSkillWeight: integer
+              knowledgeWeight: integer
+              personalityWeight: integer
+              traitsBase: integer
+              traitsWeight: number
+              domainOwnerId: string
+              educationLevelWeight: integer
+          token: string
+        example: |
+          {
+           "matchingConfiguration": {
+             "educationPassed": 1,
+             "experienceLevelBelowZero": 1,
+             "educationLevelExponent": 2,
+             "experienceSubAreaWeight": 1,
+             "experienceWeight": 1,
+             "languageWeight": 2,
+             "traitsExponent": 1.5,
+             "educationWeight": 1,
+             "id": "bc06a56a-5f40-4187-aa57-d6d13a325211",
+             "deleted": "",
+             "skillWeight": 2,
+             "experienceLevelWeight": 1,
+             "languageExponent": 2,
+             "name": "test1",
+             "educationAreaWeight": 1,
+             "competenceExponent": 2,
+             "experienceAreaWeight": 1,
+             "created": "December, 14 2015 10:30:42",
+             "experienceLevelAboveZero": 1,
+             "displayName": "test1",
+             "competenceWeight": 1,
+             "skillExponent": 2,
+             "educationNotPassed": 0.25,
+             "updated": "",
+             "generalSkillWeight": 1,
+             "knowledgeWeight": 1,
+             "personalityWeight": 1,
+             "traitsBase": 6,
+             "traitsWeight": 1,
+             "domainOwnerId": "83599755-1755-4f77-9c12-7caf99a6a6b2",
+             "educationLevelWeight": 1
+             },
+           "token": "83599555-1755-4f77-9c88-7caf99bda6b2"
+          }
   delete:
-    is: [ token_required ]
     queryParameters:
      matchingId:
-      required: true
+       type: string
+       required: true
   /{matchingId}:
     get:
       responses:
@@ -1459,12 +1595,18 @@ traits:
 # logout
 
 /logout:
+  is: [response_post_ok,response_post_nok]
   post:
     body:
       application/json:
         properties:
           tokens:
+            type: string
             required: false
+        example:
+          {
+             "tokens": "83665325-1834-9d88-9c09-7ce398b6a6b2"
+          }
     responses:
       200:
         body:
@@ -1498,10 +1640,10 @@ traits:
             type: string
         example:
           {
-              "deviceId": "",
-             "domainId": "6ead3b9b-511d-4976-8179-05f3e24e3231",
-             "username": "demo@hrmatches.com",
-             "password": "Demo2016"
+            "deviceId": "",
+            "domainId": "6ead3b9b-511d-4976-8179-05f3e24e3231",
+            "username": "peter@hrmatches.com",
+            "password": "peter123"
           }
     responses:
       200:
@@ -1527,8 +1669,8 @@ traits:
                  "message": "LOGIN_ERROR"
               }
 /language:
+  is: [token_optional,response_get_nok]
   get:
-    is: [token_required]
     responses:
       200:
         body:
@@ -1572,10 +1714,10 @@ traits:
                 "ru_RU_DisplayName": "Deutsch - Germany",
                 "updated": "",
                 "id": 65,
-                "master": 1, #0, --0 = original value, gives syntaxerror 'number is expected'
+                "master": 1,
                 "pl_PL_DisplayName": "Deutsch - Niemcy",
                 "pt_PT_DisplayName": "Deutsch - Germany",
-                "verified": 1, #0, --0 = original value, gives syntaxerror 'number is expected'
+                "verified": 1,
                 "fr_FR_DisplayName": "Deutsch - Allemagne",
                 "ISO639x": " ",
                 "code": "0x040"
@@ -1593,10 +1735,10 @@ traits:
                 "ru_RU_DisplayName": "Deutsch - Germany",
                 "updated": "",
                 "id": 65,
-                "master": 1, #0, --0 = original value, gives syntaxerror 'number is expected'
+                "master": 1,
                 "pl_PL_DisplayName": "Deutsch - Niemcy",
                 "pt_PT_DisplayName": "Deutsch - Germany",
-                "verified": 1, #0, --0 = original value, gives syntaxerror 'number is expected'
+                "verified": 1,
                 "fr_FR_DisplayName": "Deutsch - Allemagne",
                 "ISO639x": " ",
                 "code": "0x040"
@@ -1614,161 +1756,14 @@ traits:
                 "ru_RU_DisplayName": "English - United States",
                 "updated": "",
                 "id": 50,
-                "master": 1, #0, --0 = original value, gives syntaxerror 'number is expected'
+                "master": 1,
                 "pl_PL_DisplayName": "Angielski - Stany Zjednoczone",
                 "pt_PT_DisplayName": "English - United States",
-                "verified": 1, #0, --0 = original value, gives syntaxerror 'number is expected'
+                "verified": 1,
                 "fr_FR_DisplayName": "Anglais- États Unis",
                 "ISO639x": "ENU",
                 "code": "0x040"
-             },{
-                "lv_LV_DisplayName": "Spanish - Spain",
-                "name": "es_ES",
-                "en_US_DisplayName": "Spanish - Spain",
-                "en_GB_DisplayName": "Spanish - Spain",
-                "fallback": 38,
-                "es_ES_DisplayName": "Spanish - Spain",
-                "created": "July, 22 2015 14:36:46",
-                "available": 1,
-                "de_DE_DisplayName": "Spanisch",
-                "nl_NL_DisplayName": "Spaans - Spain",
-                "ru_RU_DisplayName": "Spanish - Spain",
-                "updated": "",
-                "id": 120,
-                "master": 1, #0, --0 = original value, gives syntaxerror 'number is expected'
-                "pl_PL_DisplayName": "Hiszpański",
-                "pt_PT_DisplayName": "",
-                "verified": 1, #0, --0 = original value, gives syntaxerror 'number is expected'
-                "fr_FR_DisplayName": "Espagnol",
-                "ISO639x": " ",
-                "code": "0x0C0"
-              },{
-                "lv_LV_DisplayName": "Français - France",
-                "name": "fr_FR",
-                "en_US_DisplayName": "French - France",
-                "en_GB_DisplayName": "French - France",
-                "fallback": 38,
-                "es_ES_DisplayName": "Français - France",
-                "created": "July, 22 2015 14:36:46",
-                "available": 1,
-                "de_DE_DisplayName": "Französisch - Frankreich",
-                "nl_NL_DisplayName": "Frans - France",
-                "ru_RU_DisplayName": "Français - France",
-                "updated": "",
-                "id": 58,
-                "master": 1, #0, --0 = original value, gives syntaxerror 'number is expected'
-                "pl_PL_DisplayName": "Francuski - Francja",
-                "pt_PT_DisplayName": "Français - France",
-                "verified": 1, #0, --0 = original value, gives syntaxerror 'number is expected'
-                "fr_FR_DisplayName": "Français - France",
-                "ISO639x": " ",
-                "code": "0x040"
-              },{
-                "lv_LV_DisplayName": "Latvian - Latvia",
-                "name": "lv_LV",
-                "en_US_DisplayName": "Latvian - Latvia",
-                "en_GB_DisplayName": "Latvian - Latvia",
-                "fallback": 38,
-                "es_ES_DisplayName": "Latvian - Latvia",
-                "created": "July, 22 2015 14:36:46",
-                "available": 1,
-                "de_DE_DisplayName": "Lettisch",
-                "nl_NL_DisplayName": "Lets - Latvia",
-                "ru_RU_DisplayName": "Latvian - Latvia",
-                "updated": "",
-                "id": 84,
-                "master": 1, #0, --0 = original value, gives syntaxerror 'number is expected'
-                "pl_PL_DisplayName": "łotewski",
-                "pt_PT_DisplayName": "Latvian - Latvia",
-                "verified": 1, #0, --0 = original value, gives syntaxerror 'number is expected'
-                "fr_FR_DisplayName": "Letton",
-                "ISO639x": "LVI",
-                "code": "0x042"
-              },{
-                "lv_LV_DisplayName": "Nederlands - Nederland",
-                "name": "nl_NL",
-                "en_US_DisplayName": "Dutch - The Netherlands",
-                "en_GB_DisplayName": "Dutch - The Netherlands",
-                "fallback": 38,
-                "es_ES_DisplayName": "Nederlands - Nederland",
-                "created": "July, 22 2015 14:36:46",
-                "available": 1,
-                "de_DE_DisplayName": "Holländisch - Niederlande",
-                "nl_NL_DisplayName": "Nederlands - Nederland",
-                "ru_RU_DisplayName": "Nederlands - Nederland",
-                "updated": "",
-                "id": 38,
-                "master": 1,
-                "pl_PL_DisplayName": "Nederlands - Holandia",
-                "pt_PT_DisplayName": "Nederlands - Nederland",
-                "verified": 1,
-                "fr_FR_DisplayName": "Néerlandais - Pays-Bas",
-                "ISO639x": " ",
-                "code": "0x041"
-              },{
-                "lv_LV_DisplayName": "Polskie - Poland",
-                "name": "pl_PL",
-                "en_US_DisplayName": "Polish - Poland",
-                "en_GB_DisplayName": "Polish - Poland",
-                "fallback": 38,
-                "es_ES_DisplayName": "Polskie - Poland",
-                "created": "July, 22 2015 14:36:46",
-                "available": 1,
-                "de_DE_DisplayName": "Polnisch - Polen",
-                "nl_NL_DisplayName": "Pools - Poland",
-                "ru_RU_DisplayName": "Polskoe - Poland",
-                "updated": "",
-                "id": 93,
-                "master": 1, #0, --0 = original value, gives syntaxerror 'number is expected'
-                "pl_PL_DisplayName": "Polskie - Polska",
-                "pt_PT_DisplayName": "Polskie - Poland",
-                "verified": 1, #0, --0 = original value, gives syntaxerror 'number is expected'
-                "fr_FR_DisplayName": "Polskie - Pologne",
-                "ISO639x": "PLK",
-                "code": "0x041"
-              },{
-                "lv_LV_DisplayName": "Portuguese - Portugal ",
-                "name": "pt_PT",
-                "en_US_DisplayName": "Portuguese - Portugal",
-                "en_GB_DisplayName": "Portuguese - Portugal",
-                "fallback": 38,
-                "es_ES_DisplayName": "Portuguese - Portugal ",
-                "created": "July, 22 2015 14:36:46",
-                "available": 1,
-                "de_DE_DisplayName": "Portugiesisch",
-                "nl_NL_DisplayName": "Portugees - Portugal",
-                "ru_RU_DisplayName": "Portuguese - Portugal ",
-                "updated": "",
-                "id": 95,
-                "master": 1, #0, --0 = original value, gives syntaxerror 'number is expected'
-                "pl_PL_DisplayName": "Portugalski",
-                "pt_PT_DisplayName": "Portuguese - Portugal ",
-                "verified": 1, #0, --0 = original value, gives syntaxerror 'number is expected'
-                "fr_FR_DisplayName": "Portugais",
-                "ISO639x": " ",
-                "code": "0x081"
-              },{
-                "lv_LV_DisplayName": "Russian - Russia",
-                "name": "ru_RU",
-                "en_US_DisplayName": "Russian - Russia",
-                "en_GB_DisplayName": "Russian - Russia",
-                "fallback": 38,
-                "es_ES_DisplayName": "Russian - Russia",
-                "created": "July, 22 2015 14:36:46",
-                "available": 1,
-                "de_DE_DisplayName": "Russisch",
-                "nl_NL_DisplayName": "Russisch - Russia",
-                "ru_RU_DisplayName": "Russian - Russia",
-                "updated": "",
-                "id": 98,
-                "master": 1, #0, --0 = original value, gives syntaxerror 'number is expected'
-                "pl_PL_DisplayName": "Rosyjski",
-                "pt_PT_DisplayName": "Russian - Russia",
-                "verified": 1, #0, --0 = original value, gives syntaxerror 'number is expected'
-                "fr_FR_DisplayName": "Russe",
-                "ISO639x": "RUS",
-                "code": "0x041"
-              }]
+             }]
   /{id}:
     get:
       responses:
@@ -1812,17 +1807,17 @@ traits:
                   "ru_RU_DisplayName": "Russian - Russia",
                   "updated": "",
                   "id": 98,
-                  "master": 1, #0, --0 = original value, gives syntaxerror 'number is expected'
+                  "master": 1,
                   "pl_PL_DisplayName": "Rosyjski",
                   "pt_PT_DisplayName": "Russian - Russia",
-                  "verified": 1, #0, --0 = original value, gives syntaxerror 'number is expected'
+                  "verified": 1,
                   "fr_FR_DisplayName": "Russe",
                   "ISO639x": "RUS",
                   "code": "0x041"
               }
 
 /jobs:
-  is: [token_required]
+  is: [token_required,response_get_nok]
   get:
     description: List all jobs
     responses:
@@ -1830,25 +1825,25 @@ traits:
         body:
           application/json:
             type: array
-            facets:
-              objects:
-                properties:
-                  jobDomainId: string
-                  domainOwnerDeleted: string
-                  teamId: string
-                  JobId: string
-                  roleId: integer
-                  jobStatus: integer,
-                  PersonId: string
-                  firstName: string
-                  NumberInStatus: integer
-                  infix: string
-                  domainOwnerName: string
-                  JobApplicationStatusId: integer
-                  jobName: string
-                  domainOwnerId: string
-                  emailaddress: string
-                  lastName: string
+            items:
+              type: object
+              properties:
+                jobDomainId: string
+                domainOwnerDeleted: string
+                teamId: string
+                JobId: string
+                roleId: integer
+                jobStatus: integer
+                PersonId: string
+                firstName: string
+                NumberInStatus: integer
+                infix: string
+                domainOwnerName: string
+                JobApplicationStatusId: integer
+                jobName: string
+                domainOwnerId: string
+                emailaddress: string
+                lastName: string
             example:
                 [{
                     "jobDomainId": "8de47fd3-355f-4912-aa37-6d072e68a943",
@@ -1930,6 +1925,14 @@ traits:
                 }
 
 /jobdomains:
+  is: [ token_required,
+    response_delete_nok,
+    response_get_nok,
+    response_post_nok,
+    response_put_nok,
+    response_delete_ok,
+    response_post_ok,
+    response_put_ok ] # this covers all responses except GET 200
   get:
     responses:
       200:
@@ -1992,30 +1995,60 @@ traits:
   post:
     body:
       application/json:
+        type: object
         properties:
-          jobDomains:
+          jobdomains:
             required: true
-            facets:
+            type: object
+            properties:
               parent: string
+              displayName: string
               id: string
               companyCultureId: string
               matchingId: string
               domainOwnerId: string
+        example: |
+          {
+             "jobdomains": {
+                "parent": "",
+                "displayName": "New",
+                "id": "a5758488-8204-4e36-808b-eeb938d8811f",
+                "companyCultureId": "8d6513df-94d0-4be2-bda7-a0945062c94f",
+                "matchingId": "bc06a56a-5e40-4187-aa57-d8b13a325211",
+                "domainOwnerId": "83599755-1855-4f88-9c09-7caf99a6a6b2"
+               }
+          }
   put:
-    queryParameters:
-      jobDomains:
-        required: true
-        facets:
-          parent: string
-          id: string
-          companyCultureId: string
-          matchingId: string
-          domainOwnerId: string
+    body:
+      application/json:
+        type: object
+        properties:
+          jobdomains:
+            required: true
+            type: object
+            properties:
+              parent: string
+              displayName: string
+              id: string
+              companyCultureId: string
+              matchingId: string
+              domainOwnerId: string
+        example: |
+          {
+            "jobdomains": {
+               "parent": "",
+               "displayName": "HR",
+               "id": "c4f46d47-4059-4dfb-a54a-874d35c5cb8d",
+               "companyCultureId": "8d6513df-94d0-4be2-bda7-a0945062c94f",
+               "matchingId": "4b5d8270-1203-4d2e-be32-7105bff1f0e0",
+               "domainOwnerId": "83599755-1855-4f88-9c09-7caf99a6a6b2"
+            }
+          }
   delete:
     queryParameters:
       jobDomainId:
+        type: string
         required: true
-
   /{jobDomainId}:
     get:
       responses:
@@ -2023,6 +2056,13 @@ traits:
           body:
             application/json:
               type: object
+              properties:
+                parent: string
+                displayName: string
+                id: string
+                companyCultureId: string
+                matchingId: string
+                domainOwnerId: string
               example:
                 {
                    "parent": "",
@@ -2047,7 +2087,9 @@ traits:
            "hostname": "",
            "emailaddress": ""
           }
+
 /educationtype:
+  is: [token_required,response_get_nok]
   get:
     responses:
       200:
@@ -2171,20 +2213,41 @@ traits:
                 }
 
 /cultures:
-  is: [ token_required ]
+  is: [ token_required,
+    response_delete_nok,
+    response_get_nok,
+    response_post_nok,
+    response_put_nok,
+    response_delete_ok,
+    response_post_ok,
+    response_put_ok ] # this covers all responses except GET 200
   get:
     responses:
       200:
         body:
           application/json:
             type: array
+            items:
+              type: object
+              properties:
+                ADHO: integer
+                DisplayName: string
+                name: string
+                companyDefault: integer
+                FAML: integer
+                updated: string
+                MRKT: integer
+                id: string
+                HCHY: integer
+                created: string
+                domainOwnerId: string
             example:
                 [{
                   "ADHO": 3,
                   "DisplayName": "Basis cultuur",
                   "name": "Basis cultuur",
-                  "companyDefault": 0,
-                  "FAML": 0,
+                  "companyDefault": 1,
+                  "FAML": 2,
                   "updated": "",
                   "MRKT": 2,
                   "id": "eff89f65-3a35-4a7d-9b05-27041e19fadb",
@@ -2207,7 +2270,7 @@ traits:
                 "ADHO": 9,
                   "DisplayName": "Cultuur 3",
                   "name": "Cultuur 3",
-                  "companyDefault": 0,
+                  "companyDefault": 1,
                   "FAML": 4,
                   "updated": "",
                   "MRKT": 7,
@@ -2219,18 +2282,83 @@ traits:
   post:
     body:
       application/json:
+        type: object
         properties:
           culture:
+            type: object
             required: true
-          token:
-            required: true
+            properties:
+              ADHO: integer
+              DisplayName: string
+              name: string
+              companyDefault: integer
+              FAML: integer
+              updated: string
+              MRKT: integer
+              id: string
+              HCHY: integer
+              created: string
+              domainOwnerId: string
+          token: string
+        example: |
+          {
+          "culture": {
+            "ADHO": 9,
+              "DisplayName": "Cultuur 3",
+              "name": "Cultuur 3",
+              "companyDefault": 1,
+              "FAML": 4,
+              "updated": "",
+              "MRKT": 7,
+              "id": "",
+              "HCHY": 2,
+              "created": "December, 14 2015 10:36:47",
+              "domainOwnerId": "83599755-1855-4f88-9c09-7caf99a6a6b2"
+            },
+            "token": "E4CB9DB5-6C62-6D46-AC1443222464C278"
+          }
   put:
-    queryParameters:
-      culture:
-        required: true
+    body:
+      application/json:
+        type: object
+        properties:
+          culture:
+            type: object
+            required: true
+            properties:
+              ADHO: integer
+              DisplayName: string
+              name: string
+              companyDefault: integer
+              FAML: integer
+              updated: string
+              MRKT: integer
+              id: string
+              HCHY: integer
+              created: string
+              domainOwnerId: string
+          token: string
+        example: |
+          {
+          "culture": {
+            "ADHO": 9,
+              "DisplayName": "Cultuur 3",
+              "name": "Cultuur 3",
+              "companyDefault": 1,
+              "FAML": 4,
+              "updated": "",
+              "MRKT": 7,
+              "id": "8d6513df-94d0-4be2-bda7-a0945062c94f",
+              "HCHY": 2,
+              "created": "December, 14 2015 10:36:47",
+              "domainOwnerId": "83599755-1855-4f88-9c09-7caf99a6a6b2"
+            },
+            "token": "E4CB9DB5-6C62-6D46-AC1443222464C278"
+          }
   delete:
     queryParameters:
       id:
+        type: string
         required: true
   /{cultureId}:
     get:
@@ -2255,12 +2383,31 @@ traits:
                 }
 
 /country:
+  is: [token_required,response_get_nok]
   get:
     responses:
       200:
         body:
           application/json:
             type: array
+            items:
+              type: object
+              properties:
+                lv_LV_DisplayName: string
+                en_US_DisplayName: string
+                en_GB_DisplayName: string
+                be_BE_DisplayName: string
+                es_ES_DisplayName: string
+                created: string
+                de_DE_DisplayName: string
+                nl_NL_DisplayName: string
+                countryName: string
+                ru_RU_DisplayName: string
+                updated: string
+                id: string
+                pl_PL_DisplayName: string
+                pt_PT_DisplayName: string
+                fr_FR_DisplayName: string
             example:
               [{
                 "lv_LV_DisplayName": "",
@@ -2337,13 +2484,26 @@ traits:
                    "fr_FR_DisplayName":  ""
                 }
 /companyinfo:
-  is: [token_required]
+  is: [token_required,response_get_nok,response_put_ok,response_put_nok]
   get:
     responses:
       200:
         body:
           application/json:
             type: object
+            properties:
+              countryId: string
+              companyAddress: string
+              brancheId: string
+              companyName: string
+              id: string
+              companySize: string
+              city: string
+              contactName: string
+              companyDescription: string
+              companyZipcode: string
+              contactPhoneNumber: string
+              website: string
             example:
               {
                "countryId": "",
@@ -2360,33 +2520,55 @@ traits:
                "website": "demo.hrmatches.com"
           }
   put:
-    queryParameters:
-      companyinfo:
-        required: true
+    body:
+      application/json:
         type: object
         properties:
-          countryId: string
-          companyAddress: string
-          brancheId: string
-          companyName: string
-          id: string
-          companySize: string
-          city: string
-          contactName: string
-          companyDescription: string
-          companyZipcode: string
-          contactPhoneNumber: string
-          website: string
-      token:
-        required: true
+          companyinfo:
+            required: true
+            type: object
+            properties:
+              countryId: string
+              companyAddress: string
+              brancheId: string
+              companyName: string
+              id: string
+              companySize: string
+              city: string
+              contactName: string
+              companyDescription: string
+              companyZipcode: string
+              contactPhoneNumber: string
+              website: string
+          token:
+            required: true
+
 /branche:
-  is: [token_required]
+  is: [token_required,response_get_nok]
   get:
     responses:
       200:
         body:
           application/json:
             type: array
+            items:
+              type: object
+              properties:
+                brancheName: string
+                lv_LV_DisplayName: string
+                en_US_DisplayName: string
+                en_GB_DisplayName: string
+                es_ES_DisplayName: string
+                created: string
+                de_DE_DisplayName: string
+                nl_NL_DisplayName: string
+                displayName: string
+                updated: string
+                ru_RU_DisplayName: string
+                id: string
+                pl_PL_DisplayName: string
+                pt_PT_DisplayName: string
+                fr_FR_DisplayName: string
             example:
               [{
                 "brancheName": "Accounting en Controlling",
@@ -2437,19 +2619,46 @@ traits:
                 "pt_PT_DisplayName": "",
                 "fr_FR_DisplayName": "Architecture / Design"
              }]
+
 /authenticate:
+  is: [token_required,response_post_nok]
   post:
     body:
       application/json:
         properties:
           username:
+            type: string
             required: true
           password:
+            type: string
             required: true
+        example:
+          {
+            "username": "peter@hrmatches.com",
+            "password": "peter123"
+          }
     responses:
       200:
         body:
           application/json:
+            type: object
+            properties:
+              message: string
+              profiles:
+                type: array
+                required: false
+                items:
+                  type: object
+                  properties:
+                    domainOwner: string
+                    domainId: string
+                    firstName: string
+                    infix: string
+                    domainName: string
+                    loggedIn: string
+                    website: string
+                    lastName: string
+                    personId: string
             example:
               {
                "message": "LOGIN_OK",
@@ -2489,13 +2698,36 @@ traits:
             }
 
 /activityLog:
+  is: [ token_required,response_get_nok]
   get:
-    is: [ token_required ]
     responses:
       200:
         body:
           application/json:
             type: array
+            items:
+              type: object
+              properties:
+                activity: string
+                jobId: string
+                jobStatus: string
+                created: string
+                activityType: string
+                jobApplicationId: string
+                jobApplicationStatus: string
+                personId: string
+                firstName: string
+                infix: string
+                jobStatusId: string
+                employeeInfix: string
+                id: string
+                jobApplicationStatusId: integer
+                employeeLastName: string
+                jobName: string
+                activityTypeId: integer
+                employeeFirstName: string
+                domainOwnerId: string
+                lastName: string
             example:
               [{
                 "activity": "",
@@ -2593,16 +2825,30 @@ traits:
                 }
 
 /account:
+  is: [ token_required,
+    response_delete_nok,
+    response_get_nok,
+    response_put_nok,
+    response_delete_ok,
+    response_put_ok ] # this covers all responses except GET 200
   get:
-    is: [ token_required ]
     queryParameters:
       personId:
+        type: string
         required: true
     responses:
       200:
         body:
           application/json:
             type: object
+            properties:
+              firstName: string
+              phoneNumber: string
+              infix: string
+              language: string
+              id: string
+              emailaddress: string
+              lastName: string
             example:
               {
                "firstName": "demo",
@@ -2614,13 +2860,37 @@ traits:
                "lastName": "HRMatches"
             }
   delete:
-    is: [ token_required ]
     queryParameters:
       personId:
         required: true
+        type: string
   put:
-    is: [ token_required ]
-    queryParameters:
-      person:
+    body:
+      application/json:
         type: object
-        required: true
+        properties:
+          person:
+            required: true
+            type: object
+            properties:
+              firstName: string
+              phoneNumber: string
+              infix: string
+              language: string
+              id: string
+              emailaddress: string
+              lastName: string
+          token: string
+        example: |
+          {
+            "person": {
+              "firstName": "demo",
+              "phoneNumber": "",
+              "infix": "",
+              "language": "nl_NL",
+              "id": "7142d9e-b1be-41ac-bbcf-a6a1f4d31170",
+              "emailaddress": "demo@hrmatches.com",
+              "lastName": "HRMatches"
+            },
+            "token": "E4CB9DB5-6C62-6D46-AC1443222464C278"
+          }
