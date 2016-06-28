@@ -1,6 +1,10 @@
 #%RAML 1.0
 title: api-development HRMatches API
-version: v0.1
+version: v1.0
+# date: 2016-06-28
+description: /
+  traits used for responses other than GET 200 and aded to endpoint methods
+  All endpoints with optional parameter have url queryparameter and uri parameter
 baseUri: http://api-development.hrmatches.com
 traits:
   token_required:
@@ -251,8 +255,9 @@ traits:
 # menu
 
 /menu:
-  is: [ token_optional,response_get_nok ]
+  is: [ token_optional ]
   get:
+    is: [response_get_nok]
     description: retrieve menus for application
     queryParameters:
       depth:
@@ -271,40 +276,43 @@ traits:
       200:
         body:
           application/json:
-            type: array
-            items:
-              type: object
-              properties:
-                itemId:
-                  type: string
-                itemLabel:
-                  type: string
-                parent:
-                  type: string
-                orderBy:
-                  description: |
-                    possible values are:
-                    'natural' [type: string] - same order as in db table,
-                    'alphabetic' [type: string] - in ascending order
-                    'custom' [type: integer]- a user provided integer value)
-                  type: string
-                sortOrder:
-                  description: the user-defined sort order of a menu item
-                  type: integer
-                  required: false
-                type:
-                  description: |
-                    a menu item can be single, separator
-                    (a line separating singleitems) or
-                    compound (containing a submenu)
-                  type: string
-                actionUrl:
-                  type: string
-                menuItemIconName:
-                  type: string
-                  description: name of menuitem
-            example:
-                [{
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    itemId:
+                      type: string
+                    itemLabel:
+                      type: string
+                    parent:
+                      type: string
+                    orderBy:
+                      description: |
+                        possible values are:
+                        'natural' [type: string] - same order as in db table,
+                        'alphabetic' [type: string] - in ascending order
+                        'custom' [type: integer]- a user provided integer value)
+                      type: string
+                    sortOrder:
+                      description: the user-defined sort order of a menu item
+                      type: integer
+                      required: false
+                    type:
+                      description: |
+                        a menu item can be single, separator
+                        (a line separating singleitems) or
+                        compound (containing a submenu)
+                      type: string
+                    actionUrl:
+                      type: string
+                    menuItemIconName:
+                      type: string
+                      description: name of menuitem
+            example: |
+                {"data": [{
                   "itemId": "0DDCBBD4-6C62-6D46-AC1475645F74FG4D",
                   "itemLabel": "Dashboard",
                   "parent": "",
@@ -329,6 +337,7 @@ traits:
                   "actionUrl": "",
                   "menuItemIconName": ""
                 }]
+                }
   post:
     is: [response_post_ok,response_post_nok]
     body:
@@ -427,6 +436,7 @@ traits:
   /{node}:
     description: Where in the menu context tree does this menu appear? value "" means there is no parent menu, any other value implies this is a submenu.
     get:
+      is: [response_get_nok]
       responses:
         200:
           body:
@@ -462,8 +472,9 @@ traits:
 #validate_secretkey
 
 /validate_secretkey:
-  is: [response_post_ok]
+  is: [response_post_ok,response_post_nok]
   post:
+    is: [response_post_ok,response_post_nok]
     body:
       application/json:
         properties:
@@ -480,7 +491,7 @@ traits:
 /users:
   is: [ token_required]
   get:
-    is: [ token_required,response_get_nok]
+    is: [ response_get_nok ]
     responses:
       200:
         body:
@@ -579,33 +590,6 @@ traits:
                   "emailaddress": "john@doe.nl",
                   "lastName": "Doe"
                   }
-    post:
-      is: [response_post_ok,response_post_nok]
-      body:
-        application/json:
-          properties:
-            person:
-              type: object
-              properties:
-                firstName: string
-                infix: string
-                id: string
-                emailaddress: string
-                lastName: string
-            token:
-              type: string
-              required: true
-          example: |
-            {
-             "person": {
-               "firstName": "John",
-               "infix": "",
-               "id": "605a0302-cc33-449a-ac50-5ef26e3e3330",
-                "emailaddress": "john@doe.nl",
-                "lastName": "Doe"
-                },
-             "token": "42E2BC51-6C62-6D46-AC1457446EC4C737"
-            }
     delete:
       is: [response_delete_ok,response_delete_nok]
       body:
@@ -626,9 +610,9 @@ traits:
 # translation
 
 /translation:
-  is: [ token_optional,
-    response_get_nok ] # this covers all responses except GET 200
+  is: [ token_optional ]
   get:
+    is: [ response_get_nok ]
     queryParameters:
       language:
         required: false
@@ -719,6 +703,7 @@ traits:
 
 /trackdata:
   post:
+    is: [response_post_ok,response_post_nok]
     body:
       application/json:
         properties:
@@ -787,10 +772,9 @@ traits:
                 "domainOwnerId": "83399755-1855-4f68-9c79-7c9f99h6a6b2"
               }]
   post:
+    is: [response_post_ok,response_post_nok]
     body:
       application/json:
-
-        type: object
         properties:
           teams:
             required: true
@@ -827,6 +811,7 @@ traits:
             }]
           }
   put:
+    is: [response_put_ok,response_put_nok]
     body:
       application/json:
         type: object
@@ -866,11 +851,13 @@ traits:
             }]
           }
   delete:
+    is: [response_delete_ok,response_delete_nok]
     queryParameters:
       teamId:
         required: true
   /{teamId}:
     get:
+      is: [response_get_nok]
       responses:
         200:
           body:
@@ -887,6 +874,7 @@ traits:
 /role:
   is: [ token_required ]
   get:
+    is: [response_get_nok]
     responses:
       200:
         body:
@@ -914,114 +902,117 @@ traits:
                       "displayName": "SEND MESSAGES",
                       "id": 15,
                       "permissionName": "SEND MESSAGES"
-                   },
-                   {
+                   },{
                       "displayName": "EDIT JOB STATUS",
                       "id": 5,
                       "permissionName": "EDIT JOB STATUS"
-                   },
-                   {
+                   },{
                       "displayName": "EDIT JOB",
                       "id": 4,
                       "permissionName": "EDIT JOB"
                    }],
                 "id": 29,
                 "systemName": "Manager"
-             },{
-                "displayName": "Beoordelaar",
-                "PERMISSIONS": [
-                   {
-                      "displayName": "VIEW JOBS",
-                      "id": 21,
-                      "permissionName": "VIEW JOBS"
-                   }
-                ],
-                "id": 30,
-                "systemName": "Beoordelaar"
-             }]
+                },{
+                  "displayName": "Beoordelaar",
+                  "PERMISSIONS": [{
+                        "displayName": "VIEW JOBS",
+                        "id": 21,
+                        "permissionName": "VIEW JOBS"
+                     }],
+                  "id": 30,
+                  "systemName": "Beoordelaar"
+               }]
   post:
+    is: [response_post_ok,response_post_nok]
     body:
       application/json:
-        type: array
-        facets:
-          objects:
-            properties:
-              id: integer
-              systemName: string
-              displayName: string
-              PERMISSIONS:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    displayName: string
-                    id: integer
-                    permissionName: string
+        type: object
+        properties:
+          roles:
+            type: array
+            items:
+              type: object
+              properties:
+                id: integer
+                systemName: string
+                displayName: string
+                PERMISSIONS:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      displayName: string
+                      id: integer
+                      permissionName: string
         example:
-          [{
-            "displayName": "Manager",
-            "PERMISSIONS": [
-               {
-                  "displayName": "SEND MESSAGES",
-                  "id": 15,
-                  "permissionName": "SEND MESSAGES"
-               },{
-                  "displayName": "EDIT JOB STATUS",
-                  "id": 5,
-                  "permissionName": "EDIT JOB STATUS"
-               },{
-                  "displayName": "EDIT JOB",
-                  "id": 4,
-                  "permissionName": "EDIT JOB"
-               },{
-                  "displayName": "MATCHING",
-                  "id": 17,
-                  "permissionName": "MATCHING"
-               },{
-                  "displayName": "ADMINISTRATION",
-                  "id": 12,
-                  "permissionName": "ADMINISTRATION"
-               },{
-                  "displayName": "BULK ACTION",
-                  "id": 32,
-                  "permissionName": "BULK ACTION"
-               },{
-                  "displayName": "USERMANAGEMENT",
-                  "id": 11,
-                  "permissionName": "USERMANAGEMENT"
-               },{
-                  "displayName": "CREATE JOB",
-                  "id": 3,
-                  "permissionName": "CREATE JOB"
-               },{
-                  "displayName": "ACCOUNT",
-                  "id": 16,
-                  "permissionName": "ACCOUNT"
-               },{
-                  "displayName": "ACTIVITYSTREAM",
-                  "id": 8,
-                  "permissionName": "ACTIVITYSTREAM"
-               },{
-                  "displayName": "CANDIDATES",
-                  "id": 7,
-                  "permissionName": "CANDIDATES"
-               },{
-                  "displayName": "STATISTICS",
-                  "id": 6,
-                  "permissionName": "STATISTICS"
-               },{
-                  "displayName": "TAGMANAGEMENT",
-                  "id": 13,
-                  "permissionName": "TAGMANAGEMENT"
-               },{
-                  "displayName": "PUBLISH JOB",
-                  "id": 14,
-                  "permissionName": "PUBLISH JOB"
-               }],
-            "id": 0,
-            "systemName": "Manager"
-            }]
+          {"roles":
+            [{
+              "displayName": "Manager",
+              "PERMISSIONS": [
+                 {
+                    "displayName": "SEND MESSAGES",
+                    "id": 15,
+                    "permissionName": "SEND MESSAGES"
+                 },{
+                    "displayName": "EDIT JOB STATUS",
+                    "id": 5,
+                    "permissionName": "EDIT JOB STATUS"
+                 },{
+                    "displayName": "EDIT JOB",
+                    "id": 4,
+                    "permissionName": "EDIT JOB"
+                 },{
+                    "displayName": "MATCHING",
+                    "id": 17,
+                    "permissionName": "MATCHING"
+                 },{
+                    "displayName": "ADMINISTRATION",
+                    "id": 12,
+                    "permissionName": "ADMINISTRATION"
+                 },{
+                    "displayName": "BULK ACTION",
+                    "id": 32,
+                    "permissionName": "BULK ACTION"
+                 },{
+                    "displayName": "USERMANAGEMENT",
+                    "id": 11,
+                    "permissionName": "USERMANAGEMENT"
+                 },{
+                    "displayName": "CREATE JOB",
+                    "id": 3,
+                    "permissionName": "CREATE JOB"
+                 },{
+                    "displayName": "ACCOUNT",
+                    "id": 16,
+                    "permissionName": "ACCOUNT"
+                 },{
+                    "displayName": "ACTIVITYSTREAM",
+                    "id": 8,
+                    "permissionName": "ACTIVITYSTREAM"
+                 },{
+                    "displayName": "CANDIDATES",
+                    "id": 7,
+                    "permissionName": "CANDIDATES"
+                 },{
+                    "displayName": "STATISTICS",
+                    "id": 6,
+                    "permissionName": "STATISTICS"
+                 },{
+                    "displayName": "TAGMANAGEMENT",
+                    "id": 13,
+                    "permissionName": "TAGMANAGEMENT"
+                 },{
+                    "displayName": "PUBLISH JOB",
+                    "id": 14,
+                    "permissionName": "PUBLISH JOB"
+                 }],
+              "id": 1,
+              "systemName": "Manager"
+              }]
+            }
   put:
+    is: [response_put_ok,response_put_nok]
     body:
       application/json:
         type: array
@@ -1104,6 +1095,7 @@ traits:
             "systemName": "Manager"
             }]
   delete:
+    is: [response_delete_ok,response_delete_nok]
     queryParameters:
       roleId:
         required: true
@@ -1112,6 +1104,7 @@ traits:
 
 /resetpassword:
   post:
+    is: [response_post_ok,response_post_nok]
     body:
       application/json:
         properties:
@@ -1121,11 +1114,17 @@ traits:
           passWord:
             type: string
             required: true
+        example:
+          {
+          "secretkey": "B5134F86-6C62-6D46-AC14DBD256CCE719",
+          "passWord": "RefHT54"
+          }
 
 # registration
 
 /registration:
   post:
+    is: [response_post_ok,response_post_nok]
     body:
       application/json:
         properties:
@@ -1145,19 +1144,24 @@ traits:
             required: false
           candidateOrigin:
             required: false
+        example:
+          {
+          "personId":"B5134F86-6C62-6D46-AC14DBD256CBE719",
+          "firstName":"John",
+          "infix":"",
+          "lastName":"Willman",
+          "emailaddress":"john@willman.com",
+          "username":"johnny",
+          "password":"johnw123",
+          "candidateOrigin":""
+          }
 
 # references
 
 /references:
-  is: [ token_required,
-    response_delete_nok,
-    response_get_nok,
-    response_post_nok,
-    response_put_nok,
-    response_delete_ok,
-    response_post_ok,
-    response_put_ok ] # this covers all responses except GET 200
+  is: [ token_required ]
   get:
+    is: [response_get_nok]
     queryParameters:
       id:
         type: string
@@ -1190,6 +1194,7 @@ traits:
                   "id": "e1dd39e2-4941-4f81-8411-f3ae9d04c62a"
               }]
   post:
+    is: [response_post_ok,response_post_nok]
     body:
       application/json:
         properties:
@@ -1209,6 +1214,7 @@ traits:
           "token": "E4CB8DB5-6C62-6D46-AC1443232464C278"
           }
   put:
+    is: [ response_put_ok,response_put_nok ]
     body:
       application/json:
         properties:
@@ -1228,12 +1234,14 @@ traits:
           "token": "E4CB8DB5-6C62-6D46-AC1443232464C278"
           }
   delete:
+    is: [response_delete_ok,response_delete_nok]
     queryParameters:
      id:
        type: string
        required: true
   /{id}:
     get:
+      is: [response_get_nok]
       responses:
         200:
           body:
@@ -1247,12 +1255,14 @@ traits:
                     "displayName": "H&R",
                     "id": "231017e4-e689-4460-ba93-2445cfb6906f"
                  }
-
+    delete:
+      is: [response_delete_ok,response_delete_nok]
 # permission
 
 /permission:
-  is: [ token_required,response_get_nok]
+  is: [ token_required ]
   get:
+    is: [response_get_nok]
     responses:
       200:
         body:
@@ -1284,15 +1294,9 @@ traits:
 # matchingconfigurations
 
 /matchingconfigurations:
-  is: [ token_required,
-    response_delete_nok,
-    response_get_nok,
-    response_post_nok,
-    response_put_nok,
-    response_delete_ok,
-    response_post_ok,
-    response_put_ok ] # this covers all responses except GET 200
+  is: [ token_required ]
   get:
+    is: [response_get_nok]
     responses:
       200:
         body:
@@ -1431,6 +1435,7 @@ traits:
               "educationLevelWeight": 1
            }]
   post:
+    is: [response_post_ok,response_post_nok]
     body:
       application/json:
         type: object
@@ -1509,6 +1514,7 @@ traits:
            "token": "83599555-1755-4f77-9c88-7caf99bda6b2"
           }
   put:
+    is: [ response_put_ok,response_put_nok ]
     body:
       application/json:
         type: object
@@ -1587,12 +1593,14 @@ traits:
            "token": "83599555-1755-4f77-9c88-7caf99bda6b2"
           }
   delete:
+    is: [response_delete_ok,response_delete_nok]
     queryParameters:
      matchingId:
        type: string
        required: true
   /{matchingId}:
     get:
+      is: [response_get_nok]
       responses:
         200:
           body:
@@ -1664,12 +1672,94 @@ traits:
                  "domainOwnerId": "83599325-1834-4f88-9c09-7ce399a6a6b2",
                  "educationLevelWeight": 1
               }
+    put:
+      is: [ response_put_ok,response_put_nok ]
+      body:
+        application/json:
+          type: object
+          properties:
+            matchingConfiguration:
+              type: object
+              required: true
+              properties:
+                educationPassed: integer
+                experienceLevelBelowZero: integer
+                educationLevelExponent: integer
+                experienceSubAreaWeight: integer
+                experienceWeight: integer
+                languageWeight: integer
+                traitsExponent: number
+                educationWeight: integer
+                id: string
+                deleted: string
+                skillWeight: integer
+                experienceLevelWeight: integer
+                languageExponent: integer
+                name: string
+                educationAreaWeight:  integer
+                competenceExponent: integer
+                experienceAreaWeight: integer
+                created: string
+                experienceLevelAboveZero: integer
+                displayName: string
+                competenceWeight: integer
+                skillExponent: integer
+                educationNotPassed: number
+                updated: string
+                generalSkillWeight: integer
+                knowledgeWeight: integer
+                personalityWeight: integer
+                traitsBase: integer
+                traitsWeight: number
+                domainOwnerId: string
+                educationLevelWeight: integer
+            token: string
+          example: |
+            {
+             "matchingConfiguration": {
+               "educationPassed": 1,
+               "experienceLevelBelowZero": 1,
+               "educationLevelExponent": 2,
+               "experienceSubAreaWeight": 1,
+               "experienceWeight": 1,
+               "languageWeight": 2,
+               "traitsExponent": 1.5,
+               "educationWeight": 1,
+               "id": "bc06a56a-5f40-4187-aa57-d6d13a325211",
+               "deleted": "",
+               "skillWeight": 2,
+               "experienceLevelWeight": 1,
+               "languageExponent": 2,
+               "name": "test1",
+               "educationAreaWeight": 1,
+               "competenceExponent": 2,
+               "experienceAreaWeight": 1,
+               "created": "December, 14 2015 10:30:42",
+               "experienceLevelAboveZero": 1,
+               "displayName": "test1",
+               "competenceWeight": 1,
+               "skillExponent": 2,
+               "educationNotPassed": 0.25,
+               "updated": "",
+               "generalSkillWeight": 1,
+               "knowledgeWeight": 1,
+               "personalityWeight": 1,
+               "traitsBase": 6,
+               "traitsWeight": 1,
+               "domainOwnerId": "83599755-1755-4f77-9c12-7caf99a6a6b2",
+               "educationLevelWeight": 1
+               },
+             "token": "83599555-1755-4f77-9c88-7caf99bda6b2"
+            }
+    delete:
+      is: [response_delete_ok,response_delete_nok]
+      queryParameters:
 
 # logout
 
 /logout:
-  is: [response_post_ok,response_post_nok]
   post:
+    is: [response_post_ok,response_post_nok]
     body:
       application/json:
         properties:
@@ -1696,6 +1786,7 @@ traits:
 
 /login:
   post:
+    is: [response_post_nok]
     body:
       application/json:
         properties:
@@ -1742,8 +1833,9 @@ traits:
                  "message": "LOGIN_ERROR"
               }
 /language:
-  is: [token_optional,response_get_nok]
+  is: [token_optional]
   get:
+    is: [response_get_nok]
     responses:
       200:
         body:
@@ -1839,6 +1931,7 @@ traits:
              }]
   /{id}:
     get:
+      is: [response_get_nok]
       responses:
         200:
           body:
@@ -1890,8 +1983,9 @@ traits:
               }
 
 /jobs:
-  is: [token_required,response_get_nok]
+  is: [token_required]
   get:
+    is: [response_get_nok]
     description: List all jobs
     responses:
       200:
@@ -1955,6 +2049,7 @@ traits:
                  }]
   /{jobId}:
     get:
+      is: [response_get_nok]
       responses:
         200:
           body:
@@ -1998,15 +2093,9 @@ traits:
                 }
 
 /jobdomains:
-  is: [ token_required,
-    response_delete_nok,
-    response_get_nok,
-    response_post_nok,
-    response_put_nok,
-    response_delete_ok,
-    response_post_ok,
-    response_put_ok ] # this covers all responses except GET 200
+  is: [ token_required ]
   get:
+    is: [response_get_nok]
     responses:
       200:
         body:
@@ -2066,6 +2155,7 @@ traits:
                   "domainOwnerId": "83599755-1855-4f88-9c09-7caf99a6a6b2"
                  }]
   post:
+    is: [response_post_ok,response_post_nok]
     body:
       application/json:
         type: object
@@ -2092,6 +2182,7 @@ traits:
                }
           }
   put:
+    is: [ response_put_ok,response_put_nok ]
     body:
       application/json:
         type: object
@@ -2118,12 +2209,14 @@ traits:
             }
           }
   delete:
+    is: [response_delete_ok,response_delete_nok]
     queryParameters:
       jobDomainId:
         type: string
         required: true
   /{jobDomainId}:
     get:
+      is: [response_get_nok]
       responses:
         200:
           body:
@@ -2148,6 +2241,7 @@ traits:
 
 /forgotpassword:
   post:
+    is: [response_post_ok,response_post_nok]
     body:
       application/json:
         properties:
@@ -2162,8 +2256,9 @@ traits:
           }
 
 /educationtype:
-  is: [token_required,response_get_nok]
+  is: [ token_required ]
   get:
+    is: [response_get_nok]
     responses:
       200:
         body:
@@ -2257,6 +2352,7 @@ traits:
                }]
   /{id}:
     get:
+      is: [response_get_nok]
       responses:
         200:
           body:
@@ -2286,15 +2382,9 @@ traits:
                 }
 
 /cultures:
-  is: [ token_required,
-    response_delete_nok,
-    response_get_nok,
-    response_post_nok,
-    response_put_nok,
-    response_delete_ok,
-    response_post_ok,
-    response_put_ok ] # this covers all responses except GET 200
+  is: [ token_required ]
   get:
+    is: [response_get_nok]
     responses:
       200:
         body:
@@ -2353,6 +2443,7 @@ traits:
                   "domainOwnerId": "83599755-1855-4f88-9c09-7caf99a6a6b2"
                }]
   post:
+    is: [response_post_ok,response_post_nok]
     body:
       application/json:
         type: object
@@ -2391,6 +2482,7 @@ traits:
             "token": "E4CB9DB5-6C62-6D46-AC1443222464C278"
           }
   put:
+    is: [ response_put_ok,response_put_nok ]
     body:
       application/json:
         type: object
@@ -2429,12 +2521,14 @@ traits:
             "token": "E4CB9DB5-6C62-6D46-AC1443222464C278"
           }
   delete:
+    is: [response_delete_ok,response_delete_nok]
     queryParameters:
       id:
         type: string
         required: true
   /{cultureId}:
     get:
+      is: [response_get_nok]
       responses:
         200:
           body:
@@ -2454,10 +2548,52 @@ traits:
                  "created": "December, 14 2015 10:36:47",
                  "domainOwnerId": "83599755-1855-4f88-9c09-7caf99a6a6b2"
                 }
+    put:
+      is: [ response_put_ok,response_put_nok ]
+      body:
+        application/json:
+          type: object
+          properties:
+            culture:
+              type: object
+              required: true
+              properties:
+                ADHO: integer
+                DisplayName: string
+                name: string
+                companyDefault: integer
+                FAML: integer
+                updated: string
+                MRKT: integer
+                id: string
+                HCHY: integer
+                created: string
+                domainOwnerId: string
+            token: string
+          example: |
+            {
+            "culture": {
+              "ADHO": 9,
+                "DisplayName": "Cultuur 3",
+                "name": "Cultuur 3",
+                "companyDefault": 1,
+                "FAML": 4,
+                "updated": "",
+                "MRKT": 7,
+                "id": "8d6513df-94d0-4be2-bda7-a0945062c94f",
+                "HCHY": 2,
+                "created": "December, 14 2015 10:36:47",
+                "domainOwnerId": "83599755-1855-4f88-9c09-7caf99a6a6b2"
+              },
+              "token": "E4CB9DB5-6C62-6D46-AC1443222464C278"
+            }
+    delete:
+      is: [response_delete_ok,response_delete_nok]
 
 /country:
-  is: [token_required,response_get_nok]
+  is: [ token_required ]
   get:
+    is: [response_get_nok]
     responses:
       200:
         body:
@@ -2533,6 +2669,7 @@ traits:
              }]
   /{id}:
     get:
+      is: [response_get_nok]
       responses:
         200:
           body:
@@ -2557,8 +2694,9 @@ traits:
                    "fr_FR_DisplayName":  ""
                 }
 /companyinfo:
-  is: [token_required,response_get_nok,response_put_ok,response_put_nok]
+  is: [token_required]
   get:
+    is: [response_get_nok]
     responses:
       200:
         body:
@@ -2593,6 +2731,7 @@ traits:
                "website": "demo.hrmatches.com"
           }
   put:
+    is: [ response_put_ok,response_put_nok ]
     body:
       application/json:
         type: object
@@ -2615,10 +2754,29 @@ traits:
               website: string
           token:
             required: true
+        example:
+          {
+            "companyinfo": {
+               "countryId": "",
+               "companyAddress": "",
+               "brancheId": "",
+               "companyName": "Demo",
+               "id": "83599755-1855-4f88-9c09-7caf99a6a6b2",
+               "companySize": "",
+               "city": "",
+               "contactName": "",
+               "companyDescription": "",
+               "companyZipcode": "",
+               "contactPhoneNumber": "",
+               "website": "demo.hrmatches.com"
+          },
+          "token": "B5134F86-6C62-6D46-AC14DBD256CCE719"
+        }
 
 /branche:
-  is: [token_required,response_get_nok]
+  is: [token_required]
   get:
+    is: [response_get_nok]
     responses:
       200:
         body:
@@ -2694,8 +2852,9 @@ traits:
              }]
 
 /authenticate:
-  is: [token_required,response_post_nok]
+  is: [ token_required ]
   post:
+    is: [ response_post_nok ]
     body:
       application/json:
         properties:
@@ -2771,8 +2930,9 @@ traits:
             }
 
 /activityLog:
-  is: [ token_required,response_get_nok]
+  is: [ token_required]
   get:
+    is: [response_get_nok]
     responses:
       200:
         body:
@@ -2868,6 +3028,7 @@ traits:
              }]
   /{jobId}:
     get:
+      is: [response_get_nok]
       responses:
         200:
           body:
@@ -2898,13 +3059,9 @@ traits:
                 }
 
 /account:
-  is: [ token_required,
-    response_delete_nok,
-    response_get_nok,
-    response_put_nok,
-    response_delete_ok,
-    response_put_ok ] # this covers all responses except GET 200
+  is: [ token_required ]
   get:
+    is: [response_get_nok]
     queryParameters:
       personId:
         type: string
@@ -2933,11 +3090,13 @@ traits:
                "lastName": "HRMatches"
             }
   delete:
+    is: [response_delete_ok,response_delete_nok]
     queryParameters:
       personId:
         required: true
         type: string
   put:
+    is: [response_put_ok,response_put_nok]
     body:
       application/json:
         type: object
@@ -2967,3 +3126,60 @@ traits:
             },
             "token": "E4CB9DB5-6C62-6D46-AC1443222464C278"
           }
+  /{personId}:
+    get:
+      is: [response_get_nok]
+      responses:
+        200:
+          body:
+            application/json:
+              type: object
+              properties:
+                firstName: string
+                phoneNumber: string
+                infix: string
+                language: string
+                id: string
+                emailaddress: string
+                lastName: string
+              example:
+                {
+                 "firstName": "demo",
+                 "phoneNumber": "",
+                 "infix": "",
+                 "language": "nl_NL",
+                 "id": "7142d9e-b1be-41ac-bbcf-a6a1f4d31170",
+                 "emailaddress": "demo@hrmatches.com",
+                 "lastName": "HRMatches"
+              }
+    delete:
+      is: [response_delete_ok,response_delete_nok]
+    put:
+      is: [response_put_ok,response_put_nok]
+      body:
+        application/json:
+          type: object
+          properties:
+            person:
+              required: true
+              type: object
+              properties:
+                firstName: string
+                phoneNumber: string
+                infix: string
+                language: string
+                id: string
+                emailaddress: string
+                lastName: string
+          example: |
+            {
+              "person": {
+                "firstName": "demo",
+                "phoneNumber": "",
+                "infix": "",
+                "language": "nl_NL",
+                "id": "7142d9e-b1be-41ac-bbcf-a6a1f4d31170",
+                "emailaddress": "demo@hrmatches.com",
+                "lastName": "HRMatches"
+              }
+            }
