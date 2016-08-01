@@ -176,7 +176,7 @@ angular.module('app.ontdekJouwTalent')
 		this.requestLocalJSON = function(data){
 			return $http({
 				method: 'GET'
-				,url: AppConfig.APPCONSTANTS_PROTOCOL + '//' + AppConfig.APPCONSTANTS_HOSTNAME + data.url
+				,url: AppConfig.APPCONSTANTS_PROTOCOL + '//' + AppConfig.APPCONSTANTS_HOSTNAME + AppConfig.APPCONSTANTS_PORT + data.url
 			})
 			.then(
 				function(successResponse){

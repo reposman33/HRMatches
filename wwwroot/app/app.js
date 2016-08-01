@@ -20,6 +20,7 @@ angular.module('app.ontdekJouwTalent',
 .constant('AppConfig',{
 	// APPLICATION DEFINED VALUES
 	APPCONSTANTS_HOSTNAME: location.hostname
+	,APPCONSTANTS_PORT: (location.port != "80" ? ":" + location.port : "")
 	,APPCONSTANTS_ISLOCAL: "127.0.0.1,ontdekjouwtalent.local".indexOf(location.hostname) != -1
 	,APPCONSTANTS_ISTEST: "ojt.hrmatches.com".indexOf(location.hostname) != -1
 	,APPCONSTANTS_NAVIGATION_CURRENTDOMAIN: document.location.protocol + '://' + document.location.hostname
